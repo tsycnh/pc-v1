@@ -537,6 +537,7 @@ export default {
         return;
       }
       if (item.status === 2 && item.duration === 0) {
+        this.$message.error("直播已结束");
         return;
       }
       this.$router.push({
