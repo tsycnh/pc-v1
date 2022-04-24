@@ -276,6 +276,7 @@ export default {
         width: 950,
         closeVideoTouch: true,
         closeVideoClick: true,
+        errorTips: "请刷新页面试试",
       });
       this.livePlayer.on("timeupdate", () => {
         this.curDuration = parseInt(this.livePlayer.currentTime);
