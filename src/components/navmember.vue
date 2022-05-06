@@ -105,6 +105,12 @@ export default {
               path: "MemberMiaosha",
               status: this.configFunc["miaosha"],
             },
+            {
+              name: "我的证书",
+              id: 20,
+              path: "MemberCerts",
+              status: true,
+            },
           ],
         },
         {

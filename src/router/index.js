@@ -374,6 +374,15 @@ const routes = [
     component: () => import("../views/member/miaosha.vue"),
   },
   {
+    path: "/member/certs",
+    name: "MemberCerts",
+    meta: {
+      title: "我的证书",
+      auth: true,
+    },
+    component: () => import("../views/member/certs.vue"),
+  },
+  {
     path: "/exam",
     name: "Exam",
     meta: {
