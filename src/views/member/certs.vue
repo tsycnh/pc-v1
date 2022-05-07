@@ -107,7 +107,7 @@ export default {
       console.log(item);
       let token = this.$utils.getToken();
       window.open(
-        `${config.url}/api/v2/course/attach/${item.id}/download?token=${token}`
+        `${config.url}/api/v2/member/cert/${item.id}/download?token=${token}`
       );
     },
   },
