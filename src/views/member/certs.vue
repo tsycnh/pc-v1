@@ -47,11 +47,12 @@
 </template>
 <script>
 import { mapState, mapMutations } from "vuex";
-import NavFooter from "../../components/footer.vue";
-import NavMember from "../../components/navmember.vue";
-import PageBox from "../../components/page.vue";
-import None from "../../components/none.vue";
-import SkeletonMemberOrder from "../../components/skeleton/skeletonMemberOrder.vue";
+import config from "@/js/config";
+import NavFooter from "@/components/footer.vue";
+import NavMember from "@/components/navmember.vue";
+import PageBox from "@/components/page.vue";
+import None from "@/components/none.vue";
+import SkeletonMemberOrder from "@/components/skeleton/skeletonMemberOrder.vue";
 export default {
   components: {
     NavFooter,
@@ -104,6 +105,10 @@ export default {
     },
     download(item) {
       console.log(item);
+      let token = this.$utils.getToken();
+      window.open(
+        `${config.url}/api/v2/course/attach/${item.id}/download?token=${token}`
+      );
     },
   },
 };
