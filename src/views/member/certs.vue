@@ -10,13 +10,13 @@
           </template>
           <template v-else-if="list.length > 0">
             <div class="project-item" v-for="item in list" :key="item.id">
-              <div class="item-thumb">
-                <img :src="item.goods[0].goods_thumb" />
+              <div class="item-thumb" v-if="item.cert">
+                <img :src="item.cert.template_image" />
               </div>
               <div class="item-info">
                 <div class="item-top">
-                  <div class="item-name" v-if="item.goods[0]">
-                    {{ item.goods[0].goods_name }}
+                  <div class="item-name" v-if="item.cert">
+                    {{ item.cert.name }}
                   </div>
                   <div class="item-time">
                     {{ item.created_at | changeTime }}
@@ -104,10 +104,9 @@ export default {
       });
     },
     download(item) {
-      console.log(item);
       let token = this.$utils.getToken();
       window.open(
-        `${config.url}/addons/Cert/api/v1/member/cert/${item.id}/download?token=${token}`
+        `${config.url}/addons/Cert/api/v1/member/cert/${item.cert.id}/download?token=${token}`
       );
     },
   },
