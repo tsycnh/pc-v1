@@ -316,6 +316,9 @@ const Api = {
     Miaosha(params) {
       return get("/addons/MiaoSha/api/v1/m/user/orders", params);
     },
+    CertList(params) {
+      return get("/addons/Cert/api/v1/member/cert", params);
+    },
   },
   MultiLevelShare: {
     Config() {

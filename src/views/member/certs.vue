@@ -36,7 +36,7 @@
             :page="pagination.page"
             :totals="total"
             @current-change="changepage"
-            :pageSize="pagination.page_size"
+            :pageSize="pagination.size"
             :tab="false"
           ></page-box>
         </div>
@@ -68,7 +68,7 @@ export default {
       total: null,
       pagination: {
         page: 1,
-        page_size: 10,
+        size: 10,
       },
       loading: false,
     };
@@ -84,11 +84,11 @@ export default {
     },
     resetData() {
       this.list = [];
-      this.pagination.page_size = 10;
+      this.pagination.size = 10;
       this.pagination.page = 1;
     },
     changepage(item) {
-      this.pagination.page_size = item.pageSize;
+      this.pagination.size = item.pageSize;
       this.pagination.page = item.currentPage;
       this.getData();
     },
@@ -97,7 +97,7 @@ export default {
         return;
       }
       this.loading = true;
-      this.$api.Member.Orders(this.pagination).then((res) => {
+      this.$api.Member.CertList(this.pagination).then((res) => {
         this.loading = false;
         this.list = res.data.data;
         this.total = res.data.total;
@@ -107,7 +107,7 @@ export default {
       console.log(item);
       let token = this.$utils.getToken();
       window.open(
-        `${config.url}/api/v2/member/cert/${item.id}/download?token=${token}`
+        `${config.url}/addons/Cert/api/v1/member/cert/${item.id}/download?token=${token}`
       );
     },
   },
