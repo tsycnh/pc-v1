@@ -73,12 +73,19 @@
           <div class="item-line">
             <div class="item-left">
               <div class="item-name">手机号码</div>
-              <div class="item-value">
+              <div class="item-value" v-if="user.is_bind_mobile === 1">
                 {{ user.mobile.substr(0, 3) + "****" + user.mobile.substr(7) }}
               </div>
             </div>
             <div class="item-right">
-              <div class="btn" @click="goChangeMobile()">换绑手机号</div>
+              <div
+                class="btn"
+                v-if="user.is_bind_mobile === 1"
+                @click="goChangeMobile()"
+              >
+                换绑手机号
+              </div>
+              <div class="btn" v-else @click="goBindMobile()">绑定手机号</div>
             </div>
           </div>
           <div class="item-line">
@@ -362,7 +369,7 @@ export default {
   },
   watch: {
     "realForm.birthday": {
-      handler: function () {
+      handler: function() {
         if (this.realForm.birthday === this.oldBirthday) {
           return;
         }
@@ -422,6 +429,10 @@ export default {
     goChangeMobile() {
       this.saveDialogMobile(this.user.mobile);
       this.changeDialogType(6);
+      this.showLoginDialog();
+    },
+    goBindMobile() {
+      this.changeDialogType(9);
       this.showLoginDialog();
     },
     goBindQQ() {
@@ -542,7 +553,7 @@ export default {
   },
 };
 </script>
-    <style lang='less' scoped>
+<style lang="less" scoped>
 .content {
   width: 100%;
   .box {
