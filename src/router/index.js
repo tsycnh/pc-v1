@@ -365,6 +365,15 @@ const routes = [
     component: () => import("../views/member/credit1_free.vue"),
   },
   {
+    path: "/member/tuangou",
+    name: "MemberTuangou",
+    meta: {
+      title: "我的拼团",
+      auth: true,
+    },
+    component: () => import("../views/member/tuangou.vue"),
+  },
+  {
     path: "/member/miaosha",
     name: "MemberMiaosha",
     meta: {

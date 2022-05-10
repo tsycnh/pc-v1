@@ -100,6 +100,12 @@ export default {
               status: true,
             },
             {
+              name: "我的拼团",
+              id: 21,
+              path: "MemberTuangou",
+              status: this.configFunc["tuangou"],
+            },
+            {
               name: "我的秒杀",
               id: 19,
               path: "MemberMiaosha",
