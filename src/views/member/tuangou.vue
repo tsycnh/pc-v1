@@ -50,7 +50,7 @@
                     <div class="item-price">实付款：￥{{ item.charge }}</div>
                     <div
                       class="item-status act"
-                      @click="goTgOrder(item)"
+                      @click.stop="goTgOrder(item)"
                       v-if="item.status === 0"
                     >
                       未支付，点击立即支付
