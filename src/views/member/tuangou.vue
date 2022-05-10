@@ -14,37 +14,25 @@
                 class="project-item"
                 :key="item.id"
                 v-if="item.goods && item.goods.goods_type"
+                @click="goDetail(item)"
               >
                 <div
                   class="item-thumb"
                   v-if="item.goods && item.goods.goods_thumb"
                 >
-                  <div class="spback"></div>
-                  <img :src="item.goods.goods_thumb" />
-                </div>
-                <div
-                  class="item-thumb"
-                  v-else-if="item.goods.goods_type === 'course'"
-                >
-                  <img src="../../assets/img/commen/default-lesson.png" />
-                </div>
-                <div
-                  class="item-thumb"
-                  v-else-if="item.goods.goods_type === 'live'"
-                >
-                  <img src="../../assets/img/commen/default-live.png" />
-                </div>
-                <div
-                  class="item-thumb"
-                  v-else-if="item.goods.goods_type === 'learnPath'"
-                >
-                  <img src="../../assets/img/commen/default-steps.png" />
-                </div>
-                <div
-                  class="item-thumb"
-                  v-else-if="item.goods.goods_type === 'book'"
-                >
-                  <img src="../../assets/img/commen/default-ebook.png" />
+                  <thumb-bar
+                    v-if="item.goods.goods_type === 'book'"
+                    :value="item.goods.goods_thumb"
+                    :border="8"
+                    :width="75"
+                    :height="100"
+                  ></thumb-bar>
+                  <thumb-bar
+                    v-else
+                    :value="item.goods.goods_thumb"
+                    :width="133"
+                    :height="100"
+                  ></thumb-bar>
                 </div>
                 <div class="item-info">
                   <div class="item-top">
@@ -171,6 +159,37 @@ export default {
         },
       });
     },
+    goDetail(item) {
+      if (item.goods.goods_type === "book") {
+        this.$router.push({
+          name: "bookDetail",
+          query: {
+            id: item.goods.other_id,
+          },
+        });
+      } else if (item.goods.goods_type === "course") {
+        this.$router.push({
+          name: "coursesDetail",
+          query: {
+            id: item.goods.other_id,
+          },
+        });
+      } else if (item.goods.goods_type === "live") {
+        this.$router.push({
+          name: "liveDetail",
+          query: {
+            id: item.goods.other_id,
+          },
+        });
+      } else if (item.goods.goods_type === "learnPath") {
+        this.$router.push({
+          name: "learnPathDetail",
+          query: {
+            id: item.goods.other_id,
+          },
+        });
+      }
+    },
   },
 };
 </script>
@@ -212,6 +231,10 @@ export default {
           margin-bottom: 20px;
           display: flex;
           flex-direction: row;
+          cursor: pointer;
+          &:hover {
+            opacity: 0.8;
+          }
           .item-thumb {
             width: 133px;
             height: 100px;
