@@ -1,9 +1,9 @@
 <template>
   <div class="content">
     <div class="box">
-      <nav-member :cid="19" :news="newStatus"></nav-member>
+      <nav-member :cid="21" :news="newStatus"></nav-member>
       <div class="project-box">
-        <div class="btn-title">秒杀订单</div>
+        <div class="btn-title">团购订单</div>
         <div class="project-content">
           <template v-if="loading">
             <skeletonMemberOrder></skeletonMemberOrder>
@@ -34,7 +34,6 @@
                     :height="100"
                   ></thumb-bar>
                 </div>
-
                 <div class="item-info">
                   <div class="item-top">
                     <div class="item-name">
@@ -44,14 +43,14 @@
                       类型：{{ item.goods.goods_type_text }}
                     </div>
                     <div class="item-time">
-                      {{ item.created_at | changeTime }}
+                      {{ item.updated_at | changeTime }}
                     </div>
                   </div>
                   <div class="item-bottom">
                     <div class="item-price">实付款：￥{{ item.charge }}</div>
                     <div
                       class="item-status act"
-                      @click.stop="goMsOrder(item)"
+                      @click.stop="goTgOrder(item)"
                       v-if="item.status === 0"
                     >
                       未支付，点击立即支付
@@ -75,7 +74,7 @@
             :page="pagination.page"
             :totals="total"
             @current-change="changepage"
-            :pageSize="pagination.page_size"
+            :pageSize="pagination.size"
             :tab="false"
           ></page-box>
         </div>
@@ -106,7 +105,7 @@ export default {
       total: null,
       pagination: {
         page: 1,
-        page_size: 10,
+        size: 10,
       },
       loading: false,
     };
@@ -125,11 +124,11 @@ export default {
     },
     resetData() {
       this.list = [];
-      this.pagination.page_size = 10;
+      this.pagination.size = 10;
       this.pagination.page = 1;
     },
     changepage(item) {
-      this.pagination.page_size = item.pageSize;
+      this.pagination.size = item.pageSize;
       this.pagination.page = item.currentPage;
       this.getData();
     },
@@ -138,21 +137,22 @@ export default {
         return;
       }
       this.loading = true;
-      this.$api.Member.Miaosha(this.pagination).then((res) => {
+      this.$api.Member.Tuangou(this.pagination).then((res) => {
         this.loading = false;
         this.list = res.data.data;
         this.total = res.data.total;
       });
     },
-    goMsOrder(item) {
+    goTgOrder(item) {
       this.$router.push({
         name: "order",
         query: {
-          course_id: item.goods.goods_id,
+          course_id: item.goods.other_id,
           course_type: item.goods.goods_type,
-          goods_type: "ms",
+          tg_gid: item.item_id,
+          goods_type: "tg",
           goods_charge: item.charge,
-          goods_label: "秒杀",
+          goods_label: "团购",
           goods_name: item.goods.goods_title,
           goods_id: item.id,
           goods_thumb: item.goods.goods_thumb,
@@ -164,28 +164,28 @@ export default {
         this.$router.push({
           name: "bookDetail",
           query: {
-            id: item.goods.goods_id,
+            id: item.goods.other_id,
           },
         });
       } else if (item.goods.goods_type === "course") {
         this.$router.push({
           name: "coursesDetail",
           query: {
-            id: item.goods.goods_id,
+            id: item.goods.other_id,
           },
         });
       } else if (item.goods.goods_type === "live") {
         this.$router.push({
           name: "liveDetail",
           query: {
-            id: item.goods.goods_id,
+            id: item.goods.other_id,
           },
         });
       } else if (item.goods.goods_type === "learnPath") {
         this.$router.push({
           name: "learnPathDetail",
           query: {
-            id: item.goods.goods_id,
+            id: item.goods.other_id,
           },
         });
       }

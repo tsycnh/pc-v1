@@ -365,6 +365,15 @@ const routes = [
     component: () => import("../views/member/credit1_free.vue"),
   },
   {
+    path: "/member/tuangou",
+    name: "MemberTuangou",
+    meta: {
+      title: "我的拼团",
+      auth: true,
+    },
+    component: () => import("../views/member/tuangou.vue"),
+  },
+  {
     path: "/member/miaosha",
     name: "MemberMiaosha",
     meta: {
@@ -372,6 +381,15 @@ const routes = [
       auth: true,
     },
     component: () => import("../views/member/miaosha.vue"),
+  },
+  {
+    path: "/member/certs",
+    name: "MemberCerts",
+    meta: {
+      title: "我的证书",
+      auth: true,
+    },
+    component: () => import("../views/member/certs.vue"),
   },
   {
     path: "/exam",
