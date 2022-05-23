@@ -708,6 +708,7 @@ export default {
     $route(to, from) {
       clearInterval(this.timer);
       clearInterval(this.interval);
+      this.cancel();
     },
   },
   computed: {
