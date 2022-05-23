@@ -705,6 +705,10 @@ export default {
     mobile() {
       this.messageForm.mobile = this.mobile;
     },
+    $route(to, from) {
+      clearInterval(this.timer);
+      clearInterval(this.interval);
+    },
   },
   computed: {
     ...mapState(["config"]),
