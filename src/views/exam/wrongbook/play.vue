@@ -140,10 +140,10 @@
           class="buttons-box"
           v-if="
             question &&
-            (question.type === 2 ||
-              question.type === 3 ||
-              question.type === 4 ||
-              question.type === 6)
+              (question.type === 2 ||
+                question.type === 3 ||
+                question.type === 4 ||
+                question.type === 6)
           "
         >
           <div class="see-answer" @click="seeAnswer()">{{ showText }}</div>
@@ -512,25 +512,38 @@ export default {
     display: flex;
     width: 1200px;
     margin: 0 auto;
-    display: flex;
-    flex-direction: row;
+    min-height: 500px;
+    margin-top: 30px;
+    position: relative;
     .left-box {
       width: 300px;
-      height: 1178px;
-      background: #ffffff;
-      margin-right: 30px;
-      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 100px;
+      z-index: 50;
+      min-height: 500px;
+      background: #fff;
+      border-radius: 8px;
     }
     .right-box {
+      margin-left: 330px;
+      width: 870px;
+      min-height: 500px;
+      height: auto;
+      float: left;
       position: relative;
-      margin-top: 30px;
-      width: 872px;
-      border-radius: 8px;
-      box-sizing: border-box;
+      .wrongbook-join-box {
+        width: 870px;
+        height: auto;
+        float: left;
+        border-radius: 8px;
+        overflow: hidden;
+      }
       .delete-icon {
         position: absolute;
-        width: 28px;
-        height: 28px;
+        width: 24px;
+        height: 24px;
         cursor: pointer;
         right: 30px;
         top: 30px;
