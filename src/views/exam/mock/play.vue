@@ -244,7 +244,6 @@ export default {
         sec: 0,
       },
       collects: null,
-      notComplete: [],
       activeQuestions: [],
     };
   },
@@ -284,19 +283,13 @@ export default {
       } else {
         this.$set(this.activeQuestions, qid, true);
       }
-      this.questions.forEach((item) => {
-        if (!item.answer_content && item.question_id === qid && answer !== "") {
-          if (this.notComplete.length === 0) {
-            this.$set(this.notComplete, qid, true);
-            this.surplus--;
-          } else {
-            if (!this.notComplete[qid]) {
-              this.$set(this.notComplete, qid, true);
-              this.surplus--;
-            }
-          }
+      let num = 0;
+      for (let i = 0; i < this.activeQuestions.length; i++) {
+        if (this.activeQuestions[i]) {
+          num++;
         }
-      });
+      }
+      this.surplus = this.questions.length - num;
     },
     submitAll() {
       this.results.openmask = true;
