@@ -83,7 +83,7 @@
           <!-- <div class="answer" v-if="question.answer">
             答案：{{ question.answer }}
           </div> -->
-          <div class="remark" style="padding-top: 20px">
+          <div class="remark">
             <div>解析：</div>
             <div v-html="question.remark"></div>
           </div>
