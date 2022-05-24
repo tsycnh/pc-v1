@@ -73,7 +73,7 @@
           <div
             class="num"
             :class="{
-              active: item.answer_content,
+              active: activeQuestions[item.question_id],
             }"
             v-for="(item, index) in questions"
             :key="index"
@@ -245,6 +245,7 @@ export default {
       },
       collects: null,
       notComplete: [],
+      activeQuestions: [],
     };
   },
   beforeDestroy() {
@@ -273,11 +274,16 @@ export default {
         images: thumbs,
         answer: answer,
         question_id: qid,
-      }).then(() => {
-        setTimeout(() => {
-          this.getData();
-        }, 500);
       });
+      if (typeof qid == "string" && qid.indexOf("-") != -1) {
+        this.$set(
+          this.activeQuestions,
+          qid.substring(0, qid.indexOf("-")),
+          true
+        );
+      } else {
+        this.$set(this.activeQuestions, qid, true);
+      }
       this.questions.forEach((item) => {
         if (!item.answer_content && item.question_id === qid && answer !== "") {
           if (this.notComplete.length === 0) {
