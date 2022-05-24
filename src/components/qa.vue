@@ -255,7 +255,7 @@ export default {
       height: 18px;
       font-size: 18px;
       font-weight: 500;
-      color: #666666;
+      color: #333333;
       line-height: 18px;
     }
   }
@@ -317,6 +317,7 @@ export default {
       gap: 15px;
       grid-template-columns: repeat(6, minmax(0, 1fr));
       .image-item {
+        display: flex;
         width: 165px;
         height: 124px;
         text-align: center;
