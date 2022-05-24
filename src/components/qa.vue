@@ -20,7 +20,10 @@
       </div>
     </div>
     <div class="info" :class="{ spcolor: spcolor }">
-      <span class="tit"
+      <span class="tit" v-if="spcolor"
+        >({{ num }}) {{ question.type_text }}（{{ question.score }}分）</span
+      >
+      <span class="tit" v-else
         >{{ num }}.{{ question.type_text }}（{{ question.score }}分）</span
       >
     </div>
@@ -74,7 +77,7 @@
         <div class="pop-box">
           <div class="status" v-if="!wrongBook">
             <span class="score" style="margin-left: 0px !important"
-              >本题得分：{{ score }}分</span
+              >得分：{{ score }}</span
             >
           </div>
           <!-- <div class="answer" v-if="question.answer">
@@ -191,7 +194,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .spcolor {
-  background: #f4fafe !important;
+  // background: #f4fafe !important;
 }
 .choice-item {
   background-color: #f1f2f6;
