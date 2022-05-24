@@ -76,9 +76,7 @@
       >
         <div class="pop-box">
           <div class="status" v-if="!wrongBook">
-            <span class="score" style="margin-left: 0px !important"
-              >得分：{{ score }}</span
-            >
+            <span class="error">得分：{{ score }}</span>
           </div>
           <!-- <div class="answer" v-if="question.answer">
             答案：{{ question.answer }}
