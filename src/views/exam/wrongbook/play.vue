@@ -10,7 +10,7 @@
             src="../../../assets/img/commen/icon-close.png"
           />
         </div>
-        <div class="text">是否确认删除？</div>
+        <div class="text">是否将此题从错题本中移除？</div>
         <div class="button">
           <div class="confirm" style="cursor: pointer" @click="submitHandle()">
             确认
