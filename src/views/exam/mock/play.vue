@@ -345,58 +345,14 @@ export default {
             return;
           }
           let unread = 0;
-          let params = [];
-          let choice = [];
-          let select = [];
-          let input = [];
-          let qa = [];
-          let judge = [];
-          let cap = [];
+
           normaldata.forEach((item) => {
             if (!item.answer_content) {
               unread++;
             }
-            if (item.question) {
-              if (item.question.type === 1) {
-                choice.push(item);
-              }
-              if (item.question.type === 2) {
-                select.push(item);
-              }
-              if (item.question.type === 3) {
-                input.push(item);
-              }
-              if (item.question.type === 4) {
-                qa.push(item);
-              }
-              if (item.question.type === 5) {
-                judge.push(item);
-              }
-              if (item.question.type === 6) {
-                cap.push(item);
-              }
-            }
           });
 
-          if (choice.length > 0) {
-            params.push(...choice);
-          }
-          if (select.length > 0) {
-            params.push(...select);
-          }
-          if (input.length > 0) {
-            params.push(...input);
-          }
-          if (qa.length > 0) {
-            params.push(...qa);
-          }
-          if (judge.length > 0) {
-            params.push(...judge);
-          }
-          if (cap.length > 0) {
-            params.push(...cap);
-          }
-          this.questions = params;
+          this.questions = normaldata;
           this.surplus = unread;
           if (this.userPaper.status === 0) {
             this.timer = setInterval(() => {
