@@ -268,35 +268,27 @@ export default {
     checkNav(url, blank) {
       this.hash = document.location.hash.split("?")[0];
       if (url && url !== "#") {
-        if (blank === 0) {
-          if (url.match("https:") || url.match("http:")) {
+        if (url.match("https:") || url.match("http:")) {
+          if (blank === 0) {
             window.location.href = url;
           } else {
-            this.$router.push({ path: url });
+            window.open(url);
           }
         } else {
-          if (url.match("https:") || url.match("http:")) {
-            window.open(url);
-          } else {
-            this.$router.resolve({ path: url });
-          }
+          this.$router.push({ path: url });
         }
       }
     },
     goChildPage(url, blank) {
       if (url && url !== "#") {
-        if (blank === 0) {
-          if (url.match("https:") || url.match("http:")) {
+        if (url.match("https:") || url.match("http:")) {
+          if (blank === 0) {
             window.location.href = url;
           } else {
-            this.$router.push({ path: url });
+            window.open(url);
           }
         } else {
-          if (url.match("https:") || url.match("http:")) {
-            window.open(url);
-          } else {
-            this.$router.resolve({ path: url });
-          }
+          this.$router.push({ path: url });
         }
       }
     },
