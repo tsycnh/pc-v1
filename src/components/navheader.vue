@@ -131,7 +131,10 @@
                 @mouseover="menu(item.children, index)"
                 @mouseout="clMenu()"
                 :class="{
-                  active: hash.match(item.url) && item.url !== '/',
+                  active:
+                    (hash.match(item.url) ||
+                      hash.match(item.url.replace('#', ''))) &&
+                    item.url !== '/',
                   isIndex: item.url === hash,
                 }"
               >
@@ -267,7 +270,7 @@ export default {
         });
     },
     checkNav(url, blank) {
-      if (!url || url === "#") {
+      if (!url || url.match("#")) {
         return;
       }
       if (url.match("https:") || url.match("http:")) {
