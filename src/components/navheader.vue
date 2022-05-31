@@ -151,7 +151,7 @@
                   >
                     <a
                       class="overflow-hidden"
-                      @click.stop="goChildPage(child.url, child.blank)"
+                      @click.stop="checkNav(child.url, child.blank)"
                       >{{ child.name }}</a
                     >
                   </div>
@@ -186,7 +186,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.checkNav();
+      this.hash = document.location.hash.split("?")[0];
     },
     freshUnread() {
       if (this.freshUnread) {
@@ -266,31 +266,18 @@ export default {
         });
     },
     checkNav(url, blank) {
-      this.hash = document.location.hash.split("?")[0];
-      if (url && url !== "#") {
-        if (url.match("https:") || url.match("http:")) {
-          if (blank === 0) {
-            window.location.href = url;
-          } else {
-            window.open(url);
-          }
-        } else {
-          this.$router.push({ path: url });
-        }
+      if (!url || url === "#") {
+        return;
       }
-    },
-    goChildPage(url, blank) {
-      if (url && url !== "#") {
-        if (url.match("https:") || url.match("http:")) {
-          if (blank === 0) {
-            window.location.href = url;
-          } else {
-            window.open(url);
-          }
+      if (url.match("https:") || url.match("http:")) {
+        if (blank === 0) {
+          window.location.href = url;
         } else {
-          this.$router.push({ path: url });
+          window.open(url);
         }
+        return;
       }
+      this.$router.push({ path: url });
     },
     menu(val, index) {
       if (val && val.length > 0) {
