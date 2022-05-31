@@ -131,11 +131,8 @@
                 @mouseover="menu(item.children, index)"
                 @mouseout="clMenu()"
                 :class="{
-                  active:
-                    hash.match(item.url) &&
-                    item.url !== '/' &&
-                    item.url !== '#',
-                  isIndex: '#' + item.url === hash,
+                  active: hash.match(item.url) && item.url !== '/',
+                  isIndex: item.url === hash,
                 }"
               >
                 {{ item.name }}
@@ -171,7 +168,7 @@ export default {
     return {
       loading: false,
       showKey: null,
-      hash: document.location.hash.split("?")[0],
+      hash: this.getHash(),
       memberCan: false,
       menuCan: false,
       newStatus: false,
@@ -186,7 +183,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.hash = document.location.hash.split("?")[0];
+      this.hash = this.getHash();
     },
     freshUnread() {
       if (this.freshUnread) {
@@ -204,6 +201,10 @@ export default {
       "changeDialogType",
       "removeUnread",
     ]),
+    getHash() {
+      let hash = document.location.hash.split("?")[0].replace("#", "");
+      return hash;
+    },
     getData() {
       if (this.loading) {
         return;
