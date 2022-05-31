@@ -133,7 +133,8 @@
                 :class="{
                   active:
                     (hash.match(item.url) ||
-                      hash.match(item.url.replace('#', ''))) &&
+                      (item.url.substr(0, 1) === '#' &&
+                        hash.match(item.url.slice(1)))) &&
                     item.url !== '/',
                   isIndex: item.url === hash,
                 }"
@@ -270,7 +271,7 @@ export default {
         });
     },
     checkNav(url, blank) {
-      if (!url || url.match("#")) {
+      if (!url || url.substr(0, 1) === "#") {
         return;
       }
       if (url.match("https:") || url.match("http:")) {
