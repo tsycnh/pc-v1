@@ -512,7 +512,7 @@ export default {
     display: flex;
     width: 1200px;
     margin: 0 auto;
-    min-height: 500px;
+    min-height: 1000px;
     margin-top: 30px;
     position: relative;
     .left-box {
