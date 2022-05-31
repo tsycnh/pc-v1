@@ -131,7 +131,10 @@
                 @mouseover="menu(item.children, index)"
                 @mouseout="clMenu()"
                 :class="{
-                  active: hash.match(item.url) && item.url !== '/',
+                  active:
+                    hash.match(item.url) &&
+                    item.url !== '/' &&
+                    item.url !== '#',
                   isIndex: '#' + item.url === hash,
                 }"
               >
@@ -264,7 +267,7 @@ export default {
     },
     checkNav(url, blank) {
       this.hash = document.location.hash.split("?")[0];
-      if (url) {
+      if (url && url !== "#") {
         if (blank === 0) {
           if (url.match("https:") || url.match("http:")) {
             window.location.href = url;
@@ -281,17 +284,19 @@ export default {
       }
     },
     goChildPage(url, blank) {
-      if (blank === 0) {
-        if (url.match("https:") || url.match("http:")) {
-          window.location.href = url;
+      if (url && url !== "#") {
+        if (blank === 0) {
+          if (url.match("https:") || url.match("http:")) {
+            window.location.href = url;
+          } else {
+            this.$router.push({ path: url });
+          }
         } else {
-          this.$router.push({ path: url });
-        }
-      } else {
-        if (url.match("https:") || url.match("http:")) {
-          window.open(url);
-        } else {
-          this.$router.resolve({ path: url });
+          if (url.match("https:") || url.match("http:")) {
+            window.open(url);
+          } else {
+            this.$router.resolve({ path: url });
+          }
         }
       }
     },
