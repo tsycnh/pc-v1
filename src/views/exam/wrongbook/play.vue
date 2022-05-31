@@ -10,7 +10,7 @@
             src="../../../assets/img/commen/icon-close.png"
           />
         </div>
-        <div class="text">是否确认删除？</div>
+        <div class="text">是否将此题从错题本移除？</div>
         <div class="button">
           <div class="confirm" style="cursor: pointer" @click="submitHandle()">
             确认
@@ -512,7 +512,7 @@ export default {
     display: flex;
     width: 1200px;
     margin: 0 auto;
-    min-height: 500px;
+    min-height: 1000px;
     margin-top: 30px;
     position: relative;
     .left-box {
