@@ -19,45 +19,32 @@
     </div>-->
 
     <div class="contanier">
-      <div class="question-box" v-if="list && list.length !== 0">
-        <template v-if="list[1] && list[1].length > 0">
-          <div class="question-item" @click="goDetail(list[1])">
-            <div class="question-item-type">单选题</div>
-            <div class="question-item-num">共{{ list[1].length }}题错题</div>
-          </div>
-        </template>
-        <template v-if="list[2] && list[2].length > 0">
-          <div class="question-item" @click="goDetail(list[2])">
-            <div class="question-item-type">多选题</div>
-            <div class="question-item-num">共{{ list[2].length }}题错题</div>
-          </div>
-        </template>
-        <template v-if="list[5] && list[5].length > 0">
-          <div class="question-item" @click="goDetail(list[5])">
-            <div class="question-item-type">判断题</div>
-            <div class="question-item-num">共{{ list[5].length }}题错题</div>
-          </div>
-        </template>
-        <template v-if="list[3] && list[3].length > 0">
-          <div class="question-item" @click="goDetail(list[3])">
-            <div class="question-item-type">填空题</div>
-            <div class="question-item-num">共{{ list[3].length }}题错题</div>
-          </div>
-        </template>
-        <template v-if="list[4] && list[4].length > 0">
-          <div class="question-item" @click="goDetail(list[4])">
-            <div class="question-item-type">问答题</div>
-            <div class="question-item-num">共{{ list[4].length }}题错题</div>
-          </div>
-        </template>
-        <template v-if="list[6] && list[6].length > 0">
-          <div class="question-item" @click="goDetail(list[6])">
-            <div class="question-item-type">题帽题</div>
-            <div class="question-item-num">共{{ list[6].length }}题错题</div>
-          </div>
-        </template>
+      <div class="question-box" v-if="list">
+        <div class="question-item" @click="goDetail(1)">
+          <div class="question-item-type">单选题</div>
+          <div class="question-item-num">共{{ list[1] }}题错题</div>
+        </div>
+        <div class="question-item" @click="goDetail(2)">
+          <div class="question-item-type">多选题</div>
+          <div class="question-item-num">共{{ list[2] }}题错题</div>
+        </div>
+        <div class="question-item" @click="goDetail(5)">
+          <div class="question-item-type">判断题</div>
+          <div class="question-item-num">共{{ list[5] }}题错题</div>
+        </div>
+        <div class="question-item" @click="goDetail(3)">
+          <div class="question-item-type">填空题</div>
+          <div class="question-item-num">共{{ list[3] }}题错题</div>
+        </div>
+        <div class="question-item" @click="goDetail(4)">
+          <div class="question-item-type">问答题</div>
+          <div class="question-item-num">共{{ list[4] }}题错题</div>
+        </div>
+        <div class="question-item" @click="goDetail(6)">
+          <div class="question-item-type">题帽题</div>
+          <div class="question-item-num">共{{ list[6] }}题错题</div>
+        </div>
       </div>
-      <none v-else></none>
     </div>
 
     <nav-footer></nav-footer>
@@ -66,12 +53,10 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import NavFooter from "../../../components/footer.vue";
-import None from "../../../components/none.vue";
 
 export default {
   components: {
     NavFooter,
-    None,
   },
   data() {
     return {
@@ -105,10 +90,7 @@ export default {
         this.loading = false;
         let results = res.data.questions;
         this.chartData.rows = res.data.data;
-        this.wrong_rate = res.data.wrong_rate.toFixed(2);
-        this.wrong_question_count = res.data.wrong_question_count;
-        this.user_question_count = res.data.user_question_count;
-        this.list = results;
+        this.list = res.data.types_count;
       });
     },
     goDetail(id) {
