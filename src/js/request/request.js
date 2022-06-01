@@ -498,6 +498,9 @@ const Api = {
       },
     },
     Collection: {
+      Stats(params) {
+        return get(`/addons/Paper/api/v1/collection/stats`, params);
+      },
       Detail(params) {
         return get(`/addons/Paper/api/v1/collection/questions`, params);
       },
