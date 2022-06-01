@@ -147,7 +147,6 @@
       </template>
       <none v-else></none>
     </div>
-    <nav-footer></nav-footer>
   </div>
 </template>
 <script>
@@ -158,7 +157,6 @@ import QuestionQa from "../../../components/qa.vue";
 import QuestionJudge from "../../../components/judge.vue";
 import QuestionCap from "../../../components/cap.vue";
 import NumberSheet from "../../../components/numbersheet.vue";
-import NavFooter from "../../../components/footer.vue";
 import FilterTwoClass from "../../../components/exam-play-categories.vue";
 import SkeletonPaperNav from "../../../components/skeleton/skeletonPaperNav.vue";
 import None from "@/components/none.vue";
@@ -172,7 +170,6 @@ export default {
     QuestionJudge,
     QuestionCap,
     NumberSheet,
-    NavFooter,
     FilterTwoClass,
     SkeletonPaperNav,
     None,
@@ -428,8 +425,8 @@ export default {
     display: flex;
     width: 1200px;
     margin: 0 auto;
-    min-height: 1000px;
     margin-top: 30px;
+    margin-bottom: 150px;
     position: relative;
     .collection-join-box {
       width: 870px;
@@ -442,15 +439,14 @@ export default {
       width: 300px;
       display: flex;
       flex-direction: column;
-      position: fixed;
-      z-index: 50;
       height: 500px;
+      float: left;
       background: #fff;
       border-radius: 8px;
       overflow-y: auto;
     }
     .right-box {
-      margin-left: 330px;
+      margin-left: 30px;
       width: 870px;
       min-height: 500px;
       height: auto;

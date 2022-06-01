@@ -239,7 +239,6 @@
       v-if="configFunc.snapshort && userPaper && userPaper.status === 1"
       :duration="workTime"
     ></snap-shot>
-    <nav-footer></nav-footer>
   </div>
 </template>
 <script>
@@ -250,7 +249,6 @@ import QuestionInput from "../../../components/input.vue";
 import QuestionQa from "../../../components/qa.vue";
 import QuestionJudge from "../../../components/judge.vue";
 import QuestionCap from "../../../components/cap.vue";
-import NavFooter from "../../../components/footer.vue";
 import SnapShot from "../../../components/snapshort.vue";
 
 export default {
@@ -261,7 +259,6 @@ export default {
     QuestionQa,
     QuestionJudge,
     QuestionCap,
-    NavFooter,
     SnapShot,
   },
   data() {
@@ -585,6 +582,7 @@ export default {
     margin: 0 auto;
     min-height: 500px;
     margin-top: 30px;
+    margin-bottom: 150px;
     position: relative;
     .fix-left-box {
       width: 300px;

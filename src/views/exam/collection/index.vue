@@ -13,27 +13,27 @@
 
     <div class="contanier">
       <div class="question-box" v-if="list">
-        <div class="question-item" @click="goDetail(1)">
+        <div class="question-item" @click="goDetail(1)" v-if="list[1] > 0">
           <div class="question-item-type">单选题</div>
           <div class="question-item-num">共{{ list[1] }}题错题</div>
         </div>
-        <div class="question-item" @click="goDetail(2)">
+        <div class="question-item" @click="goDetail(2)" v-if="list[2] > 0">
           <div class="question-item-type">多选题</div>
           <div class="question-item-num">共{{ list[2] }}题错题</div>
         </div>
-        <div class="question-item" @click="goDetail(5)">
+        <div class="question-item" @click="goDetail(5)" v-if="list[5] > 0">
           <div class="question-item-type">判断题</div>
           <div class="question-item-num">共{{ list[5] }}题错题</div>
         </div>
-        <div class="question-item" @click="goDetail(3)">
+        <div class="question-item" @click="goDetail(3)" v-if="list[3] > 0">
           <div class="question-item-type">填空题</div>
           <div class="question-item-num">共{{ list[3] }}题错题</div>
         </div>
-        <div class="question-item" @click="goDetail(4)">
+        <div class="question-item" @click="goDetail(4)" v-if="list[4] > 0">
           <div class="question-item-type">问答题</div>
           <div class="question-item-num">共{{ list[4] }}题错题</div>
         </div>
-        <div class="question-item" @click="goDetail(6)">
+        <div class="question-item" @click="goDetail(6)" v-if="list[6] > 0">
           <div class="question-item-type">题帽题</div>
           <div class="question-item-num">共{{ list[6] }}题错题</div>
         </div>
