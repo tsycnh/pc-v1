@@ -523,8 +523,10 @@ export default {
       top: 100px;
       z-index: 50;
       min-height: 500px;
+      max-height: 600px;
       background: #fff;
       border-radius: 8px;
+      overflow-y: auto;
     }
     .right-box {
       margin-left: 330px;
