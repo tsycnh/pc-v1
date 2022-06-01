@@ -7,7 +7,7 @@
     <div class="banner">
       <div class="tit">考试错题本</div>
       <div class="btn-box">
-        <div class="day-play" @click="run('random')">随机练习</div>
+        <!--<div class="day-play" @click="run('random')">随机练习</div>-->
         <div class="btn-all-play" @click="run('order')">全部练习</div>
       </div>
     </div>
@@ -98,10 +98,13 @@ export default {
         this.goLogin();
         return;
       }
+      if (this.list[id] === 0) {
+        return;
+      }
       this.$router.push({
         name: "ExamWrongBookPlay",
         query: {
-          id: id,
+          type: id,
         },
       });
     },

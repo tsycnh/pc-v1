@@ -83,10 +83,13 @@ export default {
         this.goLogin();
         return;
       }
+      if (this.list[id] === 0) {
+        return;
+      }
       this.$router.push({
         name: "ExamCollectionPlay",
         query: {
-          id: id,
+          type: id,
         },
       });
     },
