@@ -472,6 +472,9 @@ const Api = {
     UserMockPaper(params) {
       return get("/addons/Paper/api/v1/user/mockPapers", params);
     },
+    NewQuestion(id, params) {
+      return get("/addons/Paper/api/v2/question/" + id, params);
+    },
     Practice: {
       CollectStatus(params) {
         return post(`/addons/Paper/api/v1/collection/status`, params);
@@ -484,11 +487,11 @@ const Api = {
       },
     },
     WrongBook: {
-      Detail() {
-        return get(`/addons/Paper/api/v1/wrongbook`);
+      Detail(params) {
+        return get(`/addons/Paper/api/v1/wrongbook`, params);
       },
       OrderMode(params) {
-        return get("/addons/Paper/api/v1/wrongbook/start", params);
+        return get("/addons/Paper/api/v2/wrongbook/questions", params);
       },
       RandomMode(params) {
         return get("/addons/Paper/api/v1/wrongbook/random", params);
@@ -498,6 +501,9 @@ const Api = {
       },
     },
     Collection: {
+      Stats(params) {
+        return get(`/addons/Paper/api/v1/collection/stats`, params);
+      },
       Detail(params) {
         return get(`/addons/Paper/api/v1/collection/questions`, params);
       },
@@ -505,7 +511,7 @@ const Api = {
         return post("/addons/Paper/api/v1/questions/practice", params);
       },
       OrderMode(params) {
-        return post("/addons/Paper/api/v1/collection/play", params);
+        return get("/addons/Paper/api/v2/collection/questions", params);
       },
     },
     QuestionBank: {

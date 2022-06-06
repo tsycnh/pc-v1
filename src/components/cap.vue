@@ -181,10 +181,10 @@
     <template v-if="isOver">
       <div class="analysis-box">
         <div class="pop-box" v-if="question.remark">
-          <div class="status">
+          <div class="status" v-if="!wrongBook">
             <span class="error">得分：{{ score }}</span>
           </div>
-          <div class="remark" style="padding-top: 20px">
+          <div class="remark">
             <div>解析：</div>
             <div v-html="question.remark"></div>
           </div>
