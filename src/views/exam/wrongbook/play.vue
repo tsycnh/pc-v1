@@ -229,6 +229,17 @@ export default {
         this.navLoading = false;
         let categories_count = res.data.categories_count;
         let categories = res.data.categories;
+        for (let i = 0; i < categories.length; i++) {
+          categories[i].name =
+            categories[i].name + "(" + categories_count[categories[i].id] + ")";
+          if (categories[i].children.length > 0) {
+            let children = categories[i].children;
+            for (let j = 0; j < children.length; j++) {
+              children[j].name =
+                children[j].name + "(" + categories_count[children[j].id] + ")";
+            }
+          }
+        }
         this.categories = categories;
       });
     },
