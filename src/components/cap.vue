@@ -184,11 +184,7 @@
           <div class="status" v-if="!wrongBook">
             <span class="error">得分：{{ score }}</span>
           </div>
-          <div class="remark" v-if="wrongBook">
-            <div>解析：</div>
-            <div v-html="question.remark"></div>
-          </div>
-          <div class="remark" style="padding-top: 20px" v-else>
+          <div class="remark">
             <div>解析：</div>
             <div v-html="question.remark"></div>
           </div>
