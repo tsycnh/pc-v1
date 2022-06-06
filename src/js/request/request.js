@@ -487,8 +487,8 @@ const Api = {
       },
     },
     WrongBook: {
-      Detail() {
-        return get(`/addons/Paper/api/v1/wrongbook`);
+      Detail(params) {
+        return get(`/addons/Paper/api/v1/wrongbook`, params);
       },
       OrderMode(params) {
         return get("/addons/Paper/api/v2/wrongbook/questions", params);

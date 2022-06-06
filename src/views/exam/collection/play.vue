@@ -211,7 +211,9 @@ export default {
       this.getData();
     },
     getParams() {
-      this.$api.Exam.Collection.Stats().then((res) => {
+      this.$api.Exam.Collection.Stats({
+        question_type: this.type,
+      }).then((res) => {
         this.navLoading = false;
         let categories_count = res.data.categories_count;
         let categories = res.data.categories;

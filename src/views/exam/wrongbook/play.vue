@@ -225,7 +225,9 @@ export default {
       this.getData();
     },
     getParams() {
-      this.$api.Exam.WrongBook.Detail().then((res) => {
+      this.$api.Exam.WrongBook.Detail({
+        question_type: this.type,
+      }).then((res) => {
         this.navLoading = false;
         let categories_count = res.data.categories_count;
         let categories = res.data.categories;
