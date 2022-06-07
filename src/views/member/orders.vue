@@ -42,21 +42,13 @@
               </div>
               <div
                 class="item-thumb"
-                v-else-if="item.goods[0].goods_type === '练习'"
+                v-else-if="
+                  item.goods[0].goods_type === '模拟试卷' ||
+                    item.goods[0].goods_type === '试卷' ||
+                    item.goods[0].goods_type === '练习'
+                "
               >
-                <img src="../../assets/img/commen/default-practice.png" />
-              </div>
-              <div
-                class="item-thumb"
-                v-else-if="item.goods[0].goods_type === '模拟试卷'"
-              >
-                <img src="../../assets/img/commen/default-test.png" />
-              </div>
-              <div
-                class="item-thumb"
-                v-else-if="item.goods[0].goods_type === '试卷'"
-              >
-                <img src="../../assets/img/commen/default-test.png" />
+                <img src="../../assets/img/commen/default-paper.png" />
               </div>
               <div
                 class="item-thumb"
@@ -97,7 +89,7 @@
                     class="item-price"
                     v-if="
                       item.status_text === '未支付' ||
-                      item.status_text === '支付中'
+                        item.status_text === '支付中'
                     "
                   >
                     实付款：￥{{ item.charge }}
