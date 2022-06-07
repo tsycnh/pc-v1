@@ -59,17 +59,19 @@
     </div>
     <div class="navheader">
       <div class="top">
-        <div class="top-left" @click="goBack()">
+        <div class="top-left" v-if="userPaper && userPaper.status === 1">
+          {{ paper.title }}
+        </div>
+        <div
+          class="top-left"
+          @click="goBack()"
+          v-if="userPaper && userPaper.status === 2"
+        >
           <img
             class="icon-back"
             src="../../../assets/img/commen/icon-back-h.png"
           />
-          <template v-if="userPaper && userPaper.status === 1">
-            线上考试
-          </template>
-          <template v-if="userPaper && userPaper.status === 2">
-            考试详情
-          </template>
+          {{ paper.title }}
         </div>
         <div class="top-right">
           <div class="score" v-if="userPaper && userPaper.status === 2">
@@ -135,7 +137,6 @@
         </div>
       </div>
       <div class="right-box">
-        <div class="title-box">{{ paper.title }}</div>
         <div class="questions-box" v-if="questions && userPaper">
           <template v-for="(question, index) in questions">
             <div class="item" :key="index" :id="index">
