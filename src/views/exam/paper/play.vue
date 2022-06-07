@@ -126,7 +126,7 @@
             :class="{
               correct: item.is_correct === 1,
               error: item.is_correct === 0,
-              no: item.question.type === 4,
+              no: item.question.type === 4 || item.question.type === 6,
             }"
             v-for="(item, index) in questions"
             :key="index"
