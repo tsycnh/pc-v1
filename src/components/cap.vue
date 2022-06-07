@@ -294,6 +294,37 @@ export default {
 .spbackground {
   background-color: #fff;
   width: 100%;
+  .preview-image {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 400;
+    padding: 15px;
+    background-color: #000000;
+    display: flex;
+    align-items: center;
+    .back-detail {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 19px;
+      height: 19px;
+      cursor: pointer;
+    }
+    .pic-item {
+      width: 100%;
+      height: 100%;
+      .pic {
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center center;
+      }
+    }
+  }
   .info {
     width: 100%;
     display: flex;

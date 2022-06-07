@@ -26,24 +26,26 @@
     </div>
     <div class="navheader">
       <div class="top">
-        <div class="top-left" @click="$router.back()">
+        <div class="top-left" v-if="userPaper && userPaper.status === 0">
+          {{ paper.title }}
+        </div>
+        <div
+          class="top-left"
+          @click="$router.back()"
+          v-if="userPaper && userPaper.status === 1"
+        >
           <img
             class="icon-back"
             src="../../../assets/img/commen/icon-back-h.png"
           />
-          <template v-if="userPaper && userPaper.status === 0">
-            模拟考试
-          </template>
-          <template v-if="userPaper && userPaper.status === 1">
-            考试详情
-          </template>
+          {{ paper.title }}
         </div>
         <div class="top-right">
           <div class="score" v-if="userPaper && userPaper.status === 1">
             考试得分：<strong>{{ userPaper.get_score }}分</strong>
           </div>
           <div class="score-info" v-if="userPaper && userPaper.status === 0">
-            及格分：{{ paper.pass_score }}分/{{ paper.score }}分
+            及格分：{{ paper.pass_score }}分/{{ userPaper.total_score }}分
           </div>
           <div
             v-if="userPaper && userPaper.status === 0"
@@ -91,7 +93,7 @@
             :class="{
               correct: item.is_correct === 1,
               error: item.is_correct === 0,
-              no: item.question.type === 4,
+              no: item.question.type === 4 || item.question.type === 6,
             }"
             v-for="(item, index) in questions"
             :key="index"
@@ -102,7 +104,6 @@
         </div>
       </div>
       <div class="right-box">
-        <div class="title-box">{{ paper.title }}</div>
         <div class="questions-box" v-if="questions && userPaper">
           <template v-for="(question, index) in questions">
             <div class="item" :key="index" :id="index">
