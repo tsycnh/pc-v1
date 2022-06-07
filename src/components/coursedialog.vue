@@ -5,13 +5,13 @@
       <div class="info">请订阅后观看哦</div>
       <div class="btn-box">
         <div class="btn-cancel" @click="cancel()">取消</div>
-        <div
+        <!--<div
           class="btn-video"
           v-if="videoCharge > 0 && is_ban_sell !== 1"
           @click="payVideo()"
         >
           订阅此视频￥{{ videoCharge }}
-        </div>
+        </div>-->
         <div class="btn-vip" v-if="vipFree === 1" @click="payVip()">
           会员免费看
         </div>
