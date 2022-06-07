@@ -45,7 +45,7 @@
             考试得分：<strong>{{ userPaper.get_score }}分</strong>
           </div>
           <div class="score-info" v-if="userPaper && userPaper.status === 0">
-            及格分：{{ paper.pass_score }}分/{{ paper.score }}分
+            及格分：{{ paper.pass_score }}分/{{ userPaper.total_score }}分
           </div>
           <div
             v-if="userPaper && userPaper.status === 0"
