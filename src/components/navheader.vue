@@ -131,8 +131,12 @@
                 @mouseover="menu(item.children, index)"
                 @mouseout="clMenu()"
                 :class="{
-                  active: hash.match(item.url) && item.url !== '/',
-                  isIndex: '#' + item.url === hash,
+                  active:
+                    (hash.match(item.url) ||
+                      (item.url.substr(0, 1) === '#' &&
+                        hash.match(item.url.slice(1)))) &&
+                    item.url !== '/',
+                  isIndex: item.url === hash,
                 }"
               >
                 {{ item.name }}
@@ -148,7 +152,7 @@
                   >
                     <a
                       class="overflow-hidden"
-                      @click.stop="goChildPage(child.url, child.blank)"
+                      @click.stop="checkNav(child.url, child.blank)"
                       >{{ child.name }}</a
                     >
                   </div>
@@ -168,7 +172,7 @@ export default {
     return {
       loading: false,
       showKey: null,
-      hash: document.location.hash.split("?")[0],
+      hash: this.getHash(),
       memberCan: false,
       menuCan: false,
       newStatus: false,
@@ -183,7 +187,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.checkNav();
+      this.hash = this.getHash();
     },
     freshUnread() {
       if (this.freshUnread) {
@@ -201,6 +205,10 @@ export default {
       "changeDialogType",
       "removeUnread",
     ]),
+    getHash() {
+      let hash = document.location.hash.split("?")[0].replace("#", "");
+      return hash;
+    },
     getData() {
       if (this.loading) {
         return;
@@ -263,37 +271,18 @@ export default {
         });
     },
     checkNav(url, blank) {
-      this.hash = document.location.hash.split("?")[0];
-      if (url) {
-        if (blank === 0) {
-          if (url.match("https:") || url.match("http:")) {
-            window.location.href = url;
-          } else {
-            this.$router.push({ path: url });
-          }
-        } else {
-          if (url.match("https:") || url.match("http:")) {
-            window.open(url);
-          } else {
-            this.$router.resolve({ path: url });
-          }
-        }
+      if (!url || url.substr(0, 1) === "#") {
+        return;
       }
-    },
-    goChildPage(url, blank) {
-      if (blank === 0) {
-        if (url.match("https:") || url.match("http:")) {
+      if (url.match("https:") || url.match("http:")) {
+        if (blank === 0) {
           window.location.href = url;
         } else {
-          this.$router.push({ path: url });
-        }
-      } else {
-        if (url.match("https:") || url.match("http:")) {
           window.open(url);
-        } else {
-          this.$router.resolve({ path: url });
         }
+        return;
       }
+      this.$router.push({ path: url });
     },
     menu(val, index) {
       if (val && val.length > 0) {

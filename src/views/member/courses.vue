@@ -37,7 +37,7 @@
                   </div>
                 </div>
                 <div class="item-bottom">
-                  <div class="item-progress">学习进度：0%</div>
+                  <!--<div class="item-progress">学习进度：0%</div>-->
                 </div>
               </div>
             </div>
