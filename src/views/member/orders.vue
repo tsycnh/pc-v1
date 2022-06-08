@@ -20,7 +20,15 @@
                 v-if="item.goods[0] && item.goods[0].goods_thumb"
               >
                 <div class="spback"></div>
-                <img :src="item.goods[0].goods_thumb" />
+                <img
+                  v-if="
+                    item.goods[0].goods_type === '模拟试卷' ||
+                      item.goods[0].goods_type === '试卷' ||
+                      item.goods[0].goods_type === '练习'
+                  "
+                  src="../../assets/img/commen/default-paper.png"
+                />
+                <img v-else :src="item.goods[0].goods_thumb" />
               </div>
               <div
                 class="item-thumb"
