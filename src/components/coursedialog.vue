@@ -1,26 +1,28 @@
 <template>
-  <div class="mask" v-show="status">
-    <div class="dialog-box">
-      <div class="dialog-title">{{ configText }}</div>
-      <div class="info">请订阅后观看哦</div>
-      <div class="btn-box">
-        <div class="btn-cancel" @click="cancel()">取消</div>
-        <!--<div
+  <transition name="fade">
+    <div class="mask" v-show="status">
+      <div class="dialog-box">
+        <div class="dialog-title">{{ configText }}</div>
+        <div class="info">请订阅后观看哦</div>
+        <div class="btn-box">
+          <div class="btn-cancel" @click="cancel()">取消</div>
+          <!--<div
           class="btn-video"
           v-if="videoCharge > 0 && is_ban_sell !== 1"
           @click="payVideo()"
         >
           订阅此视频￥{{ videoCharge }}
         </div>-->
-        <div class="btn-vip" v-if="vipFree === 1" @click="payVip()">
-          会员免费看
-        </div>
-        <div class="btn-course" v-if="courseCharge > 0" @click="payCourse()">
-          订阅此课程￥{{ courseCharge }}
+          <div class="btn-vip" v-if="vipFree === 1" @click="payVip()">
+            会员免费看
+          </div>
+          <div class="btn-course" v-if="courseCharge > 0" @click="payCourse()">
+            订阅此课程￥{{ courseCharge }}
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 <script>
 export default {
@@ -52,6 +54,15 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@keyframes window-open {
+  0% {
+    transform: translateY(120px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
 .mask {
   width: 100%;
   height: 100%;
@@ -72,6 +83,7 @@ export default {
     border-radius: 8px;
     display: flex;
     flex-direction: column;
+    animation: window-open 0.3s;
     .dialog-title {
       width: 100%;
       height: 14px;
