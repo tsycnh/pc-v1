@@ -54,15 +54,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@keyframes window-open {
-  0% {
-    transform: translateY(120px);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
-}
 .mask {
   width: 100%;
   height: 100%;
@@ -83,7 +74,7 @@ export default {
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    animation: window-open 0.3s;
+    animation: scaleBig 0.3s;
     .dialog-title {
       width: 100%;
       height: 14px;
