@@ -394,13 +394,14 @@ export default {
       height: auto;
       display: flex;
       flex-direction: row;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       align-items: center;
       font-size: 14px;
       color: #999999;
       line-height: 14px;
       margin-top: 30px;
       margin-bottom: 30px;
+
       a {
         height: auto;
         font-size: 14px;
@@ -413,12 +414,17 @@ export default {
         }
       }
       span {
+        flex: 1;
         height: auto;
         margin-left: 6px;
         font-size: 14px;
         font-weight: 400;
         color: #666666;
         line-height: 14px;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
     .book-info {
