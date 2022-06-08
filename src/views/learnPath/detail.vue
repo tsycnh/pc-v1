@@ -36,8 +36,8 @@
                       @click="goMsOrder(msData.order.id)"
                       v-if="
                         learn.charge > 0 &&
-                        msData.order &&
-                        msData.order.status === 0
+                          msData.order &&
+                          msData.order.status === 0
                       "
                     >
                       已获得秒杀资格，请尽快支付
@@ -64,8 +64,8 @@
                   <template
                     v-if="
                       tgData &&
-                      tgData.goods &&
-                      (!tgData.join_item || tgData.join_item.length === 0)
+                        tgData.goods &&
+                        (!tgData.join_item || tgData.join_item.length === 0)
                     "
                   >
                     <div class="role-button" @click="goPay(0)">
@@ -391,9 +391,10 @@ export default {
     margin: 0 auto;
     .nav {
       width: 100%;
-      height: 14px;
+      height: auto;
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       align-items: center;
       font-size: 14px;
       color: #999999;
@@ -401,7 +402,7 @@ export default {
       margin-top: 30px;
       margin-bottom: 30px;
       a {
-        height: 14px;
+        height: auto;
         font-size: 14px;
         font-weight: 400;
         color: #999999;
@@ -412,7 +413,7 @@ export default {
         }
       }
       span {
-        height: 14px;
+        height: auto;
         margin-left: 6px;
         font-size: 14px;
         font-weight: 400;
