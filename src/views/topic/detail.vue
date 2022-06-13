@@ -561,13 +561,15 @@ export default {
     flex-direction: row;
     position: relative;
     .share-box {
+      position: fixed;
       width: 304px;
       height: 312px;
       background: #ffffff;
       border-radius: 8px;
-      margin-top: 74px;
       box-sizing: border-box;
       padding: 30px;
+      margin-top: 74px;
+      margin-left: 896px;
       .share {
         width: 100%;
         height: 40px;
@@ -655,12 +657,10 @@ export default {
     }
     .topic-box {
       width: 866px;
-      margin: 0 auto;
+      float: left;
       display: flex;
       box-sizing: border-box;
       flex-direction: column;
-      padding-top: 0px;
-      margin-right: 30px;
       .nav {
         width: 100%;
         height: 14px;

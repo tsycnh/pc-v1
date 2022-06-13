@@ -43,15 +43,14 @@
           ></page-box>
         </div>
       </div>
-
-      <div class="right-contanier">
+      <div class="right-contanier" id="NavBar">
         <template v-if="loading2">
           <div style="margin-top: 20px">
             <skeletonTopicHotList></skeletonTopicHotList>
           </div>
         </template>
         <template v-else>
-          <div class="right-list">
+          <div class="right-list" :class="{ active: isfixTab }">
             <div class="tit">推荐阅读</div>
             <template v-if="hotList.length > 0">
               <div class="right-box">
@@ -126,9 +125,11 @@ export default {
       loading: false,
       loading2: false,
       navLoading: false,
+      isfixTab: false,
     };
   },
   mounted() {
+    window.addEventListener("scroll", this.handleTabFix, true);
     this.navLoading = true;
     this.getData();
     this.getHotData();
@@ -140,6 +141,9 @@ export default {
   beforeRouteLeave(to, from, next) {
     this.$utils.scrollTopRecord(this.pageName);
     next();
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.handleTabFix, true);
   },
   methods: {
     changefilter() {
@@ -173,6 +177,19 @@ export default {
       }
       this.resetData();
       this.getData();
+    },
+    handleTabFix() {
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      let navbar = document.querySelector("#NavBar");
+      if (navbar) {
+        let offsetTop = navbar.offsetTop;
+        scrollTop > offsetTop
+          ? (this.isfixTab = true)
+          : (this.isfixTab = false);
+      }
     },
     resetData() {
       this.list = [];
@@ -240,17 +257,21 @@ export default {
       flex-direction: column;
       margin-right: 30px;
     }
+
     .right-contanier {
       width: 400px;
       position: relative;
       .right-list {
-        display: inline-block;
         width: 400px;
         height: auto;
         background: #ffffff;
         border-radius: 8px;
         padding: 30px;
         box-sizing: border-box;
+        &.active {
+          position: fixed;
+          top: 0;
+        }
         .tit {
           width: 100%;
           height: 18px;
