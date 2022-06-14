@@ -252,12 +252,12 @@
                         <div
                           v-if="canSee"
                           class="answer-item"
-                          @click="showReply2(index2)"
+                          @click="showReply2(index2, index)"
                         >
                           回复
                         </div>
                         <div
-                          v-if="configInput2[index2] === true"
+                          v-if="configInput2[index2] === index"
                           class="Two-class-replybox"
                         >
                           <input
@@ -514,10 +514,22 @@ export default {
       });
     },
     showReply(index) {
-      this.$set(this.configInput, index, !this.configInput[index]);
+      if (this.configInput[index]) {
+        this.configInput = [];
+        this.$set(this.configInput, index, false);
+      } else {
+        this.configInput = [];
+        this.$set(this.configInput, index, true);
+      }
     },
-    showReply2(index2) {
-      this.$set(this.configInput2, index2, !this.configInput2[index2]);
+    showReply2(index2, index) {
+      if (this.configInput2[index2] === index) {
+        this.configInput2 = [];
+        this.$set(this.configInput2, index2, false);
+      } else {
+        this.configInput2 = [];
+        this.$set(this.configInput2, index2, index);
+      }
     },
     getAnswer(index, id) {
       this.$set(this.configkey, index, !this.configkey[index]);
@@ -607,6 +619,17 @@ export default {
                 nick_name: this.user.nick_name,
               },
             };
+            let old;
+            if (this.replyAnswers[index]) {
+              old = this.replyAnswers[index];
+              old.unshift(item);
+            } else {
+              old = [];
+            }
+            this.$set(this.replyAnswers, index, old);
+            this.comment.list[index].children_count =
+              this.comment.list[index].children_count + 1;
+            this.reply.content = "";
           } else {
             item = {
               id: res.data.comment_id,
@@ -620,18 +643,19 @@ export default {
                 nick_name: this.user.nick_name,
               },
             };
+            let old;
+            if (this.replyAnswers[index]) {
+              old = this.replyAnswers[index];
+              old.unshift(item);
+            } else {
+              old = [];
+            }
+            this.$set(this.replyAnswers, index, old);
+            this.comment.list[index].children_count =
+              this.comment.list[index].children_count + 1;
+            this.reply.content = "";
+            this.getAnswer(index, parentId);
           }
-          let old;
-          if (this.replyAnswers[index]) {
-            old = this.replyAnswers[index];
-            old.unshift(item);
-          } else {
-            old = [];
-          }
-          this.$set(this.replyAnswers, index, old);
-          this.comment.list[index].children_count =
-            this.comment.list[index].children_count + 1;
-          this.reply.content = "";
         })
         .catch((e) => {
           this.$message.error(e.message);
