@@ -5,7 +5,7 @@
       <a @click="$router.push({ name: 'topic' })">图文</a> /
       <span>{{ topic.title }}</span>
     </div>
-    <div class="box" id="NavBar">
+    <div class="box">
       <div class="topic-box">
         <template v-if="loading">
           <skeletonTopicDetail></skeletonTopicDetail>
@@ -232,7 +232,7 @@
           </div>
         </div>
       </div>
-      <div class="share-box" v-if="topic" :class="{ active: isfixTab }">
+      <div class="share-box" v-if="topic">
         <Share
           :cid="topic.id"
           :title="topic.title"
@@ -337,35 +337,17 @@ export default {
       configInput2: [],
       replyAnswers: [],
       answerId: null,
-      isfixTab: false,
     };
   },
   computed: {
     ...mapState(["isLogin", "user"]),
   },
   mounted() {
-    window.addEventListener("scroll", this.handleTabFix, true);
     this.getData();
     this.getComments();
   },
-  beforeDestroy() {
-    window.removeEventListener("scroll", this.handleTabFix, true);
-  },
   methods: {
     ...mapMutations(["showLoginDialog", "changeDialogType"]),
-    handleTabFix() {
-      let scrollTop =
-        window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop;
-      let navbar = document.querySelector("#NavBar");
-      if (navbar) {
-        let offsetTop = navbar.offsetTop;
-        scrollTop > offsetTop
-          ? (this.isfixTab = true)
-          : (this.isfixTab = false);
-      }
-    },
     goLogin() {
       this.changeDialogType(1);
       this.showLoginDialog();
@@ -646,11 +628,9 @@ export default {
       box-sizing: border-box;
       padding: 30px;
       margin-left: 30px;
-      &.active {
-        position: fixed;
-        top: 0;
-        margin-left: 896px;
-      }
+      position: -webkit-sticky; /* Safari */
+      position: sticky;
+      top: 0;
       .share {
         width: 100%;
         height: 40px;
