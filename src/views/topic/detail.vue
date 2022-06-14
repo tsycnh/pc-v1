@@ -385,8 +385,13 @@ export default {
       });
     },
     showReply(index) {
-      this.configInput = [];
-      this.$set(this.configInput, index, !this.configInput[index]);
+      if (this.configInput[index]) {
+        this.configInput = [];
+        this.$set(this.configInput, index, false);
+      } else {
+        this.configInput = [];
+        this.$set(this.configInput, index, true);
+      }
     },
     showReply2(index2, index) {
       if (this.configInput2[index2] === index) {
@@ -1054,7 +1059,7 @@ export default {
                 float: left;
                 display: flex;
                 flex-direction: row;
-                margin-top: 20px;
+                margin-top: 30px;
                 .reply-avatar {
                   width: 48px;
                   height: 48px;
@@ -1118,7 +1123,7 @@ export default {
                 .Two-class-replybox {
                   width: 610px;
                   height: 48px;
-                  margin-top: 30px;
+                  margin-top: 20px;
                   display: flex;
                   flex-direction: row;
                   align-items: center;
