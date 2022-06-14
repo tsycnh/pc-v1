@@ -514,6 +514,7 @@ export default {
       });
     },
     showReply(index) {
+      this.configInput2 = [];
       if (this.configInput[index]) {
         this.configInput = [];
         this.$set(this.configInput, index, false);
@@ -523,6 +524,7 @@ export default {
       }
     },
     showReply2(index2, index) {
+      this.configInput = [];
       if (this.configInput2[index2] === index) {
         this.configInput2 = [];
         this.$set(this.configInput2, index2, false);
