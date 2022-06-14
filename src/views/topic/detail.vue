@@ -449,10 +449,27 @@ export default {
       this.$api.Topic.SubmitComment(this.topic.id, {
         content: this.comment.content,
       })
-        .then(() => {
+        .then((res) => {
           this.$message.success("评论成功");
-          this.resetComment();
-          this.getComments();
+          let item = {
+            id: res.data.comment_id,
+            parent_id: 0,
+            content: this.comment.content,
+            children_count: 0,
+            reply_comment_id: 0,
+            reply_comment: null,
+            reply_user: [],
+            reply_user_id: 0,
+            created_at: "刚刚",
+            user: {
+              avatar: this.user.avatar,
+              nick_name: this.user.nick_name,
+            },
+          };
+          this.comment.list.unshift(item);
+          this.comment.content = "";
+          this.replyAnswers.unshift(false);
+          this.configkey.unshift(false);
         })
         .catch((e) => {
           this.$message.reeor(e.message);
@@ -483,7 +500,7 @@ export default {
               reply_comment: {
                 user: { nick_name: nick_name },
               },
-              created_at: "1秒前",
+              created_at: "刚刚",
               user: {
                 avatar: this.user.avatar,
                 nick_name: this.user.nick_name,
@@ -507,7 +524,7 @@ export default {
               content: this.reply.content,
               children_count: 0,
               reply_comment: null,
-              created_at: "1秒前",
+              created_at: "刚刚",
               user: {
                 avatar: this.user.avatar,
                 nick_name: this.user.nick_name,
@@ -524,7 +541,13 @@ export default {
             this.comment.list[index].children_count =
               this.comment.list[index].children_count + 1;
             this.reply.content = "";
-            this.getAnswer(index, parentId);
+            this.$set(this.configkey, index, true);
+            this.pagination.comment_id = parentId;
+            this.$api.Topic.AllComments(this.id, this.pagination).then(
+              (res) => {
+                this.$set(this.replyAnswers, index, res.data.data.data);
+              }
+            );
           }
         })
         .catch((e) => {
@@ -992,7 +1015,7 @@ export default {
             .one-class-replybox {
               width: 728px;
               height: 48px;
-              margin-top: 30px;
+              margin-top: 10px;
               display: flex;
               flex-direction: row;
               align-items: center;

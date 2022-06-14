@@ -581,10 +581,26 @@ export default {
       this.$api.Book.SubmitComment(this.id, {
         content: this.comment.content,
       })
-        .then(() => {
+        .then((res) => {
           this.$message.success("评论成功");
-          this.resetComments();
-          this.getComments();
+          let item = {
+            id: res.data.comment_id,
+            is_check: 0,
+            parent_id: 0,
+            content: this.comment.content,
+            children_count: 0,
+            reply_id: 0,
+            reply: null,
+            created_at: "刚刚",
+            user: {
+              avatar: this.user.avatar,
+              nick_name: this.user.nick_name,
+            },
+          };
+          this.comment.list.unshift(item);
+          this.comment.content = "";
+          this.replyAnswers.unshift(false);
+          this.configkey.unshift(false);
         })
         .catch((e) => {
           this.$message.error(e.message);
@@ -612,10 +628,11 @@ export default {
               parent_id: parentId,
               content: this.reply.content,
               children_count: 0,
+              reply_id: res.data.reply_id,
               reply: {
                 user: { nick_name: nick_name },
               },
-              created_at: "1秒前",
+              created_at: "刚刚",
               user: {
                 avatar: this.user.avatar,
                 nick_name: this.user.nick_name,
@@ -638,8 +655,9 @@ export default {
               parent_id: parentId,
               content: this.reply.content,
               children_count: 0,
-              reply_comment: null,
-              created_at: "1秒前",
+              reply_id: res.data.reply_id,
+              reply: null,
+              created_at: "刚刚",
               user: {
                 avatar: this.user.avatar,
                 nick_name: this.user.nick_name,
@@ -656,7 +674,13 @@ export default {
             this.comment.list[index].children_count =
               this.comment.list[index].children_count + 1;
             this.reply.content = "";
-            this.getAnswer(index, parentId);
+            this.$set(this.configkey, index, true);
+            this.pagination.parent_id = parentId;
+            this.$api.Book.AnswerComments(this.id, this.pagination).then(
+              (res) => {
+                this.$set(this.replyAnswers, index, res.data.data.data);
+              }
+            );
           }
         })
         .catch((e) => {
@@ -1013,7 +1037,7 @@ export default {
             .one-class-replybox {
               width: 728px;
               height: 48px;
-              margin-top: 30px;
+              margin-top: 10px;
               display: flex;
               flex-direction: row;
               align-items: center;
@@ -1063,9 +1087,7 @@ export default {
                 display: flex;
                 flex-direction: row;
                 margin-top: 30px;
-                &:last-child {
-                  margin-top: 20px;
-                }
+
                 .reply-avatar {
                   width: 48px;
                   height: 48px;
@@ -1129,7 +1151,7 @@ export default {
                 .Two-class-replybox {
                   width: 610px;
                   height: 48px;
-                  margin-top: 30px;
+                  margin-top: 20px;
                   display: flex;
                   flex-direction: row;
                   align-items: center;
