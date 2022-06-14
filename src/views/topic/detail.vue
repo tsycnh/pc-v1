@@ -1,12 +1,12 @@
 <template>
   <div class="content">
-    <div class="box">
+    <div class="nav">
+      <a @click="$router.push({ name: 'index' })">首页</a> /
+      <a @click="$router.push({ name: 'topic' })">图文</a> /
+      <span>{{ topic.title }}</span>
+    </div>
+    <div class="box" id="NavBar">
       <div class="topic-box">
-        <div class="nav">
-          <a @click="$router.push({ name: 'index' })">首页</a> /
-          <a @click="$router.push({ name: 'topic' })">图文</a> /
-          <span>{{ topic.title }}</span>
-        </div>
         <template v-if="loading">
           <skeletonTopicDetail></skeletonTopicDetail>
         </template>
@@ -232,7 +232,7 @@
           </div>
         </div>
       </div>
-      <div class="share-box" v-if="topic">
+      <div class="share-box" v-if="topic" :class="{ active: isfixTab }">
         <Share
           :cid="topic.id"
           :title="topic.title"
@@ -337,17 +337,35 @@ export default {
       configInput2: [],
       replyAnswers: [],
       answerId: null,
+      isfixTab: false,
     };
   },
   computed: {
     ...mapState(["isLogin", "user"]),
   },
   mounted() {
+    window.addEventListener("scroll", this.handleTabFix, true);
     this.getData();
     this.getComments();
   },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.handleTabFix, true);
+  },
   methods: {
     ...mapMutations(["showLoginDialog", "changeDialogType"]),
+    handleTabFix() {
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      let navbar = document.querySelector("#NavBar");
+      if (navbar) {
+        let offsetTop = navbar.offsetTop;
+        scrollTop > offsetTop
+          ? (this.isfixTab = true)
+          : (this.isfixTab = false);
+      }
+    },
     goLogin() {
       this.changeDialogType(1);
       this.showLoginDialog();
@@ -554,22 +572,59 @@ export default {
 <style lang="less" scoped>
 .content {
   width: 100%;
-  .box {
+  height: auto;
+  float: left;
+  .nav {
     width: 1200px;
     margin: 0 auto;
+    height: auto;
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+    color: #999999;
+    line-height: 14px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    a {
+      height: 14px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #999999;
+      line-height: 14px;
+      margin-right: 6px;
+      &:not(:first-of-type) {
+        margin-left: 6px;
+      }
+    }
+    span {
+      height: 14px;
+      margin-left: 6px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #666666;
+      line-height: 14px;
+    }
+  }
+  .box {
+    display: flex;
+    width: 1200px;
+    margin: 0 auto;
     flex-direction: row;
     position: relative;
     .share-box {
-      position: fixed;
       width: 304px;
       height: 312px;
       background: #ffffff;
       border-radius: 8px;
       box-sizing: border-box;
       padding: 30px;
-      margin-top: 74px;
-      margin-left: 896px;
+      margin-left: 30px;
+      &.active {
+        position: fixed;
+        top: 0;
+        margin-left: 896px;
+      }
       .share {
         width: 100%;
         height: 40px;
@@ -655,43 +710,14 @@ export default {
         }
       }
     }
+
     .topic-box {
       width: 866px;
       float: left;
       display: flex;
       box-sizing: border-box;
       flex-direction: column;
-      .nav {
-        width: 100%;
-        height: 14px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        font-size: 14px;
-        color: #999999;
-        line-height: 14px;
-        margin-top: 30px;
-        margin-bottom: 30px;
-        a {
-          height: 14px;
-          font-size: 14px;
-          font-weight: 400;
-          color: #999999;
-          line-height: 14px;
-          margin-right: 6px;
-          &:not(:first-of-type) {
-            margin-left: 6px;
-          }
-        }
-        span {
-          height: 14px;
-          margin-left: 6px;
-          font-size: 14px;
-          font-weight: 400;
-          color: #666666;
-          line-height: 14px;
-        }
-      }
+
       .topic {
         width: 100%;
         height: auto;
