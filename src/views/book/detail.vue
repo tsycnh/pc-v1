@@ -170,6 +170,31 @@
                 </div>
               </div>
             </div>
+            <template v-if="articles[0] && articles[0].length > 0">
+              <div class="chapter-item">
+                <div class="chapter-name">无章节内容</div>
+                <div class="chapter-videos-box">
+                  <div
+                    class="book-item"
+                    @click="goRead(articleItem)"
+                    v-for="articleItem in articles[0]"
+                    :key="articleItem.id"
+                  >
+                    <div class="video-title">
+                      <div class="text">{{ articleItem.title }}</div>
+                      <div
+                        class="free"
+                        v-if="
+                          !isBuy && book.charge > 0 && articleItem.charge === 0
+                        "
+                      >
+                        试读
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
           </template>
           <template v-else>
             <div class="chapter-item">
