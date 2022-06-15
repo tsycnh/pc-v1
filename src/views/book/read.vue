@@ -523,11 +523,10 @@ export default {
       });
     },
     showReply(id) {
+      this.configInput = [];
       if (this.configInput[id]) {
-        this.configInput = [];
         this.$set(this.configInput, id, false);
       } else {
-        this.configInput = [];
         this.$set(this.configInput, id, true);
       }
     },
