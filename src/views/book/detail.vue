@@ -480,6 +480,17 @@ export default {
         this.book = res.data.book;
         this.chapters = res.data.chapters;
         this.articles = res.data.articles;
+        if (
+          this.chapters.length > 0 &&
+          this.articles[0] &&
+          this.articles[0].length > 0
+        ) {
+          this.chapters.push({
+            id: 0,
+            name: "无章节内容",
+            sort: 10000,
+          });
+        }
         this.isBuy = res.data.is_buy;
         document.title = res.data.book.name;
         //获取秒杀信息

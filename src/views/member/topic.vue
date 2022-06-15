@@ -68,9 +68,9 @@
                     </div>
                   </div>
                   <div class="item-bottom">
-                    <div class="item-progress">
+                    <!--<div class="item-progress">
                       订阅时间：{{ item.created_at | changeTime }}
-                    </div>
+                    </div>-->
                   </div>
                 </div>
               </div>
@@ -97,9 +97,9 @@
                     </div>
                   </div>
                   <div class="item-bottom">
-                    <div class="item-progress">
+                    <!--<div class="item-progress">
                       订阅时间：{{ item.created_at | changeTime }}
-                    </div>
+                    </div>-->
                   </div>
                 </div>
               </div>
