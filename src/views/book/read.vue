@@ -524,7 +524,7 @@ export default {
     },
     showReply(id) {
       this.configInput = [];
-      this.$set(this.configInput, id, this.configInput[id] ? false : true);
+      this.$set(this.configInput, id, true);
     },
     getAnswer(index, id) {
       this.$set(this.configkey, index, !this.configkey[index]);
