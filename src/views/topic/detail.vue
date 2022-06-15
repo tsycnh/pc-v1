@@ -106,7 +106,7 @@
                       :class="{ trans: configInput[index] === true }"
                       class="reply-answer"
                       v-if="isBuy"
-                      @click="showReply(index)"
+                      @click="showReply(item.id)"
                     >
                       回复
                     </div>
@@ -120,7 +120,7 @@
                     </div>
                   </div>
                   <div
-                    v-if="isLogin && isBuy && configInput[index] === true"
+                    v-if="isLogin && isBuy && configInput[item.id] === true"
                     class="one-class-replybox"
                   >
                     <input
@@ -143,8 +143,8 @@
                     <template v-if="replyAnswers.length > 0">
                       <div
                         class="reply-list-item"
-                        v-for="(replyItem, index2) in replyAnswers[index]"
-                        :key="index2"
+                        v-for="replyItem in replyAnswers[index]"
+                        :key="replyItem.id"
                       >
                         <div class="reply-avatar">
                           <img
@@ -175,13 +175,15 @@
                           <div
                             v-if="isBuy"
                             class="answer-item"
-                            @click="showReply2(index2, index)"
+                            @click="showReply(replyItem.id)"
                           >
                             回复
                           </div>
                           <div
                             v-if="
-                              isLogin && isBuy && configInput2[index2] === index
+                              isLogin &&
+                                isBuy &&
+                                configInput[replyItem.id] === true
                             "
                             class="Two-class-replybox"
                           >
@@ -334,7 +336,6 @@ export default {
       },
       configkey: [],
       configInput: [],
-      configInput2: [],
       replyAnswers: [],
       answerId: null,
     };
@@ -366,24 +367,12 @@ export default {
         }
       });
     },
-    showReply(index) {
-      this.configInput2 = [];
-      if (this.configInput[index]) {
-        this.configInput = [];
-        this.$set(this.configInput, index, false);
-      } else {
-        this.configInput = [];
-        this.$set(this.configInput, index, true);
-      }
-    },
-    showReply2(index2, index) {
+    showReply(id) {
       this.configInput = [];
-      if (this.configInput2[index2] === index) {
-        this.configInput2 = [];
-        this.$set(this.configInput2, index2, false);
+      if (this.configInput[id]) {
+        this.$set(this.configInput, id, false);
       } else {
-        this.configInput2 = [];
-        this.$set(this.configInput2, index2, index);
+        this.$set(this.configInput, id, true);
       }
     },
     getAnswer(index, id) {
@@ -438,7 +427,6 @@ export default {
       this.comment.list = [];
       this.configkey = [];
       this.configInput = [];
-      this.configInput2 = [];
       this.replyAnswers = [];
       this.comment.content = "";
     },
@@ -488,7 +476,6 @@ export default {
       })
         .then((res) => {
           this.configInput = [];
-          this.configInput2 = [];
           this.$message.success("回复成功");
           let item;
           if (id) {

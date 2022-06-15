@@ -222,8 +222,8 @@
                   <template v-if="replyAnswers.length > 0">
                     <div
                       class="reply-list-item"
-                      v-for="(replyItem, index2) in replyAnswers[index]"
-                      :key="index2"
+                      v-for="replyItem in replyAnswers[index]"
+                      :key="replyItem.id"
                     >
                       <div class="reply-avatar">
                         <img
