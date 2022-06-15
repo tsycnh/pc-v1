@@ -608,6 +608,9 @@ export default {
         this.$message.error("回复的用户不存在");
         return;
       }
+      if (!this.reply.content) {
+        return;
+      }
       this.answerId = id;
       this.$api.Book.SubmitComment(this.id, {
         parent_id: parentId,
