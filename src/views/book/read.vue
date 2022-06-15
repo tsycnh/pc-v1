@@ -180,7 +180,7 @@
                     :class="{ trans: configInput[index] === true }"
                     class="reply-answer"
                     v-if="canSee"
-                    @click="showReply(index)"
+                    @click="showReply(commentItem.id)"
                   >
                     回复
                   </div>
@@ -194,7 +194,7 @@
                   </div>
                 </div>
                 <div
-                  v-if="configInput[index] === true"
+                  v-if="configInput[commentItem.id] === true"
                   class="one-class-replybox"
                 >
                   <input
@@ -252,12 +252,12 @@
                         <div
                           v-if="canSee"
                           class="answer-item"
-                          @click="showReply2(index2, index)"
+                          @click="showReply(replyItem.id)"
                         >
                           回复
                         </div>
                         <div
-                          v-if="configInput2[index2] === index"
+                          v-if="configInput[replyItem.id] === true"
                           class="Two-class-replybox"
                         >
                           <input
@@ -353,7 +353,6 @@ export default {
       },
       configkey: [],
       configInput: [],
-      configInput2: [],
       replyAnswers: [],
       answerId: null,
     };
@@ -501,7 +500,6 @@ export default {
       this.replyAnswers = [];
       this.configkey = [];
       this.configInput = [];
-      this.configInput2 = [];
       this.resetComments();
       this.getComments();
       document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -524,24 +522,13 @@ export default {
         name: "vip",
       });
     },
-    showReply(index) {
-      this.configInput2 = [];
-      if (this.configInput[index]) {
+    showReply(id) {
+      if (this.configInput[id]) {
         this.configInput = [];
-        this.$set(this.configInput, index, false);
+        this.$set(this.configInput, id, false);
       } else {
         this.configInput = [];
-        this.$set(this.configInput, index, true);
-      }
-    },
-    showReply2(index2, index) {
-      this.configInput = [];
-      if (this.configInput2[index2] === index) {
-        this.configInput2 = [];
-        this.$set(this.configInput2, index2, false);
-      } else {
-        this.configInput2 = [];
-        this.$set(this.configInput2, index2, index);
+        this.$set(this.configInput, id, true);
       }
     },
     getAnswer(index, id) {
