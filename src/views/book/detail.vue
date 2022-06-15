@@ -170,31 +170,6 @@
                 </div>
               </div>
             </div>
-            <template v-if="articles[0] && articles[0].length > 0">
-              <div class="chapter-item">
-                <div class="chapter-name">无章节内容</div>
-                <div class="chapter-videos-box">
-                  <div
-                    class="book-item"
-                    @click="goRead(articleItem)"
-                    v-for="articleItem in articles[0]"
-                    :key="articleItem.id"
-                  >
-                    <div class="video-title">
-                      <div class="text">{{ articleItem.title }}</div>
-                      <div
-                        class="free"
-                        v-if="
-                          !isBuy && book.charge > 0 && articleItem.charge === 0
-                        "
-                      >
-                        试读
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </template>
           </template>
           <template v-else>
             <div class="chapter-item">
@@ -505,6 +480,17 @@ export default {
         this.book = res.data.book;
         this.chapters = res.data.chapters;
         this.articles = res.data.articles;
+        if (
+          this.chapters.length > 0 &&
+          this.articles[0] &&
+          this.articles[0].length > 0
+        ) {
+          this.chapters.push({
+            id: 0,
+            name: "无章节内容",
+            sort: 10000,
+          });
+        }
         this.isBuy = res.data.is_buy;
         document.title = res.data.book.name;
         //获取秒杀信息
