@@ -242,7 +242,9 @@ export default {
 
     .right-contanier {
       width: 400px;
+      position: relative;
       .right-list {
+        display: inline-block;
         width: 400px;
         height: auto;
         background: #ffffff;
