@@ -133,12 +133,29 @@
                           ></thumb-bar>
                         </div>
                         <div class="thumb-bar" v-else>
-                          <thumb-bar
-                            :value="courseItem.thumb"
-                            :width="133"
-                            :height="100"
-                            :border="4"
-                          ></thumb-bar>
+                          <template
+                            v-if="
+                              courseItem.type === 'paper_paper' ||
+                                courseItem.type === 'paper_practice'
+                            "
+                          >
+                            <thumb-bar
+                              :value="
+                                require('@/assets/img/commen/default-paper.png')
+                              "
+                              :width="133"
+                              :height="100"
+                              :border="4"
+                            ></thumb-bar>
+                          </template>
+                          <template v-else>
+                            <thumb-bar
+                              :value="courseItem.thumb"
+                              :width="133"
+                              :height="100"
+                              :border="4"
+                            ></thumb-bar>
+                          </template>
                         </div>
                       </div>
                       <div class="course-body">
