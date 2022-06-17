@@ -368,6 +368,10 @@ export default {
       });
     },
     showReply(id) {
+      if (!this.isLogin) {
+        this.goLogin();
+        return;
+      }
       this.configInput = [];
       this.$set(this.configInput, id, true);
     },
