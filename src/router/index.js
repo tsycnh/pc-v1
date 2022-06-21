@@ -533,6 +533,14 @@ const routes = [
     component: () => import("../views/exam/questionbank/play.vue"),
   },
   {
+    path: "/study-center",
+    name: "StudyCenter",
+    meta: {
+      title: "我的学习",
+    },
+    component: () => import("../views/study/index.vue"),
+  },
+  {
     path: "/ms",
     name: "ms",
     meta: {
