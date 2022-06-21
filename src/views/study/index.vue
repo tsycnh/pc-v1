@@ -30,7 +30,74 @@
         </div>
       </div>
       <div class="list-box">
-        <template v-if="list.length > 0"> </template>
+        <template v-if="list.length > 0">
+          <div class="item" v-for="item in list" :key="item.id">
+            <div class="left-item">
+              <thumb-bar
+                v-if="current === 'book'"
+                :value="item.thumb"
+                :border="4"
+                :width="90"
+                :height="120"
+              ></thumb-bar>
+              <thumb-bar
+                v-else
+                :value="item.thumb"
+                :border="4"
+                :width="160"
+                :height="120"
+              ></thumb-bar>
+              <div class="icon" v-if="!item.isBuy">已订阅</div>
+            </div>
+            <div class="right-item">
+              <div class="item-title">{{ item.title }}</div>
+              <div class="item-info">
+                <template v-if="current === 'topic'">
+                  <div class="item-text" v-if="!item.isBuy">
+                    订阅时间：{{ item.created_at | changeTime }}
+                  </div>
+                </template>
+                <template v-else-if="current === 'book'">
+                  <div class="item-text">
+                    上一次浏览时间：{{ item.created_at | changeTime }}
+                  </div>
+                  <div class="item-text" v-if="!item.isBuy">
+                    订阅时间：{{ item.created_at | changeTime }}
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="item-text">已学课时：3课时/共10课时</div>
+                  <template v-if="current === 'vod'">
+                    <div class="item-progress">
+                      学习进度：100%
+                    </div>
+                  </template>
+                  <template v-else>
+                    <div class="item-progress">
+                      已结课
+                    </div>
+                  </template>
+                  <div class="item-text" v-if="!item.isBuy">
+                    订阅时间：{{ item.created_at | changeTime }}
+                  </div>
+                </template>
+              </div>
+            </div>
+            <template v-if="current === 'topic'">
+              <div class="button continue" @click="goDetail(item)">
+                立即查看
+              </div>
+            </template>
+            <template v-else>
+              <div class="button completed" v-if="item.progress === 100">
+                学习完成
+              </div>
+              <div class="button continue" v-else @click="goDetail(item)">
+                继续学习
+              </div>
+            </template>
+          </div>
+        </template>
         <none type="white" v-else></none>
         <div id="page">
           <page-box
@@ -153,6 +220,37 @@ export default {
       this.currenStatus = 1;
       this.getData();
     },
+    goDetail(item) {
+      if (this.current === "vod") {
+        this.$router.push({
+          name: "coursesDetail",
+          query: {
+            id: item.id,
+          },
+        });
+      } else if (this.current === "live") {
+        this.$router.push({
+          name: "liveDetail",
+          query: {
+            id: item.id,
+          },
+        });
+      } else if (this.current === "topic") {
+        this.$router.push({
+          name: "topicDetail",
+          query: {
+            id: item.id,
+          },
+        });
+      } else if (this.current === "book") {
+        this.$router.push({
+          name: "bookDetail",
+          query: {
+            id: item.id,
+          },
+        });
+      }
+    },
   },
 };
 </script>
@@ -264,11 +362,104 @@ export default {
       margin-top: 30px;
       #page {
         width: 100%;
-        margin: 0 auto;
-        margin-top: 20px;
+        float: left;
+        height: auto;
         display: flex;
         flex-direction: row;
         justify-content: center;
+        margin-top: 20px;
+      }
+      .item {
+        width: 100%;
+        height: 120px;
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 30px;
+        .left-item {
+          width: 160px;
+          height: 120px;
+          border-radius: 4px;
+          overflow: hidden;
+          position: relative;
+          margin-right: 30px;
+          background: #f0f0f8;
+          .icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 66px;
+            height: 30px;
+            background: #ff4d4f;
+            border-radius: 4px 0px 4px 0px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #ffffff;
+            line-height: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+        .right-item {
+          flex: 1;
+          height: 120px;
+          margin-right: 30px;
+          .item-title {
+            width: 816px;
+            height: auto;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333333;
+            line-height: 16px;
+            margin-top: 30px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .item-info {
+            width: 816px;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            margin-top: 35px;
+            .item-text {
+              font-size: 14px;
+              font-weight: 400;
+              color: #666666;
+              line-height: 14px;
+              margin-right: 30px;
+            }
+            .item-progress {
+              font-size: 14px;
+              font-weight: 400;
+              color: #ff4d4f;
+              line-height: 14px;
+              margin-right: 30px;
+            }
+          }
+        }
+        .button {
+          width: 104px;
+          height: 46px;
+          border-radius: 4px;
+          font-size: 16px;
+          font-weight: 400;
+          color: #3ca7fa;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 37px;
+          &.completed {
+            background: #f4fafe;
+          }
+          &.continue {
+            border: 1px solid #3ca7fa;
+            cursor: pointer;
+            &:hover {
+              opacity: 0.8;
+            }
+          }
+        }
       }
     }
   }
