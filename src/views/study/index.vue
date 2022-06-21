@@ -31,72 +31,26 @@
       </div>
       <div class="list-box">
         <template v-if="list.length > 0">
-          <div class="item" v-for="item in list" :key="item.id">
-            <div class="left-item">
-              <thumb-bar
-                v-if="current === 'book'"
-                :value="item.thumb"
-                :border="4"
-                :width="90"
-                :height="120"
-              ></thumb-bar>
-              <thumb-bar
-                v-else
-                :value="item.thumb"
-                :border="4"
-                :width="160"
-                :height="120"
-              ></thumb-bar>
-              <div class="icon" v-if="!item.isBuy">已订阅</div>
-            </div>
-            <div class="right-item">
-              <div class="item-title">{{ item.title }}</div>
-              <div class="item-info">
-                <template v-if="current === 'topic'">
-                  <div class="item-text" v-if="!item.isBuy">
-                    订阅时间：{{ item.created_at | changeTime }}
-                  </div>
-                </template>
-                <template v-else-if="current === 'book'">
-                  <div class="item-text">
-                    上一次浏览时间：{{ item.created_at | changeTime }}
-                  </div>
-                  <div class="item-text" v-if="!item.isBuy">
-                    订阅时间：{{ item.created_at | changeTime }}
-                  </div>
-                </template>
-                <template v-else>
-                  <div class="item-text">已学课时：3课时/共10课时</div>
-                  <template v-if="current === 'vod'">
-                    <div class="item-progress">
-                      学习进度：100%
-                    </div>
-                  </template>
-                  <template v-else>
-                    <div class="item-progress">
-                      已结课
-                    </div>
-                  </template>
-                  <div class="item-text" v-if="!item.isBuy">
-                    订阅时间：{{ item.created_at | changeTime }}
-                  </div>
-                </template>
-              </div>
-            </div>
-            <template v-if="current === 'topic'">
-              <div class="button continue" @click="goDetail(item)">
-                立即查看
-              </div>
-            </template>
-            <template v-else>
-              <div class="button completed" v-if="item.progress === 100">
-                学习完成
-              </div>
-              <div class="button continue" v-else @click="goDetail(item)">
-                继续学习
-              </div>
-            </template>
-          </div>
+          <course-item
+            v-if="current === 'vod'"
+            :list="list"
+            :currenStatus="currenStatus"
+          ></course-item>
+          <live-item
+            v-else-if="current === 'live'"
+            :list="list"
+            :currenStatus="currenStatus"
+          ></live-item>
+          <topic-item
+            v-else-if="current === 'topic'"
+            :list="list"
+            :currenStatus="currenStatus"
+          ></topic-item>
+          <book-item
+            v-else-if="current === 'book'"
+            :list="list"
+            :currenStatus="currenStatus"
+          ></book-item>
         </template>
         <none type="white" v-else></none>
         <div id="page">
@@ -105,7 +59,7 @@
             :page="pagination.page"
             :totals="total"
             @current-change="changepage"
-            :pageSize="pagination.size"
+            :pageSize="pagination.page_size"
             :tab="false"
           ></page-box>
         </div>
@@ -119,11 +73,19 @@ import { mapState, mapMutations } from "vuex";
 import NavFooter from "../../components/footer.vue";
 import PageBox from "../../components/page.vue";
 import None from "../../components/none.vue";
+import CourseItem from "./components/course-item.vue";
+import LiveItem from "./components/live-item.vue";
+import TopicItem from "./components/topic-item.vue";
+import BookItem from "./components/book-item.vue";
 export default {
   components: {
     NavFooter,
     PageBox,
     None,
+    CourseItem,
+    LiveItem,
+    TopicItem,
+    BookItem,
   },
   data() {
     return {
@@ -132,7 +94,7 @@ export default {
       total: null,
       pagination: {
         page: 1,
-        size: 10,
+        page_size: 10,
       },
       current: "vod",
       currenStatus: 1,
@@ -189,67 +151,105 @@ export default {
     },
     resetData() {
       this.list = [];
-      this.pagination.size = 10;
+      this.pagination.page_size = 10;
       this.pagination.page = 1;
     },
     changepage(item) {
-      this.pagination.size = item.pageSize;
+      this.pagination.page_size = item.pageSize;
       this.pagination.page = item.currentPage;
       this.getData();
     },
     getData() {
-      if (this.loading) {
-        return;
-      }
-      this.loading = true;
       let params = {};
-      let filter = {
-        type: this.current,
-        status: this.currenStatus,
-      };
-      Object.assign(params, filter);
-      Object.assign(params, this.pagination);
-      this.$api.Course.List(params).then((res) => {
-        this.loading = false;
-        this.list = res.data.data;
-        this.total = res.data.total;
-      });
+
+      if (this.currenStatus === 1) {
+        Object.assign(params, this.pagination);
+        this.$api.Member.Courses(params).then((res) => {
+          this.list = res.data.data;
+          this.total = res.data.total;
+        });
+      } else if (this.currenStatus === 2) {
+        if (this.current === "vod") {
+          Object.assign(params, this.pagination);
+          this.$api.Member.Courses(params).then((res) => {
+            this.list = res.data.data;
+            this.total = res.data.total;
+          });
+        } else if (this.current === "live") {
+          let filter = {
+            type: "live",
+          };
+          Object.assign(params, filter);
+          Object.assign(params, this.pagination);
+          this.$api.TemplateOne.User.Courses(params).then((res) => {
+            this.list = res.data.data;
+            this.total = res.data.total;
+          });
+        } else if (this.current === "topic") {
+          let pagination = {
+            page: this.pagination.page,
+            size: this.pagination.page_size,
+          };
+          Object.assign(params, pagination);
+          this.$api.Topic.UserBuyTopics(params).then((res) => {
+            this.list = res.data.data.data;
+            this.total = res.data.data.total;
+          });
+        } else if (this.current === "book") {
+          let filter = {
+            type: "book",
+          };
+          Object.assign(params, filter);
+          Object.assign(params, this.pagination);
+          this.$api.TemplateOne.User.Courses(params).then((res) => {
+            this.list = res.data.data;
+            this.total1 = res.data.total;
+          });
+        }
+      } else if (this.currenStatus === 3) {
+        if (this.current === "vod") {
+          Object.assign(params, this.pagination);
+          this.$api.Member.Collects(params).then((res) => {
+            this.list = res.data.data;
+            this.total = res.data.total;
+          });
+        } else if (this.current === "live") {
+          let filter = {
+            type: "live",
+          };
+          Object.assign(params, filter);
+          Object.assign(params, this.pagination);
+          this.$api.TemplateOne.LikeCourses(params).then((res) => {
+            this.list = res.data.data;
+            this.total = res.data.total;
+          });
+        } else if (this.current === "topic") {
+          let pagination = {
+            page: this.pagination.page,
+            size: this.pagination.page_size,
+          };
+          Object.assign(params, pagination);
+          this.$api.Topic.LikeCourses(params).then((res) => {
+            this.list = res.data.data.data;
+            this.total = res.data.data.total;
+          });
+        } else if (this.current === "book") {
+          let filter = {
+            type: "book",
+          };
+          Object.assign(params, filter);
+          Object.assign(params, this.pagination);
+          this.$api.TemplateOne.LikeCourses(params).then((res) => {
+            this.list = res.data.data;
+            this.total1 = res.data.total;
+          });
+        }
+      }
     },
     setCurrent(tab) {
       this.current = tab.value;
       this.currenStatus = 1;
       this.getData();
-    },
-    goDetail(item) {
-      if (this.current === "vod") {
-        this.$router.push({
-          name: "coursesDetail",
-          query: {
-            id: item.id,
-          },
-        });
-      } else if (this.current === "live") {
-        this.$router.push({
-          name: "liveDetail",
-          query: {
-            id: item.id,
-          },
-        });
-      } else if (this.current === "topic") {
-        this.$router.push({
-          name: "topicDetail",
-          query: {
-            id: item.id,
-          },
-        });
-      } else if (this.current === "book") {
-        this.$router.push({
-          name: "bookDetail",
-          query: {
-            id: item.id,
-          },
-        });
-      }
     },
   },
 };

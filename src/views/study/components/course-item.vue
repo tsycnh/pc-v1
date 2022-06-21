@@ -1,0 +1,148 @@
+<template>
+  <div class="box">
+    <div class="item" v-for="item in list" :key="item.id">
+      <div class="left-item">
+        <thumb-bar
+          :value="item.thumb"
+          :border="4"
+          :width="160"
+          :height="120"
+        ></thumb-bar>
+        <div class="icon" v-if="currenStatus === 2">已订阅</div>
+      </div>
+      <div class="right-item">
+        <div class="item-title">{{ item.title }}</div>
+        <div class="item-info">
+          <div class="item-text">
+            已学课时：{{ item.user_count }}课时/共{{ item.videos_count }}课时
+          </div>
+          <div class="item-progress">
+            学习进度：100%
+          </div>
+          <div class="item-text" v-if="currenStatus === 2">
+            订阅时间：{{ item.created_at | changeTime }}
+          </div>
+        </div>
+      </div>
+      <div class="button completed" v-if="item.progress === 100">
+        学习完成
+      </div>
+      <div class="button continue" v-else @click="goDetail(item)">
+        继续学习
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  props: ["list", "currenStatus"],
+  methods: {
+    goDetail(item) {
+      this.$router.push({
+        name: "coursesDetail",
+        query: {
+          id: item.id,
+        },
+      });
+    },
+  },
+};
+</script>
+<style lang="less" scoped>
+.box {
+  width: 100%;
+  height: 100%;
+  .item {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 30px;
+    .left-item {
+      width: 160px;
+      height: 120px;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      margin-right: 30px;
+      background: #f0f0f8;
+      .icon {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 66px;
+        height: 30px;
+        background: #ff4d4f;
+        border-radius: 4px 0px 4px 0px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #ffffff;
+        line-height: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .right-item {
+      flex: 1;
+      height: 120px;
+      margin-right: 30px;
+      .item-title {
+        width: 816px;
+        height: auto;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333333;
+        line-height: 16px;
+        margin-top: 30px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .item-info {
+        width: 816px;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        margin-top: 35px;
+        .item-text {
+          font-size: 14px;
+          font-weight: 400;
+          color: #666666;
+          line-height: 14px;
+          margin-right: 30px;
+        }
+        .item-progress {
+          font-size: 14px;
+          font-weight: 400;
+          color: #ff4d4f;
+          line-height: 14px;
+          margin-right: 30px;
+        }
+      }
+    }
+    .button {
+      width: 104px;
+      height: 46px;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 400;
+      color: #3ca7fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 37px;
+      &.completed {
+        background: #f4fafe;
+      }
+      &.continue {
+        border: 1px solid #3ca7fa;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
+</style>
