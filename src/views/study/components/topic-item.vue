@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="item" v-for="item in list" :key="item.id">
-      <div class="left-item">
+      <div class="left-item" v-if="item.topic">
         <thumb-bar
           :value="item.topic.thumb"
           :border="4"
@@ -10,7 +10,7 @@
         ></thumb-bar>
         <div class="icon" v-if="currenStatus === 2">已订阅</div>
       </div>
-      <div class="right-item">
+      <div class="right-item" v-if="item.topic">
         <div class="item-title">{{ item.topic.title }}</div>
         <div class="item-info">
           <div class="item-text" v-if="currenStatus === 2">
@@ -50,6 +50,9 @@ export default {
     display: flex;
     flex-direction: row;
     margin-bottom: 30px;
+    &:last-child {
+      margin-bottom: 0px;
+    }
     .left-item {
       width: 160px;
       height: 120px;
@@ -124,15 +127,15 @@ export default {
       align-items: center;
       justify-content: center;
       margin-top: 37px;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
       &.completed {
         background: #f4fafe;
       }
       &.continue {
         border: 1px solid #3ca7fa;
-        cursor: pointer;
-        &:hover {
-          opacity: 0.8;
-        }
       }
     }
   }

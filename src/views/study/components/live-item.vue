@@ -1,47 +1,107 @@
 <template>
   <div class="box">
-    <div class="item" v-for="item in list" :key="item.id">
-      <div class="left-item">
-        <thumb-bar
-          :value="item.thumb"
-          :border="4"
-          :width="160"
-          :height="120"
-        ></thumb-bar>
-        <div class="icon" v-if="currenStatus === 2">已订阅</div>
-      </div>
-      <div class="right-item">
-        <div class="item-title">{{ item.title }}</div>
-        <div class="item-info">
-          <div class="item-text">
-            已学课时：{{ item.user_count }}课时/共{{ item.videos_count }}课时
-          </div>
-          <div class="item-progress">
-            已结课
-          </div>
-          <div class="item-text" v-if="currenStatus === 2">
-            订阅时间：{{ item.created_at | changeTime }}
+    <template v-if="currenStatus === 3">
+      <div class="item" v-for="item in list" :key="item.id">
+        <div class="left-item">
+          <thumb-bar
+            :value="item.thumb"
+            :border="4"
+            :width="160"
+            :height="120"
+          ></thumb-bar>
+        </div>
+        <div class="right-item">
+          <div class="item-title">{{ item.title }}</div>
+          <div class="item-info">
+            <!--<div class="item-text">
+              已学课时：课时/共课时
+            </div>
+            <div class="item-progress">
+              已结课
+            </div>-->
+            <div class="item-text" v-if="item.created_at">
+              收藏时间：{{ item.created_at | changeTime }}
+            </div>
           </div>
         </div>
+        <div class="button completed" v-if="item.status === 2">
+          学习完成
+        </div>
+        <div class="button continue" v-else @click="goDetail(item.id)">
+          继续学习
+        </div>
       </div>
-      <div class="button completed" v-if="item.progress === 100">
-        学习完成
+    </template>
+    <template v-else>
+      <div class="item" v-for="item in list" :key="item.id">
+        <div class="left-item" v-if="item.course">
+          <thumb-bar
+            :value="item.course.thumb"
+            :border="4"
+            :width="160"
+            :height="120"
+          ></thumb-bar>
+          <div
+            class="icon"
+            v-if="currenStatus === 2 || item.is_subscribe === 1"
+          >
+            已订阅
+          </div>
+        </div>
+        <div class="right-item" v-if="item.course">
+          <div class="item-title">{{ item.course.title }}</div>
+          <div class="item-info">
+            <div class="item-text">
+              已学课时：{{ item.learned_count }}课时/共{{
+                item.course.videos_count
+              }}课时
+            </div>
+            <div class="item-progress" v-if="item.course.status === 2">
+              已结课
+            </div>
+            <div
+              class="item-text"
+              v-if="currenStatus === 2 || item.is_subscribe === 1"
+            >
+              订阅时间：{{ item.created_at | changeTime }}
+            </div>
+          </div>
+        </div>
+        <div
+          class="button completed"
+          v-if="item.course && item.course.status === 2"
+          @click="goDetail(item.course_id)"
+        >
+          学习完成
+        </div>
+        <div class="button continue" v-else @click="goPlay(item)">
+          继续学习
+        </div>
       </div>
-      <div class="button continue" v-else @click="goDetail(item)">
-        继续学习
-      </div>
-    </div>
+    </template>
   </div>
 </template>
 <script>
 export default {
   props: ["list", "currenStatus"],
   methods: {
-    goDetail(item) {
+    goPlay(item) {
+      let vid = item.video_id;
+      if (item.course && item.course.next_video.length !== 0) {
+        vid = item.course.next_video.id;
+      }
+      this.$router.push({
+        name: "liveVideo",
+        query: {
+          id: vid,
+        },
+      });
+    },
+    goDetail(id) {
       this.$router.push({
         name: "liveDetail",
         query: {
-          id: item.id,
+          id: id,
         },
       });
     },
@@ -59,6 +119,9 @@ export default {
     display: flex;
     flex-direction: row;
     margin-bottom: 30px;
+    &:last-child {
+      margin-bottom: 0px;
+    }
     .left-item {
       width: 160px;
       height: 120px;
@@ -133,15 +196,15 @@ export default {
       align-items: center;
       justify-content: center;
       margin-top: 37px;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
       &.completed {
         background: #f4fafe;
       }
       &.continue {
         border: 1px solid #3ca7fa;
-        cursor: pointer;
-        &:hover {
-          opacity: 0.8;
-        }
       }
     }
   }

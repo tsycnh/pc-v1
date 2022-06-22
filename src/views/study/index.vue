@@ -53,7 +53,7 @@
           ></book-item>
         </template>
         <none type="white" v-else></none>
-        <div id="page">
+        <div id="page" v-if="total > 10">
           <page-box
             :key="pagination.page"
             :page="pagination.page"
@@ -163,11 +163,23 @@ export default {
       let params = {};
 
       if (this.currenStatus === 1) {
-        Object.assign(params, this.pagination);
-        this.$api.Member.Courses(params).then((res) => {
-          this.list = res.data.data;
-          this.total = res.data.total;
-        });
+        if (this.current === "vod") {
+          Object.assign(params, this.pagination);
+          this.$api.Member.Courses(params).then((res) => {
+            this.list = res.data.data;
+            this.total = res.data.total;
+          });
+        } else if (this.current === "live") {
+          let pagination = {
+            page: this.pagination.page,
+            size: this.pagination.page_size,
+          };
+          Object.assign(params, pagination);
+          this.$api.Member.Learned.Live(params).then((res) => {
+            this.list = res.data.data;
+            this.total = res.data.total;
+          });
+        }
       } else if (this.currenStatus === 2) {
         if (this.current === "vod") {
           Object.assign(params, this.pagination);
@@ -176,12 +188,12 @@ export default {
             this.total = res.data.total;
           });
         } else if (this.current === "live") {
-          let filter = {
-            type: "live",
+          let pagination = {
+            page: this.pagination.page,
+            size: this.pagination.page_size,
           };
-          Object.assign(params, filter);
-          Object.assign(params, this.pagination);
-          this.$api.TemplateOne.User.Courses(params).then((res) => {
+          Object.assign(params, pagination);
+          this.$api.Member.LiveCourses(params).then((res) => {
             this.list = res.data.data;
             this.total = res.data.total;
           });
@@ -367,7 +379,7 @@ export default {
         display: flex;
         flex-direction: row;
         justify-content: center;
-        margin-top: 20px;
+        margin-top: 50px;
       }
       .item {
         width: 100%;

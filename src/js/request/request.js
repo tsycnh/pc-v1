@@ -310,6 +310,9 @@ const Api = {
     Videos(params) {
       return get("/api/v2/member/videos", params);
     },
+    LiveCourses(params) {
+      return get("/addons/zhibo/api/v1/member/courses", params);
+    },
     Collects(params) {
       return get("/api/v2/member/courses/like", params);
     },
@@ -321,6 +324,11 @@ const Api = {
     },
     CertList(params) {
       return get("/addons/Cert/api/v1/member/cert", params);
+    },
+    Learned: {
+      Live(params) {
+        return get("/addons/zhibo/api/v1/member/courses/learned", params);
+      },
     },
   },
   MultiLevelShare: {

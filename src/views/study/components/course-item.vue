@@ -58,6 +58,9 @@ export default {
     display: flex;
     flex-direction: row;
     margin-bottom: 30px;
+    &:last-child {
+      margin-bottom: 0px;
+    }
     .left-item {
       width: 160px;
       height: 120px;
@@ -132,15 +135,15 @@ export default {
       align-items: center;
       justify-content: center;
       margin-top: 37px;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
       &.completed {
         background: #f4fafe;
       }
       &.continue {
         border: 1px solid #3ca7fa;
-        cursor: pointer;
-        &:hover {
-          opacity: 0.8;
-        }
       }
     }
   }
