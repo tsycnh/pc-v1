@@ -24,11 +24,8 @@
             </div>
           </div>
         </div>
-        <div class="button completed" v-if="item.status === 2">
-          学习完成
-        </div>
-        <div class="button continue" v-else @click="goDetail(item.id)">
-          继续学习
+        <div class="button continue" @click="goDetail(item.id)">
+          详情
         </div>
       </div>
     </template>
