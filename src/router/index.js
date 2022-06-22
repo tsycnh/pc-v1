@@ -537,6 +537,7 @@ const routes = [
     name: "StudyCenter",
     meta: {
       title: "我的学习",
+      auth: true,
     },
     component: () => import("../views/study/index.vue"),
   },
