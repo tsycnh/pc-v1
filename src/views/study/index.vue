@@ -169,8 +169,12 @@ export default {
       this.loading = true;
       if (this.currenStatus === 1) {
         if (this.current === "vod") {
-          Object.assign(params, this.pagination);
-          this.$api.Member.Courses(params).then((res) => {
+          let pagination = {
+            page: this.pagination.page,
+            size: this.pagination.page_size,
+          };
+          Object.assign(params, pagination);
+          this.$api.Member.Learned.Courses(params).then((res) => {
             this.loading = false;
             this.list = res.data.data;
             this.total = res.data.total;
@@ -189,8 +193,12 @@ export default {
         }
       } else if (this.currenStatus === 2) {
         if (this.current === "vod") {
-          Object.assign(params, this.pagination);
-          this.$api.Member.Courses(params).then((res) => {
+          let pagination = {
+            page: this.pagination.page,
+            size: this.pagination.page_size,
+          };
+          Object.assign(params, pagination);
+          this.$api.Member.NewCourses(params).then((res) => {
             this.loading = false;
             this.list = res.data.data;
             this.total = res.data.total;
