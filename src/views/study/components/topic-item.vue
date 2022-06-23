@@ -13,7 +13,7 @@
       <div class="right-item" v-if="item.topic">
         <div class="item-title">{{ item.topic.title }}</div>
         <div class="item-info">
-          <div class="item-text" v-if="currenStatus === 2">
+          <div class="item-text" v-if="currenStatus === 2 && item.created_at">
             订阅时间：{{ item.created_at | changeTime }}
           </div>
         </div>

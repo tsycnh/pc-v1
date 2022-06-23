@@ -13,10 +13,10 @@
       <div class="right-item">
         <div class="item-title">{{ item.title }}</div>
         <div class="item-info">
-          <div class="item-text">
+          <div class="item-text" v-if="item.created_at">
             上一次浏览时间：{{ item.created_at | changeTime }}
           </div>
-          <div class="item-text" v-if="currenStatus === 2">
+          <div class="item-text" v-if="currenStatus === 2 && item.created_at">
             订阅时间：{{ item.created_at | changeTime }}
           </div>
         </div>

@@ -19,8 +19,8 @@
           <div class="item-progress">
             学习进度：100%
           </div>
-          <div class="item-text" v-if="currenStatus === 2">
-            订阅时间：{{ item.created_at | changeTime }}
+          <div class="item-text" v-if="currenStatus === 2 && item.published_at">
+            订阅时间：{{ item.published_at | changeTime }}
           </div>
         </div>
       </div>
