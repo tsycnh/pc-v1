@@ -60,7 +60,7 @@
               class="item-text"
               v-if="currenStatus === 2 || item.is_subscribe === 1"
             >
-              订阅时间：{{ item.created_at | changeTime }}
+              订阅时间：{{ item.updated_at | changeTime }}
             </div>
           </div>
         </div>
