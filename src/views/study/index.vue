@@ -30,7 +30,10 @@
         </div>
       </div>
       <div class="list-box">
-        <template v-if="list.length > 0">
+        <template v-if="loading">
+          <skeleton-study></skeleton-study>
+        </template>
+        <template v-else-if="list.length > 0">
           <course-item
             v-if="current === 'vod'"
             :list="list"
@@ -77,6 +80,7 @@ import CourseItem from "./components/course-item.vue";
 import LiveItem from "./components/live-item.vue";
 import TopicItem from "./components/topic-item.vue";
 import BookItem from "./components/book-item.vue";
+import SkeletonStudy from "../../components/skeleton/skeletonStudy.vue";
 export default {
   components: {
     NavFooter,
@@ -86,6 +90,7 @@ export default {
     LiveItem,
     TopicItem,
     BookItem,
+    SkeletonStudy,
   },
   data() {
     return {
@@ -161,11 +166,12 @@ export default {
     },
     getData() {
       let params = {};
-
+      this.loading = true;
       if (this.currenStatus === 1) {
         if (this.current === "vod") {
           Object.assign(params, this.pagination);
           this.$api.Member.Courses(params).then((res) => {
+            this.loading = false;
             this.list = res.data.data;
             this.total = res.data.total;
           });
@@ -176,6 +182,7 @@ export default {
           };
           Object.assign(params, pagination);
           this.$api.Member.Learned.Live(params).then((res) => {
+            this.loading = false;
             this.list = res.data.data;
             this.total = res.data.total;
           });
@@ -184,6 +191,7 @@ export default {
         if (this.current === "vod") {
           Object.assign(params, this.pagination);
           this.$api.Member.Courses(params).then((res) => {
+            this.loading = false;
             this.list = res.data.data;
             this.total = res.data.total;
           });
@@ -194,6 +202,7 @@ export default {
           };
           Object.assign(params, pagination);
           this.$api.Member.LiveCourses(params).then((res) => {
+            this.loading = false;
             this.list = res.data.data;
             this.total = res.data.total;
           });
@@ -204,6 +213,7 @@ export default {
           };
           Object.assign(params, pagination);
           this.$api.Topic.UserBuyTopics(params).then((res) => {
+            this.loading = false;
             this.list = res.data.data.data;
             this.total = res.data.data.total;
           });
@@ -214,6 +224,7 @@ export default {
           Object.assign(params, filter);
           Object.assign(params, this.pagination);
           this.$api.TemplateOne.User.Courses(params).then((res) => {
+            this.loading = false;
             this.list = res.data.data;
             this.total1 = res.data.total;
           });
@@ -222,6 +233,7 @@ export default {
         if (this.current === "vod") {
           Object.assign(params, this.pagination);
           this.$api.Member.Collects(params).then((res) => {
+            this.loading = false;
             this.list = res.data.data;
             this.total = res.data.total;
           });
@@ -232,6 +244,7 @@ export default {
           Object.assign(params, filter);
           Object.assign(params, this.pagination);
           this.$api.TemplateOne.LikeCourses(params).then((res) => {
+            this.loading = false;
             this.list = res.data.data;
             this.total = res.data.total;
           });
@@ -242,6 +255,7 @@ export default {
           };
           Object.assign(params, pagination);
           this.$api.Topic.LikeCourses(params).then((res) => {
+            this.loading = false;
             this.list = res.data.data.data;
             this.total = res.data.data.total;
           });
@@ -252,6 +266,7 @@ export default {
           Object.assign(params, filter);
           Object.assign(params, this.pagination);
           this.$api.TemplateOne.LikeCourses(params).then((res) => {
+            this.loading = false;
             this.list = res.data.data;
             this.total1 = res.data.total;
           });
