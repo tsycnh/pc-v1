@@ -61,9 +61,9 @@
                 class="item-progress"
                 v-if="item.course.next_video.length !== 0"
               >
-                下节直播课时间：{{
+                下节直播：{{ item.course.next_video.title }}({{
                   item.course.next_video.published_at | dateFormat
-                }}
+                }})
               </div>
             </div>
           </div>
