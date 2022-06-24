@@ -24,6 +24,30 @@
       </div>
       <div class="button"></div>
     </div>
+    <div class="item">
+      <div class="left-item"></div>
+      <div class="right-item">
+        <div class="item-title"></div>
+        <div class="item-info"></div>
+      </div>
+      <div class="button"></div>
+    </div>
+    <div class="item">
+      <div class="left-item"></div>
+      <div class="right-item">
+        <div class="item-title"></div>
+        <div class="item-info"></div>
+      </div>
+      <div class="button"></div>
+    </div>
+    <div class="item">
+      <div class="left-item"></div>
+      <div class="right-item">
+        <div class="item-title"></div>
+        <div class="item-info"></div>
+      </div>
+      <div class="button"></div>
+    </div>
   </div>
 </template>
 <style lang="less" scoped>
