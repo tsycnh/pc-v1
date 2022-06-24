@@ -493,6 +493,7 @@ const routes = [
     meta: {
       title: "我的学习",
       auth: true,
+      keepAlive: true,
     },
     component: () => import("../views/study/index.vue"),
   },

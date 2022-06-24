@@ -163,7 +163,7 @@ export default {
       return types;
     },
   },
-  mounted() {
+  activated() {
     this.getData();
   },
   methods: {
