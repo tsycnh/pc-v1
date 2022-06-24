@@ -30,53 +30,55 @@
       </div>
     </template>
     <template v-else>
-      <div class="item" v-for="item in list" :key="item.id">
-        <div class="left-item" v-if="item.course">
-          <thumb-bar
-            :value="item.course.thumb"
-            :border="4"
-            :width="160"
-            :height="120"
-          ></thumb-bar>
-          <div
-            class="icon"
-            v-if="currenStatus === 2 || item.is_subscribe === 1"
-          >
-            已订阅
-          </div>
-        </div>
-        <div class="right-item" v-if="item.course">
-          <div class="item-title">{{ item.course.title }}</div>
-          <div class="item-info">
-            <div class="item-text">
-              已学课时：{{ item.learned_count }}课时/共{{
-                item.course.videos_count
-              }}课时
-            </div>
-            <div class="item-progress" v-if="item.course.status === 2">
-              已结课
-            </div>
+      <template v-for="item in list">
+        <div class="item" v-if="item.course && item.course.id" :key="item.id">
+          <div class="left-item">
+            <thumb-bar
+              :value="item.course.thumb"
+              :border="4"
+              :width="160"
+              :height="120"
+            ></thumb-bar>
             <div
-              class="item-progress"
-              v-if="item.course.next_video.length !== 0"
+              class="icon"
+              v-if="currenStatus === 2 || item.is_subscribe === 1"
             >
-              下节直播课时间：{{
-                item.course.next_video.published_at | dateFormat
-              }}
+              已订阅
             </div>
           </div>
+          <div class="right-item">
+            <div class="item-title">{{ item.course.title }}</div>
+            <div class="item-info">
+              <div class="item-text">
+                已学课时：{{ item.learned_count }}课时/共{{
+                  item.course.videos_count
+                }}课时
+              </div>
+              <div class="item-progress" v-if="item.course.status === 2">
+                已结课
+              </div>
+              <div
+                class="item-progress"
+                v-if="item.course.next_video.length !== 0"
+              >
+                下节直播课时间：{{
+                  item.course.next_video.published_at | dateFormat
+                }}
+              </div>
+            </div>
+          </div>
+          <div
+            class="button completed"
+            v-if="item.course.status === 2"
+            @click="goDetail(item.course_id)"
+          >
+            观看回放
+          </div>
+          <div class="button continue" v-else @click="goPlay(item)">
+            继续学习
+          </div>
         </div>
-        <div
-          class="button completed"
-          v-if="item.course && item.course.status === 2"
-          @click="goDetail(item.course_id)"
-        >
-          观看回放
-        </div>
-        <div class="button continue" v-else @click="goPlay(item)">
-          继续学习
-        </div>
-      </div>
+      </template>
     </template>
   </div>
 </template>
