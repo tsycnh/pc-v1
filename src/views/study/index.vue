@@ -183,6 +183,9 @@ export default {
       this.getData();
     },
     getData() {
+      if (this.loading) {
+        return;
+      }
       this.loading = true;
       if (this.currenStatus === 2) {
         this.getUserCourses();
