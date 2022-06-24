@@ -121,6 +121,11 @@ export default {
   },
   watch: {
     currenStatus() {
+      this.resetData();
+      this.getData();
+    },
+    current() {
+      this.resetData();
       this.getData();
     },
   },
@@ -178,137 +183,150 @@ export default {
       this.getData();
     },
     getData() {
-      let params = {};
+      if (!this.isLogin) {
+        this.goLogin();
+        return;
+      }
       this.loading = true;
-      if (this.currenStatus === 1) {
-        if (this.current === "vod") {
-          let pagination = {
-            page: this.pagination.page,
-            size: this.pagination.page_size,
-          };
-          Object.assign(params, pagination);
-          this.$api.Member.Learned.Courses(params).then((res) => {
-            this.loading = false;
-            this.list = res.data.data;
-            this.total = res.data.total;
-          });
-        } else if (this.current === "live") {
-          let pagination = {
-            page: this.pagination.page,
-            size: this.pagination.page_size,
-          };
-          Object.assign(params, pagination);
-          this.$api.Member.Learned.Live(params).then((res) => {
-            this.loading = false;
-            this.list = res.data.data;
-            this.total = res.data.total;
-          });
-        } else if (this.current === "topic") {
-          let pagination = {
-            page: this.pagination.page,
-            size: this.pagination.page_size,
-          };
-          Object.assign(params, pagination);
-          this.$api.Member.Learned.Topic(params).then((res) => {
-            this.loading = false;
-            this.list = res.data.data;
-            this.total = res.data.total;
-          });
-        }
-      } else if (this.currenStatus === 2) {
-        if (this.current === "vod") {
-          let pagination = {
-            page: this.pagination.page,
-            size: this.pagination.page_size,
-          };
-          Object.assign(params, pagination);
-          this.$api.Member.NewCourses(params).then((res) => {
-            this.loading = false;
-            this.list = res.data.data;
-            this.total = res.data.total;
-          });
-        } else if (this.current === "live") {
-          let pagination = {
-            page: this.pagination.page,
-            size: this.pagination.page_size,
-          };
-          Object.assign(params, pagination);
-          this.$api.Member.LiveCourses(params).then((res) => {
-            this.loading = false;
-            this.list = res.data.data;
-            this.total = res.data.total;
-          });
-        } else if (this.current === "topic") {
-          let pagination = {
-            page: this.pagination.page,
-            size: this.pagination.page_size,
-          };
-          Object.assign(params, pagination);
-          this.$api.Topic.UserBuyTopics(params).then((res) => {
-            this.loading = false;
-            this.list = res.data.data.data;
-            this.total = res.data.data.total;
-          });
-        } else if (this.current === "book") {
-          let filter = {
-            type: "book",
-          };
-          Object.assign(params, filter);
-          Object.assign(params, this.pagination);
-          this.$api.TemplateOne.User.Courses(params).then((res) => {
-            this.loading = false;
-            this.list = res.data.data;
-            this.total1 = res.data.total;
-          });
-        }
+      if (this.currenStatus === 2) {
+        this.getUserCourses();
       } else if (this.currenStatus === 3) {
-        if (this.current === "vod") {
-          Object.assign(params, this.pagination);
-          this.$api.Member.Collects(params).then((res) => {
-            this.loading = false;
-            this.list = res.data.data;
-            this.total = res.data.total;
-          });
-        } else if (this.current === "live") {
-          let filter = {
-            type: "live",
-          };
-          Object.assign(params, filter);
-          Object.assign(params, this.pagination);
-          this.$api.TemplateOne.LikeCourses(params).then((res) => {
-            this.loading = false;
-            this.list = res.data.data;
-            this.total = res.data.total;
-          });
-        } else if (this.current === "topic") {
-          let pagination = {
-            page: this.pagination.page,
-            size: this.pagination.page_size,
-          };
-          Object.assign(params, pagination);
-          this.$api.Topic.LikeCourses(params).then((res) => {
-            this.loading = false;
-            this.list = res.data.data.data;
-            this.total = res.data.data.total;
-          });
-        } else if (this.current === "book") {
-          let filter = {
-            type: "book",
-          };
-          Object.assign(params, filter);
-          Object.assign(params, this.pagination);
-          this.$api.TemplateOne.LikeCourses(params).then((res) => {
-            this.loading = false;
-            this.list = res.data.data;
-            this.total1 = res.data.total;
-          });
-        }
+        this.getLikeCourses();
+      } else if (this.currenStatus === 1) {
+        this.getViewStudy();
+      }
+    },
+    getViewStudy() {
+      let params = {};
+      if (this.current === "vod") {
+        let pagination = {
+          page: this.pagination.page,
+          size: this.pagination.page_size,
+        };
+        Object.assign(params, pagination);
+        this.$api.Member.Learned.Courses(params).then((res) => {
+          this.loading = false;
+          this.list = res.data.data;
+          this.total = res.data.total;
+        });
+      } else if (this.current === "live") {
+        let pagination = {
+          page: this.pagination.page,
+          size: this.pagination.page_size,
+        };
+        Object.assign(params, pagination);
+        this.$api.Member.Learned.Live(params).then((res) => {
+          this.loading = false;
+          this.list = res.data.data;
+          this.total = res.data.total;
+        });
+      } else if (this.current === "topic") {
+        let pagination = {
+          page: this.pagination.page,
+          size: this.pagination.page_size,
+        };
+        Object.assign(params, pagination);
+        this.$api.Member.Learned.Topic(params).then((res) => {
+          this.loading = false;
+          this.list = res.data.data;
+          this.total = res.data.total;
+        });
+      }
+    },
+    getUserCourses() {
+      let params = {};
+      if (this.current === "vod") {
+        let pagination = {
+          page: this.pagination.page,
+          size: this.pagination.page_size,
+        };
+        Object.assign(params, pagination);
+        this.$api.Member.NewCourses(params).then((res) => {
+          this.loading = false;
+          this.list = res.data.data;
+          this.total = res.data.total;
+        });
+      } else if (this.current === "live") {
+        let pagination = {
+          page: this.pagination.page,
+          size: this.pagination.page_size,
+        };
+        Object.assign(params, pagination);
+        this.$api.Member.LiveCourses(params).then((res) => {
+          this.loading = false;
+          this.list = res.data.data;
+          this.total = res.data.total;
+        });
+      } else if (this.current === "topic") {
+        let pagination = {
+          page: this.pagination.page,
+          size: this.pagination.page_size,
+        };
+        Object.assign(params, pagination);
+        this.$api.Topic.UserBuyTopics(params).then((res) => {
+          this.loading = false;
+          this.list = res.data.data.data;
+          this.total = res.data.data.total;
+        });
+      } else if (this.current === "book") {
+        let filter = {
+          type: "book",
+        };
+        Object.assign(params, filter);
+        Object.assign(params, this.pagination);
+        this.$api.TemplateOne.User.Courses(params).then((res) => {
+          this.loading = false;
+          this.list = res.data.data;
+          this.total1 = res.data.total;
+        });
+      }
+    },
+    getLikeCourses() {
+      let params = {};
+      if (this.current === "vod") {
+        Object.assign(params, this.pagination);
+        this.$api.Member.Collects(params).then((res) => {
+          this.loading = false;
+          this.list = res.data.data;
+          this.total = res.data.total;
+        });
+      } else if (this.current === "live") {
+        let filter = {
+          type: "live",
+        };
+        Object.assign(params, filter);
+        Object.assign(params, this.pagination);
+        this.$api.TemplateOne.LikeCourses(params).then((res) => {
+          this.loading = false;
+          this.list = res.data.data;
+          this.total = res.data.total;
+        });
+      } else if (this.current === "topic") {
+        let pagination = {
+          page: this.pagination.page,
+          size: this.pagination.page_size,
+        };
+        Object.assign(params, pagination);
+        this.$api.Topic.LikeCourses(params).then((res) => {
+          this.loading = false;
+          this.list = res.data.data.data;
+          this.total = res.data.data.total;
+        });
+      } else if (this.current === "book") {
+        let filter = {
+          type: "book",
+        };
+        Object.assign(params, filter);
+        Object.assign(params, this.pagination);
+        this.$api.TemplateOne.LikeCourses(params).then((res) => {
+          this.loading = false;
+          this.list = res.data.data;
+          this.total1 = res.data.total;
+        });
       }
     },
     setCurrent(tab) {
       this.current = tab.value;
-      this.currenStatus = 1;
-      this.getData();
     },
   },
 };
