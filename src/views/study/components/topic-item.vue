@@ -1,27 +1,40 @@
 <template>
   <div class="box">
-    <div class="item" v-for="item in list" :key="item.id">
-      <div class="left-item" v-if="item.topic">
-        <thumb-bar
-          :value="item.topic.thumb"
-          :border="4"
-          :width="160"
-          :height="120"
-        ></thumb-bar>
-        <div class="icon" v-if="currenStatus === 2">已订阅</div>
-      </div>
-      <div class="right-item" v-if="item.topic">
-        <div class="item-title">{{ item.topic.title }}</div>
-        <div class="item-info">
-          <div class="item-text" v-if="currenStatus === 2 && item.created_at">
-            订阅时间：{{ item.created_at | changeTime }}
+    <template v-for="item in list">
+      <div class="item" v-if="item.topic && item.topic.id" :key="item.id">
+        <div class="left-item">
+          <thumb-bar
+            :value="item.topic.thumb"
+            :border="4"
+            :width="160"
+            :height="120"
+          ></thumb-bar>
+          <div
+            class="icon"
+            v-if="currenStatus === 2 || item.is_subscribe === 1"
+          >
+            已订阅
           </div>
         </div>
+        <div class="right-item">
+          <div class="item-title">{{ item.topic.title }}</div>
+          <div class="item-info">
+            <div class="item-text" v-if="currenStatus === 1 && item.created_at">
+              上次浏览时间：{{ item.created_at | changeTime }}
+            </div>
+            <div
+              class="item-text"
+              v-else-if="currenStatus === 2 && item.created_at"
+            >
+              订阅时间：{{ item.created_at | changeTime }}
+            </div>
+          </div>
+        </div>
+        <div class="button continue" @click="goDetail(item)">
+          立即查看
+        </div>
       </div>
-      <div class="button continue" @click="goDetail(item)">
-        立即查看
-      </div>
-    </div>
+    </template>
   </div>
 </template>
 <script>

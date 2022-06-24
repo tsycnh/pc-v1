@@ -335,6 +335,9 @@ const Api = {
       Live(params) {
         return get("/addons/zhibo/api/v1/member/courses/learned", params);
       },
+      Topic(params) {
+        return get("/addons/MeeduTopics/api/v2/member/topics/view", params);
+      },
     },
   },
   MultiLevelShare: {

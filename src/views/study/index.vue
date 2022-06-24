@@ -190,6 +190,17 @@ export default {
             this.list = res.data.data;
             this.total = res.data.total;
           });
+        } else if (this.current === "topic") {
+          let pagination = {
+            page: this.pagination.page,
+            size: this.pagination.page_size,
+          };
+          Object.assign(params, pagination);
+          this.$api.Member.Learned.Topic(params).then((res) => {
+            this.loading = false;
+            this.list = res.data.data;
+            this.total = res.data.total;
+          });
         }
       } else if (this.currenStatus === 2) {
         if (this.current === "vod") {
