@@ -62,7 +62,7 @@
             :page="pagination.page"
             :totals="total"
             @current-change="changepage"
-            :pageSize="pagination.page_size"
+            :pageSize="pagination.size"
             :tab="false"
           ></page-box>
         </div>
@@ -99,7 +99,7 @@ export default {
       total: null,
       pagination: {
         page: 1,
-        page_size: 10,
+        size: 10,
       },
       current: "vod",
       currenStatus: 1,
@@ -174,19 +174,15 @@ export default {
     },
     resetData() {
       this.list = [];
-      this.pagination.page_size = 10;
+      this.pagination.size = 10;
       this.pagination.page = 1;
     },
     changepage(item) {
-      this.pagination.page_size = item.pageSize;
+      this.pagination.size = item.pageSize;
       this.pagination.page = item.currentPage;
       this.getData();
     },
     getData() {
-      if (!this.isLogin) {
-        this.goLogin();
-        return;
-      }
       this.loading = true;
       if (this.currenStatus === 2) {
         this.getUserCourses();
@@ -197,36 +193,20 @@ export default {
       }
     },
     getViewStudy() {
-      let params = {};
       if (this.current === "vod") {
-        let pagination = {
-          page: this.pagination.page,
-          size: this.pagination.page_size,
-        };
-        Object.assign(params, pagination);
-        this.$api.Member.Learned.Courses(params).then((res) => {
+        this.$api.Member.Learned.Courses(this.pagination).then((res) => {
           this.loading = false;
           this.list = res.data.data;
           this.total = res.data.total;
         });
       } else if (this.current === "live") {
-        let pagination = {
-          page: this.pagination.page,
-          size: this.pagination.page_size,
-        };
-        Object.assign(params, pagination);
-        this.$api.Member.Learned.Live(params).then((res) => {
+        this.$api.Member.Learned.Live(this.pagination).then((res) => {
           this.loading = false;
           this.list = res.data.data;
           this.total = res.data.total;
         });
       } else if (this.current === "topic") {
-        let pagination = {
-          page: this.pagination.page,
-          size: this.pagination.page_size,
-        };
-        Object.assign(params, pagination);
-        this.$api.Member.Learned.Topic(params).then((res) => {
+        this.$api.Member.Learned.Topic(this.pagination).then((res) => {
           this.loading = false;
           this.list = res.data.data;
           this.total = res.data.total;
@@ -236,34 +216,19 @@ export default {
     getUserCourses() {
       let params = {};
       if (this.current === "vod") {
-        let pagination = {
-          page: this.pagination.page,
-          size: this.pagination.page_size,
-        };
-        Object.assign(params, pagination);
-        this.$api.Member.NewCourses(params).then((res) => {
+        this.$api.Member.NewCourses(this.pagination).then((res) => {
           this.loading = false;
           this.list = res.data.data;
           this.total = res.data.total;
         });
       } else if (this.current === "live") {
-        let pagination = {
-          page: this.pagination.page,
-          size: this.pagination.page_size,
-        };
-        Object.assign(params, pagination);
-        this.$api.Member.LiveCourses(params).then((res) => {
+        this.$api.Member.LiveCourses(this.pagination).then((res) => {
           this.loading = false;
           this.list = res.data.data;
           this.total = res.data.total;
         });
       } else if (this.current === "topic") {
-        let pagination = {
-          page: this.pagination.page,
-          size: this.pagination.page_size,
-        };
-        Object.assign(params, pagination);
-        this.$api.Topic.UserBuyTopics(params).then((res) => {
+        this.$api.Topic.UserBuyTopics(this.pagination).then((res) => {
           this.loading = false;
           this.list = res.data.data.data;
           this.total = res.data.data.total;
@@ -277,15 +242,14 @@ export default {
         this.$api.TemplateOne.User.Courses(params).then((res) => {
           this.loading = false;
           this.list = res.data.data;
-          this.total1 = res.data.total;
+          this.total = res.data.total;
         });
       }
     },
     getLikeCourses() {
       let params = {};
       if (this.current === "vod") {
-        Object.assign(params, this.pagination);
-        this.$api.Member.Collects(params).then((res) => {
+        this.$api.Member.Collects(this.pagination).then((res) => {
           this.loading = false;
           this.list = res.data.data;
           this.total = res.data.total;
@@ -302,12 +266,7 @@ export default {
           this.total = res.data.total;
         });
       } else if (this.current === "topic") {
-        let pagination = {
-          page: this.pagination.page,
-          size: this.pagination.page_size,
-        };
-        Object.assign(params, pagination);
-        this.$api.Topic.LikeCourses(params).then((res) => {
+        this.$api.Topic.LikeCourses(this.pagination).then((res) => {
           this.loading = false;
           this.list = res.data.data.data;
           this.total = res.data.data.total;
@@ -321,7 +280,7 @@ export default {
         this.$api.TemplateOne.LikeCourses(params).then((res) => {
           this.loading = false;
           this.list = res.data.data;
-          this.total1 = res.data.total;
+          this.total = res.data.total;
         });
       }
     },
