@@ -103,24 +103,6 @@ export default {
       },
       current: "vod",
       currenStatus: 1,
-      tabs: [
-        {
-          name: "录播课",
-          value: "vod",
-        },
-        {
-          name: "直播课",
-          value: "live",
-        },
-        {
-          name: "图文",
-          value: "topic",
-        },
-        {
-          name: "电子书",
-          value: "book",
-        },
-      ],
       status: [
         {
           name: "在学",
@@ -143,7 +125,38 @@ export default {
     },
   },
   computed: {
-    ...mapState(["isLogin", "user"]),
+    ...mapState(["isLogin", "user", "configFunc"]),
+    tabs() {
+      let types = [
+        {
+          name: "录播课",
+          value: "vod",
+        },
+      ];
+
+      if (this.configFunc["live"]) {
+        types.push({
+          name: "直播课",
+          value: "live",
+        });
+      }
+
+      if (this.configFunc["topic"]) {
+        types.push({
+          name: "图文",
+          value: "topic",
+        });
+      }
+
+      if (this.configFunc["book"]) {
+        types.push({
+          name: "电子书",
+          value: "book",
+        });
+      }
+
+      return types;
+    },
   },
   mounted() {
     this.getData();
