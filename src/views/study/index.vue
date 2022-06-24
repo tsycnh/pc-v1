@@ -220,7 +220,6 @@ export default {
       }
     },
     getUserCourses() {
-      let params = {};
       if (this.current === "vod") {
         this.$api.Member.NewCourses(this.pagination).then((res) => {
           this.loading = false;
@@ -240,12 +239,7 @@ export default {
           this.total = res.data.data.total;
         });
       } else if (this.current === "book") {
-        let filter = {
-          type: "book",
-        };
-        Object.assign(params, filter);
-        Object.assign(params, this.pagination);
-        this.$api.TemplateOne.User.Courses(params).then((res) => {
+        this.$api.Member.BookCourses(this.pagination).then((res) => {
           this.loading = false;
           this.list = res.data.data;
           this.total = res.data.total;

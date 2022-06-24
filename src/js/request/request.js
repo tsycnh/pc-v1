@@ -316,6 +316,9 @@ const Api = {
     LiveCourses(params) {
       return get("/addons/zhibo/api/v1/member/courses", params);
     },
+    BookCourses(params) {
+      return get("/addons/MeeduBooks/api/v2/member/books", params);
+    },
     Collects(params) {
       return get("/api/v2/member/courses/like", params);
     },

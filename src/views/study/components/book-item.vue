@@ -26,6 +26,45 @@
         </div>
       </template>
     </template>
+    <template v-else-if="currenStatus === 2">
+      <template v-for="item in list">
+        <div class="item" v-if="item.book && item.book.id" :key="item.id">
+          <div class="left-item">
+            <thumb-bar
+              :value="item.book.thumb"
+              :border="4"
+              :width="90"
+              :height="120"
+            ></thumb-bar>
+            <div class="icon">已订阅</div>
+          </div>
+          <div class="right-item">
+            <div class="item-title">{{ item.book.name }}</div>
+            <div class="item-info">
+              <div
+                class="item-text"
+                v-if="item.last_view.length === 0 && item.created_at"
+              >
+                订阅时间：{{ item.created_at | changeTime }}
+              </div>
+              <div class="item-text" v-else>
+                上一次浏览时间：{{ item.last_view.created_at | changeTime }}
+              </div>
+            </div>
+          </div>
+          <div
+            class="button continue"
+            v-if="item.last_view.length === 0"
+            @click="goDetail(item.book_id)"
+          >
+            继续学习
+          </div>
+          <div class="button continue" v-else @click="goRead(item.last_view)">
+            继续学习
+          </div>
+        </div>
+      </template>
+    </template>
     <template v-else>
       <div class="item" v-for="item in list" :key="item.id">
         <div class="left-item">
@@ -43,12 +82,9 @@
             <div class="item-text" v-if="item.created_at">
               上一次浏览时间：{{ item.created_at | changeTime }}
             </div>
-            <div class="item-text" v-if="currenStatus === 2 && item.created_at">
-              订阅时间：{{ item.created_at | changeTime }}
-            </div>
           </div>
         </div>
-        <div class="button continue" @click="goDetail(item)">
+        <div class="button continue" @click="goDetail(item.id)">
           继续学习
         </div>
       </div>
@@ -67,11 +103,11 @@ export default {
         },
       });
     },
-    goDetail(item) {
+    goDetail(id) {
       this.$router.push({
         name: "bookDetail",
         query: {
-          id: item.id,
+          id: id,
         },
       });
     },
