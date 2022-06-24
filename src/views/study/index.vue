@@ -25,7 +25,7 @@
               :value="radio.value"
               v-model="currenStatus"
             />
-            <label>{{ radio.name }}</label>
+            <label @click="currenStatus = radio.value">{{ radio.name }}</label>
           </div>
         </div>
       </div>
@@ -387,6 +387,7 @@ export default {
             color: #666666;
             line-height: 14px;
             margin-right: 30px;
+            cursor: pointer;
           }
         }
       }
