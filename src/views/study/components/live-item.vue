@@ -69,7 +69,7 @@
           v-if="item.course && item.course.status === 2"
           @click="goDetail(item.course_id)"
         >
-          学习完成
+          观看回放
         </div>
         <div class="button continue" v-else @click="goPlay(item)">
           继续学习
