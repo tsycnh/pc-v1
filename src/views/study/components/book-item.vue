@@ -1,36 +1,72 @@
 <template>
   <div class="box">
-    <div class="item" v-for="item in list" :key="item.id">
-      <div class="left-item">
-        <thumb-bar
-          :value="item.thumb"
-          :border="4"
-          :width="90"
-          :height="120"
-        ></thumb-bar>
-        <div class="icon" v-if="currenStatus === 2">已订阅</div>
-      </div>
-      <div class="right-item">
-        <div class="item-title">{{ item.title }}</div>
-        <div class="item-info">
-          <div class="item-text" v-if="item.created_at">
-            上一次浏览时间：{{ item.created_at | changeTime }}
+    <template v-if="currenStatus === 1">
+      <template v-for="item in list">
+        <div class="item" v-if="item.book && item.book.id" :key="item.id">
+          <div class="left-item">
+            <thumb-bar
+              :value="item.book.thumb"
+              :border="4"
+              :width="90"
+              :height="120"
+            ></thumb-bar>
+            <div class="icon" v-if="item.is_subscribe === 1">已订阅</div>
           </div>
-          <div class="item-text" v-if="currenStatus === 2 && item.created_at">
-            订阅时间：{{ item.created_at | changeTime }}
+          <div class="right-item">
+            <div class="item-title">{{ item.book.name }}</div>
+            <div class="item-info">
+              <div class="item-text" v-if="item.created_at">
+                上一次浏览时间：{{ item.created_at | changeTime }}
+              </div>
+            </div>
+          </div>
+          <div class="button continue" @click="goRead(item)">
+            继续学习
           </div>
         </div>
+      </template>
+    </template>
+    <template v-else>
+      <div class="item" v-for="item in list" :key="item.id">
+        <div class="left-item">
+          <thumb-bar
+            :value="item.thumb"
+            :border="4"
+            :width="90"
+            :height="120"
+          ></thumb-bar>
+          <div class="icon" v-if="currenStatus === 2">已订阅</div>
+        </div>
+        <div class="right-item">
+          <div class="item-title">{{ item.title }}</div>
+          <div class="item-info">
+            <div class="item-text" v-if="item.created_at">
+              上一次浏览时间：{{ item.created_at | changeTime }}
+            </div>
+            <div class="item-text" v-if="currenStatus === 2 && item.created_at">
+              订阅时间：{{ item.created_at | changeTime }}
+            </div>
+          </div>
+        </div>
+        <div class="button continue" @click="goDetail(item)">
+          继续学习
+        </div>
       </div>
-      <div class="button continue" @click="goDetail(item)">
-        继续学习
-      </div>
-    </div>
+    </template>
   </div>
 </template>
 <script>
 export default {
   props: ["list", "currenStatus"],
   methods: {
+    goRead(item) {
+      this.$router.push({
+        name: "bookRead",
+        query: {
+          id: item.article_id,
+        },
+      });
+    },
     goDetail(item) {
       this.$router.push({
         name: "bookDetail",

@@ -211,6 +211,12 @@ export default {
           this.list = res.data.data;
           this.total = res.data.total;
         });
+      } else if (this.current === "book") {
+        this.$api.Member.Learned.Book(this.pagination).then((res) => {
+          this.loading = false;
+          this.list = res.data.data;
+          this.total = res.data.total;
+        });
       }
     },
     getUserCourses() {

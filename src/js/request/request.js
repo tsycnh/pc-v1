@@ -338,6 +338,9 @@ const Api = {
       Topic(params) {
         return get("/addons/MeeduTopics/api/v2/member/topics/view", params);
       },
+      Book(params) {
+        return get("/addons/MeeduBooks/api/v2/member/book/view", params);
+      },
     },
   },
   MultiLevelShare: {
