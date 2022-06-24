@@ -52,9 +52,6 @@
               <div class="item-progress">
                 学习进度：{{ item.watch_record.progress || 0 }}%
               </div>
-              <div class="item-text" v-if="item.created_at">
-                订阅时间：{{ item.created_at | changeTime }}
-              </div>
             </div>
           </div>
           <div
@@ -91,12 +88,6 @@
                 }}课时
               </div>
               <div class="item-progress">学习进度：{{ item.progress }}%</div>
-              <div
-                class="item-text"
-                v-if="item.is_subscribe === 1 && item.created_at"
-              >
-                订阅时间：{{ item.created_at | changeTime }}
-              </div>
             </div>
           </div>
           <div
