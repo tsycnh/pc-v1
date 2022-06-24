@@ -56,11 +56,16 @@
             <div class="item-progress" v-if="item.course.status === 2">
               已结课
             </div>
-            <div
-              class="item-text"
-              v-if="currenStatus === 2 || item.is_subscribe === 1"
-            >
+            <div class="item-text" v-if="currenStatus === 2">
               订阅时间：{{ item.updated_at | changeTime }}
+            </div>
+            <div
+              class="item-progress"
+              v-else-if="item.course.next_video.length !== 0"
+            >
+              下节直播课时间：{{
+                item.course.next_video.published_at | dateFormat
+              }}
             </div>
           </div>
         </div>
