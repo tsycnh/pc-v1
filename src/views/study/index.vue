@@ -146,17 +146,17 @@ export default {
         });
       }
 
-      if (this.configFunc["topic"]) {
-        types.push({
-          name: "图文",
-          value: "topic",
-        });
-      }
-
       if (this.configFunc["book"]) {
         types.push({
           name: "电子书",
           value: "book",
+        });
+      }
+
+      if (this.configFunc["topic"]) {
+        types.push({
+          name: "图文",
+          value: "topic",
         });
       }
 
