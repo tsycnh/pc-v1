@@ -85,7 +85,7 @@
           </div>
         </div>
         <div class="button continue" @click="goDetail(item.id)">
-          继续学习
+          详情
         </div>
       </div>
     </template>
