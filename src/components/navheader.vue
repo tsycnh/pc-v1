@@ -69,8 +69,7 @@
                 ></div>
               </a>-->
               <a
-                v-if="isLogin"
-                @click="$router.push({ name: 'StudyCenter' })"
+                @click="goStudy()"
                 style="opacitiy: 0.8"
                 class="relative rounded mr-12 text-gray-500 text-center hover:text-gray-900"
               >
@@ -330,6 +329,13 @@ export default {
         return;
       }
       this.$router.push({ path: "/share" });
+    },
+    goStudy() {
+      if (!this.isLogin) {
+        this.goLogin();
+        return;
+      }
+      this.$router.push({ name: "StudyCenter" });
     },
   },
 };
