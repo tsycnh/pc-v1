@@ -45,7 +45,7 @@
                 class="item-text"
                 v-if="item.last_view.length === 0 && item.created_at"
               >
-                订阅时间：{{ item.created_at | changeTime }}
+                订阅时间：{{ item.created_at | dateFormat }}
               </div>
               <div class="item-text" v-else>
                 上一次浏览时间：{{ item.last_view.created_at | changeTime }}

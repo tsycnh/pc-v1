@@ -26,7 +26,7 @@
               class="item-text"
               v-else-if="currenStatus === 2 && item.created_at"
             >
-              订阅时间：{{ item.created_at | changeTime }}
+              订阅时间：{{ item.created_at | dateFormat }}
             </div>
           </div>
         </div>
