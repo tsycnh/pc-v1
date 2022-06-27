@@ -610,7 +610,7 @@ export default {
     countDown() {
       this.clock = window.setInterval(() => {
         this.totalTime--;
-        if (this.totalTime == 0) {
+        if (this.totalTime === 0) {
           window.clearInterval(this.clock);
           this.goNextVideo(this.lastVideoid);
         }
