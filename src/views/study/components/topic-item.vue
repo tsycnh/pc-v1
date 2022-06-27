@@ -20,7 +20,7 @@
           <div class="item-title">{{ item.topic.title }}</div>
           <div class="item-info">
             <div class="item-text" v-if="currenStatus === 1 && item.created_at">
-              上次浏览时间：{{ item.created_at | changeTime }}
+              上次浏览：{{ item.created_at | changeTime }}
             </div>
             <div
               class="item-text"
