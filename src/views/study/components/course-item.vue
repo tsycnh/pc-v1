@@ -51,15 +51,8 @@
               </div>
             </div>
           </div>
-          <div
-            class="button completed"
-            v-if="item.watch_record.is_watched === 1"
-            @click="goDetail(item.course_id)"
-          >
-            学习完成
-          </div>
-          <div class="button continue" v-else @click="goDetail(item.course_id)">
-            继续学习
+          <div class="button continue" @click="goDetail(item.course_id)">
+            详情
           </div>
         </div>
       </template>

@@ -52,15 +52,8 @@
               </div>
             </div>
           </div>
-          <div
-            class="button continue"
-            v-if="item.last_view.length === 0"
-            @click="goDetail(item.book_id)"
-          >
-            继续学习
-          </div>
-          <div class="button continue" v-else @click="goRead(item.last_view)">
-            继续学习
+          <div class="button continue" @click="goDetail(item.book_id)">
+            详情
           </div>
         </div>
       </template>
