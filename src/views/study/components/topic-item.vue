@@ -28,6 +28,12 @@
             >
               订阅时间：{{ item.created_at | dateFormat }}
             </div>
+            <div
+              class="item-text"
+              v-else-if="currenStatus === 3 && item.created_at"
+            >
+              收藏时间：{{ item.created_at | dateFormat }}
+            </div>
           </div>
         </div>
         <div class="button continue" @click="goDetail(item)">

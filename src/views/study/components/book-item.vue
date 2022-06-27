@@ -16,7 +16,7 @@
             <div class="item-title">{{ item.book.name }}</div>
             <div class="item-info">
               <div class="item-text" v-if="item.created_at">
-                上一次浏览时间：{{ item.created_at | changeTime }}
+                上次浏览：{{ item.created_at | changeTime }}
               </div>
             </div>
           </div>
@@ -48,7 +48,7 @@
                 订阅时间：{{ item.created_at | dateFormat }}
               </div>
               <div class="item-text" v-else>
-                上一次浏览时间：{{ item.last_view.created_at | changeTime }}
+                上次浏览：{{ item.last_view.created_at | changeTime }}
               </div>
             </div>
           </div>
@@ -73,7 +73,7 @@
           <div class="item-title">{{ item.title }}</div>
           <div class="item-info">
             <div class="item-text" v-if="item.created_at">
-              上一次浏览时间：{{ item.created_at | changeTime }}
+              收藏时间：{{ item.created_at | dateFormat }}
             </div>
           </div>
         </div>

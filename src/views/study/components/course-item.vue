@@ -17,7 +17,7 @@
               已学课时：{{ item.user_count }}课时/共{{ item.videos_count }}课时
             </div>
             <div class="item-text" v-if="item.published_at">
-              收藏时间：{{ item.published_at | changeTime }}
+              收藏时间：{{ item.published_at | dateFormat }}
             </div>
           </div>
         </div>

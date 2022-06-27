@@ -14,7 +14,7 @@
           <div class="item-title">{{ item.title }}</div>
           <div class="item-info">
             <div class="item-text" v-if="item.created_at">
-              收藏时间：{{ item.created_at | changeTime }}
+              收藏时间：{{ item.created_at | dateFormat }}
             </div>
           </div>
         </div>
