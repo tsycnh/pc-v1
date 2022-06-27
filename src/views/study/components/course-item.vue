@@ -91,7 +91,7 @@
           >
             学习完成
           </div>
-          <div class="button continue" v-else @click="goDetail(item.course_id)">
+          <div class="button continue" v-else @click="goPlay(item)">
             继续学习
           </div>
         </div>
@@ -103,6 +103,24 @@
 export default {
   props: ["list", "currenStatus"],
   methods: {
+    goPlay(item) {
+      if (item.last_view_video.length !== 0) {
+        let vid = item.last_view_video.video_id;
+        this.$router.push({
+          name: "coursesVideo",
+          query: {
+            id: vid,
+          },
+        });
+      } else {
+        this.$router.push({
+          name: "coursesDetail",
+          query: {
+            id: item.course_id,
+          },
+        });
+      }
+    },
     goDetail(id) {
       this.$router.push({
         name: "coursesDetail",
