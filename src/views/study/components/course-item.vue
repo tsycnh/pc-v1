@@ -113,12 +113,7 @@ export default {
           },
         });
       } else {
-        this.$router.push({
-          name: "coursesDetail",
-          query: {
-            id: item.course_id,
-          },
-        });
+        this.goDetail(item.course_id);
       }
     },
     goDetail(id) {
