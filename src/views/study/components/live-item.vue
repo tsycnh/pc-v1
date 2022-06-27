@@ -13,12 +13,6 @@
         <div class="right-item">
           <div class="item-title">{{ item.title }}</div>
           <div class="item-info">
-            <!--<div class="item-text">
-              已学课时：课时/共课时
-            </div>
-            <div class="item-progress">
-              已结课
-            </div>-->
             <div class="item-text" v-if="item.created_at">
               收藏时间：{{ item.created_at | changeTime }}
             </div>
