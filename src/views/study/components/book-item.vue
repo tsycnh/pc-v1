@@ -16,7 +16,7 @@
             <div class="item-title">{{ item.book.name }}</div>
             <div class="item-info">
               <div class="item-text" v-if="item.created_at">
-                上一次浏览时间：{{ item.created_at | changeTime }}
+                上次浏览：{{ item.created_at | changeTime }}
               </div>
             </div>
           </div>
@@ -48,19 +48,12 @@
                 订阅时间：{{ item.created_at | dateFormat }}
               </div>
               <div class="item-text" v-else>
-                上一次浏览时间：{{ item.last_view.created_at | changeTime }}
+                上次浏览：{{ item.last_view.created_at | changeTime }}
               </div>
             </div>
           </div>
-          <div
-            class="button continue"
-            v-if="item.last_view.length === 0"
-            @click="goDetail(item.book_id)"
-          >
-            继续学习
-          </div>
-          <div class="button continue" v-else @click="goRead(item.last_view)">
-            继续学习
+          <div class="button continue" @click="goDetail(item.book_id)">
+            详情
           </div>
         </div>
       </template>
@@ -80,7 +73,7 @@
           <div class="item-title">{{ item.title }}</div>
           <div class="item-info">
             <div class="item-text" v-if="item.created_at">
-              上一次浏览时间：{{ item.created_at | changeTime }}
+              收藏时间：{{ item.created_at | dateFormat }}
             </div>
           </div>
         </div>

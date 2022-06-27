@@ -14,7 +14,7 @@
           <div class="item-title">{{ item.title }}</div>
           <div class="item-info">
             <div class="item-text" v-if="item.created_at">
-              收藏时间：{{ item.created_at | changeTime }}
+              收藏时间：{{ item.created_at | dateFormat }}
             </div>
           </div>
         </div>
@@ -61,16 +61,23 @@
               </div>
             </div>
           </div>
-          <div
-            class="button completed"
-            v-if="item.course.status === 2"
-            @click="goDetail(item.course_id)"
-          >
-            观看回放
-          </div>
-          <div class="button continue" v-else @click="goPlay(item)">
-            继续学习
-          </div>
+          <template v-if="currenStatus === 2">
+            <div class="button continue" @click="goDetail(item.course_id)">
+              详情
+            </div>
+          </template>
+          <template v-else>
+            <div
+              class="button completed"
+              v-if="item.course.status === 2"
+              @click="goDetail(item.course_id)"
+            >
+              观看回放
+            </div>
+            <div class="button continue" v-else @click="goPlay(item)">
+              继续学习
+            </div>
+          </template>
         </div>
       </template>
     </template>

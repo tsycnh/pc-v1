@@ -1,30 +1,34 @@
 <template>
   <div class="box">
     <template v-if="currenStatus === 3">
-      <div class="item" v-for="item in list" :key="item.id">
-        <div class="left-item">
-          <thumb-bar
-            :value="item.thumb"
-            :border="4"
-            :width="160"
-            :height="120"
-          ></thumb-bar>
-        </div>
-        <div class="right-item">
-          <div class="item-title">{{ item.title }}</div>
-          <div class="item-info">
-            <div class="item-text">
-              已学课时：{{ item.user_count }}课时/共{{ item.videos_count }}课时
-            </div>
-            <div class="item-text" v-if="item.published_at">
-              收藏时间：{{ item.published_at | changeTime }}
+      <template v-for="item in list">
+        <div class="item" v-if="item.course && item.course.id" :key="item.id">
+          <div class="left-item">
+            <thumb-bar
+              :value="item.course.thumb"
+              :border="4"
+              :width="160"
+              :height="120"
+            ></thumb-bar>
+          </div>
+          <div class="right-item">
+            <div class="item-title">{{ item.course.title }}</div>
+            <div class="item-info">
+              <div class="item-text">
+                已学课时：{{ item.learned_count }}课时/共{{
+                  item.course.videos_count
+                }}课时
+              </div>
+              <div class="item-text" v-if="item.created_at">
+                收藏时间：{{ item.created_at | dateFormat }}
+              </div>
             </div>
           </div>
+          <div class="button continue" @click="goDetail(item.course_id)">
+            详情
+          </div>
         </div>
-        <div class="button continue" @click="goDetail(item.id)">
-          详情
-        </div>
-      </div>
+      </template>
     </template>
     <template v-else-if="currenStatus === 2">
       <template v-for="item in list">
@@ -51,15 +55,8 @@
               </div>
             </div>
           </div>
-          <div
-            class="button completed"
-            v-if="item.watch_record.is_watched === 1"
-            @click="goDetail(item.course_id)"
-          >
-            学习完成
-          </div>
-          <div class="button continue" v-else @click="goDetail(item.course_id)">
-            继续学习
+          <div class="button continue" @click="goDetail(item.course_id)">
+            详情
           </div>
         </div>
       </template>
@@ -94,7 +91,7 @@
           >
             学习完成
           </div>
-          <div class="button continue" v-else @click="goDetail(item.course_id)">
+          <div class="button continue" v-else @click="goPlay(item)">
             继续学习
           </div>
         </div>
@@ -106,6 +103,19 @@
 export default {
   props: ["list", "currenStatus"],
   methods: {
+    goPlay(item) {
+      if (item.last_view_video.length !== 0) {
+        let vid = item.last_view_video.video_id;
+        this.$router.push({
+          name: "coursesVideo",
+          query: {
+            id: vid,
+          },
+        });
+      } else {
+        this.goDetail(item.course_id);
+      }
+    },
     goDetail(id) {
       this.$router.push({
         name: "coursesDetail",
