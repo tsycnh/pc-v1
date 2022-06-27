@@ -230,7 +230,7 @@ export default {
           this.total = res.data.total;
         });
       } else if (this.current === "live") {
-        this.$api.Member.LiveCourses(this.pagination).then((res) => {
+        this.$api.Live.User(this.pagination).then((res) => {
           this.loading = false;
           this.list = res.data.data;
           this.total = res.data.total;
