@@ -284,6 +284,7 @@ export default {
       isBuy: null,
       showTry: false,
       last_see_value: null,
+      clock: null,
     };
   },
   watch: {
@@ -305,6 +306,7 @@ export default {
 
     // 播放器销毁
     window.player && window.player.destroy();
+    this.clock && window.clearInterval(this.clock);
   },
   methods: {
     ...mapMutations(["showLoginDialog", "changeDialogType"]),
@@ -606,10 +608,10 @@ export default {
       });
     },
     countDown() {
-      let clock = window.setInterval(() => {
+      this.clock = window.setInterval(() => {
         this.totalTime--;
-        if (this.totalTime == 0) {
-          window.clearInterval(clock);
+        if (this.totalTime === 0) {
+          window.clearInterval(this.clock);
           this.goNextVideo(this.lastVideoid);
         }
       }, 1000);

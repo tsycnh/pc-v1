@@ -310,6 +310,12 @@ const Api = {
     Videos(params) {
       return get("/api/v2/member/videos", params);
     },
+    NewCourses(params) {
+      return get("/api/v3/member/courses", params);
+    },
+    BookCourses(params) {
+      return get("/addons/MeeduBooks/api/v2/member/books", params);
+    },
     Collects(params) {
       return get("/api/v2/member/courses/like", params);
     },
@@ -321,6 +327,20 @@ const Api = {
     },
     CertList(params) {
       return get("/addons/Cert/api/v1/member/cert", params);
+    },
+    Learned: {
+      Courses(params) {
+        return get("/api/v3/member/courses/learned", params);
+      },
+      Live(params) {
+        return get("/addons/zhibo/api/v1/member/courses/learned", params);
+      },
+      Topic(params) {
+        return get("/addons/MeeduTopics/api/v2/member/topics/view", params);
+      },
+      Book(params) {
+        return get("/addons/MeeduBooks/api/v2/member/book/view", params);
+      },
     },
   },
   MultiLevelShare: {
