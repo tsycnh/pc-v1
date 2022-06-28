@@ -109,7 +109,7 @@ export default {
           value: 1,
         },
         {
-          name: "付费",
+          name: "订阅",
           value: 2,
         },
         {

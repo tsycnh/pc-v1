@@ -121,6 +121,7 @@ export default {
         name: "coursesDetail",
         query: {
           id: id,
+          tab: 3,
         },
       });
     },

@@ -293,7 +293,7 @@ export default {
       isLike: false,
       articles: [],
       book: [],
-      currentTab: 2,
+      currentTab: parseInt(this.$route.query.tab || 2),
       total: null,
       chapters: [],
       tabs: [

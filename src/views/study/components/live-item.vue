@@ -104,6 +104,7 @@ export default {
         name: "liveDetail",
         query: {
           id: id,
+          tab: 3,
         },
       });
     },
