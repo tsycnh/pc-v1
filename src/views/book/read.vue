@@ -7,7 +7,7 @@
           @click="
             $router.push({
               name: 'bookDetail',
-              query: { id: book.id },
+              query: { id: book.id, tab: 3 },
             })
           "
         >
