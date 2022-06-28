@@ -4,14 +4,20 @@
       <div class="top">
         <img
           @click="
-            $router.push({ name: 'liveDetail', query: { id: course.id } })
+            $router.push({
+              name: 'liveDetail',
+              query: { id: course.id, tab: 3 },
+            })
           "
           class="icon-back"
           src="../../../assets/img/commen/icon-back-h.png"
         />
         <span
           @click="
-            $router.push({ name: 'liveDetail', query: { id: course.id } })
+            $router.push({
+              name: 'liveDetail',
+              query: { id: course.id, tab: 3 },
+            })
           "
           >{{ video.title }}</span
         >

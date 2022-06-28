@@ -100,13 +100,22 @@ export default {
       });
     },
     goDetail(id) {
-      this.$router.push({
-        name: "liveDetail",
-        query: {
-          id: id,
-          tab: 3,
-        },
-      });
+      if (this.currenStatus === 2) {
+        this.$router.push({
+          name: "liveDetail",
+          query: {
+            id: id,
+            tab: 3,
+          },
+        });
+      } else {
+        this.$router.push({
+          name: "liveDetail",
+          query: {
+            id: id,
+          },
+        });
+      }
     },
   },
 };
