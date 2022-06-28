@@ -387,7 +387,7 @@ export default {
       id: this.$route.query.id,
       isLike: false,
       course: null,
-      currentTab: 2,
+      currentTab: parseInt(this.$route.query.tab) || 2,
       total: null,
       chapters: [],
       videos: [],

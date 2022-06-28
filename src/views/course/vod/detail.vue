@@ -272,7 +272,7 @@ export default {
       id: this.$route.query.id,
       isCollect: false,
       course: null,
-      currentTab: 2,
+      currentTab: parseInt(this.$route.query.tab) || 2,
       nowTime: Date.parse(new Date()) / 1000,
       buyVideos: null,
       attach: [],
