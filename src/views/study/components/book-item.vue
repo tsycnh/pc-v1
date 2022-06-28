@@ -101,6 +101,7 @@ export default {
         name: "bookDetail",
         query: {
           id: id,
+          tab: 3,
         },
       });
     },
