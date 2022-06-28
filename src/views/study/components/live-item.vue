@@ -67,15 +67,8 @@
             </div>
           </template>
           <template v-else>
-            <div
-              class="button completed"
-              v-if="item.course.status === 2"
-              @click="goDetail(item.course_id)"
-            >
-              观看回放
-            </div>
-            <div class="button continue" v-else @click="goPlay(item)">
-              继续学习
+            <div class="button continue" @click="goPlay(item)">
+              观看直播
             </div>
           </template>
         </div>
@@ -104,7 +97,7 @@ export default {
         name: "liveDetail",
         query: {
           id: id,
-          tab: 3,
+          tab: this.currenStatus === 2 ? 3 : 2,
         },
       });
     },

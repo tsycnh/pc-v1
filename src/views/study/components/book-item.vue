@@ -101,7 +101,7 @@ export default {
         name: "bookDetail",
         query: {
           id: id,
-          tab: 3,
+          tab: this.currenStatus === 2 ? 3 : 2,
         },
       });
     },

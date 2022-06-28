@@ -87,7 +87,7 @@
           <div
             class="button completed"
             v-if="item.is_watched === 1"
-            @click="goDetail(item.course_id)"
+            @click="goPlay(item)"
           >
             学习完成
           </div>
@@ -121,7 +121,7 @@ export default {
         name: "coursesDetail",
         query: {
           id: id,
-          tab: 3,
+          tab: this.currenStatus === 2 ? 3 : 2,
         },
       });
     },
