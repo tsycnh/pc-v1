@@ -63,7 +63,7 @@
           </div>
           <template v-if="currenStatus === 2">
             <div class="button continue" @click="goDetail(item.course_id)">
-              详情
+              直播排课
             </div>
           </template>
           <template v-else>

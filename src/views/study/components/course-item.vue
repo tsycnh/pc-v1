@@ -56,7 +56,7 @@
             </div>
           </div>
           <div class="button continue" @click="goDetail(item.course_id)">
-            详情
+            课程目录
           </div>
         </div>
       </template>

@@ -53,7 +53,7 @@
             </div>
           </div>
           <div class="button continue" @click="goDetail(item.book_id)">
-            详情
+            章节目录
           </div>
         </div>
       </template>
