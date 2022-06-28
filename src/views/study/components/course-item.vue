@@ -117,22 +117,13 @@ export default {
       }
     },
     goDetail(id) {
-      if (this.currenStatus === 2) {
-        this.$router.push({
-          name: "coursesDetail",
-          query: {
-            id: id,
-            tab: 3,
-          },
-        });
-      } else {
-        this.$router.push({
-          name: "coursesDetail",
-          query: {
-            id: id,
-          },
-        });
-      }
+      this.$router.push({
+        name: "coursesDetail",
+        query: {
+          id: id,
+          tab: this.currenStatus === 2 ? 3 : 2,
+        },
+      });
     },
   },
 };
