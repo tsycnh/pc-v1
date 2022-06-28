@@ -3,24 +3,11 @@
     <div class="navheader">
       <div class="top">
         <img
-          @click="
-            $router.push({
-              name: 'liveDetail',
-              query: { id: course.id, tab: 3 },
-            })
-          "
+          @click="goDetail()"
           class="icon-back"
           src="../../../assets/img/commen/icon-back-h.png"
         />
-        <span
-          @click="
-            $router.push({
-              name: 'liveDetail',
-              query: { id: course.id, tab: 3 },
-            })
-          "
-          >{{ video.title }}</span
-        >
+        <span @click="goDetail()">{{ video.title }}</span>
       </div>
     </div>
     <div class="live-banner">
@@ -201,6 +188,12 @@ export default {
   methods: {
     getStatus(status) {
       this.messageDisabled = status;
+    },
+    goDetail() {
+      this.$router.push({
+        name: "liveDetail",
+        query: { id: this.course.id, tab: 3 },
+      });
     },
     getData() {
       this.$api.Live.Play(this.id)
