@@ -3,11 +3,18 @@
     <div class="navheader">
       <div class="top">
         <img
-          @click="$router.back()"
+          @click="
+            $router.push({ name: 'liveDetail', query: { id: course.id } })
+          "
           class="icon-back"
           src="../../../assets/img/commen/icon-back-h.png"
         />
-        <span @click="$router.back()">{{ video.title }}</span>
+        <span
+          @click="
+            $router.push({ name: 'liveDetail', query: { id: course.id } })
+          "
+          >{{ video.title }}</span
+        >
       </div>
     </div>
     <div class="live-banner">
