@@ -48,7 +48,7 @@
                 />
                 <div class="text-sm mt-1 text-center font-medium">VIP会员</div>
               </a>
-              <a
+              <!--<a
                 v-if="isLogin"
                 @click="$router.push({ name: 'MemberMessages' })"
                 style="opacitiy: 0.8"
@@ -67,8 +67,22 @@
                   v-if="newStatus"
                   class="w-2 h-2 bg-red-500 rounded-full absolute top-0 right-0"
                 ></div>
+              </a>-->
+              <a
+                @click="goStudy()"
+                style="opacitiy: 0.8"
+                class="relative rounded mr-12 text-gray-500 text-center hover:text-gray-900"
+              >
+                <img
+                  src="../assets/img/study/icon-mystudy.png"
+                  width="20"
+                  height="20"
+                  style="margin: 0 auto"
+                />
+                <div class="text-sm mt-1 text-center">
+                  <span>我的学习</span>
+                </div>
               </a>
-
               <a
                 v-if="!isLogin"
                 @click="goLogin()"
@@ -315,6 +329,13 @@ export default {
         return;
       }
       this.$router.push({ path: "/share" });
+    },
+    goStudy() {
+      if (!this.isLogin) {
+        this.goLogin();
+        return;
+      }
+      this.$router.push({ name: "StudyCenter" });
     },
   },
 };

@@ -293,7 +293,7 @@ export default {
       isLike: false,
       articles: [],
       book: [],
-      currentTab: 2,
+      currentTab: parseInt(this.$route.query.tab || 2),
       total: null,
       chapters: [],
       tabs: [
@@ -480,6 +480,17 @@ export default {
         this.book = res.data.book;
         this.chapters = res.data.chapters;
         this.articles = res.data.articles;
+        if (
+          this.chapters.length > 0 &&
+          this.articles[0] &&
+          this.articles[0].length > 0
+        ) {
+          this.chapters.push({
+            id: 0,
+            name: "无章节内容",
+            sort: 10000,
+          });
+        }
         this.isBuy = res.data.is_buy;
         document.title = res.data.book.name;
         //获取秒杀信息
@@ -1241,6 +1252,15 @@ export default {
         flex-direction: row;
         align-items: center;
         margin-bottom: 50px;
+        .text {
+          width: 100%;
+          text-align: center;
+          cursor: pointer;
+          &:hover {
+            color: #3ca7fa;
+            text-decoration: underline;
+          }
+        }
         .reply {
           width: 100%;
           display: flex;
