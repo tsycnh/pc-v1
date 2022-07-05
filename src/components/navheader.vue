@@ -148,6 +148,7 @@
                   active:
                     (hash.match(item.url) ||
                       (item.url.substr(0, 1) === '#' &&
+                        item.url !== '#' &&
                         hash.match(item.url.slice(1)))) &&
                     item.url !== '/',
                   isIndex: item.url === hash,
