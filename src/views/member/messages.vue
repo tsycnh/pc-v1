@@ -4,11 +4,11 @@
       <nav-member v-if="renderComponent" :cid="7"></nav-member>
       <div class="messages-box">
         <div class="btn-read" @click="readAll()">全部已读</div>
-        <template v-if="loading">
-          <skeletonMessages></skeletonMessages>
-        </template>
-        <div class="messages-content" v-else>
-          <template v-if="list.length > 0">
+        <div class="messages-content">
+          <template v-if="loading">
+            <skeletonMessages></skeletonMessages>
+          </template>
+          <template v-else-if="list.length > 0">
             <div
               class="message-item"
               @click="read(item)"
