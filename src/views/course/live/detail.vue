@@ -536,10 +536,10 @@ export default {
         this.$message.error("请购买课程后观看");
         return;
       }
-      if (item.status === 2 && item.duration === 0) {
-        this.$message.error("直播已结束");
-        return;
-      }
+      // if (item.status === 2 && item.duration === 0) {
+      //   this.$message.error("直播已结束");
+      //   return;
+      // }
       this.$router.push({
         name: "liveVideo",
         query: {
