@@ -870,7 +870,7 @@ export default {
             line-height: 14px;
           }
           .price {
-            width: 300px;
+            width: 120px;
             height: 14px;
             font-size: 14px;
             font-weight: 400;
