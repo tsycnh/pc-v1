@@ -862,7 +862,7 @@ export default {
           }
 
           .title {
-            width: 300px;
+            flex: 1;
             height: 14px;
             font-size: 14px;
             font-weight: 400;
@@ -876,18 +876,17 @@ export default {
             font-weight: 400;
             color: #333333;
             line-height: 14px;
+            text-align: right;
+            margin-right: 15px;
           }
           .info {
+            width: 80px;
             height: 14px;
             font-size: 14px;
             font-weight: 400;
             color: #666666;
             line-height: 14px;
-            .item {
-              height: 14px;
-              margin-left: 10px;
-              margin-right: 10px;
-            }
+            text-align: right;
           }
         }
         #page {
