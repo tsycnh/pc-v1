@@ -413,6 +413,10 @@ export default {
         this.$message.error("提现金额不得大于余额");
         return;
       }
+      if (parseInt(this.withdrawForm.amount) < 0) {
+        this.$message.error("提现金额不得为负数");
+        return;
+      }
       this.loading = true;
       this.withdrawForm.amount = parseInt(this.withdrawForm.amount);
       this.$api.Member.Withdraw(this.withdrawForm)
