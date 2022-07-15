@@ -856,8 +856,10 @@ export default {
           flex-direction: row;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 20px;
           margin-top: 20px;
+          &:first-child {
+            margin-bottom: 20px;
+          }
 
           .title {
             width: 300px;
@@ -868,6 +870,7 @@ export default {
             line-height: 14px;
           }
           .price {
+            width: 300px;
             height: 14px;
             font-size: 14px;
             font-weight: 400;
