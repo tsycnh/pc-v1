@@ -4,11 +4,25 @@
       <div class="dialog-box">
         <div class="dialog-title">提现</div>
         <div class="info">
-          <div class="tit">支付宝账户</div>
+          <div class="tit">收款渠道</div>
+          <select
+            class="input"
+            v-model="withdrawForm.channel"
+            placeholder="请选择"
+          >
+            <option
+              v-for="(val, index) in channels"
+              :key="index"
+              :value="val.value"
+            >
+              {{ val.label }}
+            </option>
+          </select>
+          <div class="tit">收款账号</div>
           <input
             class="input"
             type="text"
-            placeholder="支付宝账户"
+            placeholder="收款账号"
             v-model="withdrawForm.channel_account"
           />
           <div class="tit">真实姓名</div>
@@ -21,9 +35,16 @@
           <div class="tit">提现金额</div>
           <input
             class="input"
-            type="text"
+            type="number"
             placeholder="提现金额"
-            v-model="withdrawForm.total"
+            v-model="withdrawForm.amount"
+          />
+          <div class="tit">收款人地址</div>
+          <input
+            class="input"
+            type="text"
+            placeholder="收款人地址（可选）"
+            v-model="withdrawForm.channel_address"
           />
         </div>
         <div class="btn-box">
@@ -108,8 +129,8 @@
               v-for="(item, index) in list"
               :key="index"
             >
-              <div class="title">{{ item.desc }}</div>
-              <div class="price">{{ item.total }}元</div>
+              <div class="title">{{ item.remark }}</div>
+              <div class="price">{{ item.amount }}元</div>
               <div class="info">
                 <span>{{ item.created_at | changeTime }}</span>
               </div>
@@ -132,7 +153,7 @@
               :page="pagination.page"
               :totals="total"
               @current-change="changepage"
-              :pageSize="pagination.page_size"
+              :pageSize="pagination.size"
               :tab="false"
             ></page-box>
           </div>
@@ -173,18 +194,29 @@ export default {
       total2: null,
       pagination: {
         page: 1,
-        page_size: 10,
+        size: 10,
       },
       pagination2: {
         page: 1,
         size: 9,
       },
       withdrawForm: {
-        channel: "Alipay",
+        channel: "alipay",
         channel_name: null,
         channel_account: null,
-        total: null,
+        amount: null,
+        channel_address: null,
       },
+      channels: [
+        {
+          label: "支付宝",
+          value: "alipay",
+        },
+        {
+          label: "微信",
+          value: "wechat",
+        },
+      ],
       projectType: 1,
       inviteUrl: null,
       loading: false,
@@ -221,13 +253,13 @@ export default {
       this.course = [];
       this.total = null;
       this.total2 = null;
-      this.pagination.page_size = 10;
+      this.pagination.size = 10;
       this.pagination.page = 1;
       this.pagination2.size = 9;
       this.pagination2.page = 1;
     },
     changepage(item) {
-      this.pagination.page_size = item.pageSize;
+      this.pagination.size = item.pageSize;
       this.pagination.page = item.currentPage;
       this.getData();
       window.scrollTo(0, 0);
@@ -364,7 +396,9 @@ export default {
     resetDialog() {
       this.withdrawForm.channel_account = null;
       this.withdrawForm.channel_name = null;
-      this.withdrawForm.total = null;
+      this.withdrawForm.amount = null;
+      this.withdrawForm.channel = "alipay";
+      this.withdrawForm.channel_address = null;
     },
     withdraw() {
       if (this.loading) {
@@ -378,20 +412,24 @@ export default {
         this.$message.error("请输入真实姓名");
         return;
       }
-      if (!this.withdrawForm.total) {
+      if (!this.withdrawForm.amount) {
         this.$message.error("请输入提现金额");
         return;
       }
-      if (this.withdrawForm.total > this.invite.balance) {
+      if (parseInt(this.withdrawForm.amount) > parseInt(this.invite.balance)) {
         this.$message.error("提现金额不得大于余额");
         return;
       }
       this.loading = true;
+      this.withdrawForm.amount = parseInt(this.withdrawForm.amount);
       this.$api.Member.Withdraw(this.withdrawForm)
         .then((res) => {
           this.loading = false;
           this.$message.success("提现成功");
           this.getInviteInfo();
+          this.list = [];
+          this.pagination.page = 1;
+          this.getData();
           this.cancel();
         })
         .catch((e) => {
@@ -420,7 +458,7 @@ export default {
     z-index: 100;
     .dialog-box {
       width: 400px;
-      height: 360px;
+      height: auto;
       background: #ffffff;
       border-radius: 8px;
       display: flex;
