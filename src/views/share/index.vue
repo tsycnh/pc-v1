@@ -96,7 +96,7 @@
             <div
               class="goods-box"
               :class="{
-                first: pagination2.size <= total2,
+                first: pagination2.size >= total2,
               }"
             >
               <div class="goods-item" v-for="item in course" :key="item.id">
@@ -413,8 +413,8 @@ export default {
         this.$message.error("提现金额不得大于余额");
         return;
       }
-      if (parseInt(this.withdrawForm.amount) < 0) {
-        this.$message.error("提现金额不得为负数");
+      if (parseInt(this.withdrawForm.amount) <= 0) {
+        this.$message.error("提现金额需要大于0");
         return;
       }
       this.loading = true;
