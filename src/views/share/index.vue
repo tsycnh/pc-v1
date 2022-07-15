@@ -39,13 +39,6 @@
             placeholder="提现金额"
             v-model="withdrawForm.amount"
           />
-          <div class="tit">收款人地址</div>
-          <input
-            class="input"
-            type="text"
-            placeholder="收款人地址（可选）"
-            v-model="withdrawForm.channel_address"
-          />
         </div>
         <div class="btn-box">
           <div class="btn-cancel" @click="cancel()">取消</div>
