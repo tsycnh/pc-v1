@@ -188,7 +188,11 @@ export default {
       funcTable["miaosha"] = _.indexOf(config.enabled_addons, "MiaoSha") !== -1;
       this.updateFuncConfig(funcTable);
       if (this.$utils.isMobile() && config.h5_url !== "") {
-        window.location.href = config.h5_url;
+        let link = config.h5_url;
+        if (this.$utils.getMsv()) {
+          link += "?msv=" + this.$utils.getMsv();
+        }
+        window.location.href = link;
       }
     },
   },
