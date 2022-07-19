@@ -189,8 +189,8 @@ export default {
       this.updateFuncConfig(funcTable);
       if (this.$utils.isMobile() && config.h5_url !== "") {
         let link = config.h5_url;
-        if (this.$utils.getMsv()) {
-          link += "?msv=" + this.$utils.getMsv();
+        if (this.$route.query.msv) {
+          link += "?msv=" + this.$route.query.msv;
         }
         window.location.href = link;
       }
