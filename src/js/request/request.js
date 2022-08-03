@@ -278,7 +278,7 @@ const Api = {
       return post("/api/v2/member/promoCode");
     },
     Withdraw(params) {
-      return post("/api/v2/member/withdraw", params);
+      return post("/addons/MultiLevelShare/api/v1/user/withdraw", params);
     },
     InviteUsers(params) {
       return get("/api/v2/member/inviteUsers", params);
@@ -287,7 +287,7 @@ const Api = {
       return get("/api/v2/member/withdrawRecords", params);
     },
     InviteBalanceRecords(params) {
-      return get("/api/v2/member/inviteBalanceRecords", params);
+      return get("/addons/MultiLevelShare/api/v1/user/balanceRecords", params);
     },
     Messages(params) {
       return get("/api/v2/member/messages", params);
