@@ -186,6 +186,7 @@ export default {
         _.indexOf(config.enabled_addons, "Credit1Mall") !== -1;
       funcTable["tuangou"] = _.indexOf(config.enabled_addons, "TuanGou") !== -1;
       funcTable["miaosha"] = _.indexOf(config.enabled_addons, "MiaoSha") !== -1;
+      funcTable["cert"] = _.indexOf(config.enabled_addons, "Cert") !== -1;
       this.updateFuncConfig(funcTable);
       if (this.$utils.isMobile() && config.h5_url !== "") {
         let link = config.h5_url;
