@@ -378,8 +378,7 @@ export default {
       if (
         this.course.is_free === 1 ||
         this.isBuy ||
-        (this.course.is_free !== 1 &&
-          (item.charge === 0 || item.free_seconds > 0))
+        (this.course.is_free !== 1 && item.free_seconds > 0)
       ) {
         this.$router.push({
           name: "coursesVideo",
