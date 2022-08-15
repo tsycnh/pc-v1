@@ -1287,7 +1287,6 @@ export default {
               this.resetDialog();
               this.hideLoginDialog();
               this.bindSuccess();
-              this.redirectHandler();
             })
             .catch((e) => {
               this.$message.error(e.message);

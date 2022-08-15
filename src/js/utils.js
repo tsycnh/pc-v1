@@ -75,6 +75,15 @@ export default {
   clearLoginCode() {
     window.localStorage.removeItem("login_code");
   },
+  saveSessionLoginCode(code) {
+    window.sessionStorage.setItem("login_code", code);
+  },
+  getSessionLoginCode() {
+    return window.sessionStorage.getItem("login_code");
+  },
+  clearSessionLoginCode() {
+    window.sessionStorage.removeItem("login_code");
+  },
   getMsv() {
     return window.localStorage.getItem(MSV_NAME);
   },

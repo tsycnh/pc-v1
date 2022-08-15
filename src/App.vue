@@ -134,6 +134,10 @@ export default {
         });
     },
     CodeLogin(code) {
+      if (this.$utils.getSessionLoginCode()) {
+        return;
+      }
+      this.$utils.saveSessionLoginCode(code);
       this.$api.Auth.CodeLogin({ code: code, msv: this.$utils.getMsv() })
         .then((res) => {
           if (res.data.success === 1) {
