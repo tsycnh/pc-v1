@@ -67,15 +67,14 @@ export default {
   },
   mounted() {
     this.$router.onReady(() => {
-      // 社交登录回调处理
-      if (this.$route.query.token) {
-        this.$utils.saveToken(this.$route.query.token);
-        let newUrl = this.$utils.removeTokenParams(window.location.href);
-        window.location.href = newUrl;
-      }
       // msv分销id记录
       if (this.$route.query.msv) {
         this.$utils.saveMsv(this.$route.query.msv);
+      }
+
+      // 社交登录回调处理
+      if (this.$route.query.login_code) {
+        this.CodeLogin(this.$route.query.login_code);
       }
 
       // 自动登录
@@ -132,6 +131,25 @@ export default {
         .catch((e) => {
           console.log(e.message);
           this.$utils.clearMsv();
+        });
+    },
+    CodeLogin(code) {
+      this.$api.Auth.CodeLogin({ code: code, msv: this.$utils.getMsv() })
+        .then((res) => {
+          if (res.data.success === 1) {
+            this.$utils.saveToken(res.data.token);
+            this.getUser();
+          } else {
+            if (res.data.action === "bind_mobile") {
+              this.$utils.saveLoginCode(code);
+              this.changeDialogType(11);
+              this.showLoginDialog();
+              this.cancelStatus = true;
+            }
+          }
+        })
+        .catch((e) => {
+          this.$message.error(e.message);
         });
     },
     async getUser() {

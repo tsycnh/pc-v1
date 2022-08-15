@@ -641,6 +641,74 @@
         </div>
       </div>
     </div>
+    <div
+      style="height: 440px"
+      class="dialog-login-box"
+      v-if="dialogStatus === 11"
+    >
+      <div class="tabs">
+        <div class="item-tab active">请绑定手机号</div>
+        <a v-if="notCancel" class="linkTab2" @click="goLogout">退出登录>></a>
+        <img
+          v-if="!notCancel"
+          class="btn-close"
+          @click="cancel()"
+          src="../assets/img/commen/icon-close.png"
+        />
+      </div>
+      <div class="box">
+        <div class="input-item">
+          <input
+            type="text"
+            placeholder="请输入手机号码"
+            autocomplete="off"
+            v-model="messageForm.mobile"
+            class="input"
+            required
+          />
+        </div>
+        <div class="input-item">
+          <input
+            type="text"
+            placeholder="请输入图形验证码"
+            autocomplete="off"
+            v-model="messageForm.captcha"
+            class="input-short"
+            required
+          />
+          <div class="captcha">
+            <img
+              class="captcha-img"
+              :src="captcha.img"
+              mode="widthFix"
+              @click="getCaptcha"
+            />
+          </div>
+        </div>
+        <div class="input-item">
+          <input
+            type="text"
+            placeholder="请输入手机验证码"
+            autocomplete="off"
+            v-model="messageForm.sms"
+            class="input-short"
+            required
+          />
+          <div class="buttons">
+            <span class="send-sms-button" @click="sendSms()">
+              <template v-if="sms.loading"> {{ sms.current }}s </template>
+              <template v-else>获取验证码</template>
+            </span>
+          </div>
+        </div>
+
+        <div class="btn-box" style="margin-bottom: 0px !important">
+          <button type="submit" class="submit" @click="CodeMobileValidate()">
+            立即绑定
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -892,6 +960,9 @@ export default {
       if (this.dialogStatus === 10) {
         this.editValidate();
       }
+      if (this.dialogStatus === 11) {
+        this.CodeMobileValidate();
+      }
     },
     tabChange(key) {
       this.currentTab = key;
@@ -924,9 +995,9 @@ export default {
       }
       window.location.href =
         this.config.url +
-        "/api/v2/login/socialite/qq?success_redirect=" +
+        "/api/v3//auth/login/socialite/qq?s_url=" +
         urlencode(successRedirectUrl) +
-        "&failed_redirect=" +
+        "&f_url=" +
         urlencode(this.$utils.getAppUrl() + "/error");
     },
     changeWeixin() {
@@ -1175,6 +1246,52 @@ export default {
           this.resetDialog();
           this.hideLoginDialog();
           this.bindSuccess();
+        })
+        .catch((e) => {
+          this.loading = false;
+          this.$message.error(e.message);
+        });
+    },
+    CodeMobileValidate() {
+      if (this.loading) {
+        return;
+      }
+      if (!this.messageForm.sms) {
+        this.$message.error("请输入手机验证码");
+        return;
+      }
+      if (!this.messageForm.mobile) {
+        this.$message.error("请填写绑定手机号码");
+        return;
+      }
+      if (!this.$utils.isPoneAvailable(this.messageForm.mobile)) {
+        this.$message.error("请输入正确的手机号");
+        return;
+      }
+      this.loading = true;
+      this.$api.Member.CodeBindMobile({
+        mobile: this.messageForm.mobile,
+        code: this.$utils.getLoginCode(),
+        mobile_code: this.messageForm.sms,
+      })
+        .then((res) => {
+          this.loading = false;
+          this.$message.success("绑定成功");
+          this.$utils.clearLoginCode();
+
+          let token = res.data.token;
+          this.$utils.saveToken(token);
+          this.$api.User.Detail()
+            .then((res) => {
+              this.loginHandle(res.data);
+              this.resetDialog();
+              this.hideLoginDialog();
+              this.bindSuccess();
+              this.redirectHandler();
+            })
+            .catch((e) => {
+              this.$message.error(e.message);
+            });
         })
         .catch((e) => {
           this.loading = false;

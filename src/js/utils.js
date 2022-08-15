@@ -66,6 +66,15 @@ export default {
   clearMsv() {
     window.localStorage.removeItem(MSV_NAME);
   },
+  saveLoginCode(code) {
+    window.localStorage.setItem("login_code", code);
+  },
+  getLoginCode() {
+    return window.localStorage.getItem("login_code");
+  },
+  clearLoginCode() {
+    window.localStorage.removeItem("login_code");
+  },
   getMsv() {
     return window.localStorage.getItem(MSV_NAME);
   },

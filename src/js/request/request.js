@@ -57,6 +57,9 @@ const Api = {
     PasswordForget(params) {
       return post("/api/v2/password/reset", params);
     },
+    CodeLogin(params) {
+      return post(`/api/v3/auth/login/code`, params);
+    },
     PasswordLogin(params) {
       return post(`/api/v2/login/password`, params);
     },
@@ -246,6 +249,9 @@ const Api = {
     },
     NewMobile(params) {
       return post("/api/v2/member/detail/mobile", params);
+    },
+    CodeBindMobile(params) {
+      return post("/api/v3/auth/register/withSocialite", params);
     },
     PasswordChange(params) {
       return post("/api/v2/member/detail/password", params);
