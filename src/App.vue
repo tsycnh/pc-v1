@@ -134,7 +134,7 @@ export default {
         });
     },
     CodeLogin(code) {
-      if (this.$utils.getSessionLoginCode()) {
+      if (this.$utils.getSessionLoginCode(code)) {
         return;
       }
       this.$utils.saveSessionLoginCode(code);
