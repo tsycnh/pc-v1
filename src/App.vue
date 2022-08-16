@@ -73,7 +73,10 @@ export default {
       }
 
       // 社交登录回调处理
-      if (this.$route.query.login_code) {
+      if (
+        this.$route.query.login_code &&
+        this.$route.query.action === "login"
+      ) {
         this.CodeLogin(this.$route.query.login_code);
       }
 

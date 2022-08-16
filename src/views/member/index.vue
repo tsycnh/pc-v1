@@ -158,7 +158,16 @@ export default {
     },
   },
   mounted() {
-    this.getData();
+    this.$router.onReady(() => {
+      // 社交绑定回调处理
+      if (this.$route.query.login_code && this.$route.query.action === "bind") {
+        this.CodeBind(this.$route.query.login_code);
+      }
+      if (this.$route.query.login_err_msg) {
+        this.$message.error(this.$route.query.login_err_msg);
+      }
+      this.getData();
+    });
   },
   methods: {
     ...mapMutations([
@@ -216,10 +225,25 @@ export default {
       let redirect = encodeURIComponent(host);
       window.location.href =
         this.config.url +
-        "/api/v2/member/socialite/qq?token=" +
-        token +
-        "&redirect_url=" +
+        "/api/v3/auth/login/socialite/qq?s_url=" +
+        redirect +
+        "&f_url=" +
         redirect;
+    },
+    CodeBind(code) {
+      if (this.$utils.getSessionLoginCode(code)) {
+        return;
+      }
+      this.$utils.saveSessionLoginCode(code);
+      this.$api.Auth.CodeBind({ code: code })
+        .then((res) => {
+          this.$message.success("绑定成功");
+          this.cancel();
+          this.getData();
+        })
+        .catch((e) => {
+          this.$message.error(e.message);
+        });
     },
     cancel() {
       this.app = null;
@@ -247,7 +271,7 @@ export default {
   },
 };
 </script>
-<style lang='less' scoped>
+<style lang="less" scoped>
 .content {
   width: 100%;
   .mask {

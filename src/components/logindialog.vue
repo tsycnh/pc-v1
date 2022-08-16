@@ -995,7 +995,7 @@ export default {
       }
       window.location.href =
         this.config.url +
-        "/api/v3//auth/login/socialite/qq?s_url=" +
+        "/api/v3/auth/login/socialite/qq?s_url=" +
         urlencode(successRedirectUrl) +
         "&f_url=" +
         urlencode(this.$utils.getAppUrl() + "/error");
@@ -1287,7 +1287,7 @@ export default {
               this.resetDialog();
               this.hideLoginDialog();
               this.bindSuccess();
-               this.redirectHandler();
+              this.redirectHandler();
             })
             .catch((e) => {
               this.$message.error(e.message);

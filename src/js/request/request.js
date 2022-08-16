@@ -60,6 +60,9 @@ const Api = {
     CodeLogin(params) {
       return post(`/api/v3/auth/login/code`, params);
     },
+    CodeBind(params) {
+      return post(`/api/v3/member/socialite/bindWithCode`, params);
+    },
     PasswordLogin(params) {
       return post(`/api/v2/login/password`, params);
     },
