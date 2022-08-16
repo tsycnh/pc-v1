@@ -709,6 +709,30 @@
         </div>
       </div>
     </div>
+    <div
+      style="height: 270px"
+      class="dialog-login-box"
+      v-if="dialogStatus === 12"
+    >
+      <div class="tabs">
+        <div class="item-tab active">注销账号</div>
+        <img
+          class="btn-close"
+          @click="cancel()"
+          src="../assets/img/commen/icon-close.png"
+        />
+      </div>
+      <div class="box">
+        <div class="input-item">
+          确认注销账号？确认之后账号将在7天后自动注销，期间内登录账号将会自动取消账号注销。
+        </div>
+        <div class="btn-box" style="margin-bottom: 0px !important">
+          <button type="submit" class="submit" @click="destroyUserValidate()">
+            注销
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -962,6 +986,9 @@ export default {
       }
       if (this.dialogStatus === 11) {
         this.CodeMobileValidate();
+      }
+      if (this.dialogStatus === 12) {
+        this.destroyUserValidate();
       }
     },
     tabChange(key) {
@@ -1330,6 +1357,28 @@ export default {
         .catch((e) => {
           this.loading = false;
           this.changeMobile = false;
+          this.$message.error(e.message);
+        });
+    },
+    destroyUserValidate() {
+      if (this.loading) {
+        return;
+      }
+
+      this.loading = true;
+      this.$api.Auth.DestroyUser()
+        .then((res) => {
+          this.loading = false;
+          this.$message.success("注销成功");
+          this.logout();
+          this.resetDialog();
+          this.hideLoginDialog();
+          this.$router.replace({
+            name: "index",
+          });
+        })
+        .catch((e) => {
+          this.loading = false;
           this.$message.error(e.message);
         });
     },

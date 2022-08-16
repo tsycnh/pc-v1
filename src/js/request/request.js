@@ -78,6 +78,9 @@ const Api = {
     Logout(params) {
       return post(`/api/v2/logout`, params);
     },
+    DestroyUser(params) {
+      return post(`/api/v3/member/destroy`, params);
+    },
   },
   Sign: {
     User() {

@@ -98,6 +98,16 @@
               </div>
             </div>
           </div>
+          <div class="item-line">
+            <div class="item-left">
+              <div class="item-name">账号注销</div>
+            </div>
+            <div class="item-right">
+              <div class="btn" @click="destroyUser()">
+                注销
+              </div>
+            </div>
+          </div>
           <!-- <div class="item-line">
             <div class="item-left">
               <div class="item-name">绑定QQ</div>
@@ -549,6 +559,10 @@ export default {
           this.loading = false;
           this.$message.error(e.message);
         });
+    },
+    destroyUser() {
+      this.changeDialogType(12);
+      this.showLoginDialog();
     },
   },
 };
