@@ -998,7 +998,8 @@ export default {
         "/api/v3/auth/login/socialite/qq?s_url=" +
         urlencode(successRedirectUrl) +
         "&f_url=" +
-        urlencode(this.$utils.getAppUrl() + "/error");
+        urlencode(this.$utils.getAppUrl() + "/error") +
+        "&action=login";
     },
     changeWeixin() {
       this.dialogStatus = 5;

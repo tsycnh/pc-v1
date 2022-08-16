@@ -228,7 +228,8 @@ export default {
         "/api/v3/auth/login/socialite/qq?s_url=" +
         redirect +
         "&f_url=" +
-        redirect;
+        redirect +
+        "&action=bind";
     },
     CodeBind(code) {
       if (this.$utils.getSessionLoginCode(code)) {
