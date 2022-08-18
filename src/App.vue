@@ -215,11 +215,16 @@ export default {
       this.updateFuncConfig(funcTable);
 
       // 手机设备访问PC站点自动跳转到H5端口地址
-      if (this.$utils.isMobile() && config.h5_url && this.$route.query.msv) {
-        window.location.href = this.$utils.SPAUrlAppend(
-          config.h5_url,
-          "msv=" + this.$route.query.msv
-        );
+      if (this.$utils.isMobile() && config.h5_url) {
+        let url = config.h5_url;
+        if (this.$route.query.msv) {
+          //如果存在msv的话则跳转携带上msv参数
+          url = this.$utils.SPAUrlAppend(
+            config.h5_url,
+            "msv=" + this.$route.query.msv
+          );
+        }
+        window.location.href = url;
       }
     },
   },
