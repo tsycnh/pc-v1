@@ -103,7 +103,7 @@ export default {
     }
     return host + "/#";
   },
-  isPoneAvailable: function(pone) {
+  isPoneAvailable: function (pone) {
     var myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
     if (!myreg.test(pone)) {
       return false;
@@ -148,7 +148,7 @@ export default {
   },
   copyright() {
     let outs = [];
-    let fi = function() {
+    let fi = function () {
       return {
         msg: "",
         style: "",
@@ -165,8 +165,20 @@ export default {
     oi.msg = `\r\n官网：\nhttps://meedu.vip\r\n\r\nGitHub：\nhttps://github.com/qsnh/meedu\r\n\r\n使用手册：\nhttps://www.yuque.com/meedu/fvvkbf\r\n\r\n当前版本：${config.version}\r\n`;
     outs.push(oi);
 
-    outs.map(function(x) {
+    outs.map(function (x) {
       console.log("%c" + x.msg, x.style);
     });
+  },
+  SPAUrlAppend(baseUrl, queryParams) {
+    let parseBaseUrl = new URL(baseUrl);
+    return (
+      parseBaseUrl.protocol +
+      "//" +
+      parseBaseUrl.hostname +
+      parseBaseUrl.pathname +
+      "#/?" +
+      (parseBaseUrl.search ? parseBaseUrl.search + "&" : "") +
+      queryParams
+    );
   },
 };
