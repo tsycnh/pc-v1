@@ -934,6 +934,9 @@ export default {
       if (this.dialogStatus === 10) {
         this.scene = "password_reset";
       }
+      if (this.dialogStatus === 11) {
+        this.scene = "mobile_bind";
+      }
       this.$api.Other.SendSms({
         mobile: this.messageForm.mobile,
         image_key: this.captcha.key,
