@@ -48,7 +48,15 @@ export default {
       this.seen = false;
     },
     getData() {
-      let url = encodeURIComponent(this.config.pc_url + "/topic/detail?id=");
+      let baseUrl = new URL(this.config.pc_url);
+      let url = encodeURIComponent(
+        baseUrl.protocol +
+          "//" +
+          baseUrl.hostname +
+          baseUrl.pathname +
+          "#/topic/detail?id="
+      );
+
       this.qq.url =
         "https://connect.qq.com/widget/shareqq/index.html?url=" +
         url +
