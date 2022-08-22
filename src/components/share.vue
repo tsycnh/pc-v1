@@ -93,7 +93,7 @@ export default {
       this.seen = false;
     },
     getData() {
-      let url = encodeURIComponent(this.config.url + "/topic/detail?id=");
+      let url = encodeURIComponent(this.config.pc_url + "/topic/detail?id=");
       this.qq.url =
         "https://connect.qq.com/widget/shareqq/index.html?url=" +
         url +
@@ -104,11 +104,12 @@ export default {
         this.title +
         "&pics=" +
         this.thumb +
-        "&site=MeEdu测试站";
+        "&site=" +
+        this.config.webname;
 
       this.sina.url =
         "https://service.weibo.com/share/share.php?url=" +
-        url+
+        url +
         this.cid +
         "&title=" +
         this.title +
