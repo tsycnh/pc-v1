@@ -648,7 +648,7 @@
     >
       <div class="tabs">
         <div class="item-tab active">请绑定手机号</div>
-        <a v-if="notCancel" class="linkTab2" @click="goLogout">取消绑定>></a>
+        <a v-if="notCancel" class="linkTab2" @click="goBindOut">取消绑定>></a>
         <img
           v-if="!notCancel"
           class="btn-close"
@@ -836,6 +836,10 @@ export default {
           this.loading = false;
           this.$message.error("网络错误");
         });
+    },
+    goBindOut() {
+      this.resetDialog();
+      this.hideLoginDialog();
     },
     resetDialog() {
       this.currentTab = 1;
