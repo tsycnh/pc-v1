@@ -40,7 +40,6 @@ export default {
       this.getData();
     },
   },
-  mounted() {},
   methods: {
     enter() {
       this.seen = true;
