@@ -71,7 +71,6 @@ export default {
         this.title +
         "&pic=" +
         this.thumb;
-      this.search();
     },
   },
 };
