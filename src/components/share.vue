@@ -52,11 +52,10 @@ export default {
       let url = encodeURIComponent(
         baseUrl.protocol +
           "//" +
-          baseUrl.hostname +
+          baseUrl.host +
           baseUrl.pathname +
           "#/topic/detail?id="
       );
-
       this.qq.url =
         "https://connect.qq.com/widget/shareqq/index.html?url=" +
         url +
