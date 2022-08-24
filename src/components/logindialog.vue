@@ -733,6 +733,78 @@
         </div>
       </div>
     </div>
+    <div
+      style="height: 440px"
+      class="dialog-login-box"
+      v-if="dialogStatus === 13"
+    >
+      <div class="tabs">
+        <div class="item-tab active">请绑定手机号</div>
+        <a v-if="notCancel" class="linkTab2" @click="goBindOut">取消绑定>></a>
+        <img
+          v-if="!notCancel"
+          class="btn-close"
+          @click="cancel()"
+          src="../assets/img/commen/icon-close.png"
+        />
+      </div>
+      <div class="box">
+        <div class="input-item">
+          <input
+            type="text"
+            placeholder="请输入手机号码"
+            autocomplete="off"
+            v-model="messageForm.mobile"
+            class="input"
+            required
+          />
+        </div>
+        <div class="input-item">
+          <input
+            type="text"
+            placeholder="请输入图形验证码"
+            autocomplete="off"
+            v-model="messageForm.captcha"
+            class="input-short"
+            required
+          />
+          <div class="captcha">
+            <img
+              class="captcha-img"
+              :src="captcha.img"
+              mode="widthFix"
+              @click="getCaptcha"
+            />
+          </div>
+        </div>
+        <div class="input-item">
+          <input
+            type="text"
+            placeholder="请输入手机验证码"
+            autocomplete="off"
+            v-model="messageForm.sms"
+            class="input-short"
+            required
+          />
+          <div class="buttons">
+            <span class="send-sms-button" @click="sendSms()">
+              <template v-if="sms.loading"> {{ sms.current }}s </template>
+              <template v-else>获取验证码</template>
+            </span>
+          </div>
+        </div>
+
+        <div class="btn-box" style="margin-bottom: 0px !important">
+          <button
+            type="submit"
+            class="submit"
+            @click="WechatCodeMobileValidate()"
+          >
+            立即绑定
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -865,7 +937,7 @@ export default {
     },
     checkWechatLogin() {
       this.$api.Member.CheckWechatLogin({ code: this.code }).then((res) => {
-        if (res.data.status === 1 && res.data.token) {
+        if (res.data.success === 1 && res.data.token) {
           let token = res.data.token;
           this.$utils.saveToken(token);
           this.$api.User.Detail()
@@ -879,8 +951,63 @@ export default {
             .catch((e) => {
               this.$message.error(e.message);
             });
+        } else if (
+          res.data.success === 0 &&
+          res.data.code &&
+          res.data.action === "bind_mobile"
+        ) {
+          clearInterval(this.timer);
+          this.$utils.saveLoginCode(res.data.code);
+          this.resetDialog();
+          this.dialogStatus = 13;
         }
       });
+    },
+    WechatCodeMobileValidate() {
+      if (this.loading) {
+        return;
+      }
+      if (!this.messageForm.sms) {
+        this.$message.error("请输入手机验证码");
+        return;
+      }
+      if (!this.messageForm.mobile) {
+        this.$message.error("请填写绑定手机号码");
+        return;
+      }
+      if (!this.$utils.isPoneAvailable(this.messageForm.mobile)) {
+        this.$message.error("请输入正确的手机号");
+        return;
+      }
+      this.loading = true;
+      this.$api.Member.WechatCodeBindMobile({
+        mobile: this.messageForm.mobile,
+        code: this.$utils.getLoginCode(),
+        mobile_code: this.messageForm.sms,
+      })
+        .then((res) => {
+          this.loading = false;
+          this.$message.success("绑定成功");
+          this.$utils.clearLoginCode();
+
+          let token = res.data.token;
+          this.$utils.saveToken(token);
+          this.$api.User.Detail()
+            .then((res) => {
+              this.loginHandle(res.data);
+              this.resetDialog();
+              this.hideLoginDialog();
+              this.bindSuccess();
+              this.redirectHandler();
+            })
+            .catch((e) => {
+              this.$message.error(e.message);
+            });
+        })
+        .catch((e) => {
+          this.loading = false;
+          this.$message.error(e.message);
+        });
     },
     getBindQrode() {
       this.$api.Member.WechatBind().then((res) => {
@@ -941,6 +1068,9 @@ export default {
       if (this.dialogStatus === 11) {
         this.scene = "mobile_bind";
       }
+      if (this.dialogStatus === 13) {
+        this.scene = "mobile_bind";
+      }
       this.$api.Other.SendSms({
         mobile: this.messageForm.mobile,
         image_key: this.captcha.key,
@@ -996,6 +1126,9 @@ export default {
       }
       if (this.dialogStatus === 12) {
         this.destroyUserValidate();
+      }
+      if (this.dialogStatus === 13) {
+        this.WechatCodeMobileValidate();
       }
     },
     tabChange(key) {

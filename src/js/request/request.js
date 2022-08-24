@@ -263,13 +263,16 @@ const Api = {
       return post("/api/v2/member/detail/password", params);
     },
     WechatLogin() {
-      return get("/api/v2/login/wechatScan");
+      return get("/api/v3/auth/login/wechat/scan");
     },
     WechatBind() {
       return get("/api/v2/member/wechatScan/bind");
     },
+    WechatCodeBindMobile(params) {
+      return post("/api/v3/auth/register/withWechatScan", params);
+    },
     CheckWechatLogin(params) {
-      return get("/api/v2/login/wechatScan/query", params);
+      return get("/api/v3/auth/login/wechat/scan/query", params);
     },
     CancelBind(app) {
       return destroy(`/api/v2/member/socialite/${app}`);
