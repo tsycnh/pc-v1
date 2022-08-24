@@ -266,7 +266,7 @@ const Api = {
       return get("/api/v3/auth/login/wechat/scan");
     },
     WechatBind() {
-      return get("/api/v2/member/wechatScan/bind");
+      return get("/api/v3/member/wechatScanBind");
     },
     WechatCodeBindMobile(params) {
       return post("/api/v3/auth/register/withWechatScan", params);
