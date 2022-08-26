@@ -84,13 +84,14 @@
             >
               <div class="avatar">
                 <img v-if="item.user" :src="item.user.avatar" />
+                <img v-else src="../../assets/img/commen/default-avatar.jpg" />
               </div>
               <div class="comment-content">
                 <div class="top-info">
                   <div class="nickname" v-if="item.user">
                     {{ item.user.nick_name }}
                   </div>
-                  <div class="nickname red" v-else>用户不存在</div>
+                  <div class="nickname red" v-else>未知用户</div>
                   <div class="diff">
                     {{ item.created_at | changeTime }}
                   </div>
@@ -149,7 +150,7 @@
                     {{ item.reply_count }}回复
                   </div>
                   <div
-                    v-else
+                    v-else-if="item.user"
                     :class="{ trans: configInput[index] === true }"
                     class="reply-answer"
                     @click="showReply(index)"
@@ -189,6 +190,10 @@
                           v-if="replyItem.user"
                           :src="replyItem.user.avatar"
                         />
+                        <img
+                          v-else
+                          src="../../assets/img/commen/default-avatar.jpg"
+                        />
                       </div>
                       <div class="reply-content">
                         <div class="top-info">
@@ -199,7 +204,7 @@
                             </template>
                           </div>
                           <div class="reply-nickname red" v-else>
-                            用户不存在
+                            未知用户
                           </div>
                           <div class="reply-diff">
                             {{ replyItem.created_at | changeTime }}
@@ -359,6 +364,9 @@ export default {
     questionVote(answerItem) {
       if (!this.isLogin) {
         this.goLogin();
+        return;
+      }
+      if (!answerItem.user) {
         return;
       }
       this.$api.Wenda.Vote({

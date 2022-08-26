@@ -162,12 +162,19 @@
               :key="commentItem.id"
             >
               <div class="user-avatar">
-                <img :src="commentItem.user.avatar" />
+                <img
+                  v-if="commentItem.user.length !== 0"
+                  :src="commentItem.user.avatar"
+                />
+                <img v-else src="../../assets/img/commen/default-avatar.jpg" />
               </div>
               <div class="comment-content">
                 <div class="comment-info">
-                  <div class="nickname">
+                  <div class="nickname" v-if="commentItem.user.length !== 0">
                     {{ commentItem.user.nick_name }}
+                  </div>
+                  <div class="nickname" v-else>
+                    未知用户
                   </div>
                   <div class="comment-time">
                     {{ commentItem.created_at | changeTime }}
@@ -179,7 +186,7 @@
                   <div
                     :class="{ trans: configInput[index] === true }"
                     class="reply-answer"
-                    v-if="canSee"
+                    v-if="canSee && commentItem.user.length !== 0"
                     @click="showReply(commentItem.id)"
                   >
                     回复
@@ -227,20 +234,27 @@
                     >
                       <div class="reply-avatar">
                         <img
-                          v-if="replyItem.user"
+                          v-if="replyItem.user.length !== 0"
                           :src="replyItem.user.avatar"
+                        />
+                        <img
+                          v-else
+                          src="../../assets/img/commen/default-avatar.jpg"
                         />
                       </div>
                       <div class="reply-content">
                         <div class="top-info">
-                          <div class="reply-nickname" v-if="replyItem.user">
+                          <div
+                            class="reply-nickname"
+                            v-if="replyItem.user.length !== 0"
+                          >
                             {{ replyItem.user.nick_name }}
                             <template v-if="replyItem.reply != null">
                               回复：{{ replyItem.reply.user.nick_name }}
                             </template>
                           </div>
                           <div class="reply-nickname red" v-else>
-                            用户不存在
+                            未知用户
                           </div>
                           <div class="reply-diff">
                             {{ replyItem.created_at | changeTime }}
@@ -250,7 +264,7 @@
                           <div v-html="replyItem.content"></div>
                         </div>
                         <div
-                          v-if="canSee"
+                          v-if="canSee && replyItem.user.length !== 0"
                           class="answer-item"
                           @click="showReply(replyItem.id)"
                         >
