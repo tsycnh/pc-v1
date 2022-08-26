@@ -108,40 +108,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="item-line">
-            <div class="item-left">
-              <div class="item-name">绑定QQ</div>
-              <div class="item-btn" @click="goBindQQ()">点击绑定</div>
-            </div>
-            <div class="item-right">
-              <div class="tip">(可用于快捷登录)</div>
-            </div>
-          </div>
-          <div class="item-line">
-            <div class="item-left">
-              <div class="item-name">绑定微信</div>
-              <div
-                class="item-btn"
-                v-if="bindWeixin === 0"
-                @click="goBindWeixin()"
-              >
-                点击绑定
-              </div>
-              <div class="item-value" v-if="bindWeixin === 1">
-                {{ user.mobile }}
-              </div>
-              <div
-                class="item-btn"
-                v-if="bindWeixin === 1"
-                @click="goBindWeixin()"
-              >
-                重新绑定
-              </div>
-            </div>
-            <div class="item-right">
-              <div class="tip">(可用于快捷登录)</div>
-            </div>
-          </div> -->
         </div>
         <div class="project-content" v-if="currentTab === 2">
           <div class="item-line">
@@ -304,6 +270,35 @@
         </div>
       </div>
     </div>
+    <change-password
+      :status="changePasswordVisible"
+      scene="password_reset"
+      @cancel="cancel"
+      @success="success"
+    ></change-password>
+    <mobile-validate
+      v-if="user"
+      :status="mobileValidateVisible"
+      :mobile="user.mobile"
+      scene="mobile_bind"
+      @cancel="cancel"
+      @success="successMobileValidate"
+    ></mobile-validate>
+    <bind-mobile
+      :status="bindMobileVisible"
+      :sign="bindMobileSign"
+      scene="mobile_bind"
+      @cancel="cancel"
+      @success="success"
+    ></bind-mobile>
+    <bind-new-mobile
+      :status="bindNewmobileVisible"
+      :active="false"
+      scene="mobile_bind"
+      @cancel="cancel"
+      @success="success"
+    ></bind-new-mobile>
+    <destroy-user :status="destroyUserVisible" @cancel="cancel"></destroy-user>
     <nav-footer></nav-footer>
   </div>
 </template>
@@ -318,6 +313,11 @@ import ProImageUpload from "../../components/profile-image-upload.vue";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import "vue2-datepicker/locale/zh-cn";
+import ChangePassword from "./components/change-password.vue";
+import MobileValidate from "./components/mobile-validate.vue";
+import BindMobile from "./components/bind-mobile.vue";
+import BindNewMobile from "./components/bind-new-mobile.vue";
+import DestroyUser from "./components/destroy-user.vue";
 
 // 请求域名
 axios.defaults.baseURL = config.url;
@@ -340,6 +340,11 @@ export default {
     NavMember,
     ProImageUpload,
     DatePicker,
+    ChangePassword,
+    MobileValidate,
+    BindMobile,
+    BindNewMobile,
+    DestroyUser,
   },
   data() {
     return {
@@ -375,6 +380,12 @@ export default {
           id: 2,
         },
       ],
+      changePasswordVisible: false,
+      mobileValidateVisible: false,
+      bindMobileSign: null,
+      bindMobileVisible: false,
+      bindNewmobileVisible: false,
+      destroyUserVisible: false,
     };
   },
   watch: {
@@ -386,13 +397,9 @@ export default {
         this.realFormFocus = true;
       },
     },
-    sucbind() {
-      this.resetUserDetail();
-      this.getData();
-    },
   },
   computed: {
-    ...mapState(["isLogin", "user", "sucbind", "bindWeixin"]),
+    ...mapState(["isLogin", "user"]),
   },
   mounted() {
     if (this.user) {
@@ -401,12 +408,7 @@ export default {
     this.getData();
   },
   methods: {
-    ...mapMutations([
-      "loginHandle",
-      "showLoginDialog",
-      "changeDialogType",
-      "saveDialogMobile",
-    ]),
+    ...mapMutations(["loginHandle"]),
     inputFn() {
       this.realFormFocus = true;
     },
@@ -441,28 +443,20 @@ export default {
       this.currentTab = key;
     },
     goChangeMobile() {
-      this.saveDialogMobile(this.user.mobile);
-      this.changeDialogType(6);
-      this.showLoginDialog();
+      this.mobileValidateVisible = true;
     },
     goBindMobile() {
-      this.changeDialogType(9);
-      this.showLoginDialog();
+      this.bindNewmobileVisible = true;
     },
     goBindQQ() {
       window.location.href = "https://all.meedu.tech/member/socialite/qq/bind";
-    },
-    goBindWeixin() {
-      this.changeDialogType(7);
-      this.showLoginDialog();
     },
     goChangePassword() {
       if (this.user.is_bind_mobile !== 1) {
         this.$message.error("请绑定手机号");
         return;
       }
-      this.changeDialogType(10);
-      this.showLoginDialog();
+      this.changePasswordVisible = true;
     },
     getData() {
       this.$api.Member.Profile().then((res) => {
@@ -484,7 +478,6 @@ export default {
         }
       });
     },
-
     uploadAvatar(e) {
       let files = e.target.files;
       if (!files[0].type.match(/.jpg|.png|.jpeg/i)) {
@@ -569,8 +562,24 @@ export default {
         });
     },
     destroyUser() {
-      this.changeDialogType(12);
-      this.showLoginDialog();
+      this.destroyUserVisible = true;
+    },
+    cancel() {
+      this.changePasswordVisible = false;
+      this.mobileValidateVisible = false;
+      this.bindMobileVisible = false;
+      this.bindNewmobileVisible = false;
+      this.destroyUserVisible = false;
+    },
+    success() {
+      this.cancel();
+      this.resetUserDetail();
+      this.getData();
+    },
+    successMobileValidate(sign) {
+      this.bindMobileSign = sign;
+      this.cancel();
+      this.bindMobileVisible = true;
     },
   },
 };

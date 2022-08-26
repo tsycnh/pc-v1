@@ -363,145 +363,6 @@
       </div>
     </div>
     <div
-      style="height: 480px"
-      class="dialog-login-box"
-      v-if="dialogStatus === 6"
-    >
-      <div class="tabs">
-        <div class="item-tab active">验证原手机号</div>
-        <img
-          class="btn-close"
-          @click="cancel()"
-          src="../assets/img/commen/icon-close.png"
-        />
-      </div>
-      <div class="box">
-        <div class="box-mobile">
-          <span
-            >原手机号码验证：<strong>{{ mobile }}</strong></span
-          >
-        </div>
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入图形验证码"
-            autocomplete="off"
-            v-model="messageForm.captcha"
-            class="input-short"
-            required
-          />
-          <div class="captcha">
-            <img
-              class="captcha-img"
-              :src="captcha.img"
-              mode="widthFix"
-              @click="getCaptcha"
-            />
-          </div>
-        </div>
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入手机验证码"
-            autocomplete="off"
-            v-model="messageForm.sms"
-            class="input-short"
-            required
-          />
-          <div class="buttons">
-            <span class="send-sms-button" @click="sendSms()">
-              <template v-if="sms.loading"> {{ sms.current }}s </template>
-              <template v-else>获取验证码</template>
-            </span>
-          </div>
-        </div>
-        <div class="btn-box" style="margin-bottom: 0px !important">
-          <button type="submit" class="submit" @click="mobileValidate()">
-            确定
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-      style="height: 480px"
-      class="dialog-login-box"
-      v-if="dialogStatus === 8"
-    >
-      <div class="tabs">
-        <div class="item-tab active">绑定新手机号</div>
-        <img
-          class="btn-close"
-          @click="cancel()"
-          src="../assets/img/commen/icon-close.png"
-        />
-      </div>
-      <div class="box">
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入新手机号码"
-            autocomplete="off"
-            v-model="messageForm.mobile"
-            class="input"
-            required
-          />
-        </div>
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入图形验证码"
-            autocomplete="off"
-            v-model="messageForm.captcha"
-            class="input-short"
-            required
-          />
-          <div class="captcha">
-            <img
-              class="captcha-img"
-              :src="captcha.img"
-              mode="widthFix"
-              @click="getCaptcha"
-            />
-          </div>
-        </div>
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入手机验证码"
-            autocomplete="off"
-            v-model="messageForm.sms"
-            class="input-short"
-            required
-          />
-          <div class="buttons">
-            <span class="send-sms-button" @click="sendSms()">
-              <template v-if="sms.loading"> {{ sms.current }}s </template>
-              <template v-else>获取验证码</template>
-            </span>
-          </div>
-        </div>
-
-        <div class="btn-box" style="margin-bottom: 0px !important">
-          <button type="submit" class="submit" @click="changeMobileValidate()">
-            立即绑定
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="dialog-login-box" v-if="dialogStatus === 7">
-      <div class="tabs">
-        <div class="item-tab active">绑定微信</div>
-        <img
-          class="btn-close"
-          @click="cancel()"
-          src="../assets/img/commen/icon-close.png"
-        />
-      </div>
-      <div class="box">
-        <img class="qrode" :src="qrode" />
-      </div>
-    </div>
-    <div
       style="height: 440px"
       class="dialog-login-box"
       v-if="dialogStatus === 9"
@@ -565,78 +426,6 @@
         <div class="btn-box" style="margin-bottom: 0px !important">
           <button type="submit" class="submit" @click="NewMobileValidate()">
             立即绑定
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="dialog-login-box" v-if="dialogStatus === 10">
-      <div class="tabs">
-        <div class="item-tab active">设置（修改）密码</div>
-        <img
-          class="btn-close"
-          @click="cancel()"
-          src="../assets/img/commen/icon-close.png"
-        />
-      </div>
-      <div class="box">
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入绑定手机号"
-            autocomplete="off"
-            v-model="messageForm.mobile"
-            class="input"
-            required
-          />
-        </div>
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入图形验证码"
-            autocomplete="off"
-            v-model="messageForm.captcha"
-            class="input-short"
-            required
-          />
-          <div class="captcha">
-            <img
-              class="captcha-img"
-              :src="captcha.img"
-              mode="widthFix"
-              @click="getCaptcha"
-            />
-          </div>
-        </div>
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入手机验证码"
-            autocomplete="off"
-            v-model="messageForm.sms"
-            class="input-short"
-            required
-          />
-          <div class="buttons">
-            <span class="send-sms-button" @click="sendSms()">
-              <template v-if="sms.loading"> {{ sms.current }}s </template>
-              <template v-else>获取验证码</template>
-            </span>
-          </div>
-        </div>
-        <div class="input-item">
-          <input
-            type="password"
-            placeholder="请设置账号密码"
-            autocomplete="off"
-            v-model="messageForm.password"
-            class="input"
-            required
-            @keyup.enter="editValidate"
-          />
-        </div>
-        <div class="btn-box" style="margin-bottom: 0px !important">
-          <button type="submit" class="submit" @click="editValidate">
-            重置密码
           </button>
         </div>
       </div>
@@ -705,30 +494,6 @@
         <div class="btn-box" style="margin-bottom: 0px !important">
           <button type="submit" class="submit" @click="CodeMobileValidate()">
             立即绑定
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-      style="height: 270px"
-      class="dialog-login-box"
-      v-if="dialogStatus === 12"
-    >
-      <div class="tabs">
-        <div class="item-tab active">注销账号</div>
-        <img
-          class="btn-close"
-          @click="cancel()"
-          src="../assets/img/commen/icon-close.png"
-        />
-      </div>
-      <div class="box">
-        <div class="input-item">
-          确认注销账号？确认之后账号将在7天后自动注销，期间内登录账号将会自动取消账号注销。
-        </div>
-        <div class="btn-box" style="margin-bottom: 0px !important">
-          <button type="submit" class="submit" @click="destroyUserValidate()">
-            注销
           </button>
         </div>
       </div>
@@ -861,9 +626,6 @@ export default {
       this.dialogStatus = this.dialogType;
       if (this.dialogStatus !== 0 && this.dialogStatus !== 5) {
         this.getCaptcha();
-      }
-      if (this.dialogStatus === 7) {
-        this.getBindQrode();
       }
     },
     mobile() {
@@ -1009,24 +771,6 @@ export default {
           this.$message.error(e.message);
         });
     },
-    getBindQrode() {
-      this.$api.Member.WechatBind().then((res) => {
-        this.qrode = res.data.image;
-        this.code = res.data.code;
-        this.timer = setInterval(this.checkWechatBind, 3000);
-      });
-    },
-    checkWechatBind() {
-      this.$api.Member.Detail().then((res) => {
-        if (res.data.is_bind_wechat === 1) {
-          this.$message.success("绑定成功");
-          clearInterval(this.timer);
-          this.resetDialog();
-          this.hideLoginDialog();
-          this.bindSuccess();
-        }
-      });
-    },
     sendSms() {
       if (this.sms.loading) {
         // 冷却中
@@ -1053,17 +797,8 @@ export default {
       if (this.dialogStatus === 3) {
         this.scene = "password_reset";
       }
-      if (this.dialogStatus === 6) {
-        this.scene = "mobile_bind";
-      }
-      if (this.dialogStatus === 8) {
-        this.scene = "mobile_bind";
-      }
       if (this.dialogStatus === 9) {
         this.scene = "mobile_bind";
-      }
-      if (this.dialogStatus === 10) {
-        this.scene = "password_reset";
       }
       if (this.dialogStatus === 11) {
         this.scene = "mobile_bind";
@@ -1080,7 +815,7 @@ export default {
         .then(() => {
           // 发送成功
           this.$message.success("发送成功");
-          this.sms.loading = this;
+          this.sms.loading = true;
           this.sms.current = this.sms.max;
           this.interval = setInterval(() => {
             if (this.sms.current <= 1) {
@@ -1109,23 +844,11 @@ export default {
       if (this.dialogStatus === 3) {
         this.editValidate();
       }
-      if (this.dialogStatus === 6) {
-        this.mobileValidate();
-      }
-      if (this.dialogStatus === 8) {
-        this.changeMobileValidate();
-      }
       if (this.dialogStatus === 9) {
         this.NewMobileValidate();
       }
-      if (this.dialogStatus === 10) {
-        this.editValidate();
-      }
       if (this.dialogStatus === 11) {
         this.CodeMobileValidate();
-      }
-      if (this.dialogStatus === 12) {
-        this.destroyUserValidate();
       }
       if (this.dialogStatus === 13) {
         this.WechatCodeMobileValidate();
@@ -1353,40 +1076,6 @@ export default {
           this.$message.error(e.message);
         });
     },
-    changeMobileValidate() {
-      if (this.loading) {
-        return;
-      }
-      if (!this.messageForm.sms) {
-        this.$message.error("请输入手机验证码");
-        return;
-      }
-      if (!this.messageForm.mobile) {
-        this.$message.error("请填写新的绑定手机号码");
-        return;
-      }
-      if (!this.$utils.isPoneAvailable(this.messageForm.mobile)) {
-        this.$message.error("请输入正确的手机号");
-        return;
-      }
-      this.loading = true;
-      this.$api.Member.MobileChange({
-        mobile: this.messageForm.mobile,
-        mobile_code: this.messageForm.sms,
-        sign: this.messageForm.sign,
-      })
-        .then((res) => {
-          this.loading = false;
-          this.$message.success("绑定成功");
-          this.resetDialog();
-          this.hideLoginDialog();
-          this.bindSuccess();
-        })
-        .catch((e) => {
-          this.loading = false;
-          this.$message.error(e.message);
-        });
-    },
     NewMobileValidate() {
       if (this.loading) {
         return;
@@ -1460,62 +1149,6 @@ export default {
             .catch((e) => {
               this.$message.error(e.message);
             });
-        })
-        .catch((e) => {
-          this.loading = false;
-          this.$message.error(e.message);
-        });
-    },
-    mobileValidate() {
-      if (this.loading) {
-        return;
-      }
-      if (!this.$utils.isPoneAvailable(this.messageForm.mobile)) {
-        this.$message.error("请输入正确的手机号");
-        return;
-      }
-      if (!this.messageForm.sms) {
-        this.$message.error("请输入手机验证码");
-        return;
-      }
-      this.loading = true;
-      this.$api.Member.MobileVerify({
-        mobile: this.messageForm.mobile,
-        mobile_code: this.messageForm.sms,
-      })
-        .then((res) => {
-          this.loading = false;
-          this.$message.success("验证成功");
-          this.saveDialogMobile(null);
-          this.resetDialog();
-          this.getCaptcha();
-          this.sms.loading = false;
-          this.sms.current = 0;
-          this.dialogStatus = 8;
-          this.messageForm.sign = res.data.sign;
-        })
-        .catch((e) => {
-          this.loading = false;
-          this.changeMobile = false;
-          this.$message.error(e.message);
-        });
-    },
-    destroyUserValidate() {
-      if (this.loading) {
-        return;
-      }
-
-      this.loading = true;
-      this.$api.Auth.DestroyUser()
-        .then((res) => {
-          this.loading = false;
-          this.$message.success("注销成功");
-          this.logout();
-          this.resetDialog();
-          this.hideLoginDialog();
-          this.$router.replace({
-            name: "index",
-          });
         })
         .catch((e) => {
           this.loading = false;

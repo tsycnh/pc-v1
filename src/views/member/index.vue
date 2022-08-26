@@ -122,6 +122,33 @@
         </template>
       </div>
     </div>
+    <bind-weixin
+      :status="bindWeixinVisible"
+      @cancel="cancelDialog"
+      @success="success"
+    ></bind-weixin>
+    <mobile-validate
+      v-if="list"
+      :status="mobileValidateVisible"
+      :mobile="list.mobile"
+      scene="mobile_bind"
+      @cancel="cancelDialog"
+      @success="successMobileValidate"
+    ></mobile-validate>
+    <bind-mobile
+      :status="bindMobileVisible"
+      :sign="bindMobileSign"
+      scene="mobile_bind"
+      @cancel="cancelDialog"
+      @success="success"
+    ></bind-mobile>
+    <bind-new-mobile
+      :status="bindNewmobileVisible"
+      :active="false"
+      scene="mobile_bind"
+      @cancel="cancelDialog"
+      @success="success"
+    ></bind-new-mobile>
     <nav-footer></nav-footer>
   </div>
 </template>
@@ -131,11 +158,20 @@ import { mapState, mapMutations } from "vuex";
 import NavFooter from "../../components/footer.vue";
 import NavMember from "../../components/navmember.vue";
 import SkeletonMember from "../../components/skeleton/skeletonMember.vue";
+import BindWeixin from "./components/bind-weixin.vue";
+import MobileValidate from "./components/mobile-validate.vue";
+import BindMobile from "./components/bind-mobile.vue";
+import BindNewMobile from "./components/bind-new-mobile.vue";
+
 export default {
   components: {
     NavFooter,
     NavMember,
     SkeletonMember,
+    BindWeixin,
+    MobileValidate,
+    BindMobile,
+    BindNewMobile,
   },
   data() {
     return {
@@ -147,15 +183,15 @@ export default {
       openmask: false,
       app: null,
       error: this.$route.query.error,
+      bindWeixinVisible: false,
+      mobileValidateVisible: false,
+      bindMobileSign: null,
+      bindMobileVisible: false,
+      bindNewmobileVisible: false,
     };
   },
   computed: {
-    ...mapState(["isLogin", "user", "sucbind", "config"]),
-  },
-  watch: {
-    sucbind() {
-      this.refresh();
-    },
+    ...mapState(["isLogin", "user", "config"]),
   },
   mounted() {
     this.$router.onReady(() => {
@@ -170,22 +206,10 @@ export default {
     });
   },
   methods: {
-    ...mapMutations([
-      "loginHandle",
-      "showLoginDialog",
-      "changeDialogType",
-      "saveDialogMobile",
-      "removeBind",
-      "setConfig",
-    ]),
-    goLogin() {
-      this.changeDialogType(1);
-      this.showLoginDialog();
-    },
+    ...mapMutations(["setConfig"]),
     refresh() {
       this.getData();
       this.getConfig();
-      this.removeBind();
     },
     getInviteInfo() {
       this.$api.MultiLevelShare.User().then((res) => {
@@ -211,13 +235,10 @@ export default {
       });
     },
     goBindMobile() {
-      this.changeDialogType(9);
-      this.showLoginDialog();
+      this.bindNewmobileVisible = true;
     },
     goChangeMobile() {
-      this.saveDialogMobile(this.list.mobile);
-      this.changeDialogType(6);
-      this.showLoginDialog();
+      this.mobileValidateVisible = true;
     },
     goBindQQ() {
       let host = window.location.href;
@@ -255,8 +276,7 @@ export default {
       this.openmask = true;
     },
     goBindWeixin() {
-      this.changeDialogType(7);
-      this.showLoginDialog();
+      this.bindWeixinVisible = true;
     },
     submitHandle() {
       this.$api.Member.CancelBind(this.app).then((res) => {
@@ -264,6 +284,21 @@ export default {
         this.cancel();
         this.getData();
       });
+    },
+    cancelDialog() {
+      this.bindWeixinVisible = false;
+      this.mobileValidateVisible = false;
+      this.bindMobileVisible = false;
+      this.bindNewmobileVisible = false;
+    },
+    success() {
+      this.cancelDialog();
+      this.refresh();
+    },
+    successMobileValidate(sign) {
+      this.bindMobileSign = sign;
+      this.cancelDialog();
+      this.bindMobileVisible = true;
     },
     cancelBindWeixin() {
       this.app = "wechat";
