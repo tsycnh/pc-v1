@@ -365,142 +365,6 @@
     <div
       style="height: 440px"
       class="dialog-login-box"
-      v-if="dialogStatus === 9"
-    >
-      <div class="tabs">
-        <div class="item-tab active">绑定新手机号</div>
-        <a v-if="notCancel" class="linkTab2" @click="goLogout">退出登录>></a>
-        <img
-          v-if="!notCancel"
-          class="btn-close"
-          @click="cancel()"
-          src="../assets/img/commen/icon-close.png"
-        />
-      </div>
-      <div class="box">
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入新手机号码"
-            autocomplete="off"
-            v-model="messageForm.mobile"
-            class="input"
-            required
-          />
-        </div>
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入图形验证码"
-            autocomplete="off"
-            v-model="messageForm.captcha"
-            class="input-short"
-            required
-          />
-          <div class="captcha">
-            <img
-              class="captcha-img"
-              :src="captcha.img"
-              mode="widthFix"
-              @click="getCaptcha"
-            />
-          </div>
-        </div>
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入手机验证码"
-            autocomplete="off"
-            v-model="messageForm.sms"
-            class="input-short"
-            required
-          />
-          <div class="buttons">
-            <span class="send-sms-button" @click="sendSms()">
-              <template v-if="sms.loading"> {{ sms.current }}s </template>
-              <template v-else>获取验证码</template>
-            </span>
-          </div>
-        </div>
-
-        <div class="btn-box" style="margin-bottom: 0px !important">
-          <button type="submit" class="submit" @click="NewMobileValidate()">
-            立即绑定
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-      style="height: 440px"
-      class="dialog-login-box"
-      v-if="dialogStatus === 11"
-    >
-      <div class="tabs">
-        <div class="item-tab active">请绑定手机号</div>
-        <a v-if="notCancel" class="linkTab2" @click="goBindOut">取消绑定>></a>
-        <img
-          v-if="!notCancel"
-          class="btn-close"
-          @click="cancel()"
-          src="../assets/img/commen/icon-close.png"
-        />
-      </div>
-      <div class="box">
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入手机号码"
-            autocomplete="off"
-            v-model="messageForm.mobile"
-            class="input"
-            required
-          />
-        </div>
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入图形验证码"
-            autocomplete="off"
-            v-model="messageForm.captcha"
-            class="input-short"
-            required
-          />
-          <div class="captcha">
-            <img
-              class="captcha-img"
-              :src="captcha.img"
-              mode="widthFix"
-              @click="getCaptcha"
-            />
-          </div>
-        </div>
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入手机验证码"
-            autocomplete="off"
-            v-model="messageForm.sms"
-            class="input-short"
-            required
-          />
-          <div class="buttons">
-            <span class="send-sms-button" @click="sendSms()">
-              <template v-if="sms.loading"> {{ sms.current }}s </template>
-              <template v-else>获取验证码</template>
-            </span>
-          </div>
-        </div>
-
-        <div class="btn-box" style="margin-bottom: 0px !important">
-          <button type="submit" class="submit" @click="CodeMobileValidate()">
-            立即绑定
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-      style="height: 440px"
-      class="dialog-login-box"
       v-if="dialogStatus === 13"
     >
       <div class="tabs">
@@ -797,9 +661,6 @@ export default {
       if (this.dialogStatus === 3) {
         this.scene = "password_reset";
       }
-      if (this.dialogStatus === 9) {
-        this.scene = "mobile_bind";
-      }
       if (this.dialogStatus === 11) {
         this.scene = "mobile_bind";
       }
@@ -843,12 +704,6 @@ export default {
       }
       if (this.dialogStatus === 3) {
         this.editValidate();
-      }
-      if (this.dialogStatus === 9) {
-        this.NewMobileValidate();
-      }
-      if (this.dialogStatus === 11) {
-        this.CodeMobileValidate();
       }
       if (this.dialogStatus === 13) {
         this.WechatCodeMobileValidate();
@@ -1076,39 +931,7 @@ export default {
           this.$message.error(e.message);
         });
     },
-    NewMobileValidate() {
-      if (this.loading) {
-        return;
-      }
-      if (!this.messageForm.sms) {
-        this.$message.error("请输入手机验证码");
-        return;
-      }
-      if (!this.messageForm.mobile) {
-        this.$message.error("请填写新的绑定手机号码");
-        return;
-      }
-      if (!this.$utils.isPoneAvailable(this.messageForm.mobile)) {
-        this.$message.error("请输入正确的手机号");
-        return;
-      }
-      this.loading = true;
-      this.$api.Member.NewMobile({
-        mobile: this.messageForm.mobile,
-        mobile_code: this.messageForm.sms,
-      })
-        .then((res) => {
-          this.loading = false;
-          this.$message.success("绑定成功");
-          this.resetDialog();
-          this.hideLoginDialog();
-          this.bindSuccess();
-        })
-        .catch((e) => {
-          this.loading = false;
-          this.$message.error(e.message);
-        });
-    },
+
     CodeMobileValidate() {
       if (this.loading) {
         return;

@@ -2,20 +2,14 @@
   <div class="mask" v-if="status">
     <div style="height: 440px" class="dialog-login-box">
       <div class="tabs">
-        <div class="item-tab active">绑定新手机号</div>
-        <a v-if="active" class="linkTab2" @click="goLogout">退出登录>></a>
-        <img
-          v-else
-          class="btn-close"
-          @click="cancel()"
-          src="@/assets/img/commen/icon-close.png"
-        />
+        <div class="item-tab active">请绑定手机号</div>
+        <a v-if="active" class="linkTab2" @click="cancel()">取消绑定>></a>
       </div>
       <div class="box">
         <div class="input-item">
           <input
             type="text"
-            placeholder="请输入新手机号码"
+            placeholder="请输入手机号码"
             autocomplete="off"
             v-model="messageForm.mobile"
             class="input"
@@ -58,7 +52,7 @@
         </div>
 
         <div class="btn-box" style="margin-bottom: 0px !important">
-          <button type="submit" class="submit" @click="NewMobileValidate()">
+          <button type="submit" class="submit" @click="CodeMobileValidate()">
             立即绑定
           </button>
         </div>
@@ -67,7 +61,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState } from "vuex";
 export default {
   props: ["status", "scene", "active"],
   data() {
@@ -103,23 +97,6 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
-    ...mapMutations(["logout"]),
-    goLogout() {
-      if (this.loading) {
-        return;
-      }
-      this.loading = true;
-      this.$api.Auth.Logout()
-        .then((res) => {
-          this.loading = false;
-          this.logout();
-          this.cancel();
-        })
-        .catch((e) => {
-          this.loading = false;
-          this.$message.error("网络错误");
-        });
-    },
     resetDialog() {
       this.sms.loading = false;
       this.sms.current = 0;
@@ -180,7 +157,7 @@ export default {
           this.$message.error(e.message);
         });
     },
-    NewMobileValidate() {
+    CodeMobileValidate() {
       if (this.loading) {
         return;
       }
@@ -189,7 +166,7 @@ export default {
         return;
       }
       if (!this.messageForm.mobile) {
-        this.$message.error("请填写新的绑定手机号码");
+        this.$message.error("请填写绑定手机号码");
         return;
       }
       if (!this.$utils.isPoneAvailable(this.messageForm.mobile)) {
@@ -197,15 +174,27 @@ export default {
         return;
       }
       this.loading = true;
-      this.$api.Member.NewMobile({
+      this.$api.Member.CodeBindMobile({
         mobile: this.messageForm.mobile,
+        code: this.$utils.getLoginCode(),
         mobile_code: this.messageForm.sms,
       })
         .then((res) => {
           this.loading = false;
           this.$message.success("绑定成功");
-          this.resetDialog();
-          this.$emit("success", true);
+          this.$utils.clearLoginCode();
+
+          let token = res.data.token;
+          this.$utils.saveToken(token);
+          this.$api.User.Detail()
+            .then((res) => {
+              this.loginHandle(res.data);
+              this.resetDialog();
+              this.$emit("success", true);
+            })
+            .catch((e) => {
+              this.$message.error(e.message);
+            });
         })
         .catch((e) => {
           this.loading = false;

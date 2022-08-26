@@ -11,6 +11,23 @@
       @changeType="changeType"
     ></Login-Dialog>
 
+    <bind-new-mobile
+      :status="bindNewmobileVisible"
+      :active="cancelStatus"
+      scene="mobile_bind"
+      @cancel="cancelDialog"
+      @success="success"
+    ></bind-new-mobile>
+
+    <code-login-bind-mobile
+      :status="codebindmobileVisible"
+      :active="cancelStatus"
+      scene="mobile_bind"
+      @cancel="cancelDialog"
+      @success="success"
+    >
+    </code-login-bind-mobile>
+
     <template v-if="initComplete">
       <keep-alive>
         <router-view v-if="config && this.$route.meta.keepAlive"></router-view>
@@ -33,6 +50,8 @@ import NavHeader from "./components/navheader.vue";
 import LoginDialog from "./components/logindialog.vue";
 import BackTop from "./components/back-top.vue";
 import Sign from "./components/sign.vue";
+import BindNewMobile from "./views/member/components/bind-new-mobile.vue";
+import CodeLoginBindMobile from "./components/code-login-bind-mobile.vue";
 
 export default {
   components: {
@@ -40,12 +59,16 @@ export default {
     LoginDialog,
     BackTop,
     Sign,
+    BindNewMobile,
+    CodeLoginBindMobile,
   },
   data() {
     return {
       cancelStatus: false,
       backTopStatus: false,
       initComplete: false,
+      bindNewmobileVisible: false,
+      codebindmobileVisible: false,
     };
   },
   watch: {
@@ -109,7 +132,32 @@ export default {
       "setConfig",
       "showLoginDialog",
       "updateFuncConfig",
+      "bindSuccess",
     ]),
+    cancelDialog() {
+      this.codebindmobileVisible = false;
+      this.bindNewmobileVisible = false;
+    },
+    success() {
+      this.cancelDialog();
+      this.bindSuccess();
+      this.redirectHandler();
+    },
+    redirectHandler() {
+      if (this.$route.name === "login") {
+        if (this.$route.query.redirect) {
+          this.$router.replace({
+            path: this.$route.query.redirect,
+          });
+        } else {
+          this.$router.replace({
+            name: "index",
+          });
+        }
+      } else {
+        location.reload();
+      }
+    },
     changeType(val) {
       this.changeDialogType(val);
     },
@@ -149,8 +197,7 @@ export default {
           } else {
             if (res.data.action === "bind_mobile") {
               this.$utils.saveLoginCode(code);
-              this.changeDialogType(11);
-              this.showLoginDialog();
+              this.codebindmobileVisible = true;
               this.cancelStatus = true;
             }
           }
@@ -170,8 +217,7 @@ export default {
           res.data.is_bind_mobile === 0 &&
           this.config.member.enabled_mobile_bind_alert === 1
         ) {
-          this.changeDialogType(9);
-          this.showLoginDialog();
+          this.bindNewmobileVisible = true;
           this.cancelStatus = true;
         }
       } catch (e) {
