@@ -243,7 +243,7 @@
                       {{ commentUsers[comment.user_id].nick_name }}
                     </div>
                     <div class="nickname" v-else>
-                      用户已删除
+                      未知用户
                     </div>
                     <div class="comment-time">
                       {{ comment.created_at | changeTime }}
