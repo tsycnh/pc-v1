@@ -350,7 +350,7 @@ export default {
       });
     },
     setCorrect(answer) {
-      if (answer.user) {
+      if (!answer.user) {
         return;
       }
       this.$api.Wenda.ChoiceAnswer(this.question.id, {
