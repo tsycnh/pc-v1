@@ -64,9 +64,13 @@ export default {
   computed: {
     ...mapState(["isLogin", "config"]),
   },
-  mounted() {},
+  mounted() {
+    if (!this.$utils.getToken()) {
+      this.logout();
+    }
+  },
   methods: {
-    ...mapMutations(["loginHandle"]),
+    ...mapMutations(["loginHandle", "logout"]),
     passwordFormValidate() {
       if (this.loading) {
         return;
