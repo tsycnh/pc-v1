@@ -55,7 +55,7 @@ const Api = {
       return post(`/api/v2/register/sms`, params);
     },
     PasswordForget(params) {
-      return post("/api/v2/password/reset", params);
+      return post("/api/v2/member/detail/password", params);
     },
     CodeLogin(params) {
       return post(`/api/v3/auth/login/code`, params);
