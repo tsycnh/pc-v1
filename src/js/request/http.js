@@ -42,7 +42,12 @@ axios.interceptors.response.use(
   // 当http的状态码非2xx
   (error) => {
     let httpCode = error.response.status;
-    if (httpCode === 404) {
+    if (httpCode === 401) {
+      Utils.clearToken();
+      router.replace({
+        name: "login",
+      });
+    } else if (httpCode === 404) {
       router.replace({
         name: "Error404",
       });
