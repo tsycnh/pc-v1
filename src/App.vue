@@ -16,7 +16,6 @@
       :active="cancelStatus"
       scene="mobile_bind"
       @cancel="cancelDialog"
-      @success="success"
     ></bind-new-mobile>
 
     <code-login-bind-mobile
@@ -24,7 +23,6 @@
       :active="cancelStatus"
       scene="mobile_bind"
       @cancel="cancelDialog"
-      @success="success"
     >
     </code-login-bind-mobile>
 
@@ -132,31 +130,10 @@ export default {
       "setConfig",
       "showLoginDialog",
       "updateFuncConfig",
-      "bindSuccess",
     ]),
     cancelDialog() {
       this.codebindmobileVisible = false;
       this.bindNewmobileVisible = false;
-    },
-    success() {
-      this.cancelDialog();
-      this.bindSuccess();
-      this.redirectHandler();
-    },
-    redirectHandler() {
-      if (this.$route.name === "login") {
-        if (this.$route.query.redirect) {
-          this.$router.replace({
-            path: this.$route.query.redirect,
-          });
-        } else {
-          this.$router.replace({
-            name: "index",
-          });
-        }
-      } else {
-        location.reload();
-      }
     },
     changeType(val) {
       this.changeDialogType(val);

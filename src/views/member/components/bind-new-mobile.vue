@@ -205,12 +205,31 @@ export default {
           this.loading = false;
           this.$message.success("绑定成功");
           this.resetDialog();
-          this.$emit("success", true);
+          if (this.active) {
+            this.redirectHandler();
+          } else {
+            this.$emit("success", true);
+          }
         })
         .catch((e) => {
           this.loading = false;
           this.$message.error(e.message);
         });
+    },
+    redirectHandler() {
+      if (this.$route.name === "login") {
+        if (this.$route.query.redirect) {
+          this.$router.replace({
+            path: this.$route.query.redirect,
+          });
+        } else {
+          this.$router.replace({
+            name: "index",
+          });
+        }
+      } else {
+        location.reload();
+      }
     },
   },
 };

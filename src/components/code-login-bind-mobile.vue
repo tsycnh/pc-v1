@@ -190,7 +190,7 @@ export default {
             .then((res) => {
               this.loginHandle(res.data);
               this.resetDialog();
-              this.$emit("success", true);
+              this.redirectHandler();
             })
             .catch((e) => {
               this.$message.error(e.message);
@@ -200,6 +200,21 @@ export default {
           this.loading = false;
           this.$message.error(e.message);
         });
+    },
+    redirectHandler() {
+      if (this.$route.name === "login") {
+        if (this.$route.query.redirect) {
+          this.$router.replace({
+            path: this.$route.query.redirect,
+          });
+        } else {
+          this.$router.replace({
+            name: "index",
+          });
+        }
+      } else {
+        location.reload();
+      }
     },
   },
 };
