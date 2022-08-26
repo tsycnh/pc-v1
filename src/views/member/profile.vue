@@ -271,7 +271,9 @@
       </div>
     </div>
     <change-password
+      v-if="user"
       :status="changePasswordVisible"
+      :mobile="user.mobile"
       scene="password_reset"
       @cancel="cancel"
       @success="success"

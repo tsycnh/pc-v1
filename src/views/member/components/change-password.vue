@@ -10,15 +10,10 @@
         />
       </div>
       <div class="box">
-        <div class="input-item">
-          <input
-            type="text"
-            placeholder="请输入绑定手机号"
-            autocomplete="off"
-            v-model="messageForm.mobile"
-            class="input"
-            required
-          />
+        <div class="box-mobile">
+          <span
+            >绑定手机号：<strong>{{ mobile }}</strong></span
+          >
         </div>
         <div class="input-item">
           <input
@@ -77,7 +72,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  props: ["status", "scene"],
+  props: ["status", "scene", "mobile"],
   data() {
     return {
       interval: null,
@@ -87,7 +82,6 @@ export default {
         img: null,
       },
       messageForm: {
-        mobile: null,
         sms: null,
         captcha: null,
         password: null,
@@ -114,7 +108,6 @@ export default {
     resetDialog() {
       this.sms.loading = false;
       this.sms.current = 0;
-      this.messageForm.mobile = null;
       this.messageForm.sms = null;
       this.messageForm.captcha = null;
       this.messageForm.password = null;
@@ -129,11 +122,11 @@ export default {
         // 冷却中
         return;
       }
-      if (!this.messageForm.mobile) {
+      if (!this.mobile) {
         this.$message.error("请输入手机号");
         return;
       }
-      if (!this.$utils.isPoneAvailable(this.messageForm.mobile)) {
+      if (!this.$utils.isPoneAvailable(this.mobile)) {
         this.$message.error("请输入正确的手机号");
         return;
       }
@@ -142,7 +135,7 @@ export default {
         return;
       }
       this.$api.Other.SendSms({
-        mobile: this.messageForm.mobile,
+        mobile: this.mobile,
         image_key: this.captcha.key,
         image_captcha: this.messageForm.captcha,
         scene: this.scene,
@@ -175,11 +168,11 @@ export default {
       if (this.loading) {
         return;
       }
-      if (!this.messageForm.mobile) {
+      if (!this.mobile) {
         this.$message.error("请输入手机号");
         return;
       }
-      if (!this.$utils.isPoneAvailable(this.messageForm.mobile)) {
+      if (!this.$utils.isPoneAvailable(this.mobile)) {
         this.$message.error("请输入正确的手机号");
         return;
       }
@@ -193,7 +186,7 @@ export default {
       }
       this.loading = true;
       this.$api.Auth.PasswordForget({
-        mobile: this.messageForm.mobile,
+        mobile: this.mobile,
         mobile_code: this.messageForm.sms,
         password: this.messageForm.password,
       })
