@@ -386,9 +386,13 @@ export default {
         this.realFormFocus = true;
       },
     },
+    sucbind() {
+      this.resetUserDetail();
+      this.getData();
+    },
   },
   computed: {
-    ...mapState(["isLogin", "user", "bindWeixin"]),
+    ...mapState(["isLogin", "user", "sucbind", "bindWeixin"]),
   },
   mounted() {
     if (this.user) {
@@ -453,6 +457,10 @@ export default {
       this.showLoginDialog();
     },
     goChangePassword() {
+      if (this.user.is_bind_mobile !== 1) {
+        this.$message.error("请绑定手机号");
+        return;
+      }
       this.changeDialogType(10);
       this.showLoginDialog();
     },
