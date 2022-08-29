@@ -54,8 +54,10 @@
       </div>
 
       <div class="right-contanier">
-        <div class="create-button" @click="goCreatePage">我要提问</div>
-        <div class="wenda-tips" v-html="pc_diy_content"></div>
+        <div class="contanier">
+          <div class="create-button" @click="goCreatePage">我要提问</div>
+          <div class="wenda-tips" v-html="pc_diy_content"></div>
+        </div>
       </div>
     </div>
     <nav-footer></nav-footer>
@@ -273,29 +275,36 @@ export default {
     }
     .right-contanier {
       width: 400px;
-      height: 458px;
-      background: #ffffff;
-      border-radius: 8px;
-      padding: 30px;
+      height: auto;
+      float: left;
       box-sizing: border-box;
-      .create-button {
-        width: 100%;
-        height: 56px;
-        background: #3ca7fa;
-        border-radius: 4px;
-        cursor: pointer;
+      .contanier {
+        width: 400px;
+        min-height: 458px;
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 30px;
+        box-sizing: border-box;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        font-weight: 400;
-        color: #ffffff;
-        margin-bottom: 30px;
-        &:hover {
-          opacity: 0.8;
+        flex-direction: column;
+        .create-button {
+          width: 100%;
+          height: 56px;
+          background: #3ca7fa;
+          border-radius: 4px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+          font-weight: 400;
+          color: #ffffff;
+          margin-bottom: 30px;
+          &:hover {
+            opacity: 0.8;
+          }
         }
       }
-     
     }
   }
 }
