@@ -628,6 +628,9 @@ const Api = {
     Create() {
       return get("/addons/Wenda/api/v1/question/create");
     },
+    Config() {
+      return get("/addons/Wenda/api/v1/other/config");
+    },
     Store(params) {
       return post("/addons/Wenda/api/v1/question/create", params);
     },
