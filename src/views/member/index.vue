@@ -64,14 +64,14 @@
                 {{ list.mobile.substr(0, 3) + "****" + list.mobile.substr(7) }}
               </div>
               <div class="start-bind" v-else @click="goBindMobile()">
-                点击绑定
+                绑定手机号
               </div>
               <div
                 class="reset-bind"
                 v-if="list.is_bind_mobile === 1"
                 @click="goChangeMobile()"
               >
-                重新绑定
+                更换手机号
               </div>
             </div>
             <div class="bind-box" v-if="config.socialites.qq === 1">
@@ -515,7 +515,7 @@ export default {
             position: absolute;
             right: 0;
             top: 13px;
-            width: 56px;
+            min-width: 56px;
             height: 14px;
             font-size: 14px;
             font-weight: 400;
@@ -548,7 +548,7 @@ export default {
             line-height: 14px;
           }
           .start-bind {
-            width: 56px;
+            min-width: 56px;
             height: 14px;
             font-size: 14px;
             font-weight: 400;
