@@ -280,7 +280,7 @@ export default {
       box-sizing: border-box;
       .contanier {
         width: 400px;
-        min-height: 458px;
+        height: auto;
         background: #ffffff;
         border-radius: 8px;
         padding: 30px;
