@@ -915,7 +915,7 @@ export default {
         return;
       }
       this.loading = true;
-      this.$api.Auth.PasswordForget({
+      this.$api.Auth.NoLoginPasswordForget({
         mobile: this.messageForm.mobile,
         mobile_code: this.messageForm.sms,
         password: this.messageForm.password,

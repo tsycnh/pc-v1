@@ -54,6 +54,9 @@ const Api = {
     SmsRegister(params) {
       return post(`/api/v2/register/sms`, params);
     },
+    NoLoginPasswordForget(params) {
+      return post("/api/v2/password/reset", params);
+    },
     PasswordForget(params) {
       return post("/api/v2/member/detail/password", params);
     },
