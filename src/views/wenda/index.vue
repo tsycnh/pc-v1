@@ -299,10 +299,12 @@ export default {
           font-size: 16px;
           font-weight: 400;
           color: #ffffff;
-          margin-bottom: 30px;
           &:hover {
             opacity: 0.8;
           }
+        }
+        .wenda-tips {
+          margin-top: 30px;
         }
       }
     }
