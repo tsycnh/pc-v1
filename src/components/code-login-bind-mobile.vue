@@ -61,7 +61,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   props: ["status", "scene", "active"],
   data() {
@@ -97,6 +97,7 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
+    ...mapMutations(["loginHandle"]),
     resetDialog() {
       this.sms.loading = false;
       this.sms.current = 0;
