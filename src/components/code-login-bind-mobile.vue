@@ -178,6 +178,7 @@ export default {
         mobile: this.messageForm.mobile,
         code: this.$utils.getLoginCode(),
         mobile_code: this.messageForm.sms,
+        msv: this.$utils.getMsv(),
       })
         .then((res) => {
           this.loading = false;
