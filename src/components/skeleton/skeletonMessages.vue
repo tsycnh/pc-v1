@@ -5,6 +5,8 @@
     <div class="item"></div>
     <div class="item"></div>
     <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
   </div>
 </template>
 <style lang="less" scoped>

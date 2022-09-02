@@ -79,7 +79,7 @@ export default {
               name: "我的证书",
               id: 20,
               path: "MemberCerts",
-              status: true,
+              status: this.configFunc["cert"],
             },
           ],
         },

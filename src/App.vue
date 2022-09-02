@@ -11,6 +11,21 @@
       @changeType="changeType"
     ></Login-Dialog>
 
+    <bind-new-mobile
+      :status="bindNewmobileVisible"
+      :active="cancelStatus"
+      scene="mobile_bind"
+      @cancel="cancelDialog"
+    ></bind-new-mobile>
+
+    <code-login-bind-mobile
+      :status="codebindmobileVisible"
+      :active="cancelStatus"
+      scene="mobile_bind"
+      @cancel="cancelDialog"
+    >
+    </code-login-bind-mobile>
+
     <template v-if="initComplete">
       <keep-alive>
         <router-view v-if="config && this.$route.meta.keepAlive"></router-view>
@@ -33,6 +48,8 @@ import NavHeader from "./components/navheader.vue";
 import LoginDialog from "./components/logindialog.vue";
 import BackTop from "./components/back-top.vue";
 import Sign from "./components/sign.vue";
+import BindNewMobile from "./views/member/components/bind-new-mobile.vue";
+import CodeLoginBindMobile from "./components/code-login-bind-mobile.vue";
 
 export default {
   components: {
@@ -40,12 +57,16 @@ export default {
     LoginDialog,
     BackTop,
     Sign,
+    BindNewMobile,
+    CodeLoginBindMobile,
   },
   data() {
     return {
       cancelStatus: false,
       backTopStatus: false,
       initComplete: false,
+      bindNewmobileVisible: false,
+      codebindmobileVisible: false,
     };
   },
   watch: {
@@ -67,15 +88,17 @@ export default {
   },
   mounted() {
     this.$router.onReady(() => {
-      // 社交登录回调处理
-      if (this.$route.query.token) {
-        this.$utils.saveToken(this.$route.query.token);
-        let newUrl = this.$utils.removeTokenParams(window.location.href);
-        window.location.href = newUrl;
-      }
       // msv分销id记录
       if (this.$route.query.msv) {
         this.$utils.saveMsv(this.$route.query.msv);
+      }
+
+      // 社交登录回调处理
+      if (
+        this.$route.query.login_code &&
+        this.$route.query.action === "login"
+      ) {
+        this.CodeLogin(this.$route.query.login_code);
       }
 
       // 自动登录
@@ -108,6 +131,10 @@ export default {
       "showLoginDialog",
       "updateFuncConfig",
     ]),
+    cancelDialog() {
+      this.codebindmobileVisible = false;
+      this.bindNewmobileVisible = false;
+    },
     changeType(val) {
       this.changeDialogType(val);
     },
@@ -134,6 +161,28 @@ export default {
           this.$utils.clearMsv();
         });
     },
+    CodeLogin(code) {
+      if (this.$utils.getSessionLoginCode(code)) {
+        return;
+      }
+      this.$utils.saveSessionLoginCode(code);
+      this.$api.Auth.CodeLogin({ code: code, msv: this.$utils.getMsv() })
+        .then((res) => {
+          if (res.data.success === 1) {
+            this.$utils.saveToken(res.data.token);
+            this.getUser();
+          } else {
+            if (res.data.action === "bind_mobile") {
+              this.$utils.saveLoginCode(code);
+              this.codebindmobileVisible = true;
+              this.cancelStatus = true;
+            }
+          }
+        })
+        .catch((e) => {
+          this.$message.error(e.message);
+        });
+    },
     async getUser() {
       try {
         let res = await this.$api.User.Detail();
@@ -145,8 +194,7 @@ export default {
           res.data.is_bind_mobile === 0 &&
           this.config.member.enabled_mobile_bind_alert === 1
         ) {
-          this.changeDialogType(9);
-          this.showLoginDialog();
+          this.bindNewmobileVisible = true;
           this.cancelStatus = true;
         }
       } catch (e) {
@@ -186,9 +234,20 @@ export default {
         _.indexOf(config.enabled_addons, "Credit1Mall") !== -1;
       funcTable["tuangou"] = _.indexOf(config.enabled_addons, "TuanGou") !== -1;
       funcTable["miaosha"] = _.indexOf(config.enabled_addons, "MiaoSha") !== -1;
+      funcTable["cert"] = _.indexOf(config.enabled_addons, "Cert") !== -1;
       this.updateFuncConfig(funcTable);
-      if (this.$utils.isMobile() && config.h5_url !== "") {
-        window.location.href = config.h5_url;
+
+      // 手机设备访问PC站点自动跳转到H5端口地址
+      if (this.$utils.isMobile() && config.h5_url) {
+        let url = config.h5_url;
+        if (this.$route.query.msv) {
+          //如果存在msv的话则跳转携带上msv参数
+          url = this.$utils.SPAUrlAppend(
+            config.h5_url,
+            "msv=" + this.$route.query.msv
+          );
+        }
+        window.location.href = url;
       }
     },
   },

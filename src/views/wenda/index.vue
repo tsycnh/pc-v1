@@ -54,24 +54,10 @@
       </div>
 
       <div class="right-contanier">
-        <div class="create-button" @click="goCreatePage">我要提问</div>
-        <p class="tips">
-          该内容后台可自定义 本站禁止发布以下内容，违者报警并提交相关IP等信息
-        </p>
-        <p class="tips">(一)反对宪法所确定的基本原则的</p>
-        <p class="tips">
-          (二)危害国家安全，泄露国家秘密，颠覆国家政权，破坏国家统一的
-        </p>
-        <p class="tips">
-          (三)损害国家荣誉和利益的 (四)煽动民族仇恨、民族歧视，破坏民族团结的
-        </p>
-        <p class="tips">(五)破坏国家宗教政策，宣扬邪教和封建迷信的</p>
-        <p class="tips">(六)散布谣言，扰乱社会秩序，破坏社会稳定的</p>
-        <p class="tips">
-          (七)散布淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪的
-        </p>
-        <p class="tips">(八)侮辱或者诽谤他人，侵害他人合法权益的</p>
-        <p class="tips">(九)含有法律、行政法规禁止的其他内容的。</p>
+        <div class="contanier">
+          <div class="create-button" @click="goCreatePage">我要提问</div>
+          <div class="wenda-tips" v-html="pc_diy_content"></div>
+        </div>
       </div>
     </div>
     <nav-footer></nav-footer>
@@ -134,6 +120,7 @@ export default {
       filterShowStatus: false,
       loading: false,
       navLoading: false,
+      pc_diy_content: null,
     };
   },
   computed: {
@@ -142,6 +129,7 @@ export default {
   mounted() {
     this.navLoading = true;
     this.getData();
+    this.getConfig();
   },
   activated() {
     this.changefilter();
@@ -242,6 +230,11 @@ export default {
         this.total = res.data.data.total;
       });
     },
+    getConfig() {
+      this.$api.Wenda.Config().then((res) => {
+        this.pc_diy_content = res.data.pc_diy_content;
+      });
+    },
     goCreatePage() {
       if (!this.isLogin) {
         this.goLogin();
@@ -282,34 +275,37 @@ export default {
     }
     .right-contanier {
       width: 400px;
-      height: 458px;
-      background: #ffffff;
-      border-radius: 8px;
-      padding: 30px;
+      height: auto;
+      float: left;
       box-sizing: border-box;
-      .create-button {
-        width: 100%;
-        height: 56px;
-        background: #3ca7fa;
-        border-radius: 4px;
-        cursor: pointer;
+      .contanier {
+        width: 400px;
+        height: auto;
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 30px;
+        box-sizing: border-box;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        font-weight: 400;
-        color: #ffffff;
-        margin-bottom: 30px;
-        &:hover {
-          opacity: 0.8;
+        flex-direction: column;
+        .create-button {
+          width: 100%;
+          height: 56px;
+          background: #3ca7fa;
+          border-radius: 4px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+          font-weight: 400;
+          color: #ffffff;
+          &:hover {
+            opacity: 0.8;
+          }
         }
-      }
-      .tips {
-        width: 100%;
-        font-size: 14px;
-        font-weight: 400;
-        color: #666666;
-        line-height: 24px;
+        .wenda-tips {
+          margin-top: 30px;
+        }
       }
     }
   }

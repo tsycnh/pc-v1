@@ -8,19 +8,6 @@
         height="40"
         src="../assets/img/commen/icon-qq.png"
     /></a>
-    <!--<a
-      class="wechat"
-      v-if="config && config.h5_url"
-      @mouseenter="enter()"
-      @mouseleave="leave()"
-    >
-      <img
-        class="wechat-icon"
-        width="40"
-        height="40"
-        src="../assets/img/commen/icon-weixin.png"
-      />
-    </a>-->
     <a class="sina" v-if="sina.url" target="_blank" :href="sina.url"
       ><img
         class="sina-icon"
@@ -28,14 +15,10 @@
         height="40"
         src="../assets/img/commen/icon-weibo.png"
     /></a>
-    <div class="seen" v-show="seen">
-      <div id="qrcode"></div>
-    </div>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
-import QRCode from "qrcodejs2";
 export default {
   props: ["title", "thumb", "cid"],
   data() {
@@ -57,35 +40,7 @@ export default {
       this.getData();
     },
   },
-  mounted() {},
   methods: {
-    search() {
-      if (this.config && this.config.h5_url) {
-        let host = this.config.h5_url;
-        let url = "";
-        let link = "";
-        if (host.substr(host.length - 1, 1) !== "/") {
-          host = host + "/";
-        }
-        url = encodeURIComponent(
-          this.config.url +
-            "/addons/MeeduTopics/app-view/dist/index.html#/?id=" +
-            this.cid
-        );
-        link =
-          host +
-          "pages/webview/webview?url=" +
-          url +
-          "&title=" +
-          encodeURIComponent(this.title);
-        var qrcode = new QRCode("qrcode", {
-          text: link, //表示内容，可以是地址或者是文字'55566'或者参数
-          colorDark: "#000000", //前景色
-          colorLight: "#ffffff", //背景色
-          correctLevel: QRCode.CorrectLevel.Q, //容错级别
-        });
-      }
-    },
     enter() {
       this.seen = true;
     },
@@ -93,8 +48,17 @@ export default {
       this.seen = false;
     },
     getData() {
+      let baseUrl = new URL(this.config.pc_url);
+      let url = encodeURIComponent(
+        baseUrl.protocol +
+          "//" +
+          baseUrl.host +
+          baseUrl.pathname +
+          "#/topic/detail?id="
+      );
       this.qq.url =
-        "https://connect.qq.com/widget/shareqq/index.html?url=https%3A%2F%2Fall.meedu.tech%2Ftopic%2Fdetail%3Fid%3D" +
+        "https://connect.qq.com/widget/shareqq/index.html?url=" +
+        url +
         this.cid +
         "&title=" +
         this.title +
@@ -102,16 +66,17 @@ export default {
         this.title +
         "&pics=" +
         this.thumb +
-        "&site=MeEdu测试站";
+        "&site=" +
+        this.config.webname;
 
       this.sina.url =
-        "https://service.weibo.com/share/share.php?url=https%3A%2F%2Fall.meedu.tech%2Ftopic%2Fdetail%3Fid%3D" +
+        "https://service.weibo.com/share/share.php?url=" +
+        url +
         this.cid +
         "&title=" +
         this.title +
         "&pic=" +
         this.thumb;
-      this.search();
     },
   },
 };

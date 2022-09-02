@@ -10,10 +10,9 @@
         class="play-icon"
         v-if="
           isBuy ||
-          course.is_free === 1 ||
-          videoItem.charge === 0 ||
-          (videoItem.charge > 0 && videoItem.free_seconds > 0) ||
-          buyVideos.indexOf(videoItem.id) !== -1
+            course.is_free === 1 ||
+            videoItem.free_seconds > 0 ||
+            buyVideos.indexOf(videoItem.id) !== -1
         "
         src="@/assets/img/commen/icon-unlock.png"
       />
@@ -26,8 +25,8 @@
           class="free"
           v-if="
             isBuy === false &&
-            course.is_free !== 1 &&
-            (videoItem.charge === 0 || videoItem.free_seconds > 0)
+              course.is_free !== 1 &&
+              videoItem.free_seconds > 0
           "
         >
           试看

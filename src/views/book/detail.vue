@@ -232,12 +232,30 @@
                 :key="comment.id"
               >
                 <div class="user-avatar">
-                  <img :src="commentUsers[comment.user_id].avatar" />
+                  <img
+                    v-if="
+                      commentUsers.length !== 0 && commentUsers[comment.user_id]
+                    "
+                    :src="commentUsers[comment.user_id].avatar"
+                  />
+                  <img
+                    v-else
+                    src="../../assets/img/commen/default-avatar.jpg"
+                  />
                 </div>
                 <div class="comment-content">
                   <div class="comment-info">
-                    <div class="nickname">
+                    <div
+                      class="nickname"
+                      v-if="
+                        commentUsers.length !== 0 &&
+                          commentUsers[comment.user_id]
+                      "
+                    >
                       {{ commentUsers[comment.user_id].nick_name }}
+                    </div>
+                    <div class="nickname" v-else>
+                      未知用户
                     </div>
                     <div class="comment-time">
                       {{ comment.created_at | changeTime }}

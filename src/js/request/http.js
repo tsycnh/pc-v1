@@ -3,6 +3,7 @@ import QS from "querystring";
 import config from "../config";
 import router from "../../router";
 import Utils from "@/js/utils";
+import Store from "../../store";
 
 // 请求域名
 axios.defaults.baseURL = config.url;
@@ -28,7 +29,7 @@ axios.interceptors.response.use(
     if (apiCode !== 0) {
       // 未登录错误
       if (apiCode === 401) {
-        Utils.clearToken();
+        Store.commit("logout");
         router.replace({
           name: "login",
         });
@@ -42,7 +43,12 @@ axios.interceptors.response.use(
   // 当http的状态码非2xx
   (error) => {
     let httpCode = error.response.status;
-    if (httpCode === 404) {
+    if (httpCode === 401) {
+      Store.commit("logout");
+      router.replace({
+        name: "login",
+      });
+    } else if (httpCode === 404) {
       router.replace({
         name: "Error404",
       });

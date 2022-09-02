@@ -66,6 +66,21 @@ export default {
   clearMsv() {
     window.localStorage.removeItem(MSV_NAME);
   },
+  saveLoginCode(code) {
+    window.localStorage.setItem("login_code", code);
+  },
+  getLoginCode() {
+    return window.localStorage.getItem("login_code");
+  },
+  clearLoginCode() {
+    window.localStorage.removeItem("login_code");
+  },
+  saveSessionLoginCode(code) {
+    window.sessionStorage.setItem("login_code:" + code, code);
+  },
+  getSessionLoginCode(code) {
+    return window.sessionStorage.getItem("login_code:" + code);
+  },
   getMsv() {
     return window.localStorage.getItem(MSV_NAME);
   },
@@ -153,5 +168,17 @@ export default {
     outs.map(function(x) {
       console.log("%c" + x.msg, x.style);
     });
+  },
+  SPAUrlAppend(baseUrl, queryParams) {
+    let parseBaseUrl = new URL(baseUrl);
+    return (
+      parseBaseUrl.protocol +
+      "//" +
+      parseBaseUrl.host +
+      parseBaseUrl.pathname +
+      "#/?" +
+      (parseBaseUrl.search ? parseBaseUrl.search + "&" : "") +
+      queryParams
+    );
   },
 };

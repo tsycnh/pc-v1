@@ -64,14 +64,14 @@
                 {{ list.mobile.substr(0, 3) + "****" + list.mobile.substr(7) }}
               </div>
               <div class="start-bind" v-else @click="goBindMobile()">
-                点击绑定
+                绑定手机号
               </div>
               <div
                 class="reset-bind"
                 v-if="list.is_bind_mobile === 1"
                 @click="goChangeMobile()"
               >
-                重新绑定
+                更换手机号
               </div>
             </div>
             <div class="bind-box" v-if="config.socialites.qq === 1">
@@ -122,6 +122,33 @@
         </template>
       </div>
     </div>
+    <bind-weixin
+      :status="bindWeixinVisible"
+      @cancel="cancelDialog"
+      @success="success"
+    ></bind-weixin>
+    <mobile-validate
+      v-if="list"
+      :status="mobileValidateVisible"
+      :mobile="list.mobile"
+      scene="mobile_bind"
+      @cancel="cancelDialog"
+      @success="successMobileValidate"
+    ></mobile-validate>
+    <bind-mobile
+      :status="bindMobileVisible"
+      :sign="bindMobileSign"
+      scene="mobile_bind"
+      @cancel="cancelDialog"
+      @success="success"
+    ></bind-mobile>
+    <bind-new-mobile
+      :status="bindNewmobileVisible"
+      :active="false"
+      scene="mobile_bind"
+      @cancel="cancelDialog"
+      @success="success"
+    ></bind-new-mobile>
     <nav-footer></nav-footer>
   </div>
 </template>
@@ -131,11 +158,20 @@ import { mapState, mapMutations } from "vuex";
 import NavFooter from "../../components/footer.vue";
 import NavMember from "../../components/navmember.vue";
 import SkeletonMember from "../../components/skeleton/skeletonMember.vue";
+import BindWeixin from "./components/bind-weixin.vue";
+import MobileValidate from "./components/mobile-validate.vue";
+import BindMobile from "./components/bind-mobile.vue";
+import BindNewMobile from "./components/bind-new-mobile.vue";
+
 export default {
   components: {
     NavFooter,
     NavMember,
     SkeletonMember,
+    BindWeixin,
+    MobileValidate,
+    BindMobile,
+    BindNewMobile,
   },
   data() {
     return {
@@ -147,36 +183,33 @@ export default {
       openmask: false,
       app: null,
       error: this.$route.query.error,
+      bindWeixinVisible: false,
+      mobileValidateVisible: false,
+      bindMobileSign: null,
+      bindMobileVisible: false,
+      bindNewmobileVisible: false,
     };
   },
   computed: {
-    ...mapState(["isLogin", "user", "sucbind", "config"]),
-  },
-  watch: {
-    sucbind() {
-      this.refresh();
-    },
+    ...mapState(["isLogin", "user", "config"]),
   },
   mounted() {
-    this.getData();
+    this.$router.onReady(() => {
+      // 社交绑定回调处理
+      if (this.$route.query.login_code && this.$route.query.action === "bind") {
+        this.CodeBind(this.$route.query.login_code);
+      }
+      if (this.$route.query.login_err_msg) {
+        this.$message.error(this.$route.query.login_err_msg);
+      }
+      this.getData();
+    });
   },
   methods: {
-    ...mapMutations([
-      "loginHandle",
-      "showLoginDialog",
-      "changeDialogType",
-      "saveDialogMobile",
-      "removeBind",
-      "setConfig",
-    ]),
-    goLogin() {
-      this.changeDialogType(1);
-      this.showLoginDialog();
-    },
+    ...mapMutations(["setConfig"]),
     refresh() {
       this.getData();
       this.getConfig();
-      this.removeBind();
     },
     getInviteInfo() {
       this.$api.MultiLevelShare.User().then((res) => {
@@ -202,13 +235,10 @@ export default {
       });
     },
     goBindMobile() {
-      this.changeDialogType(9);
-      this.showLoginDialog();
+      this.bindNewmobileVisible = true;
     },
     goChangeMobile() {
-      this.saveDialogMobile(this.list.mobile);
-      this.changeDialogType(6);
-      this.showLoginDialog();
+      this.mobileValidateVisible = true;
     },
     goBindQQ() {
       let host = window.location.href;
@@ -216,10 +246,26 @@ export default {
       let redirect = encodeURIComponent(host);
       window.location.href =
         this.config.url +
-        "/api/v2/member/socialite/qq?token=" +
-        token +
-        "&redirect_url=" +
-        redirect;
+        "/api/v3/auth/login/socialite/qq?s_url=" +
+        redirect +
+        "&f_url=" +
+        redirect +
+        "&action=bind";
+    },
+    CodeBind(code) {
+      if (this.$utils.getSessionLoginCode(code)) {
+        return;
+      }
+      this.$utils.saveSessionLoginCode(code);
+      this.$api.Auth.CodeBind({ code: code })
+        .then((res) => {
+          this.$message.success("绑定成功");
+          this.cancel();
+          this.getData();
+        })
+        .catch((e) => {
+          this.$message.error(e.message);
+        });
     },
     cancel() {
       this.app = null;
@@ -230,8 +276,7 @@ export default {
       this.openmask = true;
     },
     goBindWeixin() {
-      this.changeDialogType(7);
-      this.showLoginDialog();
+      this.bindWeixinVisible = true;
     },
     submitHandle() {
       this.$api.Member.CancelBind(this.app).then((res) => {
@@ -240,6 +285,21 @@ export default {
         this.getData();
       });
     },
+    cancelDialog() {
+      this.bindWeixinVisible = false;
+      this.mobileValidateVisible = false;
+      this.bindMobileVisible = false;
+      this.bindNewmobileVisible = false;
+    },
+    success() {
+      this.cancelDialog();
+      this.refresh();
+    },
+    successMobileValidate(sign) {
+      this.bindMobileSign = sign;
+      this.cancelDialog();
+      this.bindMobileVisible = true;
+    },
     cancelBindWeixin() {
       this.app = "wechat";
       this.openmask = true;
@@ -247,7 +307,7 @@ export default {
   },
 };
 </script>
-<style lang='less' scoped>
+<style lang="less" scoped>
 .content {
   width: 100%;
   .mask {
@@ -455,7 +515,7 @@ export default {
             position: absolute;
             right: 0;
             top: 13px;
-            width: 56px;
+            min-width: 56px;
             height: 14px;
             font-size: 14px;
             font-weight: 400;
@@ -488,7 +548,7 @@ export default {
             line-height: 14px;
           }
           .start-bind {
-            width: 56px;
+            min-width: 56px;
             height: 14px;
             font-size: 14px;
             font-weight: 400;

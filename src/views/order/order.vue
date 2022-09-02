@@ -22,6 +22,13 @@
             :width="160"
             :height="120"
           />
+          <img
+            v-else-if="goods.type === 'role'"
+            src="../../assets/img/commen/default-vip.png"
+            :border="4"
+            :width="160"
+            :height="120"
+          />
           <thumb-bar
             v-else
             :value="goods.icon"
@@ -189,7 +196,7 @@ export default {
     },
     initData() {
       if (this.goods_type === "role") {
-        this.hasThumb = false;
+        this.hasThumb = true;
       } else if (this.goods_type === "vod") {
         this.hasThumb = true;
       } else if (this.goods_type === "live") {

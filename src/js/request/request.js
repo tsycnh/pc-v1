@@ -54,8 +54,17 @@ const Api = {
     SmsRegister(params) {
       return post(`/api/v2/register/sms`, params);
     },
-    PasswordForget(params) {
+    NoLoginPasswordForget(params) {
       return post("/api/v2/password/reset", params);
+    },
+    PasswordForget(params) {
+      return post("/api/v2/member/detail/password", params);
+    },
+    CodeLogin(params) {
+      return post(`/api/v3/auth/login/code`, params);
+    },
+    CodeBind(params) {
+      return post(`/api/v3/member/socialite/bindWithCode`, params);
     },
     PasswordLogin(params) {
       return post(`/api/v2/login/password`, params);
@@ -71,6 +80,9 @@ const Api = {
     },
     Logout(params) {
       return post(`/api/v2/logout`, params);
+    },
+    DestroyUser(params) {
+      return post(`/api/v3/member/destroy`, params);
     },
   },
   Sign: {
@@ -247,17 +259,23 @@ const Api = {
     NewMobile(params) {
       return post("/api/v2/member/detail/mobile", params);
     },
+    CodeBindMobile(params) {
+      return post("/api/v3/auth/register/withSocialite", params);
+    },
     PasswordChange(params) {
       return post("/api/v2/member/detail/password", params);
     },
     WechatLogin() {
-      return get("/api/v2/login/wechatScan");
+      return get("/api/v3/auth/login/wechat/scan");
     },
     WechatBind() {
-      return get("/api/v2/member/wechatScan/bind");
+      return get("/api/v3/member/wechatScanBind");
+    },
+    WechatCodeBindMobile(params) {
+      return post("/api/v3/auth/register/withWechatScan", params);
     },
     CheckWechatLogin(params) {
-      return get("/api/v2/login/wechatScan/query", params);
+      return get("/api/v3/auth/login/wechat/scan/query", params);
     },
     CancelBind(app) {
       return destroy(`/api/v2/member/socialite/${app}`);
@@ -612,6 +630,9 @@ const Api = {
     },
     Create() {
       return get("/addons/Wenda/api/v1/question/create");
+    },
+    Config() {
+      return get("/addons/Wenda/api/v1/other/config");
     },
     Store(params) {
       return post("/addons/Wenda/api/v1/question/create", params);
