@@ -197,94 +197,154 @@ export default {
     },
     getViewStudy() {
       if (this.current === "vod") {
-        this.$api.Member.Learned.Courses(this.pagination).then((res) => {
-          this.loading = false;
-          this.list = res.data.data;
-          this.total = res.data.total;
-        });
+        this.$api.Member.Learned.Courses(this.pagination)
+          .then((res) => {
+            this.loading = false;
+            this.list = res.data.data;
+            this.total = res.data.total;
+          })
+          .catch((e) => {
+            this.loading = false;
+            this.$message.error(e.message);
+          });
       } else if (this.current === "live") {
-        this.$api.Member.Learned.Live(this.pagination).then((res) => {
-          this.loading = false;
-          this.list = res.data.data;
-          this.total = res.data.total;
-        });
+        this.$api.Member.Learned.Live(this.pagination)
+          .then((res) => {
+            this.loading = false;
+            this.list = res.data.data;
+            this.total = res.data.total;
+          })
+          .catch((e) => {
+            this.loading = false;
+            this.$message.error(e.message);
+          });
       } else if (this.current === "topic") {
-        this.$api.Member.Learned.Topic(this.pagination).then((res) => {
-          this.loading = false;
-          this.list = res.data.data;
-          this.total = res.data.total;
-        });
+        this.$api.Member.Learned.Topic(this.pagination)
+          .then((res) => {
+            this.loading = false;
+            this.list = res.data.data;
+            this.total = res.data.total;
+          })
+          .catch((e) => {
+            this.loading = false;
+            this.$message.error(e.message);
+          });
       } else if (this.current === "book") {
-        this.$api.Member.Learned.Book(this.pagination).then((res) => {
-          this.loading = false;
-          this.list = res.data.data;
-          this.total = res.data.total;
-        });
+        this.$api.Member.Learned.Book(this.pagination)
+          .then((res) => {
+            this.loading = false;
+            this.list = res.data.data;
+            this.total = res.data.total;
+          })
+          .catch((e) => {
+            this.loading = false;
+            this.$message.error(e.message);
+          });
       }
     },
     getUserCourses() {
       if (this.current === "vod") {
-        this.$api.Member.NewCourses(this.pagination).then((res) => {
-          this.loading = false;
-          this.list = res.data.data;
-          this.total = res.data.total;
-        });
+        this.$api.Member.NewCourses(this.pagination)
+          .then((res) => {
+            this.loading = false;
+            this.list = res.data.data;
+            this.total = res.data.total;
+          })
+          .catch((e) => {
+            this.loading = false;
+            this.$message.error(e.message);
+          });
       } else if (this.current === "live") {
-        this.$api.Live.User(this.pagination).then((res) => {
-          this.loading = false;
-          this.list = res.data.data;
-          this.total = res.data.total;
-        });
+        this.$api.Live.User(this.pagination)
+          .then((res) => {
+            this.loading = false;
+            this.list = res.data.data;
+            this.total = res.data.total;
+          })
+          .catch((e) => {
+            this.loading = false;
+            this.$message.error(e.message);
+          });
       } else if (this.current === "topic") {
-        this.$api.Topic.UserBuyTopics(this.pagination).then((res) => {
-          this.loading = false;
-          this.list = res.data.data.data;
-          this.total = res.data.data.total;
-        });
+        this.$api.Topic.UserBuyTopics(this.pagination)
+          .then((res) => {
+            this.loading = false;
+            this.list = res.data.data.data;
+            this.total = res.data.data.total;
+          })
+          .catch((e) => {
+            this.loading = false;
+            this.$message.error(e.message);
+          });
       } else if (this.current === "book") {
-        this.$api.Member.BookCourses(this.pagination).then((res) => {
-          this.loading = false;
-          this.list = res.data.data;
-          this.total = res.data.total;
-        });
+        this.$api.Member.BookCourses(this.pagination)
+          .then((res) => {
+            this.loading = false;
+            this.list = res.data.data;
+            this.total = res.data.total;
+          })
+          .catch((e) => {
+            this.loading = false;
+            this.$message.error(e.message);
+          });
       }
     },
     getLikeCourses() {
       let params = {};
       if (this.current === "vod") {
-        this.$api.Member.Collects(this.pagination).then((res) => {
-          this.loading = false;
-          this.list = res.data.data;
-          this.total = res.data.total;
-        });
+        this.$api.Member.Collects(this.pagination)
+          .then((res) => {
+            this.loading = false;
+            this.list = res.data.data;
+            this.total = res.data.total;
+          })
+          .catch((e) => {
+            this.loading = false;
+            this.$message.error(e.message);
+          });
       } else if (this.current === "live") {
         let filter = {
           type: "live",
         };
         Object.assign(params, filter);
         Object.assign(params, this.pagination);
-        this.$api.TemplateOne.LikeCourses(params).then((res) => {
-          this.loading = false;
-          this.list = res.data.data;
-          this.total = res.data.total;
-        });
+        this.$api.TemplateOne.LikeCourses(params)
+          .then((res) => {
+            this.loading = false;
+            this.list = res.data.data;
+            this.total = res.data.total;
+          })
+          .catch((e) => {
+            this.loading = false;
+            this.$message.error(e.message);
+          });
       } else if (this.current === "topic") {
-        this.$api.Topic.LikeCourses(this.pagination).then((res) => {
-          this.loading = false;
-          this.list = res.data.data.data;
-          this.total = res.data.data.total;
-        });
+        this.$api.Topic.LikeCourses(this.pagination)
+          .then((res) => {
+            this.loading = false;
+            this.list = res.data.data.data;
+            this.total = res.data.data.total;
+          })
+          .catch((e) => {
+            this.loading = false;
+            this.$message.error(e.message);
+          });
       } else if (this.current === "book") {
         let filter = {
           type: "book",
         };
         Object.assign(params, filter);
         Object.assign(params, this.pagination);
-        this.$api.TemplateOne.LikeCourses(params).then((res) => {
-          this.loading = false;
-          this.list = res.data.data;
-          this.total = res.data.total;
-        });
+        this.$api.TemplateOne.LikeCourses(params)
+          .then((res) => {
+            this.loading = false;
+            this.list = res.data.data;
+            this.total = res.data.total;
+          })
+          .catch((e) => {
+            this.loading = false;
+            this.$message.error(e.message);
+          });
       }
     },
     setCurrent(tab) {
