@@ -48,7 +48,7 @@
             :tab="false"
           ></page-box>
         </div>
-        <template v-if="!loading && currentTab === 2 && list2.length > 0">
+        <template v-if="!loading && currentTab === 2">
           <template v-if="list2.length > 0">
             <div
               class="paper-item-comp"
