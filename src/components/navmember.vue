@@ -58,12 +58,6 @@ export default {
               status: true,
             },
             {
-              name: "我的资料",
-              id: 8,
-              path: "MemberProfile",
-              status: true,
-            },
-            {
               name: "我的拼团",
               id: 21,
               path: "MemberTuangou",

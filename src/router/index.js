@@ -257,15 +257,6 @@ const routes = [
     component: () => import("../views/member/messages.vue"),
   },
   {
-    path: "/member/profile",
-    name: "MemberProfile",
-    meta: {
-      title: "我的资料",
-      auth: true,
-    },
-    component: () => import("../views/member/profile.vue"),
-  },
-  {
     path: "/member/orders",
     name: "MemberOrders",
     meta: {
