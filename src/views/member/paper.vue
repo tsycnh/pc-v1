@@ -3,6 +3,7 @@
     <div class="box">
       <nav-member :cid="9" :news="newStatus"></nav-member>
       <div class="project-box">
+        <div class="btn-title">我的考试</div>
         <template v-if="loading">
           <skeletonMemberPaper></skeletonMemberPaper>
         </template>
@@ -15,9 +16,9 @@
           >
             <div class="title">{{ item.title }}</div>
             <div class="info">
-              <span>总{{ item.score }}分</span>
+              <span style="color: #FF4D4F;">{{ item.pass_score }}分及格</span>
               <span class="item">|</span>
-              <span>{{ item.pass_score }}分及格</span>
+              <span>总{{ item.score }}分</span>
             </div>
           </div>
         </template>
@@ -123,9 +124,19 @@ export default {
       border-radius: 8px;
       box-sizing: border-box;
       padding: 30px;
+      .btn-title {
+        width: auto;
+        height: 16px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        line-height: 16px;
+        cursor: pointer;
+        margin-bottom: 30px;
+      }
       .paper-item-comp {
         width: 100%;
-        height: 16px;
+        height: 14px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -133,11 +144,11 @@ export default {
         cursor: pointer;
         .title {
           width: 700px;
-          height: 16px;
-          font-size: 16px;
+          height: 14px;
+          font-size: 14px;
           font-weight: 500;
           color: #333333;
-          line-height: 16px;
+          line-height: 14px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -161,7 +172,7 @@ export default {
           color: #3ca7fa;
         }
         &:not(:last-of-type) {
-          margin-bottom: 50px;
+          margin-bottom: 30px;
         }
       }
       #page {
