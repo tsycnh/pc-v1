@@ -212,10 +212,11 @@ export default {
       isBuy: false,
       msData: null,
       msDialogStatus: false,
+      hideButton: false,
     };
   },
   computed: {
-    ...mapState(["isLogin", "user", "configFunc", "hideButton"]),
+    ...mapState(["isLogin", "user", "configFunc"]),
   },
   mounted() {
     this.getDetail();
@@ -320,6 +321,11 @@ export default {
         course_type: "learnPath",
       }).then((res) => {
         this.tgData = res.data;
+        if (this.tgData.join_item && this.tgData.join_item.length !== 0) {
+          this.hideButton = true;
+        } else {
+          this.hideButton = false;
+        }
       });
     },
     getMsDetail() {

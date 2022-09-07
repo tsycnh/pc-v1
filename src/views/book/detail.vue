@@ -346,10 +346,11 @@ export default {
       tgData: null,
       msData: null,
       msDialogStatus: false,
+      hideButton: false,
     };
   },
   computed: {
-    ...mapState(["isLogin", "user", "configFunc", "hideButton"]),
+    ...mapState(["isLogin", "user", "configFunc"]),
   },
   mounted() {
     window.addEventListener("scroll", this.handleTabFix, true);
@@ -533,6 +534,11 @@ export default {
         course_type: "book",
       }).then((res) => {
         this.tgData = res.data;
+        if (this.tgData.join_item && this.tgData.join_item.length !== 0) {
+          this.hideButton = true;
+        } else {
+          this.hideButton = false;
+        }
       });
     },
     getMsDetail() {
