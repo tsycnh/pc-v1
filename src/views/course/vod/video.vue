@@ -251,7 +251,7 @@ export default {
       chapters: [],
       tabs: [
         {
-          name: "视频评论",
+          name: "课时评论",
           id: 4,
         },
         {
