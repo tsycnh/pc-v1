@@ -285,12 +285,12 @@ export default {
       box-sizing: border-box;
       padding: 30px;
       .btn-title {
-        width: 56px;
-        height: 14px;
-        font-size: 14px;
-        font-weight: 400;
-        color: #666666;
-        line-height: 14px;
+        width: auto;
+        height: 16px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        line-height: 16px;
         cursor: pointer;
         margin-bottom: 30px;
       }
