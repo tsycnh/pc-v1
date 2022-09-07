@@ -45,6 +45,7 @@ export default new Vuex.Store({
       miaosha: false,
       cert: false,
     },
+    hideButton: false,
   },
   mutations: {
     loginHandle(state, user) {
@@ -97,6 +98,9 @@ export default new Vuex.Store({
     },
     setNewAddress(state, val) {
       state.addressForm = val;
+    },
+    updateButtonStatus(state, val) {
+      state.hideButton = val;
     },
   },
   actions: {},

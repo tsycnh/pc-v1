@@ -88,8 +88,19 @@ export default {
       loading: false,
     };
   },
+  mounted() {
+    if (this.tg.join_item && this.tg.join_item.length !== 0) {
+      this.updateButtonStatus(true);
+    } else {
+      this.updateButtonStatus(false);
+    }
+  },
   methods: {
-    ...mapMutations(["showLoginDialog", "changeDialogType"]),
+    ...mapMutations([
+      "showLoginDialog",
+      "changeDialogType",
+      "updateButtonStatus",
+    ]),
     goLogin() {
       this.changeDialogType(1);
       this.showLoginDialog();

@@ -84,9 +84,12 @@
                     </div>
                   </template>
                   <template v-else>
+                    <div class="has-button" v-if="hideButton">
+                      正在拼团中
+                    </div>
                     <div
                       class="buy-button"
-                      v-if="book.charge > 0"
+                      v-else-if="book.charge > 0"
                       @click="buyBook()"
                     >
                       订阅电子书￥{{ book.charge }}
@@ -346,7 +349,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["isLogin", "user", "configFunc"]),
+    ...mapState(["isLogin", "user", "configFunc", "hideButton"]),
   },
   mounted() {
     window.addEventListener("scroll", this.handleTabFix, true);

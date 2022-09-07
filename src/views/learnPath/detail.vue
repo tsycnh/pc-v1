@@ -51,9 +51,12 @@
                     </div>
                   </template>
                   <template v-else>
+                    <div class="has-button" v-if="hideButton">
+                      正在拼团中
+                    </div>
                     <div
                       class="buy-button"
-                      v-if="learn.charge > 0"
+                      v-else-if="learn.charge > 0"
                       @click="buy()"
                     >
                       购买套餐￥{{ learn.charge }}（共{{
@@ -72,7 +75,9 @@
                       单独开团￥{{ tgData.goods.charge }}
                     </div>
                   </template>
-                  <div class="original">原价:￥{{ learn.original_charge }}</div>
+                  <div v-if="!hideButton" class="original">
+                    原价:￥{{ learn.original_charge }}
+                  </div>
                 </template>
               </div>
             </div>
@@ -210,7 +215,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["isLogin", "user", "configFunc"]),
+    ...mapState(["isLogin", "user", "configFunc", "hideButton"]),
   },
   mounted() {
     this.getDetail();
