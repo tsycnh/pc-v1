@@ -1233,13 +1233,13 @@ export default {
               flex-direction: row;
               align-items: center;
               .item-name {
-                width: 94px;
+                width: 110px;
                 height: 14px;
                 font-size: 14px;
                 font-weight: 400;
                 color: #666666;
                 line-height: 14px;
-                margin-right: 117px;
+                margin-right: 101px;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
