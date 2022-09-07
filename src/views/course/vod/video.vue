@@ -26,8 +26,10 @@
         </div>
       </div>
     </div>
-
-    <div class="box" v-if="course">
+    <template v-if="loading">
+      <skeletonVideo></skeletonVideo>
+    </template>
+    <div class="box" v-else-if="course">
       <historyRecord
         :id="video.id"
         :title="video.title"
@@ -46,6 +48,7 @@
         <p v-if="course">/</p>
         <span>{{ video.title }}</span>
       </div>
+
       <div class="course-info">
         <div class="video-box">
           <div
@@ -224,6 +227,7 @@ import HistoryRecord from "../../../components/history-record.vue";
 import SnapShot from "../../../components/snapshort.vue";
 import VideoListComp from "./components/video/video-list.vue";
 import VideoChapterListComp from "./components/video/video-chapter-list.vue";
+import SkeletonVideo from "../../../components/skeleton/skeletonVideo.vue";
 
 export default {
   components: {
@@ -234,6 +238,7 @@ export default {
     SnapShot,
     VideoListComp,
     VideoChapterListComp,
+    SkeletonVideo,
   },
   data() {
     return {
@@ -444,78 +449,88 @@ export default {
       });
     },
     getDetail() {
-      this.$api.Course.Video(this.id).then((res) => {
-        this.video = res.data.video;
-        this.course = res.data.course;
-        this.videos = res.data.videos;
-        this.isWatch = res.data.is_watch;
-        this.chapters = res.data.chapters;
-        this.video_watched_progress = res.data.video_watched_progress;
-        this.buyVideos = res.data.buy_videos;
-        document.title = res.data.course.title;
-        let chapteId = parseInt(res.data.video.chapter_id) || 0;
+      if (this.loading) {
+        return;
+      }
+      this.loading = true;
+      this.$api.Course.Video(this.id)
+        .then((res) => {
+          this.loading = false;
+          this.video = res.data.video;
+          this.course = res.data.course;
+          this.videos = res.data.videos;
+          this.isWatch = res.data.is_watch;
+          this.chapters = res.data.chapters;
+          this.video_watched_progress = res.data.video_watched_progress;
+          this.buyVideos = res.data.buy_videos;
+          document.title = res.data.course.title;
+          let chapteId = parseInt(res.data.video.chapter_id) || 0;
 
-        // 视频排序数组
-        let videoBox = [];
-        if (chapteId === 0) {
-          videoBox = res.data.videos[chapteId];
-        } else {
-          for (var k = 0; k < this.chapters.length; k++) {
-            let chap = parseInt(this.chapters[k].id);
-            if (typeof res.data.videos[chap] !== "undefined") {
-              videoBox.push(...res.data.videos[chap]);
-            }
-          }
-        }
-
-        // 读取下一个视频
-        for (var j = 0; j < videoBox.length; j++) {
-          if (res.data.video.id === videoBox[j].id) {
-            if (1 + j >= videoBox.length) {
-              this.isLastpage = true;
-            } else {
-              this.lastVideoid = videoBox[j + 1].id;
-            }
-          }
-        }
-
-        // 自动锁定当前视频位置
-        this.$nextTick(() => {
-          setTimeout(() => {
-            if (this.chapters.length > 0) {
-              let pos = document.querySelector(".selChapter").offsetTop - 289;
-              if (pos > 0) {
-                document.querySelector(".course-chapter-box").scrollTop = pos;
+          // 视频排序数组
+          let videoBox = [];
+          if (chapteId === 0) {
+            videoBox = res.data.videos[chapteId];
+          } else {
+            for (var k = 0; k < this.chapters.length; k++) {
+              let chap = parseInt(this.chapters[k].id);
+              if (typeof res.data.videos[chap] !== "undefined") {
+                videoBox.push(...res.data.videos[chap]);
               }
             }
-          }, 200);
+          }
+
+          // 读取下一个视频
+          for (var j = 0; j < videoBox.length; j++) {
+            if (res.data.video.id === videoBox[j].id) {
+              if (1 + j >= videoBox.length) {
+                this.isLastpage = true;
+              } else {
+                this.lastVideoid = videoBox[j + 1].id;
+              }
+            }
+          }
+
+          // 自动锁定当前视频位置
+          this.$nextTick(() => {
+            setTimeout(() => {
+              if (this.chapters.length > 0) {
+                let pos = document.querySelector(".selChapter").offsetTop - 289;
+                if (pos > 0) {
+                  document.querySelector(".course-chapter-box").scrollTop = pos;
+                }
+              }
+            }, 200);
+          });
+
+          // 当前用户已购买 || 可以试看
+          if (this.isWatch || this.video.free_seconds > 0) {
+            this.getPlayInfo();
+          }
+
+          //获取附件
+          this.getAttach();
+
+          //赋值购买视频信息
+          this.dialog.videoCharge = this.video.charge;
+          this.dialog.configText = this.video.title;
+          this.dialog.id = this.video.id;
+
+          //播放记录跳转
+          if (
+            this.video_watched_progress &&
+            this.video_watched_progress[this.video.id] &&
+            this.video_watched_progress[this.video.id].watch_seconds > 0
+          ) {
+            this.last_see_value = {
+              time: 5,
+              pos: this.video_watched_progress[this.video.id].watch_seconds,
+            };
+          }
+        })
+        .catch((e) => {
+          this.loading = false;
+          this.$message.error(e.message);
         });
-
-        // 当前用户已购买 || 可以试看
-        if (this.isWatch || this.video.free_seconds > 0) {
-          this.getPlayInfo();
-        }
-
-        //获取附件
-        this.getAttach();
-
-        //赋值购买视频信息
-        this.dialog.videoCharge = this.video.charge;
-        this.dialog.configText = this.video.title;
-        this.dialog.id = this.video.id;
-
-        //播放记录跳转
-        if (
-          this.video_watched_progress &&
-          this.video_watched_progress[this.video.id] &&
-          this.video_watched_progress[this.video.id].watch_seconds > 0
-        ) {
-          this.last_see_value = {
-            time: 5,
-            pos: this.video_watched_progress[this.video.id].watch_seconds,
-          };
-        }
-      });
     },
     getPlayInfo() {
       let isTrySee = 0;
