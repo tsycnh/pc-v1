@@ -934,7 +934,7 @@ export default {
         background: #ffffff;
         border-radius: 8px;
         box-sizing: border-box;
-        padding: 15px 30px 50px 30px;
+        padding: 30px 30px 50px 30px;
         .del-user {
           position: absolute;
           top: 30px;
