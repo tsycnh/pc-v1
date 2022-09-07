@@ -112,6 +112,10 @@
                   <div
                     class="float-left shadow-xl bg-white border border-gray-100 rounded"
                   >
+                    <div
+                      v-if="newStatus"
+                      class="w-2 h-2 bg-red-500 rounded-full absolute top-52 right-26"
+                    ></div>
                     <a
                       class="block w-32 text-center float-left px-5 py-2 text-sm text-gray-800 hover:text-blue-600 hover:font-medium rounded-tl rounded-tr"
                       @click="$router.push({ name: 'Member' })"
@@ -120,9 +124,9 @@
                     </a>
                     <a
                       class="block w-32 text-center float-left px-5 py-2 text-sm text-gray-800 hover:text-blue-600 hover:font-medium rounded-tl rounded-tr"
-                      @click="$router.push({ name: 'MemberProfile' })"
+                      @click="$router.push({ name: 'MemberMessages' })"
                     >
-                      我的资料
+                      我的消息
                     </a>
                     <a
                       class="block w-32 text-center float-left px-5 py-2 text-sm text-gray-800 hover:text-blue-600 hover:font-medium rounded-bl rounded-br"
