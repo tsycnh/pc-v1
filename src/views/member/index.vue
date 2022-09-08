@@ -659,8 +659,7 @@ export default {
         .then((res) => {
           if (res.data.code === 0) {
             this.$message.success("上传头像成功");
-            this.resetUserDetail();
-            this.getData();
+            this.success();
           } else {
             this.$message.error(res.data.message);
           }
@@ -682,8 +681,7 @@ export default {
         .then((res) => {
           this.loading = false;
           this.$message.success("修改成功");
-          this.resetUserDetail();
-          this.getData();
+          this.success();
         })
         .catch((e) => {
           this.loading = false;
@@ -717,8 +715,7 @@ export default {
         .then((res) => {
           this.formLoading = false;
           this.$message.success("保存成功");
-          this.resetUserDetail();
-          this.getData();
+          this.success();
         })
         .catch((e) => {
           this.formLoading = false;
@@ -760,9 +757,7 @@ export default {
     submitHandle() {
       this.$api.Member.CancelBind(this.app).then((res) => {
         this.$message.success("解绑成功");
-        this.cancel();
-        this.resetUserDetail();
-        this.getData();
+        this.success();
       });
     },
   },
