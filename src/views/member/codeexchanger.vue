@@ -322,7 +322,7 @@ export default {
         background: #ffffff;
         border-radius: 8px;
         box-sizing: border-box;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
         flex-direction: row;

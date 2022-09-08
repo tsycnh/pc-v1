@@ -32,7 +32,6 @@
                   class="item-thumb"
                   v-if="item.goods[0] && item.goods[0].goods_thumb"
                 >
-                  <div class="spback"></div>
                   <img
                     v-if="
                       item.goods[0].goods_type === '模拟试卷' ||
@@ -41,7 +40,19 @@
                     "
                     src="../../assets/img/commen/default-paper.png"
                   />
-                  <img v-else :src="item.goods[0].goods_thumb" />
+                  <thumb-bar
+                    v-else-if="item.goods[0].goods_type === 'BOOK'"
+                    :value="item.goods[0].goods_thumb"
+                    :border="8"
+                    :width="75"
+                    :height="100"
+                  ></thumb-bar>
+                  <thumb-bar
+                    v-else
+                    :value="item.goods[0].goods_thumb"
+                    :width="133"
+                    :height="100"
+                  ></thumb-bar>
                 </div>
                 <div
                   class="item-thumb"
