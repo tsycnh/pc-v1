@@ -1,9 +1,9 @@
 <template>
   <div class="content">
     <div class="mask" v-if="openmask">
-      <div style="height: 270px" class="dialog-login-box">
-        <div class="tabs">
-          <div class="item-tab active">取消绑定</div>
+      <div style="height:284px" class="dialog-login-box">
+        <div class="dialog-tabs">
+          <div class="item-tab">解绑账号</div>
           <img
             class="btn-close"
             @click="cancel()"
@@ -12,13 +12,16 @@
         </div>
         <div class="box">
           <div class="input-item">
-            取消绑定后请立即绑定其他社交账号，不然可能导致账号无法登录。确认取消绑定？
+            解绑账号后请立即绑定其他社交账号，不然可能导致无法找回原账号，确认操作？
           </div>
-          <div class="btn-box" style="margin-bottom: 0px !important">
-            <button type="submit" class="submit" @click="submitHandle()">
-              确认取消绑定
-            </button>
-          </div>
+        </div>
+        <div class="btn-box">
+          <button type="submit" class="submit" @click="submitHandle()">
+            确认
+          </button>
+          <button type="cancel" class="cancel" @click="cancel()">
+            取消
+          </button>
         </div>
       </div>
     </div>
@@ -188,7 +191,7 @@
                     v-if="user.is_bind_qq === 1"
                     @click="cancelBindQQ()"
                   >
-                    取消绑定
+                    解绑账号
                   </div>
                 </div>
               </div>
@@ -216,7 +219,7 @@
                     v-if="user.is_bind_wechat === 1"
                     @click="cancelBindWeixin()"
                   >
-                    取消绑定
+                    解绑账号
                   </div>
                 </div>
               </div>
@@ -541,50 +544,23 @@ export default {
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
-      padding: 30px;
+      padding: 30px 0px;
       animation: scaleBig 0.3s;
 
-      .tabs {
+      .dialog-tabs {
         width: 100%;
-        height: 44px;
+        height: 20px;
         display: flex;
         flex-direction: row;
         position: relative;
-
-        .linkTab {
-          position: absolute;
-          top: 5px;
-          right: 54px;
-          height: 14px;
-          font-size: 14px;
-          font-weight: 400;
-          color: #3ca7fa;
-          line-height: 14px;
-          cursor: pointer;
-          &:hover {
-            opacity: 0.8;
-          }
-        }
-        .linkTab2 {
-          position: absolute;
-          top: 5px;
-          right: 0px;
-          height: 14px;
-          font-size: 14px;
-          font-weight: 400;
-          color: #3ca7fa;
-          line-height: 14px;
-          cursor: pointer;
-          &:hover {
-            opacity: 0.8;
-          }
-        }
+        box-sizing: border-box;
+        padding: 0px 30px;
 
         .btn-close {
-          width: 24px;
-          height: 24px;
+          width: 16.25px;
+          height: 16.25px;
           position: absolute;
-          right: 6px;
+          right: 22px;
           top: 2px;
           cursor: pointer;
 
@@ -596,177 +572,72 @@ export default {
         .item-tab {
           width: auto;
           height: 20px;
-          font-size: 20px;
+          font-size: 18px;
           font-weight: 500;
-          color: #666666;
+          color: #333333;
           line-height: 20px;
-          margin-right: 50px;
-          cursor: pointer;
-          position: relative;
-          &.active {
-            color: #333333;
-          }
-          .actline {
-            width: 80px;
-            height: 4px;
-            background: #3ca7fa;
-            position: absolute;
-            left: 0px;
-            top: 40px;
-          }
         }
       }
       .box {
         width: 100%;
-        margin-top: 30px;
+        margin-top: 50px;
         display: flex;
         flex-direction: column;
-        .qrode {
-          width: 300px;
-          height: 300px;
-          margin: 0 auto;
-          margin-bottom: 30px;
-        }
-        .box-mobile {
-          width: 100%;
-          height: 24px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          margin-bottom: 50px;
-          span {
-            height: 18px;
-            font-size: 18px;
-            font-weight: 600;
-            color: #333333;
-            line-height: 18px;
-            strong {
-              height: 24px;
-              font-size: 24px;
-              line-height: 24px;
-            }
-          }
-        }
+        box-sizing: border-box;
+        padding: 0px 30px;
+        margin-bottom: 50px;
         .input-item {
           width: 100%;
-          margin-bottom: 30px;
+          height: 60px;
+          font-size: 16px;
+          font-weight: 400;
+          color: #333333;
+          line-height: 30px;
+        }
+      }
+      .btn-box {
+        width: 100%;
+        height: 74px;
+        background: #ffffff;
+        box-shadow: 0px -2px 4px 0px rgba(102, 102, 102, 0.05);
+        box-sizing: border-box;
+        padding: 15px 30px;
+        display: flex;
+        flex-direction: row-reverse;
+        .submit {
+          width: 88px;
+          height: 44px;
+          background: #3ca7fa;
+          border-radius: 4px;
           display: flex;
-          flex-direction: row;
           align-items: center;
-          .input {
-            width: 100%;
-            height: 54px;
-            background: #f4fafe;
-            border-radius: 4px;
-            border: 1px solid #e5e5e5;
-            padding-left: 20px;
-            outline: none;
-          }
-          .input-short {
-            width: 310px;
-            height: 54px;
-            background: #f4fafe;
-            border-radius: 4px;
-            border: 1px solid #e5e5e5;
-            padding-left: 20px;
-            margin-right: 20px;
-            outline: none;
-          }
-          .captcha {
-            width: 110px;
-            height: 39px;
-            cursor: pointer;
-            img {
-              width: 110px;
-              height: 39px;
-            }
-          }
-          .buttons {
-            margin-left: 20px;
-            .send-sms-button {
-              width: 90px;
-              height: 18px;
-              font-size: 18px;
-              font-weight: 400;
-              color: #3ca7fa;
-              line-height: 18px;
-              cursor: pointer;
-              &:hover {
-                opacity: 0.8;
-              }
-            }
+          justify-content: center;
+          font-size: 14px;
+          font-weight: 400;
+          color: #ffffff;
+          line-height: 14px;
+          outline: none;
+          &:hover {
+            opacity: 0.8;
           }
         }
-        .btn-box {
-          width: 100%;
-          margin-bottom: 30px;
-          .submit {
-            width: 100%;
-            height: 54px;
-            background: #3ca7fa;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: 400;
-            color: #ffffff;
-            line-height: 16px;
-            outline: none;
-            &:hover {
-              opacity: 0.8;
-            }
-          }
-          .logout {
-            width: 100%;
-            height: 54px;
-            background: #fff;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 400;
-            color: #999999;
-            line-height: 14px;
-            outline: none;
-            &:hover {
-              opacity: 0.8;
-            }
-          }
-        }
-        .others {
-          width: 100%;
-          margin-top: 50px;
-          &.active {
-            margin-top: 0px;
-          }
-          .tit {
-            width: 100%;
-            text-align: center;
-            height: 14px;
-            font-size: 14px;
-            font-weight: 400;
-            color: #999999;
-            line-height: 14px;
-            margin-bottom: 30px;
-          }
-          .tab-icon {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            .btn-others {
-              margin-right: 64px;
-              width: 48px;
-              height: 48px;
-              cursor: pointer;
-              &:hover {
-                opacity: 0.8;
-              }
-              &:last-child {
-                margin-right: 0px;
-              }
-            }
+        .cancel {
+          width: 88px;
+          height: 44px;
+          border: 1px solid #cccccc;
+          background: #fff;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          font-weight: 400;
+          color: #333333;
+          line-height: 14px;
+          outline: none;
+          margin-right: 30px;
+          &:hover {
+            opacity: 0.8;
           }
         }
       }
