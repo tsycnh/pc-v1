@@ -761,6 +761,7 @@ export default {
       this.$api.Member.CancelBind(this.app).then((res) => {
         this.$message.success("解绑成功");
         this.cancel();
+        this.resetUserDetail();
         this.getData();
       });
     },
