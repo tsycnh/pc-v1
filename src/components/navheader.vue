@@ -114,7 +114,7 @@
                   >
                     <div
                       v-if="newStatus"
-                      class="w-2 h-2 bg-red-500 rounded-full absolute top-52 right-26"
+                      class="w-2 h-2 bg-red-500 rounded-full absolute top-61 left-21"
                     ></div>
                     <a
                       class="block w-32 text-center float-left px-5 py-2 text-sm text-gray-800 hover:text-blue-600 hover:font-medium rounded-tl rounded-tr"
