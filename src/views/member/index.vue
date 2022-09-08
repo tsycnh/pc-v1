@@ -222,176 +222,7 @@
               </div>
             </div>
             <div class="project-content" v-if="currentTab === 2">
-              <div class="item-line">
-                <div class="item-left">
-                  <div class="item-tit">实名认证</div>
-                  <div class="item-value">
-                    <input
-                      class="input"
-                      type="text"
-                      placeholder="请填写你的真实姓名"
-                      v-model="realForm.real_name"
-                      @input="inputFn"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="item-line">
-                <div class="item-left">
-                  <div class="item-tit">性别</div>
-                  <div class="item-radio">
-                    <div class="boy">
-                      <input
-                        type="radio"
-                        name="radios"
-                        value="1"
-                        v-model="realForm.gender"
-                        @input="inputFn"
-                      /><label>男</label>
-                    </div>
-
-                    <div class="girl">
-                      <input
-                        type="radio"
-                        name="radios"
-                        value="2"
-                        v-model="realForm.gender"
-                        @input="inputFn"
-                      /><label>女</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="item-line">
-                <div class="item-left">
-                  <div class="item-tit">生日</div>
-                  <div class="item-value">
-                    <date-picker
-                      placeholder="选择生日"
-                      v-model="realForm.birthday"
-                      type="date"
-                      valueType="format"
-                    ></date-picker>
-                  </div>
-                </div>
-              </div>
-              <div class="item-line">
-                <div class="item-left">
-                  <div class="item-tit">职业</div>
-                  <div class="item-value">
-                    <input
-                      class="input"
-                      v-model="realForm.profession"
-                      placeholder="此处填写你的所处职业"
-                      @input="inputFn"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="item-line">
-                <div class="item-left">
-                  <div class="item-tit">住址</div>
-                  <div class="item-value">
-                    <input
-                      class="input"
-                      v-model="realForm.address"
-                      placeholder="此处填写你的联系地址"
-                      @input="inputFn"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="item-line">
-                <div class="item-left">
-                  <div class="item-tit">毕业证照</div>
-                  <div class="item-thumb">
-                    <img
-                      class="icon"
-                      src="../../assets/img/commen/upload.png"
-                    />
-                    <ProImageUpload
-                      :pic="realForm.diploma"
-                      :position="1"
-                      @change="getUrl"
-                    ></ProImageUpload>
-                  </div>
-                </div>
-              </div>
-              <div class="item-line">
-                <div class="item-left">
-                  <div class="item-tit">毕业院校</div>
-                  <div class="item-value">
-                    <input
-                      class="input"
-                      v-model="realForm.graduated_school"
-                      placeholder="此处填写你的毕业院校"
-                      @input="inputFn"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="item-line">
-                <div class="item-left">
-                  <div class="item-tit">身份证号</div>
-                  <div class="item-value">
-                    <input
-                      class="input"
-                      v-model="realForm.id_number"
-                      @input="inputFn"
-                      placeholder="此处填写你的身份证号码"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="item-line">
-                <div class="item-left">
-                  <div class="item-sptit">身份证正面</div>
-                  <div class="item-thumb">
-                    <img
-                      class="icon"
-                      src="../../assets/img/commen/upload.png"
-                    />
-                    <ProImageUpload
-                      :pic="realForm.id_frontend_thumb"
-                      :position="2"
-                      @change="getUrl"
-                    ></ProImageUpload>
-                  </div>
-                  <div class="item-sptit">身份证反面</div>
-                  <div class="item-thumb">
-                    <img
-                      class="icon"
-                      src="../../assets/img/commen/upload.png"
-                    />
-                    <ProImageUpload
-                      :pic="realForm.id_backend_thumb"
-                      :position="3"
-                      @change="getUrl"
-                    ></ProImageUpload>
-                  </div>
-                  <div class="item-sptit">手持身份证</div>
-                  <div class="item-thumb">
-                    <img
-                      class="icon"
-                      src="../../assets/img/commen/upload.png"
-                    />
-                    <ProImageUpload
-                      :pic="realForm.id_hand_thumb"
-                      :position="4"
-                      @change="getUrl"
-                    ></ProImageUpload>
-                  </div>
-                </div>
-              </div>
-              <div class="btn-box">
-                <div
-                  class="button-submit"
-                  :class="{ active: realFormFocus }"
-                  @click="sunmitRealForm"
-                >
-                  保存
-                </div>
-              </div>
+              <profile></profile>
             </div>
           </div>
         </template>
@@ -439,14 +270,11 @@
 <script>
 import Utils from "@/js/utils";
 import axios from "axios";
-import config from "../../js/config";
+import localConfig from "../../js/config";
 import { mapState, mapMutations } from "vuex";
 import NavFooter from "../../components/footer.vue";
 import NavMember from "../../components/navmember.vue";
-import ProImageUpload from "../../components/profile-image-upload.vue";
-import DatePicker from "vue2-datepicker";
-import "vue2-datepicker/index.css";
-import "vue2-datepicker/locale/zh-cn";
+import Profile from "./components/profile.vue";
 import ChangePassword from "./components/change-password.vue";
 import MobileValidate from "./components/mobile-validate.vue";
 import BindWeixin from "./components/bind-weixin.vue";
@@ -456,7 +284,7 @@ import DestroyUser from "./components/destroy-user.vue";
 import SkeletonMember from "../../components/skeleton/skeletonMember.vue";
 
 // 请求域名
-axios.defaults.baseURL = config.url;
+axios.defaults.baseURL = localConfig.url;
 axios.defaults.timeout = 10000;
 
 // 请求拦截器(附带上token)
@@ -474,8 +302,7 @@ export default {
   components: {
     NavFooter,
     NavMember,
-    ProImageUpload,
-    DatePicker,
+    Profile,
     ChangePassword,
     MobileValidate,
     BindWeixin,
@@ -487,28 +314,13 @@ export default {
   data() {
     return {
       openmask: false,
-      list: [],
-      oldBirthday: null,
-      realFormFocus: false,
+      user: null,
       editNickStatus: false,
       currentTab: 1,
       loading: false,
       formLoading: false,
       form: {
         nick_name: null,
-      },
-      realForm: {
-        real_name: null,
-        gender: null,
-        birthday: null,
-        address: null,
-        profession: null,
-        graduated_school: null,
-        diploma: null,
-        id_number: null,
-        id_frontend_thumb: null,
-        id_backend_thumb: null,
-        id_hand_thumb: null,
       },
       tabs: [
         {
@@ -530,18 +342,8 @@ export default {
       bindWeixinVisible: false,
     };
   },
-  watch: {
-    "realForm.birthday": {
-      handler: function() {
-        if (this.realForm.birthday === this.oldBirthday) {
-          return;
-        }
-        this.realFormFocus = true;
-      },
-    },
-  },
   computed: {
-    ...mapState(["isLogin", "user", "config"]),
+    ...mapState(["isLogin", "config"]),
   },
   mounted() {
     this.$router.onReady(() => {
@@ -560,35 +362,14 @@ export default {
   },
   methods: {
     ...mapMutations(["loginHandle", "setConfig"]),
-    inputFn() {
-      this.realFormFocus = true;
-    },
     showEditNick() {
       this.editNickStatus = true;
     },
     resetData() {
       this.editNickStatus = false;
-      this.realFormFocus = false;
-      this.list = [];
-    },
-    resetUserDetail() {
-      this.editNickStatus = false;
-      this.realFormFocus = false;
-      this.list = [];
-      this.$api.User.Detail()
-        .then((res) => {
-          this.loginHandle(res.data);
-        })
-        .catch((e) => {
-          if (e.code === 401) {
-            Utils.clearToken();
-            this.$router.replace({
-              name: "index",
-            });
-          } else {
-            this.$message.error(e.message);
-          }
-        });
+      this.$api.Member.Detail().then((res) => {
+        this.user = res.data;
+      });
     },
     tabChange(key) {
       this.currentTab = key;
@@ -631,24 +412,9 @@ export default {
         return;
       }
       this.loading = true;
-      this.$api.Member.Profile().then((res) => {
+      this.$api.Member.Detail().then((res) => {
         this.loading = false;
-        if (res.data) {
-          this.realForm.real_name = res.data.real_name;
-          this.realForm.gender = res.data.gender;
-          this.realForm.birthday = res.data.birthday;
-          this.realForm.address = res.data.address;
-          this.realForm.profession = res.data.profession;
-          this.realForm.graduated_school = res.data.graduated_school;
-          this.realForm.diploma = res.data.diploma;
-          this.realForm.id_number = res.data.id_number;
-          this.realForm.id_frontend_thumb = res.data.id_frontend_thumb;
-          this.realForm.id_backend_thumb = res.data.id_backend_thumb;
-          this.realForm.id_hand_thumb = res.data.id_hand_thumb;
-          this.oldBirthday = res.data.birthday;
-        } else {
-          this.oldBirthday = null;
-        }
+        this.user = res.data;
       });
     },
     uploadAvatar(e) {
@@ -668,7 +434,7 @@ export default {
         .then((res) => {
           if (res.data.code === 0) {
             this.$message.success("上传头像成功");
-            this.success();
+            this.resetData();
           } else {
             this.$message.error(res.data.message);
           }
@@ -678,53 +444,19 @@ export default {
         });
     },
     saveEditNick() {
-      if (this.loading) {
+      if (this.formLoading) {
         return;
       }
       if (!this.form.nick_name) {
         this.$message.error("请输入昵称");
         return;
       }
-      this.loading = true;
+      this.formLoading = true;
       this.$api.Member.NicknameChange({ nick_name: this.form.nick_name })
         .then((res) => {
-          this.loading = false;
-          this.$message.success("修改成功");
-          this.success();
-        })
-        .catch((e) => {
-          this.loading = false;
-          this.$message.error(e.message);
-        });
-    },
-    getUrl(key, url) {
-      this.realFormFocus = true;
-      if (key === 1) {
-        this.realForm.diploma = url;
-      }
-      if (key === 2) {
-        this.realForm.id_frontend_thumb = url;
-      }
-      if (key === 3) {
-        this.realForm.id_backend_thumb = url;
-      }
-      if (key === 4) {
-        this.realForm.id_hand_thumb = url;
-      }
-    },
-    sunmitRealForm() {
-      if (this.formLoading) {
-        return;
-      }
-      if (!this.realFormFocus) {
-        return;
-      }
-      this.formLoading = true;
-      this.$api.Member.ProfileSave(this.realForm)
-        .then((res) => {
           this.formLoading = false;
-          this.$message.success("保存成功");
-          this.success();
+          this.$message.success("修改成功");
+          this.resetData();
         })
         .catch((e) => {
           this.formLoading = false;
@@ -769,8 +501,6 @@ export default {
     success() {
       this.cancel();
       this.resetData();
-      this.resetUserDetail();
-      this.getData();
       this.getConfig();
     },
     successMobileValidate(sign) {
