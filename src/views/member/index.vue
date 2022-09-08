@@ -544,10 +544,19 @@ export default {
     ...mapState(["isLogin", "user", "config"]),
   },
   mounted() {
-    if (this.user) {
-      this.form.nick_name = this.user.nick_name;
-    }
-    this.getData();
+    this.$router.onReady(() => {
+      // 社交绑定回调处理
+      if (this.$route.query.login_code && this.$route.query.action === "bind") {
+        this.CodeBind(this.$route.query.login_code);
+      }
+      if (this.$route.query.login_err_msg) {
+        this.$message.error(this.$route.query.login_err_msg);
+      }
+      if (this.user) {
+        this.form.nick_name = this.user.nick_name;
+      }
+      this.getData();
+    });
   },
   methods: {
     ...mapMutations(["loginHandle", "setConfig"]),
@@ -722,6 +731,20 @@ export default {
           this.$message.error(e.message);
         });
     },
+    CodeBind(code) {
+      if (this.$utils.getSessionLoginCode(code)) {
+        return;
+      }
+      this.$utils.saveSessionLoginCode(code);
+      this.$api.Auth.CodeBind({ code: code })
+        .then((res) => {
+          this.$message.success("绑定成功");
+          this.success();
+        })
+        .catch((e) => {
+          this.$message.error(e.message);
+        });
+    },
     destroyUser() {
       this.destroyUserVisible = true;
     },
@@ -745,6 +768,7 @@ export default {
     },
     success() {
       this.cancel();
+      this.resetData();
       this.resetUserDetail();
       this.getData();
       this.getConfig();
