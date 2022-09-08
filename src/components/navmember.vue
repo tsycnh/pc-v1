@@ -38,7 +38,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["configFunc"]),
+    ...mapState(["configFunc", "freshUnread"]),
     menus() {
       let menus = [
         {
@@ -143,6 +143,11 @@ export default {
   watch: {
     id() {
       this.$emit("change", this.id);
+    },
+    freshUnread() {
+      if (this.freshUnread) {
+        this.getUnread();
+      }
     },
   },
   methods: {

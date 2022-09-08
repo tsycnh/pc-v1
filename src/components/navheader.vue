@@ -207,6 +207,7 @@ export default {
   watch: {
     $route(to, from) {
       this.hash = this.getHash();
+      this.getUnread();
     },
     freshUnread() {
       if (this.freshUnread) {
