@@ -757,6 +757,13 @@ export default {
       this.cancel();
       this.bindMobileVisible = true;
     },
+    submitHandle() {
+      this.$api.Member.CancelBind(this.app).then((res) => {
+        this.$message.success("解绑成功");
+        this.cancel();
+        this.getData();
+      });
+    },
   },
 };
 </script>
