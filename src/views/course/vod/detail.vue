@@ -539,11 +539,8 @@ export default {
         course_type: "course",
       }).then((res) => {
         this.tgData = res.data;
-        if (this.tgData.join_item && this.tgData.join_item.length !== 0) {
-          this.hideButton = true;
-        } else {
-          this.hideButton = false;
-        }
+        this.hideButton =
+          this.tgData.join_item && this.tgData.join_item.length !== 0;
       });
     },
     getMsDetail() {
