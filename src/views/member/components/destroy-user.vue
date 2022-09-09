@@ -84,6 +84,7 @@ export default {
     max-height: 620px;
     background: #ffffff;
     border-radius: 8px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
