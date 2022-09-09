@@ -240,6 +240,9 @@ export default {
       });
     },
     getUnread() {
+      if (!this.isLogin) {
+        return;
+      }
       this.$api.Member.UnReadNum().then((res) => {
         let num = res.data;
         if (num === 0) {

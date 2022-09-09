@@ -38,7 +38,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["configFunc", "freshUnread"]),
+    ...mapState(["configFunc", "freshUnread", "isLogin"]),
     menus() {
       let menus = [
         {
@@ -152,6 +152,9 @@ export default {
   },
   methods: {
     getUnread() {
+      if (!this.isLogin) {
+        return;
+      }
       this.$api.Member.UnReadNum().then((res) => {
         let num = res.data;
         if (num === 0) {
