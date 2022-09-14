@@ -84,9 +84,12 @@
                     </div>
                   </template>
                   <template v-else>
+                    <div class="has-button" v-if="hideButton">
+                      正在拼团中
+                    </div>
                     <div
                       class="buy-button"
-                      v-if="book.charge > 0"
+                      v-else-if="book.charge > 0"
                       @click="buyBook()"
                     >
                       订阅电子书￥{{ book.charge }}
@@ -343,6 +346,7 @@ export default {
       tgData: null,
       msData: null,
       msDialogStatus: false,
+      hideButton: false,
     };
   },
   computed: {
@@ -530,6 +534,8 @@ export default {
         course_type: "book",
       }).then((res) => {
         this.tgData = res.data;
+        this.hideButton =
+          this.tgData.join_item && this.tgData.join_item.length !== 0;
       });
     },
     getMsDetail() {

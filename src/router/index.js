@@ -257,15 +257,6 @@ const routes = [
     component: () => import("../views/member/messages.vue"),
   },
   {
-    path: "/member/profile",
-    name: "MemberProfile",
-    meta: {
-      title: "我的资料",
-      auth: true,
-    },
-    component: () => import("../views/member/profile.vue"),
-  },
-  {
     path: "/member/orders",
     name: "MemberOrders",
     meta: {
@@ -282,15 +273,6 @@ const routes = [
       auth: true,
     },
     component: () => import("../views/member/questions.vue"),
-  },
-  {
-    path: "/member/share",
-    name: "MemberShare",
-    meta: {
-      title: "邀请推广",
-      auth: true,
-    },
-    component: () => import("../views/member/share.vue"),
   },
   {
     path: "/member/codeexchanger",

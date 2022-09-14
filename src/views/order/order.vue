@@ -43,15 +43,15 @@
         </div>
         <div class="goods-charge"><span class="small">￥</span>{{ total }}</div>
       </div>
-      <div class="tit">优惠码/邀请码</div>
+      <div class="tit">优惠码</div>
       <div class="promocode-box">
         <input class="input" type="text" v-model="promoCode" />
         <div class="btn-confirm" @click="checkPromoCode()">验证</div>
         <div class="tip" v-if="configTip === 0">
-          此邀请码无效，请重新输入验证
+          此优惠码无效，请重新输入验证
         </div>
         <div class="tip" v-if="configTip === 1">
-          此邀请码有效，已减免{{ discount }}元
+          此优惠码有效，已减免{{ discount }}元
         </div>
       </div>
       <div class="tit">支付方式</div>

@@ -142,22 +142,8 @@
       &:last-child {
         margin-bottom: 0px;
       }
-      .icon {
-        width: 40px;
-        height: 40px;
-        margin-right: 15px;
-        border-radius: 50%;
-        background: linear-gradient(
-          90deg,
-          #f2f2f2 25%,
-          #e6e6e6 37%,
-          #f2f2f2 63%
-        );
-        background-size: 400% 100%;
-        animation: el-skeleton-loading 1.4s ease infinite;
-      }
       .value {
-        width: 854px;
+        width: 100%;
         height: 14px;
         background: linear-gradient(
           90deg,

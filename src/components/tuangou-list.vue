@@ -12,7 +12,7 @@
           限时拼团价￥<strong>{{ tg.goods.charge }}</strong>
         </div>
         <div class="time">
-          {{ tg.goods.people_num }}人团 距秒杀结束剩余<count-down
+          {{ tg.goods.people_num }}人团 距活动结束剩余<count-down
             :timestamp="tg.goods.ended_count_down"
           ></count-down>
         </div>
@@ -88,6 +88,7 @@ export default {
       loading: false,
     };
   },
+  mounted() {},
   methods: {
     ...mapMutations(["showLoginDialog", "changeDialogType"]),
     goLogin() {
