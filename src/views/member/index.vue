@@ -654,6 +654,8 @@ export default {
       margin-left: 30px;
       width: 999px;
       height: auto;
+      display: flex;
+      flex-direction: column;
       .user-box {
         width: 100%;
         height: 140px;
@@ -661,10 +663,9 @@ export default {
         border-radius: 8px;
         box-sizing: border-box;
         padding: 30px;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         display: flex;
         flex-direction: row;
-        margin-right: 30px;
         .avatar {
           width: 80px;
           height: 80px;
@@ -760,9 +761,9 @@ export default {
         }
       }
       .user-profile {
+        flex: 1;
         position: relative;
         width: 100%;
-        height: auto;
         background: #ffffff;
         border-radius: 8px;
         box-sizing: border-box;
