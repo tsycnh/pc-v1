@@ -384,7 +384,7 @@ export default {
       this.bindNewmobileVisible = true;
     },
     goBindQQ() {
-      let host = window.location.href;
+      let host = this.$utils.getShareHost() + "member";
       let token = this.$utils.getToken();
       let redirect = encodeURIComponent(host);
       window.location.href =
