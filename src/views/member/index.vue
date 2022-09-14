@@ -271,10 +271,10 @@
   </div>
 </template>
 <script>
+import { mapState, mapMutations } from "vuex";
 import Utils from "@/js/utils";
 import axios from "axios";
 import localConfig from "../../js/config";
-import { mapState, mapMutations } from "vuex";
 import NavFooter from "../../components/footer.vue";
 import NavMember from "../../components/navmember.vue";
 import Profile from "./components/profile.vue";
