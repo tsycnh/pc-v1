@@ -736,7 +736,7 @@ export default {
         background: #ffffff;
         border-radius: 8px;
         box-sizing: border-box;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         padding: 30px;
         .tabs {
           width: 100%;

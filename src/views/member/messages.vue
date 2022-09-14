@@ -3,7 +3,10 @@
     <div class="box">
       <nav-member v-if="renderComponent" :cid="7"></nav-member>
       <div class="messages-box">
-        <div class="btn-read" @click="readAll()">全部已读</div>
+        <div class="btn-top">
+          <div class="btn-title">我的消息</div>
+          <div class="btn-read" @click="readAll()">全部已读</div>
+        </div>
         <div class="messages-content">
           <template v-if="loading">
             <skeletonMessages></skeletonMessages>
@@ -141,19 +144,39 @@ export default {
       border-radius: 8px;
       box-sizing: border-box;
       padding: 30px;
-      .btn-read {
-        width: 56px;
-        height: 14px;
-        font-size: 14px;
-        font-weight: 400;
-        color: #666666;
-        line-height: 14px;
-        cursor: pointer;
-        margin-bottom: 20px;
-        &:hover {
+      .btn-top {
+        display: flex;
+        width: 100%;
+        height: 16px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        .btn-title {
+          display: inline-block;
+          width: 64px;
+          height: 16px;
+          font-size: 16px;
+          font-weight: 600;
+          color: #333;
+          line-height: 16px;
+          cursor: pointer;
+        }
+        .btn-read {
+          display: inline-block;
+          width: 56px;
+          height: 16px;
+          font-size: 14px;
+          font-weight: 400;
           color: #3ca7fa;
+          line-height: 16px;
+          cursor: pointer;
+          &:hover {
+            opacity: 0.8;
+          }
         }
       }
+
       .messages-content {
         width: 100%;
         display: flex;

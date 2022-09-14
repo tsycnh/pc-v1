@@ -51,9 +51,12 @@
                     </div>
                   </template>
                   <template v-else>
+                    <div class="has-button" v-if="hideButton">
+                      正在拼团中
+                    </div>
                     <div
                       class="buy-button"
-                      v-if="learn.charge > 0"
+                      v-else-if="learn.charge > 0"
                       @click="buy()"
                     >
                       购买套餐￥{{ learn.charge }}（共{{
@@ -72,7 +75,9 @@
                       单独开团￥{{ tgData.goods.charge }}
                     </div>
                   </template>
-                  <div class="original">原价:￥{{ learn.original_charge }}</div>
+                  <div v-if="!hideButton" class="original">
+                    原价:￥{{ learn.original_charge }}
+                  </div>
                 </template>
               </div>
             </div>
@@ -207,6 +212,7 @@ export default {
       isBuy: false,
       msData: null,
       msDialogStatus: false,
+      hideButton: false,
     };
   },
   computed: {
@@ -315,6 +321,8 @@ export default {
         course_type: "learnPath",
       }).then((res) => {
         this.tgData = res.data;
+        this.hideButton =
+          this.tgData.join_item && this.tgData.join_item.length !== 0;
       });
     },
     getMsDetail() {

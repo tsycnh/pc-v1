@@ -56,7 +56,11 @@
       <div class="right-contanier">
         <div class="contanier">
           <div class="create-button" @click="goCreatePage">我要提问</div>
-          <div class="wenda-tips" v-html="pc_diy_content"></div>
+          <div
+            v-if="pc_diy_content && pc_diy_content !== ''"
+            class="wenda-tips"
+            v-html="pc_diy_content"
+          ></div>
         </div>
       </div>
     </div>

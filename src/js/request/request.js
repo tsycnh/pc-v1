@@ -211,13 +211,14 @@ const Api = {
     Play(id) {
       return get("/addons/zhibo/api/v1/course/" + id + "/play");
     },
-    Record(courseId, videoId) {
+    Record(courseId, videoId, params) {
       return get(
         "/addons/zhibo/api/v1/course/" +
           courseId +
           "/video/" +
           videoId +
-          "/watch/record"
+          "/watch/record",
+        params
       );
     },
     CreateOrder(id, params) {

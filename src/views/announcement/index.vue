@@ -13,7 +13,12 @@
               ><span class="div-times">{{ notice.view_times }}次阅读</span>
             </div>
             <div class="line"></div>
-            <div class="notice-content" v-html="notice.announcement"></div>
+            <div
+              class="notice-content u-content md-content"
+              v-code
+              v-latex
+              v-html="notice.announcement"
+            ></div>
           </div>
         </template>
       </div>
@@ -106,7 +111,7 @@ export default {
   },
 };
 </script>
-<style lang='less' scoped>
+<style lang="less" scoped>
 .content {
   width: 100%;
   .contanier {
@@ -164,10 +169,6 @@ export default {
         }
         .notice-content {
           width: 100%;
-          font-size: 15px;
-          font-weight: 400;
-          color: #121212;
-          line-height: 24px;
         }
       }
     }

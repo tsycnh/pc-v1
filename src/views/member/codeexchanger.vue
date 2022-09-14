@@ -56,7 +56,7 @@
               </div>
             </div>
           </template>
-          <none type="white" v-else></none>
+          <none style="margin-top: 28px;" type="white" v-else></none>
           <div id="page" v-show="list.length > 0 && total > pagination.size">
             <page-box
               :key="pagination.page"
@@ -157,7 +157,11 @@ export default {
         .then((res) => {
           this.loading = false;
           this.$message.success("兑换成功");
+          this.exchangeCode = null;
+          this.form.captcha = null;
           this.dialogStatus = false;
+          this.resetData();
+          this.getData();
         })
         .catch((e) => {
           this.loading = false;
@@ -318,7 +322,7 @@ export default {
         background: #ffffff;
         border-radius: 8px;
         box-sizing: border-box;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         display: flex;
         align-items: center;
         flex-direction: row;
@@ -376,7 +380,7 @@ export default {
           font-weight: 500;
           color: #333333;
           line-height: 16px;
-          margin-bottom: 34px;
+          margin-bottom: 6px;
         }
         .project-item {
           width: 100%;
@@ -385,10 +389,8 @@ export default {
           flex-direction: row;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: 28px;
-          &:last-child {
-            margin-bottom: 0px;
-          }
+          margin-top: 28px;
+
           .title {
             height: 14px;
             font-size: 14px;

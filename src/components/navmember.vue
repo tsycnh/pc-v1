@@ -38,7 +38,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["configFunc"]),
+    ...mapState(["configFunc", "freshUnread", "isLogin"]),
     menus() {
       let menus = [
         {
@@ -56,24 +56,6 @@ export default {
               id: 7,
               path: "MemberMessages",
               status: true,
-            },
-            {
-              name: "我的资料",
-              id: 8,
-              path: "MemberProfile",
-              status: true,
-            },
-            {
-              name: "我的拼团",
-              id: 21,
-              path: "MemberTuangou",
-              status: this.configFunc["tuangou"],
-            },
-            {
-              name: "我的秒杀",
-              id: 19,
-              path: "MemberMiaosha",
-              status: this.configFunc["miaosha"],
             },
             {
               name: "我的证书",
@@ -94,22 +76,22 @@ export default {
               status: this.configFunc["paper"],
             },
             {
-              name: "我的练习",
-              id: 10,
-              path: "MemberPractice",
-              status: this.configFunc["practice"],
-            },
-            {
               name: "我的模考",
               id: 11,
               path: "MembermMckpaper",
               status: this.configFunc["mockPaper"],
             },
             {
-              name: "我的错题本",
+              name: "试题错题",
               id: 12,
               path: "ExamWrongBook",
               status: this.configFunc["wrongBook"],
+            },
+            {
+              name: "我的练习",
+              id: 10,
+              path: "MemberPractice",
+              status: this.configFunc["practice"],
             },
           ],
         },
@@ -126,8 +108,8 @@ export default {
             {
               name: "邀请推广",
               id: 14,
-              path: "MemberShare",
-              status: !this.configFunc["share"],
+              path: "Share",
+              status: this.configFunc["share"],
             },
             {
               name: "兑换课程",
@@ -162,9 +144,17 @@ export default {
     id() {
       this.$emit("change", this.id);
     },
+    freshUnread() {
+      if (this.freshUnread) {
+        this.getUnread();
+      }
+    },
   },
   methods: {
     getUnread() {
+      if (!this.isLogin) {
+        return;
+      }
       this.$api.Member.UnReadNum().then((res) => {
         let num = res.data;
         if (num === 0) {
