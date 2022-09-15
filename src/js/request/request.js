@@ -347,6 +347,9 @@ const Api = {
     CertList(params) {
       return get("/addons/Cert/api/v1/member/cert", params);
     },
+    UserPaper(params) {
+      return get("/addons/Paper/api/v2/member/joinPapers", params);
+    },
     Learned: {
       Courses(params) {
         return get("/api/v3/member/courses/learned", params);
