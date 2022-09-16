@@ -1,24 +1,40 @@
 <template>
   <transition name="fade">
     <div class="mask" v-show="status">
-      <div class="dialog-box">
-        <div class="dialog-title">{{ configText }}</div>
-        <div class="info">请订阅后观看哦</div>
+      <div class="dialog-login-box">
+        <div class="dialog-tabs">
+          <div class="item-tab">订阅课时</div>
+          <img
+            class="btn-close"
+            @click="cancel()"
+            src="@/assets/img/commen/icon-close.png"
+          />
+        </div>
+        <div class="box">
+          <div class="input-item">
+            {{ configText }}
+          </div>
+        </div>
         <div class="btn-box">
-          <div class="btn-cancel" @click="cancel()">取消</div>
-          <!--<div
-          class="btn-video"
-          v-if="videoCharge > 0 && is_ban_sell !== 1"
-          @click="payVideo()"
-        >
-          订阅此视频￥{{ videoCharge }}
-        </div>-->
-          <div class="btn-vip" v-if="vipFree === 1" @click="payVip()">
+          <button
+            type="submit"
+            class="submit"
+            v-if="courseCharge > 0"
+            @click="payCourse()"
+          >
+            立即订阅
+          </button>
+          <button
+            type="submit"
+            class="submit"
+            v-if="vipFree === 1"
+            @click="payVip()"
+          >
             会员免费看
-          </div>
-          <div class="btn-course" v-if="courseCharge > 0" @click="payCourse()">
-            订阅此课程￥{{ courseCharge }}
-          </div>
+          </button>
+          <button type="cancel" class="cancel" @click="cancel()">
+            取消
+          </button>
         </div>
       </div>
     </div>
@@ -67,108 +83,113 @@ export default {
   align-items: center;
   justify-content: center;
   z-index: 100;
-  .dialog-box {
-    width: 600px;
-    height: 252px;
+  .dialog-login-box {
+    width: 500px;
+    max-height: 620px;
     background: #ffffff;
     border-radius: 8px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    padding: 30px 0px 0px 0px;
     animation: scaleBig 0.3s;
-    .dialog-title {
-      width: 100%;
-      height: 14px;
-      font-size: 14px;
-      font-weight: 400;
-      color: #666666;
-      line-height: 14px;
-      margin-top: 50px;
-      margin-bottom: 50px;
-      text-align: center;
-    }
-    .info {
-      width: 100%;
-      height: 18px;
-      font-size: 18px;
-      font-weight: 400;
-      color: #333333;
-      line-height: 18px;
-      text-align: center;
-      margin-bottom: 50px;
-    }
 
-    .btn-box {
+    .dialog-tabs {
       width: 100%;
-      height: 70px;
+      height: 20px;
       display: flex;
       flex-direction: row;
+      position: relative;
+      box-sizing: border-box;
+      padding: 0px 30px;
+
+      .btn-close {
+        width: 16.25px;
+        height: 16.25px;
+        position: absolute;
+        right: 22px;
+        top: 2px;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.8;
+          animation: rotate360 1s;
+        }
+      }
+      .item-tab {
+        width: auto;
+        height: 20px;
+        font-size: 18px;
+        font-weight: 500;
+        color: #333333;
+        line-height: 20px;
+      }
+    }
+    .box {
+      width: 100%;
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      padding: 0px 30px;
+      margin-bottom: 50px;
+      .input-item {
+        width: 100%;
+        height: 30px;
+        font-size: 16px;
+        font-weight: 400;
+        color: #333333;
+        line-height: 30px;
+        text-align: center;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        word-break: break-all;
+      }
+    }
+    .btn-box {
+      width: 100%;
+      height: 74px;
+      background: #ffffff;
       box-shadow: 0px -2px 4px 0px rgba(102, 102, 102, 0.05);
       box-sizing: border-box;
-      padding: 7px 15px;
-      justify-content: center;
-      .btn-cancel {
-        width: 88px;
-        height: 56px;
+      padding: 15px 30px;
+      display: flex;
+      flex-direction: row-reverse;
+      .submit {
+        width: 116px;
+        height: 44px;
+        background: #ff4d4f;
         border-radius: 4px;
-        border: 1px solid #e5e5e5;
-        margin-right: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
+        font-size: 14px;
+        font-weight: 400;
+        color: #ffffff;
+        line-height: 14px;
+        outline: none;
+        margin-left: 30px;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+      .cancel {
+        width: 88px;
+        height: 44px;
+        border: 1px solid #cccccc;
+        background: #fff;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 14px;
         font-weight: 400;
         color: #333333;
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-      .btn-video {
-        padding: 20px;
-        border-radius: 4px;
-        border: 1px solid #ff4d4f;
-        margin-right: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 400;
-        color: #ff4d4f;
-        line-height: 16px;
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-      .btn-vip {
-        padding: 20px 24px;
-        border-radius: 4px;
-        background: #e1a500;
-        margin-right: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 400;
-        color: #fff;
-        line-height: 16px;
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-      .btn-course {
-        padding: 20px;
-        border-radius: 4px;
-        background: #ff4d4f;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 400;
-        color: #fff;
-        line-height: 16px;
+        line-height: 14px;
+        outline: none;
+
         &:hover {
           opacity: 0.8;
         }
