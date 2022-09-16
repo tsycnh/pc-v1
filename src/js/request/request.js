@@ -350,6 +350,12 @@ const Api = {
     UserPaper(params) {
       return get("/addons/Paper/api/v2/member/joinPapers", params);
     },
+    UserMockPaper(params) {
+      return get("/addons/Paper/api/v2/member/joinMockPapers", params);
+    },
+    UserPractice(params) {
+      return get("/addons/Paper/api/v2/member/joinPractices", params);
+    },
     Learned: {
       Courses(params) {
         return get("/api/v3/member/courses/learned", params);

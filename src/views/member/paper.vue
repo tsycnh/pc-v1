@@ -24,15 +24,16 @@
               <span>{{ item.paper.score }}分</span>
             </div>
           </div>
+          <div id="page">
+            <page-box
+              :key="pagination.page"
+              :over="over"
+              :page="pagination.page"
+              @current-change="changepage"
+            ></page-box>
+          </div>
         </template>
         <none type="white" v-else></none>
-        <div id="page" v-if="list.length > 0">
-          <page-box
-            :over="over"
-            :page="pagination.page"
-            @current-change="changepage"
-          ></page-box>
-        </div>
       </div>
     </div>
     <nav-footer></nav-footer>
@@ -80,7 +81,6 @@ export default {
       this.pagination.page = 1;
     },
     changepage(item) {
-      console.log(item);
       this.pagination.page = item.currentPage;
       this.getData();
     },
@@ -98,14 +98,15 @@ export default {
       }
       this.loading = true;
       this.$api.Member.UserPaper(this.pagination).then((res) => {
-        this.loading = false;
         if (res.data.data.length === 0) {
           this.$message.error("没有更多了");
+          this.pagination.page--;
           this.over = true;
         } else {
           this.list = res.data.data;
           this.over = false;
         }
+        this.loading = false;
       });
     },
   },

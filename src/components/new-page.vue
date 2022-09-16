@@ -11,7 +11,7 @@
       <button class="fl h50 cursor" v-if="currentPage !== 1" @click="prePage">
         <span>上一页</span>
       </button>
-      <button class="fl h50 cursor" v-if="!over" @click="nextPage">
+      <button class="fl h50 cursor" @click="nextPage">
         <span>下一页</span>
       </button>
     </div>
@@ -30,7 +30,9 @@ export default {
   methods: {
     nextPage() {
       // 下一页
-      if (!this.over) {
+      if (this.over) {
+        this.$message.error("没有更多了");
+      } else {
         this.currentPage++;
       }
     },
@@ -46,6 +48,9 @@ export default {
     },
   },
   watch: {
+    page() {
+      this.currentPage = this.page;
+    },
     currentPage() {
       // 当前页数变化后 传递出当前页码 重新请求数据
       this.$emit("current-change", {
