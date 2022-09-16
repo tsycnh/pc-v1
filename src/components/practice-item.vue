@@ -1,13 +1,17 @@
 <template>
-  <div class="practice-item-comp" @click="goDetail">
+  <div class="practice-item-comp">
     <div class="status" v-if="records[cid]">已练习</div>
-    <div class="title">{{ title }}</div>
-    <div class="info">
-      <span>{{ questionCount }}道题</span>
-      <template v-if="userCount">
-        <span class="item">|</span>
-        <span>{{ userCount }}人已参与</span>
-      </template>
+    <div class="title">
+      <img class="icon" src="@/assets/img/member/practice.png" />
+      <div class="name">{{ title }}</div>
+    </div>
+    <div class="button" @click="goDetail">
+      <img
+        class="icon"
+        v-if="!isFree"
+        src="@/assets/img/exam/practice-lock.png"
+      />
+      <span>立即考试</span>
     </div>
   </div>
 </template>
@@ -73,7 +77,6 @@ export default {
   .status {
     width: 62px;
     height: 30px;
-    background: #f4a529;
     border-radius: 8px 0px 8px 0px;
     position: absolute;
     top: 0;
@@ -83,18 +86,55 @@ export default {
     justify-content: center;
     font-size: 14px;
     font-weight: 400;
-    color: #ffffff;
+    background: rgba(#f4a429, 0.15);
+    color: #f4a429;
   }
 
   .title {
-    height: 16px;
-    font-size: 16px;
-    font-family: PingFangSC-Medium, PingFang SC;
-    font-weight: 500;
-    color: #333333;
-    line-height: 16px;
+    flex: 1;
+    height: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    .icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 20px;
+    }
+    .name {
+      flex: 1;
+      height: 16px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #333333;
+      line-height: 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
+  .button {
+    width: 102px;
+    height: 44px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: Center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #f4a429;
+    border: 1px solid #f4a429;
+    &:hover {
+      opacity: 0.8;
+    }
 
+    .icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 6px;
+    }
+  }
   .info {
     height: 30px;
     font-size: 16px;

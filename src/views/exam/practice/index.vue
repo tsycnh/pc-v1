@@ -29,7 +29,7 @@
             :userCount="item.user_count"
             :category="item.category"
             :records="userpapers"
-            :is-free="item.is_free"
+            :is-free="item.is_free == 1"
             :is-vip-free="item.is_vip_free"
             :questionCount="item.question_count"
           ></practice-item>

@@ -29,6 +29,7 @@
             :charge="item.charge"
             :score="item.score"
             :records="userpapers"
+            :isFree="item.is_invite === 0 && item.charge === 0"
             :pass-score="item.pass_score"
           ></paper-item>
         </div>
