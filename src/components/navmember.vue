@@ -256,7 +256,7 @@ export default {
           position: absolute;
           width: 8px;
           height: 8px;
-          background: #ff5068;
+          background: #ff4d4f;
           border-radius: 50%;
           top: 18px;
           left: 12px;

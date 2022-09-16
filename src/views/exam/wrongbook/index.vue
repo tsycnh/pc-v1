@@ -216,7 +216,7 @@ export default {
         justify-content: center;
         font-size: 16px;
         font-weight: 400;
-        color: #ff5068;
+        color: #ff4d4f;
         &:hover {
           opacity: 0.8;
         }

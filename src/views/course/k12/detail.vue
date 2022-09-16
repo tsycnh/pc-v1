@@ -125,7 +125,7 @@
                 </div>
                 <div class="video-info">
                   <template v-if="video.status === 0">
-                    <span style="color: #ff5068">未开课</span>
+                    <span style="color: #ff4d4f">未开课</span>
                   </template>
                   <template v-else-if="video.status === 1">
                     <span style="color: #3ca7fa">上课中</span>
@@ -488,7 +488,7 @@ export default {
               cursor: pointer;
             }
             .buy-button {
-              background: #ff5068;
+              background: #ff4d4f;
               border-radius: 4px;
               padding: 20px;
               font-size: 16px;

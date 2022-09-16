@@ -527,10 +527,10 @@ export default {
           align-items: center;
           justify-content: center;
           border-radius: 2px;
-          border: 1px solid #ff5068;
+          border: 1px solid #ff4d4f;
           font-size: 16px;
           font-weight: 400;
-          color: #ff5068;
+          color: #ff4d4f;
         }
       }
       .goods-charge {
@@ -540,7 +540,7 @@ export default {
         height: 24px;
         font-size: 24px;
         font-weight: 600;
-        color: #ff5068;
+        color: #ff4d4f;
         line-height: 24px;
         .small {
           font-size: 16px;
@@ -582,7 +582,7 @@ export default {
         height: 14px;
         font-size: 14px;
         font-weight: 400;
-        color: #ff5068;
+        color: #ff4d4f;
         line-height: 14px;
       }
     }
@@ -645,7 +645,7 @@ export default {
       height: 14px;
       font-size: 14px;
       font-weight: 400;
-      color: #ff5068;
+      color: #ff4d4f;
       line-height: 14px;
       display: flex;
       justify-content: flex-end;
@@ -655,7 +655,7 @@ export default {
     .btn-submit {
       width: 140px;
       height: 50px;
-      background: #ff5068;
+      background: #ff4d4f;
       border-radius: 4px;
       display: flex;
       align-items: center;

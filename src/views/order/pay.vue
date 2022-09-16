@@ -413,7 +413,7 @@ export default {
             color: #333333;
             line-height: 16px;
             &.red {
-              color: #ff5068;
+              color: #ff4d4f;
               strong {
                 font-size: 24px;
               }
@@ -462,7 +462,7 @@ export default {
               color: #333333;
               line-height: 16px;
               &.red {
-                color: #ff5068;
+                color: #ff4d4f;
                 strong {
                   font-size: 24px;
                 }
@@ -475,7 +475,7 @@ export default {
     .btn-confirm {
       width: 140px;
       height: 50px;
-      background: #ff5068;
+      background: #ff4d4f;
       border-radius: 4px;
       cursor: pointer;
       display: flex;

@@ -75,10 +75,10 @@ export default {
       }
     }
     .wrongbook {
-      border: 1px solid #ff5068;
-      color: #ff5068;
+      border: 1px solid #ff4d4f;
+      color: #ff4d4f;
       &.active {
-        background-color: #ff5068;
+        background-color: #ff4d4f;
         color: #ffffff;
       }
     }
@@ -119,10 +119,10 @@ export default {
       }
     }
     .wrongbook {
-      border: 1px solid #ff5068;
-      color: #ff5068;
+      border: 1px solid #ff4d4f;
+      color: #ff4d4f;
       &.active {
-        background-color: #ff5068;
+        background-color: #ff4d4f;
         color: #ffffff;
       }
     }

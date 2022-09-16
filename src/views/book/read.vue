@@ -900,7 +900,7 @@ export default {
         width: 440px;
         height: 56px;
         margin: 0 auto;
-        background: #ff5068;
+        background: #ff4d4f;
         border-radius: 4px;
         font-size: 16px;
         font-weight: 400;

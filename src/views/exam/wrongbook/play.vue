@@ -607,7 +607,7 @@ export default {
         .see-answer {
           width: 104px;
           height: 40px;
-          background: #ff5068;
+          background: #ff4d4f;
           border-radius: 4px;
           display: flex;
           align-items: center;

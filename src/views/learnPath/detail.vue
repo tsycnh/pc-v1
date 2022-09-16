@@ -554,7 +554,7 @@ export default {
               }
             }
             .buy-button {
-              background: #ff5068;
+              background: #ff4d4f;
               border-radius: 4px;
               padding: 20px;
               font-size: 16px;

@@ -297,7 +297,7 @@ export default {
               font-size: 14px;
               font-weight: 600;
               line-height: 14px;
-              color: #ff5068;
+              color: #ff4d4f;
             }
             .info {
               flex: 1;

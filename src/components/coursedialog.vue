@@ -126,7 +126,7 @@ export default {
       .btn-video {
         padding: 20px;
         border-radius: 4px;
-        border: 1px solid #ff5068;
+        border: 1px solid #ff4d4f;
         margin-right: 12px;
         display: flex;
         align-items: center;
@@ -134,7 +134,7 @@ export default {
         cursor: pointer;
         font-size: 16px;
         font-weight: 400;
-        color: #ff5068;
+        color: #ff4d4f;
         line-height: 16px;
         &:hover {
           opacity: 0.8;
@@ -160,7 +160,7 @@ export default {
       .btn-course {
         padding: 20px;
         border-radius: 4px;
-        background: #ff5068;
+        background: #ff4d4f;
         display: flex;
         align-items: center;
         justify-content: center;

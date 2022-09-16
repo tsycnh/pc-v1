@@ -836,7 +836,7 @@ export default {
               font-size: 15px;
               font-weight: 400;
               border-radius: 4px;
-              background-color: #ff5068;
+              background-color: #ff4d4f;
               color: white;
               cursor: pointer;
               &:hover {
@@ -848,7 +848,7 @@ export default {
               margin-top: 30px;
               font-size: 15px;
               font-weight: 400;
-              color: #ff5068;
+              color: #ff4d4f;
               line-height: 15px;
               cursor: pointer;
               &:hover {
@@ -961,7 +961,7 @@ export default {
           }
           .buy-button {
             position: absolute;
-            background: #ff5068;
+            background: #ff4d4f;
             border-radius: 4px;
             padding: 12px 20px;
             font-size: 16px;

@@ -396,7 +396,7 @@ export default {
             color: #333333;
             line-height: 14px;
             &.red {
-              color: #ff5068;
+              color: #ff4d4f;
             }
           }
           .item-pro {
@@ -407,7 +407,7 @@ export default {
             color: #333333;
             line-height: 14px;
             &.red {
-              color: #ff5068;
+              color: #ff4d4f;
             }
           }
           .item-status {
@@ -419,7 +419,7 @@ export default {
             line-height: 14px;
             cursor: pointer;
             &.red {
-              color: #ff5068;
+              color: #ff4d4f;
             }
           }
         }

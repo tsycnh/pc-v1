@@ -330,7 +330,7 @@ export default {
                 line-height: 14px;
                 margin-left: auto;
                 &.act {
-                  color: #ff5068;
+                  color: #ff4d4f;
                   cursor: pointer;
                   &:hover {
                     opacity: 0.8;

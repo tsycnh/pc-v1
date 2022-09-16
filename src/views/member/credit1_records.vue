@@ -975,14 +975,14 @@ export default {
                   height: 14px;
                   font-size: 14px;
                   font-weight: 600;
-                  color: #ff5068;
+                  color: #ff4d4f;
                   line-height: 14px;
                 }
                 .item-type {
                   display: inline-block;
                   width: auto;
                   height: auto;
-                  background: #ff5068;
+                  background: #ff4d4f;
                   border-radius: 2px;
                   padding: 4px;
                   font-size: 12px;
@@ -1137,7 +1137,7 @@ export default {
                     height: 14px;
                     font-size: 14px;
                     font-weight: 400;
-                    color: #ff5068;
+                    color: #ff4d4f;
                     line-height: 14px;
                     cursor: pointer;
                     &:hover {
@@ -1244,7 +1244,7 @@ export default {
               font-size: 14px;
               font-weight: 600;
               line-height: 14px;
-              color: #ff5068;
+              color: #ff4d4f;
             }
             .info {
               flex: 1;

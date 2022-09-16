@@ -411,7 +411,7 @@ export default {
               .join-button {
                 width: 104px;
                 height: 48px;
-                background: #ff5068;
+                background: #ff4d4f;
                 border-radius: 4px;
                 display: flex;
                 align-items: center;
@@ -605,7 +605,7 @@ export default {
           }
           .buy-button {
             position: absolute;
-            background: #ff5068;
+            background: #ff4d4f;
             border-radius: 4px;
             padding: 20px;
             font-size: 16px;
@@ -619,7 +619,7 @@ export default {
           }
           .unpaid {
             position: absolute;
-            background: #ff5068;
+            background: #ff4d4f;
             border-radius: 4px;
             padding: 20px;
             font-size: 16px;
@@ -760,7 +760,7 @@ export default {
                   height: 14px;
                   font-size: 14px;
                   font-weight: 500;
-                  color: #ff5068;
+                  color: #ff4d4f;
                   line-height: 14px;
                 }
                 .course-free {

@@ -201,7 +201,7 @@ export default {
             height: 8px;
             top: 6px;
             left: 0;
-            background: #ff5068;
+            background: #ff4d4f;
             border-radius: 50%;
           }
           .cont {
