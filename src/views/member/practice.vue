@@ -3,7 +3,7 @@
     <div class="box">
       <nav-member :cid="10"></nav-member>
       <div class="project-box">
-        <div class="tabs">
+        <!--<div class="tabs">
           <div
             class="item-tab"
             v-for="(item, index) in tabs"
@@ -15,7 +15,8 @@
             {{ item.name }}
             <div class="actline" v-if="currentTab === item.id"></div>
           </div>
-        </div>
+        </div>-->
+        <div class="btn-title">我的练习</div>
         <template v-if="loading">
           <skeletonMemberPaper></skeletonMemberPaper>
         </template>
@@ -124,10 +125,10 @@ export default {
           name: "我的练习",
           id: 1,
         },
-        {
-          name: "收藏习题",
-          id: 2,
-        },
+        // {
+        //   name: "收藏习题",
+        //   id: 2,
+        // },
       ],
     };
   },
@@ -230,6 +231,16 @@ export default {
       border-radius: 8px;
       box-sizing: border-box;
       padding: 30px;
+      .btn-title {
+        width: auto;
+        height: 16px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        line-height: 16px;
+        cursor: pointer;
+        margin-bottom: 50px;
+      }
       .tabs {
         width: 100%;
         height: 34px;

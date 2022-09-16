@@ -93,6 +93,12 @@ export default {
               path: "MemberPractice",
               status: this.configFunc["practice"],
             },
+            {
+              name: "收藏习题",
+              id: 17,
+              path: "ExamCollection",
+              status: this.configFunc["practice"],
+            },
           ],
         },
         {
