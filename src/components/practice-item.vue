@@ -1,6 +1,11 @@
 <template>
   <div class="practice-item-comp">
-    <div class="status" v-if="records[cid]">已练习</div>
+    <template v-if="userCount !== 0">
+      <div class="status" v-if="userCount === questionCount">
+        已练习
+      </div>
+      <div class="status" v-else>练习中</div>
+    </template>
     <div class="title">
       <img class="icon" src="@/assets/img/member/practice.png" />
       <div class="name">{{ title }}</div>
@@ -11,7 +16,7 @@
         v-if="!isFree"
         src="@/assets/img/exam/practice-lock.png"
       />
-      <span>立即考试</span>
+      <span>立即练习</span>
     </div>
   </div>
 </template>
