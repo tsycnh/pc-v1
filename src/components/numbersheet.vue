@@ -4,8 +4,8 @@
       <div
         class="num"
         :class="{
-          active:
-            index + 1 === activeNum ||
+          active: index + 1 === activeNum,
+          completed:
             configkey[index] ||
             (hasPracticeIds && hasPracticeIds.indexOf(item) !== -1),
           practice: type === 'practice',
@@ -23,8 +23,8 @@
       <div
         class="num"
         :class="{
-          active:
-            index + 1 === activeNum ||
+          active: index + 1 === activeNum,
+          completed:
             configkey[index] ||
             (hasPracticeIds && hasPracticeIds.indexOf(item) !== -1),
           practice: type === 'practice',
@@ -65,27 +65,45 @@ export default {
     grid-column-gap: 30px;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     .practice {
-      border: 1px solid #e1a500;
-      color: #e1a500;
-      &.active {
+      border: 1px solid #c1c4cb;
+      color: #999999;
+      &.completed {
+        border: 1px solid #e1a500;
         background-color: #e1a500;
         color: #ffffff;
       }
+      &.active {
+        border: 1px solid #e1a500;
+        background-color: rgba(#e1a500, 0.1);
+        color: #e1a500;
+      }
     }
     .collection {
-      border: 1px solid #9355de;
-      color: #9355de;
-      &.active {
+      border: 1px solid #c1c4cb;
+      color: #999999;
+      &.completed {
+        border: 1px solid #9355de;
         background-color: #9355de;
         color: #ffffff;
       }
+      &.active {
+        border: 1px solid #9355de;
+        background-color: rgba(#9355de, 0.1);
+        color: #9355de;
+      }
     }
     .wrongbook {
-      border: 1px solid #ff4d4f;
-      color: #ff4d4f;
-      &.active {
+      border: 1px solid #c1c4cb;
+      color: #999999;
+      &.completed {
+        border: 1px solid #ff4d4f;
         background-color: #ff4d4f;
         color: #ffffff;
+      }
+      &.active {
+        border: 1px solid #ff4d4f;
+        background-color: rgba(#ff4d4f, 0.1);
+        color: #ff4d4f;
       }
     }
     .num {
@@ -109,27 +127,46 @@ export default {
     gap: 23px;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     .practice {
-      border: 1px solid #e1a500;
-      color: #e1a500;
-      &.active {
+      border: 1px solid #c1c4cb;
+      color: #999999;
+      &.completed {
+        border: 1px solid #e1a500;
         background-color: #e1a500;
         color: #ffffff;
       }
+      &.active {
+        border: 1px solid #e1a500;
+        background-color: rgba(#e1a500, 0.1);
+        color: #e1a500;
+      }
     }
     .collection {
-      border: 1px solid #9355de;
-      color: #9355de;
-      &.active {
+      border: 1px solid #c1c4cb;
+      color: #999999;
+
+      &.completed {
+        border: 1px solid #9355de;
         background-color: #9355de;
         color: #ffffff;
       }
+      &.active {
+        border: 1px solid #9355de;
+        background-color: rgba(#9355de, 0.1);
+        color: #9355de;
+      }
     }
     .wrongbook {
-      border: 1px solid #ff4d4f;
-      color: #ff4d4f;
-      &.active {
+      border: 1px solid #c1c4cb;
+      color: #999999;
+      &.completed {
+        border: 1px solid #ff4d4f;
         background-color: #ff4d4f;
         color: #ffffff;
+      }
+      &.active {
+        border: 1px solid #ff4d4f;
+        background-color: rgba(#ff4d4f, 0.1);
+        color: #ff4d4f;
       }
     }
     .num {
