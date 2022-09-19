@@ -1,51 +1,68 @@
 <template>
   <div class="content">
-    <div class="mask" v-show="dialogStatus">
-      <div class="dialog-box">
-        <div class="dialog-title">提现</div>
-        <div class="info">
-          <div class="tit">收款渠道</div>
-          <select
-            class="input"
-            v-model="withdrawForm.channel"
-            placeholder="请选择"
-          >
-            <option
-              v-for="(val, index) in channels"
-              :key="index"
-              :value="val.value"
-            >
-              {{ val.label }}
-            </option>
-          </select>
-          <div class="tit">收款账号</div>
-          <input
-            class="input"
-            type="text"
-            placeholder="收款账号"
-            v-model="withdrawForm.channel_account"
-          />
-          <div class="tit">真实姓名</div>
-          <input
-            class="input"
-            type="text"
-            placeholder="真实姓名"
-            v-model="withdrawForm.channel_name"
-          />
-          <div class="tit">提现金额</div>
-          <input
-            class="input"
-            type="number"
-            placeholder="提现金额"
-            v-model="withdrawForm.amount"
-          />
-        </div>
-        <div class="btn-box">
-          <div class="btn-cancel" @click="cancel()">取消</div>
-          <div class="btn-submit" @click="withdraw()">申请提现</div>
+    <transition name="fade">
+      <div class="mask" v-show="dialogStatus">
+        <div class="dialog-box">
+          <div class="dialog-tabs">
+            <div class="item-tab">申请提现</div>
+            <img
+              class="btn-close"
+              @click="cancel()"
+              src="@/assets/img/commen/icon-close.png"
+            />
+          </div>
+          <div class="info">
+            <div class="item">
+              <div class="tit"><span>*</span>提现渠道</div>
+              <select
+                class="input"
+                v-model="withdrawForm.channel"
+                placeholder="请选择"
+              >
+                <option
+                  v-for="(val, index) in channels"
+                  :key="index"
+                  :value="val.value"
+                >
+                  {{ val.label }}
+                </option>
+              </select>
+            </div>
+            <div class="item">
+              <div class="tit"><span>*</span>提现账号</div>
+              <input
+                class="input"
+                type="text"
+                placeholder="收款账号"
+                v-model="withdrawForm.channel_account"
+              />
+            </div>
+            <div class="item">
+              <div class="tit"><span>*</span>真实姓名</div>
+              <input
+                class="input"
+                type="text"
+                placeholder="真实姓名"
+                v-model="withdrawForm.channel_name"
+              />
+            </div>
+            <div class="item">
+              <div class="tit"><span>*</span>提现金额</div>
+              <input
+                class="input"
+                type="number"
+                placeholder="提现金额"
+                v-model="withdrawForm.amount"
+              />
+            </div>
+          </div>
+          <div class="btn-box">
+            <div class="btn-cancel" @click="cancel()">取消</div>
+            <div class="btn-submit" @click="withdraw()">申请提现</div>
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
     <div class="box">
       <div class="user-box">
         <div class="user" v-if="user">
@@ -231,10 +248,10 @@ export default {
       this.getShareConfig();
     },
     showWithdrawDialog() {
-      if (this.invite.balance === 0) {
-        this.$message.error("余额为0时不可提现");
-        return;
-      }
+      // if (this.invite.balance === 0) {
+      //   this.$message.error("余额为0时不可提现");
+      //   return;
+      // }
       this.dialogStatus = true;
     },
     cancel() {
@@ -454,63 +471,105 @@ export default {
     justify-content: center;
     z-index: 100;
     .dialog-box {
-      width: 400px;
+      width: 500px;
       height: auto;
       background: #ffffff;
       border-radius: 8px;
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
-      padding: 30px;
-      .dialog-title {
+      animation: scaleBig 0.3s;
+      .dialog-tabs {
         width: 100%;
-        height: 16px;
-        font-size: 16px;
-        font-weight: 600;
-        color: #333333;
-        line-height: 16px;
-        margin-bottom: 10px;
-        text-align: center;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        box-sizing: border-box;
+        padding: 30px;
+        .btn-close {
+          width: 16.25px;
+          height: 16.25px;
+          position: absolute;
+          right: 22px;
+          top: 32px;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 0.8;
+            animation: rotate360 1s;
+          }
+        }
+        .item-tab {
+          width: auto;
+          height: 20px;
+          font-size: 18px;
+          font-weight: 500;
+          color: #333333;
+          line-height: 20px;
+        }
       }
       .info {
         width: 100%;
-
-        .tit {
+        height: auto;
+        float: left;
+        box-sizing: border-box;
+        padding: 0px 30px;
+        .item {
           width: 100%;
-          height: 14px;
-          font-size: 14px;
-          font-weight: 500;
-          color: #333333;
-          line-height: 14px;
-          margin-bottom: 10px;
-        }
-        .input {
-          width: 100%;
-          height: 40px;
-          background: #ffffff;
-          border-radius: 4px;
-          border: 1px solid #dcdfe6;
-          outline: none;
-          padding-left: 15px;
-          margin-bottom: 10px;
-          font-size: 14px;
-          font-weight: 400;
-          color: #333333;
+          float: left;
+          height: auto;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin-bottom: 30px;
+          &:last-child {
+            margin-bottom: 0px;
+          }
+          .tit {
+            width: 64;
+            height: 14px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #606266;
+            line-height: 14px;
+            margin-right: 16px;
+            span {
+              color: #ff4d4f;
+            }
+          }
+          .input {
+            flex: 1;
+            height: 40px;
+            background: #ffffff;
+            border-radius: 4px;
+            border: 1px solid #dcdfe6;
+            outline: none;
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #333333;
+          }
         }
       }
       .btn-box {
         width: 100%;
-        height: 70px;
+        height: 74px;
+        background: #ffffff;
+        box-shadow: 0px -2px 4px 0px rgba(102, 102, 102, 0.05);
+        border-radius: 0px 0px 8px 8px;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: right;
+        margin-top: 50px;
         box-sizing: border-box;
-        padding: 15px;
+        padding: 15px 30px;
         .btn-cancel {
           width: 88px;
-          height: 40px;
+          height: 44px;
           border-radius: 4px;
-          border: 1px solid #e5e5e5;
+          border: 1px solid #cccccc;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -518,13 +577,14 @@ export default {
           font-size: 14px;
           font-weight: 400;
           color: #333333;
+          margin-right: 30px;
           &:hover {
             opacity: 0.8;
           }
         }
         .btn-submit {
-          width: 88px;
-          height: 40px;
+          width: 116px;
+          height: 44px;
           border-radius: 4px;
           background-color: #3ca7fa;
           display: flex;
