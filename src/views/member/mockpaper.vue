@@ -21,7 +21,7 @@
             <div class="info">
               <span style="color: #00BBA7;">最高分：{{ item.max_score }}</span>
               <span class="item">|</span>
-              <span>{{ item.paper.score }}分</span>
+              <span>共{{ item.paper.score }}道题</span>
             </div>
           </div>
           <div id="page">

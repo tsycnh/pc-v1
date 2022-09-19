@@ -140,6 +140,7 @@ export default {
         this.$message.error("无权限参与");
         return;
       }
+
       this.$router.push({
         name: "ExamPracticePlay",
         query: {
@@ -155,6 +156,10 @@ export default {
       }
       if (this.can_join === false) {
         this.$message.error("无权限参与");
+        return;
+      }
+      if (this.list.question_count === 0) {
+        this.$message.error("当前练习为空");
         return;
       }
       this.$router.push({
