@@ -7,7 +7,7 @@
           active:
             index + 1 === activeNum ||
             configkey[index] ||
-            hasPracticeIds.indexOf(item) !== -1,
+            (hasPracticeIds && hasPracticeIds.indexOf(item) !== -1),
           practice: type === 'practice',
           wrongbook: type === 'wrongbook',
           collection: type === 'collection',
@@ -26,7 +26,7 @@
           active:
             index + 1 === activeNum ||
             configkey[index] ||
-            hasPracticeIds.indexOf(item) !== -1,
+            (hasPracticeIds && hasPracticeIds.indexOf(item) !== -1),
           practice: type === 'practice',
           wrongbook: type === 'wrongbook',
           collection: type === 'collection',
