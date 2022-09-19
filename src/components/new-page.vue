@@ -1,17 +1,11 @@
 <template>
   <div class="page-wrapper clearfix">
     <div class="page-tab fl clearfix">
-      <button
-        class="fl h50 cursor"
-        :class="{ canNot: currentPage == 1 }"
-        @click="firstPage"
-      >
-        首页
-      </button>
+      <span class="fl h50">第{{ currentPage }}页</span>
       <button class="fl h50 cursor" v-if="currentPage !== 1" @click="prePage">
         <span>上一页</span>
       </button>
-      <button class="fl h50 cursor" @click="nextPage">
+      <button class="fl h50 cursor" :class="{ canNot: over }" @click="nextPage">
         <span>下一页</span>
       </button>
     </div>
@@ -31,7 +25,7 @@ export default {
     nextPage() {
       // 下一页
       if (this.over) {
-        this.$message.error("没有更多了");
+        // this.$message.error("没有更多了");
       } else {
         this.currentPage++;
       }
@@ -173,6 +167,7 @@ li {
 
 .canNot {
   cursor: not-allowed;
+  color: #ccc !important;
 }
 .btn-icon {
   width: 16px;
