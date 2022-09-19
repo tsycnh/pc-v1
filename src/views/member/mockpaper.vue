@@ -19,7 +19,9 @@
               <div class="name">{{ item.paper.title }}</div>
             </div>
             <div class="info">
-              <span style="color: #00BBA7;">最高得分：{{ item.max_score }}</span>
+              <span style="color: #00BBA7;"
+                >最高得分：{{ item.max_score }}</span
+              >
               <span class="item">|</span>
               <span>共{{ item.paper.question_count }}道题</span>
             </div>
@@ -99,8 +101,10 @@ export default {
       this.loading = true;
       this.$api.Member.UserMockPaper(this.pagination).then((res) => {
         if (res.data.data.length === 0) {
-          this.$message.error("没有更多了");
-          this.pagination.page--;
+          if (this.pagination.page > 1) {
+            this.$message.error("没有更多了");
+            this.pagination.page--;
+          }
           this.over = true;
         } else {
           this.list = res.data.data;
