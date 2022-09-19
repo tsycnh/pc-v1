@@ -28,7 +28,7 @@
             :title="item.title"
             :charge="item.charge"
             :records="userpapers"
-            :isFree="item.is_free === 1"
+            :isFree="item.cur_user_can_join"
             :expiredMinutes="item.expired_minutes"
             :questionsCount="item.questions_count"
           ></paper-item>
