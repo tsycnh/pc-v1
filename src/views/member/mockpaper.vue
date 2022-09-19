@@ -104,7 +104,11 @@ export default {
           this.over = true;
         } else {
           this.list = res.data.data;
-          this.over = false;
+          if (res.data.data.length < this.pagination.size) {
+            this.over = true;
+          } else {
+            this.over = false;
+          }
         }
         this.loading = false;
       });
