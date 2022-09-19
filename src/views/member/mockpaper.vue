@@ -19,7 +19,7 @@
               <div class="name">{{ item.paper.title }}</div>
             </div>
             <div class="info">
-              <span style="color: #00BBA7;">最高分：{{ item.max_score }}</span>
+              <span style="color: #00BBA7;">最高得分：{{ item.max_score }}</span>
               <span class="item">|</span>
               <span>共{{ item.paper.question_count }}道题</span>
             </div>
