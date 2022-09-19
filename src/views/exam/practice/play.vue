@@ -177,6 +177,7 @@ export default {
   },
   mounted() {
     this.getData();
+    this.keyDown();
   },
   watch: {
     activeQid() {
@@ -186,6 +187,19 @@ export default {
     },
   },
   methods: {
+    keyDown() {
+      document.onkeydown = (e) => {
+        let e1 =
+          e || event || window.event || arguments.callee.caller.arguments[0];
+
+        //键盘按键判断:左箭头-37;上箭头-38；右箭头-39;下箭头-40
+        if (e1 && e1.keyCode == 37) {
+          this.prevPage();
+        } else if (e1 && e1.keyCode == 39) {
+          this.nextPage();
+        }
+      };
+    },
     changeQid(val) {
       this.activeQid = val;
     },
