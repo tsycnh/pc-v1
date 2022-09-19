@@ -4,7 +4,10 @@
       <div
         class="num"
         :class="{
-          active: index + 1 === activeNum || configkey[index],
+          active:
+            index + 1 === activeNum ||
+            configkey[index] ||
+            hasPracticeIds.indexOf(item) !== -1,
           practice: type === 'practice',
           wrongbook: type === 'wrongbook',
           collection: type === 'collection',
@@ -20,7 +23,10 @@
       <div
         class="num"
         :class="{
-          active: index + 1 === activeNum || configkey[index],
+          active:
+            index + 1 === activeNum ||
+            configkey[index] ||
+            hasPracticeIds.indexOf(item) !== -1,
           practice: type === 'practice',
           wrongbook: type === 'wrongbook',
           collection: type === 'collection',
@@ -36,7 +42,7 @@
 </template>
 <script>
 export default {
-  props: ["activeNum", "qidArr", "type", "configkey"],
+  props: ["activeNum", "qidArr", "type", "configkey", "hasPracticeIds"],
   data() {
     return {};
   },

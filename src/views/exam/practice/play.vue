@@ -23,6 +23,7 @@
           :qidArr="qidArr"
           @change="changeQid"
           :configkey="configkey"
+          :hasPracticeIds="has_practice_question_ids"
         ></NumberSheet>
       </div>
       <div class="right-box">
@@ -173,6 +174,7 @@ export default {
       showText: "对答案",
       loading: false,
       configkey: [],
+      has_practice_question_ids: [],
     };
   },
   mounted() {
@@ -227,6 +229,7 @@ export default {
           .then((res) => {
             this.loading = false;
             this.list = res.data.practice;
+            this.has_practice_question_ids = res.data.has_practice_question_ids;
             this.question = res.data.first_question;
             this.qidArr = res.data.qid_arr;
             document.title = res.data.practice.name;
@@ -245,6 +248,7 @@ export default {
             this.loading = false;
             this.list = res.data.practice;
             this.question = res.data.first_question;
+            this.has_practice_question_ids = res.data.has_practice_question_ids;
             this.qidArr = res.data.qid_arr;
             document.title = res.data.practice.name;
             this.collectStatus();
