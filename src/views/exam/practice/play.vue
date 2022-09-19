@@ -175,6 +175,7 @@ export default {
       loading: false,
       configkey: [],
       has_practice_question_ids: [],
+      toastActive: true,
     };
   },
   mounted() {
@@ -206,18 +207,26 @@ export default {
       this.activeQid = val;
     },
     prevPage() {
+      if (this.toastActive) {
+        this.$message.info("可通过键盘← →方向键快速切题哦！");
+      }
       if (this.activeQid === 1) {
         this.$message.error("没有上一题了");
       } else {
         this.activeQid--;
       }
+      this.toastActive = false;
     },
     nextPage() {
+      if (this.toastActive) {
+        this.$message.info("可通过键盘← →方向键快速切题哦！");
+      }
       if (this.activeQid === this.qidArr.length) {
         this.$message.error("没有下一题了");
       } else {
         this.activeQid++;
       }
+      this.toastActive = false;
     },
     getData() {
       if (this.loading) {
