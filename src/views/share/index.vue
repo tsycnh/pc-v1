@@ -248,10 +248,10 @@ export default {
       this.getShareConfig();
     },
     showWithdrawDialog() {
-      // if (this.invite.balance === 0) {
-      //   this.$message.error("余额为0时不可提现");
-      //   return;
-      // }
+      if (this.invite.balance === 0) {
+        this.$message.error("余额为0时不可提现");
+        return;
+      }
       this.dialogStatus = true;
     },
     cancel() {
