@@ -25,7 +25,7 @@
               <span class="learnpath-course-step">
                 <span>{{ course.courses_count }}步骤</span>
                 <span class="colline">|</span>
-                <span>{{ course.original_charge }}课程</span>
+                <span>{{ course.courses_count }}课程</span>
               </span>
             </div>
             <p class="learnpath-course-sub">{{ course.desc }}</p>
