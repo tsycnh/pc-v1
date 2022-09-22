@@ -15,7 +15,9 @@
     </div>
     <div class="info">
       <span class="tit"
-        >{{ num }}.{{ question.type_text }}（{{ question.score }}分）</span
+        >{{ num }}.{{ question.type_text || "题帽题" }}（{{
+          question.score
+        }}分）</span
       >
     </div>
     <div class="question-content">
