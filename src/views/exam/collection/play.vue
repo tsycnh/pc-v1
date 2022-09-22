@@ -190,6 +190,7 @@ export default {
       navLoading: false,
       cid: 0,
       child: 0,
+      answer_content: null,
     };
   },
   mounted() {
@@ -336,13 +337,15 @@ export default {
         this.showText = "收起答案";
       }
       this.showAnswer = !this.showAnswer;
-      this.$api.Exam.PracticeQuestionAnswerFill(0, questionId, {}).then(
-        (res) => {
-          //
-        }
-      );
+      this.$api.Exam.QuestionAnswerFill(questionId, {
+        answer: this.answer_content,
+        from: "collection",
+      }).then((res) => {
+        //
+      });
     },
-    questionUpdate() {
+    questionUpdate(qid, answer, thumbs) {
+      this.answer_content = answer;
       if (
         this.question &&
         (this.question.type === 1 || this.question.type === 5)

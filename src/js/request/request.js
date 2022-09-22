@@ -511,6 +511,9 @@ const Api = {
         params
       );
     },
+    QuestionAnswerFill(id, params) {
+      return post(`/addons/Paper/api/v2/question/${id}/answer`, params);
+    },
     UserPaper(params) {
       return get("/addons/Paper/api/v1/user/papers", params);
     },

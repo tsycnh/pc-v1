@@ -204,6 +204,7 @@ export default {
       navLoading: false,
       cid: 0,
       child: 0,
+      answer_content: null,
     };
   },
   mounted() {
@@ -287,21 +288,6 @@ export default {
           this.question = null;
           // this.$message.error(e.message);
         });
-      //  if (this.mode === "random") {
-      //     this.$api.Exam.WrongBook.RandomMode()
-      //       .then((res) => {
-      //         this.loading = false;
-      //         this.question = res.data.first_question;
-      //         this.qidArr = res.data.qid_arr;
-      //         for (var i = 0; i < this.qidArr.length; i++) {
-      //           this.configkey.push(false);
-      //         }
-      //       })
-      //       .catch((e) => {
-      //         this.loading = false;
-      //         this.$message.error(e.message);
-      //       });
-      //   }
     },
     getQuestion() {
       if (this.loading) {
@@ -352,13 +338,15 @@ export default {
         this.showText = "收起答案";
       }
       this.showAnswer = !this.showAnswer;
-      this.$api.Exam.PracticeQuestionAnswerFill(0, questionId, {}).then(
-        (res) => {
-          //
-        }
-      );
+      this.$api.Exam.QuestionAnswerFill(questionId, {
+        answer: this.answer_content,
+        from: "wrongbook",
+      }).then((res) => {
+        //
+      });
     },
-    questionUpdate() {
+    questionUpdate(qid, answer, thumbs) {
+      this.answer_content = answer;
       if (
         this.question &&
         (this.question.type === 1 || this.question.type === 5)
