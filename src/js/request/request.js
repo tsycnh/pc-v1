@@ -449,7 +449,7 @@ const Api = {
   },
   Exam: {
     UploadPaperImages(params) {
-      return post("/addons/Paper/api/v1/upload/image", params);
+      return post("/api/v2/upload/image", params);
     },
     PaperList(params) {
       return get("/addons/Paper/api/v1/papers", params);
