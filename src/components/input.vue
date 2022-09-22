@@ -123,15 +123,12 @@ export default {
         return [];
       }
 
-      if (typeof this.question.answer === "undefined") {
+      if (typeof this.question.answer_transform === "undefined") {
         return [];
       }
 
-      if (
-        this.question.answer &&
-        this.question.answer.substring(0, 5) === "v2:::"
-      ) {
-        return JSON.parse(this.question.answer.slice(5));
+      if (this.question.answer_transform) {
+        return this.question.answer_transform;
       }
 
       return [];
@@ -139,12 +136,7 @@ export default {
   },
   mounted() {
     let replyContent = this.reply || "";
-    let replyRows = [];
-    if (replyContent && replyContent.substring(0, 5) === "v2:::") {
-      replyRows = JSON.parse(replyContent.slice(5));
-    } else {
-      replyRows = replyContent.split(",");
-    }
+    let replyRows = replyContent;
 
     for (let i = 0; i < this.inputLength; i++) {
       if (typeof replyRows[i] !== "undefined") {

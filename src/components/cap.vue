@@ -137,7 +137,7 @@
               :num="index + 1"
               :spcolor="true"
               :question="item"
-              :reply="answers[index].answer"
+              :reply="answers[index].answer_contents_rows"
               :score="answers[index].score"
               @update="questionUpdate"
               :is-correct="answers[index].is_correct"
@@ -271,7 +271,7 @@ export default {
     },
     replyParse() {
       if (this.reply) {
-        let content = JSON.parse(this.reply);
+        let content = this.reply;
         this.answers = content;
       }
     },

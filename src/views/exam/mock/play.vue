@@ -151,7 +151,7 @@
                 :num="index + 1"
                 v-else-if="question.question.type === 3"
                 :question="question.question"
-                :reply="question.answer_content || ''"
+                :reply="question.answer_contents_rows"
                 :score="question.score"
                 :is-correct="question.is_correct"
                 @update="questionUpdate"
@@ -192,7 +192,7 @@
                 :score="question.score"
                 :show-image="true"
                 :is-correct="false"
-                :reply="question.answer_content"
+                :reply="question.answer_contents_rows"
                 @update="questionUpdate"
                 :is-over="userPaper.status === 1"
               ></question-cap>
