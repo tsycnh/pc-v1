@@ -20,6 +20,8 @@
         :categories="categories"
         :cid="cid"
         :child="child"
+        :count="categories_count"
+        :total="total"
         @change="filterChange"
       ></filter-two-class>
       <template v-if="navLoading">
@@ -191,6 +193,8 @@ export default {
       cid: 0,
       child: 0,
       answer_content: [],
+      categories_count: null,
+      total: null,
     };
   },
   mounted() {
@@ -221,9 +225,11 @@ export default {
         this.navLoading = false;
         let categories_count = res.data.categories_count;
         let categories = res.data.categories;
+        let count = 0;
         for (let i = 0; i < categories.length; i++) {
           categories[i].name =
             categories[i].name + "(" + categories_count[categories[i].id] + ")";
+          count = count + categories_count[categories[i].id];
           if (categories[i].children.length > 0) {
             let children = categories[i].children;
             for (let j = 0; j < children.length; j++) {
@@ -233,6 +239,8 @@ export default {
           }
         }
         this.categories = categories;
+        this.total = count;
+        this.categories_count = res.data.categories_count;
       });
     },
     changeQid(val) {
