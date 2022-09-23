@@ -205,12 +205,14 @@ export default {
       cid: 0,
       child: 0,
       answer_content: [],
+      toastActive: true,
     };
   },
   mounted() {
     this.navLoading = true;
     this.getParams();
     this.getData();
+    this.keyDown();
   },
   watch: {
     activeQid() {
@@ -220,6 +222,27 @@ export default {
     },
   },
   methods: {
+    keyDown() {
+      document.onkeydown = (e) => {
+        let e1 =
+          e || event || window.event || arguments.callee.caller.arguments[0];
+
+        //键盘按键判断:左箭头-37;上箭头-38；右箭头-39;下箭头-40
+        if (e1 && e1.keyCode == 37) {
+          if (this.activeQid === 1) {
+            this.$message.error("没有上一题了");
+          } else {
+            this.activeQid--;
+          }
+        } else if (e1 && e1.keyCode == 39) {
+          if (this.activeQid === this.qidArr.length) {
+            this.$message.error("没有下一题了");
+          } else {
+            this.activeQid++;
+          }
+        }
+      };
+    },
     filterChange(cid1, cid2) {
       this.cid = cid1;
       this.child = cid2;
@@ -263,18 +286,26 @@ export default {
       this.activeQid = val;
     },
     prevPage() {
+      if (this.toastActive) {
+        this.$message.info("可通过键盘← →方向键快速切题哦！");
+      }
       if (this.activeQid === 1) {
         this.$message.error("没有上一题了");
       } else {
         this.activeQid--;
       }
+      this.toastActive = false;
     },
     nextPage() {
+      if (this.toastActive) {
+        this.$message.info("可通过键盘← →方向键快速切题哦！");
+      }
       if (this.activeQid === this.qidArr.length) {
         this.$message.error("没有下一题了");
       } else {
         this.activeQid++;
       }
+      this.toastActive = false;
     },
     getData() {
       if (this.loading) {
