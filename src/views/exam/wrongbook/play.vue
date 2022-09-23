@@ -223,6 +223,9 @@ export default {
     filterChange(cid1, cid2) {
       this.cid = cid1;
       this.child = cid2;
+      this.showAnswer = false;
+      this.showText = "对答案";
+      this.activeQid = 1;
       this.getData();
     },
     getParams() {

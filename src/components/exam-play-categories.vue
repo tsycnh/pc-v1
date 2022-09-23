@@ -6,7 +6,7 @@
           <div class="label">分类：</div>
           <div class="item-box">
             <div class="item" :class="{ active: id1 === 0 }" @click="setCid(0)">
-              全部
+              全部({{ categories.length }})
             </div>
             <div
               class="item"
@@ -34,7 +34,7 @@
               :class="{ active: id2 === 0 }"
               @click="setCid2(0)"
             >
-              全部
+              全部({{ categories[cateIndex].children.length }})
             </div>
             <div
               class="item"
