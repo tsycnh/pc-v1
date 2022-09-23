@@ -60,7 +60,7 @@
               <span>部分正确</span>
               <span class="score">得分：{{ score }}</span>
             </template>
-            <template v-else-if="isCorrect === 2">
+            <template v-else-if="isCorrect === 3">
               <span class="normal">未评分</span>
             </template>
             <template v-else-if="isCorrect === 0">
