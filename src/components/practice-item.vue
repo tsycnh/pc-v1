@@ -130,6 +130,7 @@ export default {
     font-weight: 400;
     color: #f4a429;
     border: 1px solid #f4a429;
+    margin-left: 20px;
     &:hover {
       opacity: 0.8;
     }

@@ -174,6 +174,7 @@ export default {
     justify-content: Center;
     font-size: 14px;
     font-weight: 400;
+    margin-left: 20px;
     &:hover {
       opacity: 0.8;
     }
