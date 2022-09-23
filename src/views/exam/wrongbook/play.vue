@@ -204,7 +204,7 @@ export default {
       navLoading: false,
       cid: 0,
       child: 0,
-      answer_content: null,
+      answer_content: [],
     };
   },
   mounted() {
@@ -295,6 +295,7 @@ export default {
       }
       this.loading = true;
       this.question = null;
+      this.answer_content = [];
       let questionId = this.qidArr[this.activeQid - 1];
       this.$api.Exam.NewQuestion(questionId, {
         from: "wrongbook",
@@ -346,7 +347,14 @@ export default {
       });
     },
     questionUpdate(qid, answer, thumbs) {
-      this.answer_content = answer;
+      if (this.question && this.question.type === 6) {
+        let data = qid.split("-");
+        let index = parseInt(data[2]);
+        this.answer_content[index] = answer;
+      } else {
+        this.answer_content = answer;
+      }
+
       if (
         this.question &&
         (this.question.type === 1 || this.question.type === 5)
