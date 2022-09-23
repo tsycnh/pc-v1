@@ -191,7 +191,7 @@
                 :question="question.question"
                 :score="question.score"
                 :show-image="true"
-                :is-correct="false"
+                :is-correct="question.is_correct"
                 :reply="question.answer_contents_rows"
                 @update="questionUpdate"
                 :is-over="userPaper.status === 1"
