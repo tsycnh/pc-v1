@@ -5,9 +5,6 @@
         <div class="box">
           <div class="label">分类：</div>
           <div class="item-box">
-            <div class="item" :class="{ active: id1 === 0 }" @click="setCid(0)">
-              全部({{ total }})
-            </div>
             <div
               class="item"
               :class="{ active: id1 === item.id }"
@@ -29,13 +26,6 @@
         >
           <div class="label">标签：</div>
           <div class="item-box">
-            <div
-              class="item"
-              :class="{ active: id2 === 0 }"
-              @click="setCid2(0)"
-            >
-              全部({{ count[id1] }})
-            </div>
             <div
               class="item"
               :class="{ active: id2 === item2.id }"
@@ -67,7 +57,7 @@
 
 <script>
 export default {
-  props: ["categories", "cid", "child", "scenes", "scene", "total", "count"],
+  props: ["categories", "cid", "child", "scenes", "scene"],
   data() {
     return {
       id1: 0,

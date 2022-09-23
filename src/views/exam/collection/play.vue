@@ -20,8 +20,6 @@
         :categories="categories"
         :cid="cid"
         :child="child"
-        :count="categories_count"
-        :total="total"
         @change="filterChange"
       ></filter-two-class>
       <template v-if="navLoading">
@@ -193,8 +191,6 @@ export default {
       cid: 0,
       child: 0,
       answer_content: [],
-      categories_count: null,
-      total: null,
     };
   },
   mounted() {
@@ -236,11 +232,17 @@ export default {
               children[j].name =
                 children[j].name + "(" + categories_count[children[j].id] + ")";
             }
+            categories[i].children.unshift({
+              id: 0,
+              name: "全部(" + categories_count[categories[i].id] + ")",
+            });
           }
         }
+        categories.unshift({
+          id: 0,
+          name: "全部(" + count + ")",
+        });
         this.categories = categories;
-        this.total = count;
-        this.categories_count = res.data.categories_count;
       });
     },
     changeQid(val) {
