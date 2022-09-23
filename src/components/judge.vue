@@ -50,11 +50,18 @@
       <div class="analysis-box" :class="{ spcolor: spcolor }">
         <div class="pop-box">
           <div class="status" v-if="!wrongBook">
-            <template v-if="isCorrect">
-              <span class="success">正确</span>
+            <template v-if="isCorrect === 1">
+              <span class="success">完全正确</span>
               <span class="score">得分：{{ score }}</span>
             </template>
-            <template v-else>
+            <template v-else-if="isCorrect === 2">
+              <span>部分正确</span>
+              <span class="score">得分：{{ score }}</span>
+            </template>
+            <template v-else-if="isCorrect === 2">
+              <span class="normal">未评分</span>
+            </template>
+            <template v-else-if="isCorrect === 0">
               <span class="error">错误</span>
               <span class="score error">得分：0</span>
             </template>

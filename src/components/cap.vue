@@ -182,7 +182,21 @@
       <div class="analysis-box">
         <div class="pop-box" v-if="question.remark">
           <div class="status" v-if="!wrongBook">
-            <span class="error">得分：{{ score }}</span>
+            <template v-if="isCorrect === 1">
+              <span class="success">完全正确</span>
+              <span class="score">得分：{{ score }}</span>
+            </template>
+            <template v-else-if="isCorrect === 2">
+              <span>部分正确</span>
+              <span class="score">得分：{{ score }}</span>
+            </template>
+            <template v-else-if="isCorrect === 2">
+              <span class="normal">未评分</span>
+            </template>
+            <template v-else-if="isCorrect === 0">
+              <span class="error">错误</span>
+              <span class="score error">得分：0</span>
+            </template>
           </div>
           <div class="remark">
             <div>解析：</div>
