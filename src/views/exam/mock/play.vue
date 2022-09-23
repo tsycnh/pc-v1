@@ -93,7 +93,8 @@
             :class="{
               correct: item.is_correct === 1,
               error: item.is_correct === 0,
-              no: item.question.type === 4 || item.question.type === 6,
+              act: item.is_correct === 2,
+              no: item.is_correct === 3,
             }"
             v-for="(item, index) in questions"
             :key="index"
@@ -545,10 +546,15 @@ export default {
             color: #fff;
             background: #f63b46;
           }
-          &.no {
+          &.act {
             border: none;
             color: #fff;
             background: #fa8c16;
+          }
+          &.no {
+            border: none;
+            color: #fff;
+            background: #999999;
           }
           &.active {
             border: none;
