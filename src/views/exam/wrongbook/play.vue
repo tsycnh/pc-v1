@@ -283,10 +283,7 @@ export default {
         })
         .catch((e) => {
           this.loading = false;
-          this.activeQid = 1;
-          this.qidArr = [];
-          this.question = null;
-          // this.$message.error(e.message);
+          this.$message.error(e.message);
         });
     },
     getQuestion() {
