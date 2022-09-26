@@ -332,7 +332,7 @@ const routes = [
     path: "/exam",
     name: "Exam",
     meta: {
-      title: "在线考试",
+      title: "考试练习",
     },
     component: () => import("../views/exam/index.vue"),
   },
@@ -341,7 +341,7 @@ const routes = [
     path: "/exam/papers",
     name: "ExamPapers",
     meta: {
-      title: "考试中心",
+      title: "在线考试",
     },
     component: () => import("../views/exam/paper/index.vue"),
   },

@@ -1,8 +1,8 @@
 <template>
   <div class="content">
     <div class="nav">
-      <a @click="$router.push({ name: 'Exam' })">在线考试</a> /
-      <span> 考试中心 </span>
+      <a @click="$router.push({ name: 'Exam' })">考试练习</a> /
+      <span> 在线考试 </span>
     </div>
     <div class="filter-two-class">
       <filter-two-class
