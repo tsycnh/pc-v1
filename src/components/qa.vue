@@ -19,22 +19,19 @@
         ></div>
       </div>
     </div>
-    <div class="info" :class="{ spcolor: spcolor }">
-      <span class="tit" v-if="spcolor"
-        >({{ num }}) {{ question.type_text }}（{{ question.score }}分）</span
-      >
-      <span class="tit" v-else
+    <div class="info">
+      <span class="tit"
         >{{ num }}.{{ question.type_text }}（{{ question.score }}分）</span
       >
     </div>
-    <div class="question-content" :class="{ spcolor: spcolor }">
+    <div class="question-content">
       <div
         @click="PreviewImage2($event)"
         class="content-render"
         v-html="question.content"
       ></div>
     </div>
-    <div class="choice-box" :class="{ spcolor: spcolor }">
+    <div class="choice-box">
       <div class="input-title">我的作答</div>
       <textarea
         :disabled="isOver"
@@ -69,34 +66,32 @@
       </div>
     </div>
     <template v-if="isOver">
-      <div
-        class="analysis-box"
-        v-if="question.remark"
-        :class="{ spcolor: spcolor }"
-      >
-        <div class="pop-box">
-          <div class="status" v-if="!wrongBook">
-            <template v-if="isCorrect === 1">
-              <span class="success">完全正确</span>
-            </template>
-            <template v-else-if="isCorrect === 2">
-              <span>部分正确</span>
-            </template>
-            <template v-else-if="isCorrect === 3">
-              <span class="normal">未评分</span>
-            </template>
-            <template v-else-if="isCorrect === 0">
-              <span class="error">错误</span>
-            </template>
-            <span class="score">得分：{{ score }}</span>
+      <div class="analysis-box" v-if="question.remark">
+        <div class="answer-box">
+          <div class="content">
+            <div
+              class="answer"
+              v-if="question.answer && question.answer !== ''"
+            >
+              <i></i>答案：{{ question.answer }}
+            </div>
+            <div class="score"><i></i>得分：{{ score }}</div>
           </div>
-          <!-- <div class="answer" v-if="question.answer">
-            答案：{{ question.answer }}
-          </div> -->
-          <div class="remark">
-            <div>解析：</div>
-            <div v-html="question.remark"></div>
+          <div class="button" @click="remarkStatus = !remarkStatus">
+            <span>折叠解析</span>
+            <img
+              class="icon"
+              v-if="remarkStatus"
+              src="../assets/img/exam/fold.png"
+            />
+            <img class="icon" v-else src="../assets/img/exam/unfold.png" />
           </div>
+        </div>
+        <div class="remark-box" v-if="question.remark && remarkStatus">
+          <div class="left-remark">
+            <div class="tit"><i></i>解析：</div>
+          </div>
+          <div class="remark" v-html="question.remark"></div>
         </div>
       </div>
     </template>
@@ -113,7 +108,6 @@ export default {
     "score",
     "showImage",
     "wrongBook",
-    "spcolor",
     "num",
   ],
   data() {
@@ -127,6 +121,7 @@ export default {
         index: null,
       },
       prew: false,
+      remarkStatus: false,
     };
   },
   mounted() {
@@ -221,9 +216,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.spcolor {
-  // background: #f4fafe !important;
-}
 .choice-item {
   background-color: #f1f2f6;
   width: 100%;

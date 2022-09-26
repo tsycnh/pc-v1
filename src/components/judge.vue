@@ -13,64 +13,97 @@
         ></div>
       </div>
     </div>
-    <div class="info" :class="{ spcolor: spcolor }">
-      <span class="tit" v-if="spcolor"
-        >({{ num }}) {{ question.type_text }}（{{ question.score }}分）</span
-      >
-      <span class="tit" v-else
+    <div class="info">
+      <span class="tit"
         >{{ num }}.{{ question.type_text }}（{{ question.score }}分）</span
       >
     </div>
-    <div class="question-content" :class="{ spcolor: spcolor }">
+    <div class="question-content">
       <div
         @click="PreviewImage($event)"
         class="content-render"
         v-html="question.content"
       ></div>
     </div>
-    <div class="choice-box" :class="{ spcolor: spcolor }">
-      <div
-        class="judge-item"
-        @click="change(1)"
-        :class="{ active: active === 1 }"
-      >
-        <div class="index"><strong></strong></div>
-        正确
-      </div>
-      <div
-        class="judge-item"
-        @click="change(0)"
-        :class="{ active: active === 0 }"
-      >
-        <div class="index"><strong></strong></div>
-        错误
-      </div>
+    <div class="choice-box">
+      <template v-if="isOver">
+        <div
+          class="judge-item"
+          @click="change(1)"
+          :class="{ active: active === 1 }"
+        >
+          <div class="answer-index" v-if="parseInt(question.answer) === 1">
+            <img class="icon" src="../assets/img/exam/icon-right.png" />
+          </div>
+          <div class="answer-index" v-else-if="active === 1">
+            <img class="icon" src="../assets/img/exam/icon-Wrong.png" />
+          </div>
+          <div class="index" v-else></div>
+          正确
+        </div>
+        <div
+          class="judge-item"
+          @click="change(0)"
+          :class="{ active: active === 0 }"
+        >
+          <div class="answer-index" v-if="parseInt(question.answer) === 0">
+            <img class="icon" src="../assets/img/exam/icon-right.png" />
+          </div>
+          <div class="answer-index" v-else-if="active === 0">
+            <img class="icon" src="../assets/img/exam/icon-Wrong.png" />
+          </div>
+          <div class="index" v-else></div>
+          错误
+        </div>
+      </template>
+      <template v-else>
+        <div
+          class="judge-item"
+          @click="change(1)"
+          :class="{ active: active === 1 }"
+        >
+          <div class="index"><strong></strong></div>
+          正确
+        </div>
+        <div
+          class="judge-item"
+          @click="change(0)"
+          :class="{ active: active === 0 }"
+        >
+          <div class="index"><strong></strong></div>
+          错误
+        </div>
+      </template>
     </div>
     <template v-if="isOver">
-      <div class="analysis-box" :class="{ spcolor: spcolor }">
-        <div class="pop-box">
-          <div class="status" v-if="!wrongBook">
-            <template v-if="isCorrect === 1">
-              <span class="success">完全正确</span>
-            </template>
-            <template v-else-if="isCorrect === 2">
-              <span>部分正确</span>
-            </template>
-            <template v-else-if="isCorrect === 3">
-              <span class="normal">未评分</span>
-            </template>
-            <template v-else-if="isCorrect === 0">
-              <span class="error">错误</span>
-            </template>
-            <span class="score">得分：{{ score }}</span>
+      <div class="analysis-box">
+        <div class="answer-box">
+          <div class="content">
+            <div class="answer">
+              <i></i>答案：{{
+                parseInt(question.answer) === 1 ? "正确" : "错误"
+              }}
+            </div>
+            <div class="my-answer" v-if="!wrongBook && isCorrect !== 1">
+              <i></i>我的答案：{{ parseInt(active) === 1 ? "正确" : "错误" }}
+            </div>
+            <div class="score"><i></i>得分：{{ score }}</div>
           </div>
-          <div class="answer">
-            答案：{{ parseInt(question.answer) === 1 ? "正确" : "错误" }}
+          <div class="button" @click="remarkStatus = !remarkStatus">
+            <span>折叠解析</span>
+            <img
+              class="icon"
+              v-if="remarkStatus"
+              src="../assets/img/exam/fold.png"
+            />
+            <img class="icon" v-else src="../assets/img/exam/unfold.png" />
           </div>
-          <div class="remark" v-if="question.remark">
-            <div>解析：</div>
-            <div v-html="question.remark"></div>
+        </div>
+        <div class="remark-box" v-if="question.remark && remarkStatus">
+          <div class="left-remark">
+            <div class="tit"><i></i>解析：</div>
           </div>
+          <div class="remark" v-html="question.remark"></div>
         </div>
       </div>
     </template>
@@ -85,7 +118,6 @@ export default {
     "isOver",
     "score",
     "wrongBook",
-    "spcolor",
     "num",
   ],
   data() {
@@ -93,6 +125,7 @@ export default {
       active: null,
       previewImage: false,
       thumb: null,
+      remarkStatus: false,
     };
   },
   mounted() {
@@ -124,9 +157,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.spcolor {
-  // background: #f4fafe !important;
-}
 .choice-item {
   background-color: #f1f2f6;
   width: 100%;
@@ -215,6 +245,9 @@ export default {
       cursor: pointer;
       display: flex;
       align-items: center;
+      &:last-child {
+        margin-bottom: 0px;
+      }
       &.active .index strong {
         width: 12px;
         height: 12px;
@@ -222,9 +255,26 @@ export default {
         background: #3ca7fa;
       }
 
+      .answer-index {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333333;
+        margin-right: 10px;
+        .icon {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
       .index {
-        width: 30px;
-        height: 30px;
+        width: 20px;
+        height: 20px;
         border: 1px solid #cccccc;
         border-radius: 50%;
         display: flex;
@@ -233,7 +283,7 @@ export default {
         font-size: 14px;
         font-weight: 500;
         color: #333333;
-        margin-right: 20px;
+        margin-right: 10px;
       }
     }
   }

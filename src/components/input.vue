@@ -13,22 +13,19 @@
         ></div>
       </div>
     </div>
-    <div class="info" :class="{ spcolor: spcolor }">
-      <span class="tit" v-if="spcolor"
-        >({{ num }}) {{ question.type_text }}（{{ question.score }}分）</span
-      >
-      <span class="tit" v-else
+    <div class="info">
+      <span class="tit"
         >{{ num }}.{{ question.type_text }}（{{ question.score }}分）</span
       >
     </div>
-    <div class="question-content" :class="{ spcolor: spcolor }">
+    <div class="question-content">
       <div
         @click="PreviewImage($event)"
         class="content-render"
         v-html="question.content"
       ></div>
     </div>
-    <div class="choice-box" :class="{ spcolor: spcolor }">
+    <div class="choice-box">
       <div
         class="input-input-item"
         v-for="(item, index) of inputVal"
@@ -37,7 +34,6 @@
         <div class="name">填空{{ index + 1 }}：</div>
         <div class="input-box">
           <input
-            :class="{ spcolor: spcolor }"
             :disabled="isOver"
             type="text"
             class="input"
@@ -46,47 +42,74 @@
             @blur="change"
           />
         </div>
+        <div class="icon-box" v-if="isOver">
+          <img
+            v-if="inputVal[index] === questionAnswerRows[index].a"
+            class="icon"
+            src="../assets/img/exam/icon-right.png"
+          />
+          <img v-else class="icon" src="../assets/img/exam/icon-Wrong.png" />
+        </div>
       </div>
     </div>
     <template v-if="isOver">
-      <div class="analysis-box" :class="{ spcolor: spcolor }">
-        <div class="pop-box">
-          <div class="status" v-if="!wrongBook">
-            <template v-if="isCorrect === 1">
-              <span class="success">完全正确</span>
-            </template>
-            <template v-else-if="isCorrect === 2">
-              <span>部分正确</span>
-            </template>
-            <template v-else-if="isCorrect === 3">
-              <span class="normal">未评分</span>
-            </template>
-            <template v-else-if="isCorrect === 0">
-              <span class="error">错误</span>
-            </template>
-            <span class="score">得分：{{ score }}</span>
-          </div>
-          <div class="answer">
-            <div class="input-answer-name">答案：</div>
-            <div class="input-answer-body">
-              <div
-                class="input-answer-body-item"
-                v-for="(item, index) in questionAnswerRows"
-                :key="index"
-              >
-                <div class="input-answer-body-item-name">
-                  填空{{ index + 1 }}：
-                </div>
-                <div class="input-answer-body-item-content">
-                  {{ item.a }}（{{ item.s }}分）
+      <div class="analysis-box">
+        <div class="answer-box">
+          <div class="input-content">
+            <div class="answer">
+              <div class="left-answer"><i></i>答案：</div>
+              <div class="input-answer-body">
+                <div
+                  class="input-answer-body-item"
+                  v-for="(item, index) in questionAnswerRows"
+                  :key="index"
+                >
+                  <div class="input-answer-body-item-name">
+                    填空{{ index + 1 }}：
+                  </div>
+                  <div class="input-answer-body-item-content">
+                    {{ item.a }}（{{ item.s }}分）
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="my-answer" v-if="!wrongBook && isCorrect !== 1">
+              <div class="left-answer"><i></i>我的答案：</div>
+              <div class="input-answer-body">
+                <div
+                  class="input-answer-body-item"
+                  v-for="(item, index) in inputVal"
+                  :key="index"
+                >
+                  <div class="input-answer-body-item-name">
+                    填空{{ index + 1 }}：
+                  </div>
+                  <div class="input-answer-body-item-content">
+                    {{ item }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="left-answer"><i></i>得分：{{ score }}</div>
+            </div>
           </div>
-          <div class="remark" v-if="question.remark">
-            <div>解析：</div>
-            <div v-html="question.remark"></div>
+
+          <div class="button" @click="remarkStatus = !remarkStatus">
+            <span>折叠解析</span>
+            <img
+              class="icon"
+              v-if="remarkStatus"
+              src="../assets/img/exam/fold.png"
+            />
+            <img class="icon" v-else src="../assets/img/exam/unfold.png" />
           </div>
+        </div>
+        <div class="remark-box" v-if="question.remark && remarkStatus">
+          <div class="left-remark">
+            <div class="tit"><i></i>解析：</div>
+          </div>
+          <div class="remark" v-html="question.remark"></div>
         </div>
       </div>
     </template>
@@ -101,7 +124,6 @@ export default {
     "isOver",
     "score",
     "wrongBook",
-    "spcolor",
     "num",
   ],
   data() {
@@ -109,6 +131,7 @@ export default {
       inputVal: [],
       previewImage: false,
       thumb: null,
+      remarkStatus: false,
     };
   },
   computed: {
@@ -172,9 +195,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.spcolor {
-  // background: #f4fafe !important;
-}
 .choice-item {
   background-color: #f1f2f6;
   width: 100%;
@@ -268,7 +288,7 @@ export default {
         font-weight: 400;
         color: #666666;
         line-height: 16px;
-        margin-right: 10px;
+        margin-right: 0px;
       }
       .input-box {
         width: 200px;
@@ -289,6 +309,17 @@ export default {
         }
         .input::-webkit-input-placeholder {
           color: #ccc;
+        }
+      }
+
+      .icon-box {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        margin-left: 15px;
+        .icon {
+          width: 20px;
+          height: 20px;
         }
       }
     }

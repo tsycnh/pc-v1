@@ -33,7 +33,6 @@
             <question-choice
               v-if="item.type === 1"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="null"
               :score="item.score"
@@ -47,7 +46,6 @@
             <question-select
               v-else-if="item.type === 2"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="null"
               :score="item.score"
@@ -61,7 +59,6 @@
             <question-input
               v-else-if="item.type === 3"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="null"
               :score="item.score"
@@ -75,7 +72,6 @@
             <question-qa
               v-else-if="item.type === 4"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="null"
               :thumbs="[]"
@@ -91,7 +87,6 @@
             <question-judge
               v-else-if="item.type === 5"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :score="item.score"
               :is-correct="0"
@@ -107,7 +102,6 @@
             <question-choice
               v-if="item.type === 1"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="answers[index].answer"
               :score="answers[index].score"
@@ -121,7 +115,6 @@
             <question-select
               v-else-if="item.type === 2"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="answers[index].answer"
               :score="answers[index].score"
@@ -135,7 +128,6 @@
             <question-input
               v-else-if="item.type === 3"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="answers[index].answer_contents_rows"
               :score="answers[index].score"
@@ -149,7 +141,6 @@
             <question-qa
               v-else-if="item.type === 4"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="answers[index].answer"
               :thumbs="answers[index]['thumbs']"
@@ -165,7 +156,6 @@
             <question-judge
               v-else-if="item.type === 5"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :score="answers[index].score"
               :is-correct="answers[index].is_correct"
@@ -180,26 +170,31 @@
     </div>
     <template v-if="isOver">
       <div class="analysis-box">
-        <div class="pop-box" v-if="question.remark">
-          <div class="status" v-if="!wrongBook">
-            <template v-if="isCorrect === 1">
-              <span class="success">完全正确</span>
-            </template>
-            <template v-else-if="isCorrect === 2">
-              <span>部分正确</span>
-            </template>
-            <template v-else-if="isCorrect === 3">
-              <span class="normal">未评分</span>
-            </template>
-            <template v-else-if="isCorrect === 0">
-              <span class="error">错误</span>
-            </template>
-            <span class="score">得分：{{ score }}</span>
+        <div class="answer-box">
+          <div class="content">
+            <div
+              class="answer"
+              v-if="question.answer && question.answer !== ''"
+            >
+              <i></i>答案：{{ question.answer }}
+            </div>
+            <div class="score"><i></i>得分：{{ score }}</div>
           </div>
-          <div class="remark">
-            <div>解析：</div>
-            <div v-html="question.remark"></div>
+          <div class="button" @click="remarkStatus = !remarkStatus">
+            <span>折叠解析</span>
+            <img
+              class="icon"
+              v-if="remarkStatus"
+              src="../assets/img/exam/fold.png"
+            />
+            <img class="icon" v-else src="../assets/img/exam/unfold.png" />
           </div>
+        </div>
+        <div class="remark-box" v-if="question.remark && remarkStatus">
+          <div class="left-remark">
+            <div class="tit"><i></i>解析：</div>
+          </div>
+          <div class="remark" v-html="question.remark"></div>
         </div>
       </div>
     </template>
@@ -244,6 +239,7 @@ export default {
       },
       previewImage: false,
       thumb: null,
+      remarkStatus: false,
     };
   },
   mounted() {
