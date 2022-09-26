@@ -19,11 +19,36 @@
       >
     </div>
     <div class="question-content">
+      <div class="content-render">{{ question.content_transform.text }}</div>
       <div
-        @click="PreviewImage($event)"
-        class="content-render"
-        v-html="question.content"
-      ></div>
+        class="images-render"
+        v-if="question.content_transform.images.length > 0"
+      >
+        <div
+          class="item-bar"
+          v-for="(thumb, index) in question.content_transform.images"
+          :key="index"
+          @click="newPreviewImage(thumb)"
+        >
+          <thumb-bar
+            :value="thumb"
+            :width="200"
+            :height="200"
+            :border="8"
+          ></thumb-bar>
+        </div>
+      </div>
+      <div
+        class="iframes-render"
+        v-if="question.content_transform.iframes.length > 0"
+      >
+        <div
+          class="item-bar"
+          v-for="(iframe, index) in question.content_transform.iframes"
+          :key="index"
+          v-html="iframe"
+        ></div>
+      </div>
     </div>
     <div class="choice-box">
       <template v-if="isOver">
@@ -100,11 +125,44 @@
             <img class="icon" v-else src="../assets/img/exam/unfold.png" />
           </div>
         </div>
-        <div class="remark-box" v-if="question.remark && remarkStatus">
+        <div class="remark-box" v-if="remarkStatus">
           <div class="left-remark">
             <div class="tit"><i></i>解析：</div>
           </div>
-          <div class="remark" v-html="question.remark"></div>
+          <div class="remark" v-if="question.remark_transform">
+            <div class="content-render">
+              {{ question.remark_transform.text }}
+            </div>
+            <div
+              class="images-render"
+              v-if="question.remark_transform.images.length > 0"
+            >
+              <div
+                class="item-bar"
+                v-for="(thumb, index) in question.remark_transform.images"
+                :key="index"
+                @click="newPreviewImage(thumb)"
+              >
+                <thumb-bar
+                  :value="thumb"
+                  :width="200"
+                  :height="200"
+                  :border="8"
+                ></thumb-bar>
+              </div>
+            </div>
+            <div
+              class="iframes-render"
+              v-if="question.remark_transform.iframes.length > 0"
+            >
+              <div
+                class="item-bar"
+                v-for="(iframe, index) in question.remark_transform.iframes"
+                :key="index"
+                v-html="iframe"
+              ></div>
+            </div>
+          </div>
         </div>
       </div>
     </template>
@@ -153,6 +211,10 @@ export default {
         this.thumb = $event.target.src;
         this.previewImage = true;
       }
+    },
+    newPreviewImage(src) {
+      this.thumb = src;
+      this.previewImage = true;
     },
   },
 };
@@ -214,6 +276,7 @@ export default {
   }
   .question-content {
     width: 100%;
+    float: left;
     height: auto;
     font-size: 15px;
     font-weight: 400;
