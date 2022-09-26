@@ -36,7 +36,7 @@
             class="thumb-bar"
             v-for="(thumb, index) in question.content_transform.header_transform
               .images"
-            :key="index"
+            :key="index + 'thumb'"
             @click="newPreviewImage(thumb)"
           >
             <thumb-bar
@@ -54,7 +54,7 @@
             class="iframe-bar"
             v-for="(iframe, index) in question.content_transform
               .header_transform.iframes"
-            :key="index"
+            :key="index + 'iframe'"
             v-html="iframe"
           ></div>
         </template>
@@ -245,7 +245,7 @@
                 <div
                   class="thumb-bar"
                   v-for="(thumb, index) in question.remark_transform.images"
-                  :key="index"
+                  :key="index + 'thumb'"
                   @click="newPreviewImage(thumb)"
                 >
                   <thumb-bar
@@ -260,7 +260,7 @@
                 <div
                   class="iframe-bar"
                   v-for="(iframe, index) in question.remark_transform.iframes"
-                  :key="index"
+                  :key="index + 'iframe'"
                   v-html="iframe"
                 ></div>
               </template>
