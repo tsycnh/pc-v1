@@ -601,6 +601,8 @@ export default {
     margin-bottom: 150px;
     position: relative;
     .left-box {
+      position: sticky;
+      top: 100px;
       width: 300px;
       display: flex;
       flex-direction: column;
