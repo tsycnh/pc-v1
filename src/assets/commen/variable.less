@@ -1614,17 +1614,17 @@ video {
   float: left;
   height: auto;
   margin-top: 20px;
+  display: grid;
+  grid-row-gap: 30px;
+  grid-column-gap: 50px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   .item-bar {
     width: 200px;
     height: 200px;
     border-radius: 8px;
     float: left;
     overflow: hidden;
-    margin-right: 50px;
     cursor: pointer;
-    &:last-child {
-      margin-right: 0px;
-    }
   }
 }
 .iframes-render {
