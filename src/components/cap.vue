@@ -444,6 +444,7 @@ export default {
       display: flex;
       flex-direction: column;
       background-color: #fff;
+      border-top: 1px dashed #ddd;
     }
   }
   .analysis-box {
