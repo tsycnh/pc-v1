@@ -1618,7 +1618,7 @@ video {
   grid-row-gap: 30px;
   grid-column-gap: 50px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  .item-bar {
+  .thumb-bar {
     width: 200px;
     height: 200px;
     border-radius: 8px;
@@ -1626,24 +1626,15 @@ video {
     overflow: hidden;
     cursor: pointer;
   }
-}
-.iframes-render {
-  width: 100%;
-  float: left;
-  height: auto;
-  margin-top: 20px;
-  .item-bar {
+  .iframe-bar {
     width: 200px;
     height: 200px;
+    border-radius: 8px;
     float: left;
     overflow: hidden;
-    margin-bottom: 20px;
     iframe {
       width: 200px;
       height: 200px;
-    }
-    &:last-child {
-      margin-bottom: 0px;
     }
   }
 }

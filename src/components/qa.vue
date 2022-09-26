@@ -28,32 +28,34 @@
       <div class="content-render">{{ question.content_transform.text }}</div>
       <div
         class="images-render"
-        v-if="question.content_transform.images.length > 0"
+        v-if="
+          question.content_transform.images.length > 0 ||
+            question.content_transform.iframes.length > 0
+        "
       >
-        <div
-          class="item-bar"
-          v-for="(thumb, index) in question.content_transform.images"
-          :key="index"
-          @click="newPreviewImage(thumb)"
-        >
-          <thumb-bar
-            :value="thumb"
-            :width="200"
-            :height="200"
-            :border="8"
-          ></thumb-bar>
-        </div>
-      </div>
-      <div
-        class="iframes-render"
-        v-if="question.content_transform.iframes.length > 0"
-      >
-        <div
-          class="item-bar"
-          v-for="(iframe, index) in question.content_transform.iframes"
-          :key="index"
-          v-html="iframe"
-        ></div>
+        <template v-if="question.content_transform.images.length > 0">
+          <div
+            class="thumb-bar"
+            v-for="(thumb, index) in question.content_transform.images"
+            :key="index"
+            @click="newPreviewImage(thumb)"
+          >
+            <thumb-bar
+              :value="thumb"
+              :width="200"
+              :height="200"
+              :border="8"
+            ></thumb-bar>
+          </div>
+        </template>
+        <template v-if="question.content_transform.iframes.length > 0">
+          <div
+            class="iframe-bar"
+            v-for="(iframe, index) in question.content_transform.iframes"
+            :key="index"
+            v-html="iframe"
+          ></div>
+        </template>
       </div>
     </div>
     <div class="choice-box">
@@ -123,32 +125,34 @@
             </div>
             <div
               class="images-render"
-              v-if="question.remark_transform.images.length > 0"
+              v-if="
+                question.remark_transform.images.length > 0 ||
+                  question.remark_transform.iframes.length > 0
+              "
             >
-              <div
-                class="item-bar"
-                v-for="(thumb, index) in question.remark_transform.images"
-                :key="index"
-                @click="newPreviewImage(thumb)"
-              >
-                <thumb-bar
-                  :value="thumb"
-                  :width="200"
-                  :height="200"
-                  :border="8"
-                ></thumb-bar>
-              </div>
-            </div>
-            <div
-              class="iframes-render"
-              v-if="question.remark_transform.iframes.length > 0"
-            >
-              <div
-                class="item-bar"
-                v-for="(iframe, index) in question.remark_transform.iframes"
-                :key="index"
-                v-html="iframe"
-              ></div>
+              <template v-if="question.remark_transform.images.length > 0">
+                <div
+                  class="thumb-bar"
+                  v-for="(thumb, index) in question.remark_transform.images"
+                  :key="index"
+                  @click="newPreviewImage(thumb)"
+                >
+                  <thumb-bar
+                    :value="thumb"
+                    :width="200"
+                    :height="200"
+                    :border="8"
+                  ></thumb-bar>
+                </div>
+              </template>
+              <template v-if="question.remark_transform.iframes.length > 0">
+                <div
+                  class="iframe-bar"
+                  v-for="(iframe, index) in question.remark_transform.iframes"
+                  :key="index"
+                  v-html="iframe"
+                ></div>
+              </template>
             </div>
           </div>
         </div>
