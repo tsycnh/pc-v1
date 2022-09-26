@@ -56,7 +56,9 @@
         v-for="(item, index) of inputVal"
         :key="index"
       >
-        <div class="name">填空{{ index + 1 }}：</div>
+        <div class="name">
+          填空{{ index + 1 }}（{{ questionAnswerRows[index].s }}分）：
+        </div>
         <div class="input-box">
           <input
             :disabled="isOver"
@@ -93,24 +95,7 @@
                     填空{{ index + 1 }}：
                   </div>
                   <div class="input-answer-body-item-content">
-                    {{ item.a }}（{{ item.s }}分）
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="my-answer" v-if="!wrongBook && isCorrect !== 1">
-              <div class="left-answer"><i></i>我的答案：</div>
-              <div class="input-answer-body">
-                <div
-                  class="input-answer-body-item"
-                  v-for="(item, index) in inputVal"
-                  :key="index"
-                >
-                  <div class="input-answer-body-item-name">
-                    填空{{ index + 1 }}：
-                  </div>
-                  <div class="input-answer-body-item-content">
-                    {{ item }}
+                    {{ item.a }}
                   </div>
                 </div>
               </div>
