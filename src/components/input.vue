@@ -96,7 +96,8 @@
           </div>
 
           <div class="button" @click="remarkStatus = !remarkStatus">
-            <span>折叠解析</span>
+            <span v-if="remarkStatus">折叠解析</span>
+            <span v-else>展开解析</span>
             <img
               class="icon"
               v-if="remarkStatus"
