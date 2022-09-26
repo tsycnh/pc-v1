@@ -75,36 +75,19 @@
             class="icon"
             src="../assets/img/exam/icon-right.png"
           />
-          <img v-else class="icon" src="../assets/img/exam/icon-Wrong.png" />
+          <template v-else>
+            <img class="icon" src="../assets/img/exam/icon-Wrong.png" />
+            <div class="answer">答案：{{ questionAnswerRows[index].a }}</div>
+          </template>
         </div>
       </div>
     </div>
     <template v-if="isOver">
       <div class="analysis-box">
         <div class="answer-box">
-          <div class="input-content">
-            <div class="answer">
-              <div class="left-answer"><i></i>答案：</div>
-              <div class="input-answer-body">
-                <div
-                  class="input-answer-body-item"
-                  v-for="(item, index) in questionAnswerRows"
-                  :key="index"
-                >
-                  <div class="input-answer-body-item-name">
-                    填空{{ index + 1 }}：
-                  </div>
-                  <div class="input-answer-body-item-content">
-                    {{ item.a }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="score">
-              <div class="left-answer"><i></i>得分：{{ score }}</div>
-            </div>
+          <div class="content">
+            <div class="score"><i></i>得分：{{ score }}</div>
           </div>
-
           <div class="button" @click="remarkStatus = !remarkStatus">
             <span v-if="remarkStatus">折叠解析</span>
             <span v-else>展开解析</span>
@@ -369,6 +352,13 @@ export default {
         .icon {
           width: 20px;
           height: 20px;
+        }
+        .answer {
+          margin-left: 10px;
+          font-size: 14px;
+          font-weight: 500;
+          color: #333333;
+          line-height: 24px;
         }
       }
     }
