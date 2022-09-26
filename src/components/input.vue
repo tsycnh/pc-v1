@@ -86,7 +86,7 @@
       <div class="analysis-box">
         <div class="answer-box">
           <div class="content">
-            <div class="score"><i></i>得分：{{ score }}</div>
+            <div class="score" v-if="!wrongBook"><i></i>得分：{{ score }}</div>
           </div>
           <div class="button" @click="remarkStatus = !remarkStatus">
             <span v-if="remarkStatus">折叠解析</span>
@@ -199,6 +199,9 @@ export default {
       } else {
         this.inputVal.push(null);
       }
+    }
+    if (this.wrongBook) {
+      this.remarkStatus = true;
     }
   },
   methods: {

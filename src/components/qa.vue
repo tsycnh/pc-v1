@@ -100,7 +100,7 @@
             >
               <i></i>答案：{{ question.answer }}
             </div>
-            <div class="score"><i></i>得分：{{ score }}</div>
+            <div class="score" v-if="!wrongBook"><i></i>得分：{{ score }}</div>
           </div>
           <div class="button" @click="remarkStatus = !remarkStatus">
             <span v-if="remarkStatus">折叠解析</span>

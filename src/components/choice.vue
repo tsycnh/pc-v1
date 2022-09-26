@@ -103,7 +103,7 @@
             <div class="my-answer" v-if="!wrongBook && isCorrect !== 1">
               <i></i>我的答案：{{ optionTypeTextMap[active] }}
             </div>
-            <div class="score"><i></i>得分：{{ score }}</div>
+            <div class="score" v-if="!wrongBook"><i></i>得分：{{ score }}</div>
           </div>
           <div class="button" @click="remarkStatus = !remarkStatus">
             <span v-if="remarkStatus">折叠解析</span>
@@ -193,6 +193,9 @@ export default {
   },
   mounted() {
     this.active = this.reply;
+    if (this.wrongBook) {
+      this.remarkStatus = true;
+    }
   },
   watch: {
     reply() {
