@@ -66,7 +66,7 @@
         class="input"
         maxlength="-1"
       ></textarea>
-      <div class="images-box" v-if="showImage">
+      <div class="images-box" v-if="showImage && localThumbs.length > 0">
         <div
           class="image-item"
           v-for="(item, imageIndex) in localThumbs"
