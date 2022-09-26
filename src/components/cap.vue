@@ -293,13 +293,6 @@ export default {
       header: null,
       questions: [],
       answers: [],
-      typeMap: {
-        1: "单选",
-        2: "多选",
-        3: "填空",
-        4: "问答",
-        5: "判断",
-      },
       previewImage: false,
       thumb: null,
       remarkStatus: false,
@@ -333,7 +326,6 @@ export default {
         for (let i = 0; i < content.questions.length; i++) {
           let tmp = content.questions[i];
           tmp.id = this.question.id + "-cap-" + i;
-          tmp.type_text = this.typeMap[tmp.type];
           tmp.level_text = "";
           questions.push(tmp);
         }
