@@ -91,7 +91,7 @@
       </div>
     </div>
     <template v-if="isOver">
-      <div class="analysis-box" v-if="question.remark">
+      <div class="analysis-box">
         <div class="answer-box">
           <div class="content">
             <div
@@ -113,7 +113,7 @@
             <img class="icon" v-else src="../assets/img/exam/unfold.png" />
           </div>
         </div>
-        <div class="remark-box" v-if="remarkStatus">
+        <div class="remark-box" v-if="question.remark && remarkStatus">
           <div class="left-remark">
             <div class="tit"><i></i>解析：</div>
           </div>
