@@ -412,6 +412,7 @@ export default {
         display: flex;
         width: 80px;
         height: 60px;
+        cursor: pointer;
         .image-view {
           width: 80px;
           height: 60px;
