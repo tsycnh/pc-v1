@@ -216,7 +216,7 @@ export default {
   },
   mounted() {
     if (this.reply) {
-      this.active = this.reply.split(",");
+      this.active = this.reply;
     }
     if (this.wrongBook) {
       this.remarkStatus = true;
@@ -224,7 +224,7 @@ export default {
   },
   watch: {
     reply() {
-      this.active = this.reply.split(",");
+      this.active = this.reply;
     },
   },
   computed: {
