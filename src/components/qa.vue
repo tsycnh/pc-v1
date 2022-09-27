@@ -184,7 +184,7 @@ export default {
         index: null,
       },
       prew: false,
-      remarkStatus: false,
+      remarkStatus: true,
     };
   },
   mounted() {
