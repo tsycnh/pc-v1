@@ -448,6 +448,9 @@ const Api = {
     },
   },
   Exam: {
+    List(params) {
+      return get("/addons/Paper/api/v2/stats/index", params);
+    },
     UploadPaperImages(params) {
       return post("/api/v2/upload/image", params);
     },

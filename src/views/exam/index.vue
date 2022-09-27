@@ -4,18 +4,21 @@
       <div class="model">
         <div class="left-model" @click="goPaper()">
           <div class="title">在线考试</div>
-          <div class="info">在线真题考试</div>
+          <div class="info">{{ list.papers_count }}套试卷</div>
           <img class="icon" src="../../assets/img/commen/test.png" />
         </div>
         <div class="right-model">
           <div class="small-model mockpaper" @click="goMock()">
             <div class="title">模拟考试</div>
-            <div class="info">模拟卷考试</div>
+            <div class="info">{{ list.mock_papers_count }}套试卷</div>
             <img class="icon" src="../../assets/img/commen/virtual-test.png" />
           </div>
           <div class="small-model practice" @click="goPractice()">
             <div class="title">练习模式</div>
-            <div class="info">一边练习一边对答案</div>
+            <div class="info">
+              {{ list.practices_count }}套练习
+              {{ list.practice_chapters_count }}个章节
+            </div>
             <img class="icon" src="../../assets/img/commen/practice.png" />
           </div>
         </div>
@@ -25,12 +28,12 @@
       <div class="model">
         <div class="small-model wrongbook" @click="goWrong()">
           <div class="title">考试错题本</div>
-          <div class="info">真题模拟考试错题都在这里</div>
+          <div class="info">{{ list.wrong_book_count }}道题</div>
           <img class="icon" src="../../assets/img/commen/wrong-book.png" />
         </div>
         <div class="small-model collect" @click="goCollect()">
           <div class="title">收藏习题</div>
-          <div class="info">收藏练习题随时巩固</div>
+          <div class="info">{{ list.collection_count }}道题</div>
           <img class="icon" src="../../assets/img/commen/collect-paper.png" />
         </div>
       </div>
@@ -64,9 +67,21 @@ export default {
   computed: {
     ...mapState(["isLogin", "user"]),
   },
-  mounted() {},
+  mounted() {
+    this.getData();
+  },
   methods: {
     ...mapMutations(["showLoginDialog", "changeDialogType"]),
+    getData() {
+      if (this.loading) {
+        return;
+      }
+      this.loading = true;
+      this.$api.Exam.List().then((res) => {
+        this.loading = false;
+        this.list = res.data;
+      });
+    },
     goLogin() {
       this.changeDialogType(1);
       this.showLoginDialog();
