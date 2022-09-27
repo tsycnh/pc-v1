@@ -104,14 +104,14 @@
           <div class="content">
             <div class="answer">
               <i></i>答案：
-              <span v-for="item in answers" class="mr-10" :key="item">{{
+              <span v-for="item in answers" :key="item">{{
                 optionTypeTextMap[item]
               }}</span>
             </div>
             <div class="my-answer" v-if="!wrongBook && isCorrect !== 1">
               <i></i>我的答案：
               <template v-if="active.length > 0">
-                <span v-for="item in active" class="mr-10" :key="item">{{
+                <span v-for="item in active" :key="item">{{
                   optionTypeTextMap[item]
                 }}</span>
               </template>

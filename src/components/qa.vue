@@ -433,6 +433,7 @@ export default {
         img {
           width: 80px;
           height: 60px;
+          cursor: pointer;
         }
         #file_input {
           position: absolute;
@@ -441,6 +442,7 @@ export default {
           width: 80px;
           height: 60px;
           opacity: 0;
+          cursor: pointer;
         }
       }
     }
