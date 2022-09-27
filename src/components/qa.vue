@@ -68,19 +68,20 @@
         class="input"
         maxlength="-1"
       ></textarea>
-      <div class="images-box" v-if="showImage && localThumbs.length > 0">
-        <div
-          class="image-item"
-          v-for="(item, imageIndex) in localThumbs"
-          :key="imageIndex"
-        >
+      <div class="images-box" v-if="showImage">
+        <template v-if="localThumbs.length > 0">
           <div
-            class="image-view"
-            @click="PreviewImage(item, imageIndex)"
-            :style="{ 'background-image': 'url(' + item + ')' }"
-          ></div>
-        </div>
-
+            class="image-item"
+            v-for="(item, imageIndex) in localThumbs"
+            :key="imageIndex"
+          >
+            <div
+              class="image-view"
+              @click="PreviewImage(item, imageIndex)"
+              :style="{ 'background-image': 'url(' + item + ')' }"
+            ></div>
+          </div>
+        </template>
         <label class="upload-image-button" v-if="isOver === false">
           <img src="../assets/img/icon-handin.png" />
           <input
