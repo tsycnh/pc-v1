@@ -90,7 +90,11 @@
           <div class="content">
             <div class="score" v-if="!wrongBook"><i></i>得分：{{ score }}</div>
           </div>
-          <div class="button" @click="remarkStatus = !remarkStatus">
+          <div
+            class="button"
+            v-if="question.remark && question.remark !== ''"
+            @click="remarkStatus = !remarkStatus"
+          >
             <span v-if="remarkStatus">折叠解析</span>
             <span v-else>展开解析</span>
             <img
@@ -101,11 +105,14 @@
             <img class="icon" v-else src="../assets/img/exam/unfold.png" />
           </div>
         </div>
-        <div class="remark-box" v-if="remarkStatus">
+        <div
+          class="remark-box"
+          v-if="remarkStatus && question.remark && question.remark !== ''"
+        >
           <div class="left-remark">
             <div class="tit"><i></i>解析：</div>
           </div>
-          <div class="remark" v-if="question.remark_transform">
+          <div class="remark">
             <div class="content-render">
               {{ question.remark_transform.text }}
             </div>

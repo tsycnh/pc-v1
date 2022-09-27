@@ -122,11 +122,14 @@
             <img class="icon" v-else src="../assets/img/exam/unfold.png" />
           </div>
         </div>
-        <div class="remark-box" v-if="remarkStatus">
+        <div
+          class="remark-box"
+          v-if="remarkStatus && question.remark && question.remark !== ''"
+        >
           <div class="left-remark">
             <div class="tit"><i></i>解析：</div>
           </div>
-          <div class="remark" v-if="question.remark && question.remark !== ''">
+          <div class="remark">
             <div class="content-render">
               {{ question.remark_transform.text }}
             </div>
