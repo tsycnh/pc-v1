@@ -61,7 +61,14 @@ export default {
   data() {
     return {
       loading: false,
-      list: [],
+      list: {
+        collection_count: 0,
+        mock_papers_count: 0,
+        papers_count: 0,
+        practice_chapters_count: 0,
+        practices_count: 0,
+        wrong_book_count: 0,
+      },
     };
   },
   computed: {
