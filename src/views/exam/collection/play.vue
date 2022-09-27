@@ -379,12 +379,14 @@ export default {
         this.showText = "收起答案";
       }
       this.showAnswer = !this.showAnswer;
-      this.$api.Exam.QuestionAnswerFill(questionId, {
-        answer: this.answer_content,
-        from: "collection",
-      }).then((res) => {
-        //
-      });
+      if (this.showAnswer) {
+        this.$api.Exam.QuestionAnswerFill(questionId, {
+          answer: this.answer_content,
+          from: "collection",
+        }).then((res) => {
+          //
+        });
+      }
     },
     questionUpdate(qid, answer, thumbs) {
       if (this.question && this.question.type === 6) {

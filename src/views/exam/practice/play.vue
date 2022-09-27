@@ -176,6 +176,7 @@ export default {
       configkey: [],
       has_practice_question_ids: [],
       toastActive: true,
+      answer_content: [],
     };
   },
   mounted() {
@@ -285,6 +286,7 @@ export default {
       }
       this.loading = true;
       this.question = null;
+      this.answer_content = [];
       let questionId = this.qidArr[this.activeQid - 1];
       this.$api.Exam.PracticeQuestion(this.list.id, questionId)
         .then((res) => {
@@ -338,15 +340,22 @@ export default {
         this.showText = "收起答案";
       }
       this.showAnswer = !this.showAnswer;
-      this.$api.Exam.PracticeQuestionAnswerFill(
-        this.list.id,
-        questionId,
-        {}
-      ).then((res) => {
-        //
-      });
+      if (this.showAnswer) {
+        this.$api.Exam.PracticeQuestionAnswerFill(this.list.id, questionId, {
+          answer: this.answer_content,
+        }).then((res) => {
+          //
+        });
+      }
     },
-    questionUpdate() {
+    questionUpdate(qid, answer, thumbs) {
+      if (this.question && this.question.type === 6) {
+        let data = qid.split("-");
+        let index = parseInt(data[2]);
+        this.answer_content[index] = answer;
+      } else {
+        this.answer_content = answer;
+      }
       if (
         this.question &&
         (this.question.type === 1 || this.question.type === 5)
