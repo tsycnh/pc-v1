@@ -112,7 +112,11 @@
               }}
             </div>
             <div class="my-answer" v-if="!wrongBook && isCorrect !== 1">
-              <i></i>我的答案：{{ parseInt(active) === 1 ? "正确" : "错误" }}
+              <i></i>我的答案：
+              <span v-if="parseInt(active) !== -1">{{
+                parseInt(active) === 1 ? "正确" : "错误"
+              }}</span>
+              <span v-else>--</span>
             </div>
             <div class="score" v-if="!wrongBook"><i></i>得分：{{ score }}</div>
           </div>

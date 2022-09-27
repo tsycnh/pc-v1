@@ -180,7 +180,7 @@
                 :question="question.question"
                 :score="question.score"
                 :is-correct="question.is_correct"
-                :reply="parseInt(question.answer_content)"
+                :reply="question.answer_contents_rows"
                 @update="questionUpdate"
                 :is-over="userPaper.status === 1"
               ></question-judge>

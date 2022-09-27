@@ -103,11 +103,15 @@
               <i></i>答案：{{ optionTypeTextMap[question.answer] }}
             </div>
             <div class="my-answer" v-if="!wrongBook && isCorrect !== 1">
-              <i></i>我的答案：{{ optionTypeTextMap[active] }}
+              <i></i>我的答案：{{ optionTypeTextMap[active] || "--" }}
             </div>
             <div class="score" v-if="!wrongBook"><i></i>得分：{{ score }}</div>
           </div>
-          <div class="button" @click="remarkStatus = !remarkStatus">
+          <div
+            class="button"
+            v-if="question.remark && question.remark !== ''"
+            @click="remarkStatus = !remarkStatus"
+          >
             <span v-if="remarkStatus">折叠解析</span>
             <span v-else>展开解析</span>
             <img
@@ -122,7 +126,7 @@
           <div class="left-remark">
             <div class="tit"><i></i>解析：</div>
           </div>
-          <div class="remark" v-if="question.remark_transform">
+          <div class="remark" v-if="question.remark && question.remark !== ''">
             <div class="content-render">
               {{ question.remark_transform.text }}
             </div>
