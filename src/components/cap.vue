@@ -195,7 +195,7 @@
               :score="answers[index].score"
               :is-correct="answers[index].is_correct"
               @update="questionUpdate"
-              :reply="parseInt(answers[index].answer)"
+              :reply="answers[index].answer_contents_rows"
               :is-over="isOver"
               :wrong-book="wrongBook"
             ></question-judge>

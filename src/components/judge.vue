@@ -207,6 +207,7 @@ export default {
     if (this.wrongBook) {
       this.remarkStatus = true;
     }
+    console.log(this.active);
   },
   watch: {
     reply() {
