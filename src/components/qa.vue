@@ -184,7 +184,7 @@ export default {
         index: null,
       },
       prew: false,
-      remarkStatus: true,
+      remarkStatus: false,
     };
   },
   mounted() {
@@ -273,7 +273,7 @@ export default {
       }
     },
     newPreviewImage(src) {
-      this.thumb = src;
+      this.image.thumb = src;
       this.previewImage = true;
     },
     emitCall() {
