@@ -108,7 +108,7 @@
                 optionTypeTextMap[item]
               }}</span>
             </div>
-            <div class="my-answer" v-if="!wrongBook && isCorrect !== 1">
+            <div class="my-answer" v-if="isCorrect !== 1">
               <i></i>我的答案：
               <template v-if="active.length > 0">
                 <span v-for="item in active" :key="item">{{
