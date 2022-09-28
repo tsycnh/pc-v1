@@ -360,6 +360,7 @@ export default {
         () => {
           if (this.isCollected) {
             this.$message.success("已取消收藏");
+            this.qidArr.splice(this.activeQid - 1, 1);
           } else {
             this.$message.success("已收藏试题");
           }
