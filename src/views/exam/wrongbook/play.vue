@@ -360,6 +360,11 @@ export default {
           this.openmask = false;
           this.$message.success("操作成功，下次进入将不会看到该试题");
           this.qidArr.splice(this.activeQid - 1, 1);
+          if (this.activeQid >= this.qidArr.length) {
+            this.activeQid--;
+          } else {
+            this.activeQid++;
+          }
         })
         .catch((e) => {
           this.openmask = false;
