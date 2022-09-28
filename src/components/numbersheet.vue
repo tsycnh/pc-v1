@@ -82,28 +82,28 @@ export default {
       border: 1px solid #c1c4cb;
       color: #999999;
       &.completed {
-        border: 1px solid #9355de;
-        background-color: #9355de;
+        border: 1px solid #3ca7fa;
+        background-color: #3ca7fa;
         color: #ffffff;
       }
       &.active {
-        border: 1px solid #9355de;
-        background-color: rgba(#9355de, 0.1);
-        color: #9355de;
+        border: 1px solid #3ca7fa;
+        background-color: rgba(#3ca7fa, 0.1);
+        color: #3ca7fa;
       }
     }
     .wrongbook {
       border: 1px solid #c1c4cb;
       color: #999999;
       &.completed {
-        border: 1px solid #ff4d4f;
-        background-color: #ff4d4f;
+        border: 1px solid #3ca7fa;
+        background-color: #3ca7fa;
         color: #ffffff;
       }
       &.active {
-        border: 1px solid #ff4d4f;
-        background-color: rgba(#ff4d4f, 0.1);
-        color: #ff4d4f;
+        border: 1px solid #3ca7fa;
+        background-color: rgba(#3ca7fa, 0.1);
+        color: #3ca7fa;
       }
     }
     .num {
