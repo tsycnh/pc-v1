@@ -322,6 +322,9 @@ export default {
       this.question = null;
       this.answer_content = [];
       let questionId = this.qidArr[this.activeQid - 1];
+      if (!questionId) {
+        return;
+      }
       this.$api.Exam.NewQuestion(questionId, {
         from: "collection",
       })
@@ -361,10 +364,12 @@ export default {
           if (this.isCollected) {
             this.$message.success("已取消收藏");
             this.qidArr.splice(this.activeQid - 1, 1);
-            if (this.activeQid >= this.qidArr.length) {
+            if (this.activeQid > this.qidArr.length) {
               this.activeQid--;
             } else {
-              this.activeQid++;
+              this.showAnswer = false;
+              this.showText = "对答案";
+              this.getQuestion();
             }
           } else {
             this.$message.success("已收藏试题");

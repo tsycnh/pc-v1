@@ -335,6 +335,9 @@ export default {
       this.question = null;
       this.answer_content = [];
       let questionId = this.qidArr[this.activeQid - 1];
+      if (!questionId) {
+        return;
+      }
       this.$api.Exam.NewQuestion(questionId, {
         from: "wrongbook",
       })
@@ -360,10 +363,12 @@ export default {
           this.openmask = false;
           this.$message.success("操作成功，下次进入将不会看到该试题");
           this.qidArr.splice(this.activeQid - 1, 1);
-          if (this.activeQid >= this.qidArr.length) {
+          if (this.activeQid > this.qidArr.length) {
             this.activeQid--;
           } else {
-            this.activeQid++;
+            this.showAnswer = false;
+            this.showText = "对答案";
+            this.getQuestion();
           }
         })
         .catch((e) => {
