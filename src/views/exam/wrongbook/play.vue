@@ -54,7 +54,7 @@
             type="wrongbook"
             :activeNum="activeQid"
             :qidArr="qidArr"
-            :configkey="configkey"
+            :hasPracticeIds="configkey"
             @change="changeQid"
           ></NumberSheet>
         </div>
@@ -170,7 +170,7 @@ import QuestionInput from "../../../components/input.vue";
 import QuestionQa from "../../../components/qa.vue";
 import QuestionJudge from "../../../components/judge.vue";
 import QuestionCap from "../../../components/cap.vue";
-import NumberSheet from "../../../components/numbersheet.vue";
+import NumberSheet from "../../../components/numbersheetV2.vue";
 import FilterTwoClass from "../../../components/exam-play-categories.vue";
 import SkeletonPaperNav from "../../../components/skeleton/skeletonPaperNav.vue";
 import None from "@/components/none.vue";
@@ -321,9 +321,6 @@ export default {
           this.loading = false;
           this.question = res.data.first_question;
           this.qidArr = res.data.questions_ids;
-          for (var i = 0; i < this.qidArr.length; i++) {
-            this.configkey.push(false);
-          }
         })
         .catch((e) => {
           this.loading = false;
@@ -373,7 +370,9 @@ export default {
     },
     seeAnswer() {
       let questionId = this.qidArr[this.activeQid - 1];
-      this.$set(this.configkey, this.activeQid - 1, true);
+      if (this.configkey.indexOf(questionId) === -1) {
+        this.configkey.push(questionId);
+      }
       if (this.showAnswer === true) {
         this.showText = "对答案";
       } else {
