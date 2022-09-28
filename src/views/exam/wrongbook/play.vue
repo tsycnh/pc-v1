@@ -359,6 +359,7 @@ export default {
         .then(() => {
           this.openmask = false;
           this.$message.success("操作成功，下次进入将不会看到该试题");
+          this.qidArr.splice(this.activeQid - 1, 1);
         })
         .catch((e) => {
           this.openmask = false;
