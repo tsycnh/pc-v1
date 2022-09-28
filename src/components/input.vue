@@ -231,11 +231,15 @@ export default {
     }
   },
   methods: {
-    change() {
+    change(e) {
       if (this.isOver) {
         return;
       }
+      if (e.target.value === "") {
+        return;
+      }
       let val = this.inputVal;
+
       this.$emit("update", this.question.id, val);
     },
     backDetail() {
