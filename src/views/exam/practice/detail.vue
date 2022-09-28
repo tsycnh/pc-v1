@@ -28,7 +28,7 @@
               购买练习 ￥{{ list.charge }}
             </div>
             <div v-if="can_join" class="button join" @click="join()">
-              立即练习
+              每日20题
             </div>
           </div>
         </template>
