@@ -235,11 +235,12 @@ export default {
       if (this.isOver) {
         return;
       }
+      let val;
       if (e.target.value === "") {
-        return;
+        val = "";
+      } else {
+        val = this.inputVal;
       }
-      let val = this.inputVal;
-
       this.$emit("update", this.question.id, val);
     },
     backDetail() {
