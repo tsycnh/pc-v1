@@ -353,7 +353,11 @@ export default {
           true
         );
       } else {
-        this.$set(this.activeQuestions, qid, true);
+        if (answer === "") {
+          this.$set(this.activeQuestions, qid, false);
+        } else {
+          this.$set(this.activeQuestions, qid, true);
+        }
       }
       let num = 0;
       for (let i = 0; i < this.activeQuestions.length; i++) {

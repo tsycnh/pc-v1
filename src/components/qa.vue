@@ -240,9 +240,6 @@ export default {
       if (this.isOver) {
         return;
       }
-      if (e.target.value === "") {
-        return;
-      }
       this.emitCall();
     },
     uploadImage(e) {
