@@ -275,11 +275,19 @@ export default {
       });
       if (typeof qid == "string" && qid.indexOf("-") != -1) {
         if (answer === "") {
-          this.$set(
-            this.activeQuestions,
-            qid.substring(0, qid.indexOf("-")),
-            false
-          );
+          if (thumbs && thumbs.length > 0) {
+            this.$set(
+              this.activeQuestions,
+              qid.substring(0, qid.indexOf("-")),
+              true
+            );
+          } else {
+            this.$set(
+              this.activeQuestions,
+              qid.substring(0, qid.indexOf("-")),
+              false
+            );
+          }
         } else {
           this.$set(
             this.activeQuestions,
@@ -289,7 +297,11 @@ export default {
         }
       } else {
         if (answer === "") {
-          this.$set(this.activeQuestions, qid, false);
+          if (thumbs && thumbs.length > 0) {
+            this.$set(this.activeQuestions, qid, true);
+          } else {
+            this.$set(this.activeQuestions, qid, false);
+          }
         } else {
           this.$set(this.activeQuestions, qid, true);
         }
