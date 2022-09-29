@@ -347,11 +347,19 @@ export default {
         question_id: qid,
       });
       if (typeof qid == "string" && qid.indexOf("-") != -1) {
-        this.$set(
-          this.activeQuestions,
-          qid.substring(0, qid.indexOf("-")),
-          true
-        );
+        if (answer === "") {
+          this.$set(
+            this.activeQuestions,
+            qid.substring(0, qid.indexOf("-")),
+            false
+          );
+        } else {
+          this.$set(
+            this.activeQuestions,
+            qid.substring(0, qid.indexOf("-")),
+            true
+          );
+        }
       } else {
         if (answer === "") {
           this.$set(this.activeQuestions, qid, false);

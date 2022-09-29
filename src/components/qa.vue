@@ -77,11 +77,14 @@
           v-for="(item, imageIndex) in localThumbs"
           :key="imageIndex"
         >
-          <div
-            class="image-view"
-            @click="PreviewImage(item, imageIndex)"
-            :style="{ 'background-image': 'url(' + item + ')' }"
-          ></div>
+          <div class="image-view" @click="PreviewImage(item, imageIndex)">
+            <thumb-bar
+              :value="item"
+              :width="80"
+              :height="80"
+              :border="4"
+            ></thumb-bar>
+          </div>
         </div>
 
         <label class="upload-image-button" v-if="!isOver && !wrongBook">
@@ -426,20 +429,22 @@ export default {
       .image-item {
         display: flex;
         width: 80px;
-        height: 60px;
+        height: 80px;
+        border-radius: 4px;
         cursor: pointer;
         .image-view {
           width: 80px;
-          height: 60px;
+          height: 80px;
           background-repeat: no-repeat;
           background-size: contain;
           background-position: center center;
+          border-radius: 4px;
         }
       }
       .upload-image-button {
         width: 80px;
-        height: 60px;
-        background-color: #f1f2f6;
+        height: 80px;
+        background-color: #fff;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -447,7 +452,7 @@ export default {
         cursor: pointer;
         img {
           width: 80px;
-          height: 60px;
+          height: 80px;
           cursor: pointer;
         }
         #file_input {
@@ -455,7 +460,7 @@ export default {
           top: 0;
           left: 0;
           width: 80px;
-          height: 60px;
+          height: 80px;
           opacity: 0;
           cursor: pointer;
         }
