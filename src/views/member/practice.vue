@@ -22,24 +22,26 @@
         </template>
         <template v-if="!loading && currentTab === 1">
           <template v-if="list.length > 0">
-            <div
-              class="paper-item-comp"
-              v-for="(item, index) in list"
-              :key="index"
-              @click="goDetail(item.pid)"
-            >
-              <div class="title">
-                <img class="icon" src="@/assets/img/member/practice.png" />
-                <div class="name">{{ item.practice.name }}</div>
+            <template v-for="(item, index) in list">
+              <div
+                class="paper-item-comp"
+                v-if="item.practice"
+                :key="index"
+                @click="goDetail(item.pid)"
+              >
+                <div class="title">
+                  <img class="icon" src="@/assets/img/member/practice.png" />
+                  <div class="name">{{ item.practice.name }}</div>
+                </div>
+                <div class="info">
+                  <span style="color: #F4A429;"
+                    >已练习 {{ item.submit_count }}/{{
+                      item.practice_question_count
+                    }}</span
+                  >
+                </div>
               </div>
-              <div class="info">
-                <span style="color: #F4A429;"
-                  >已练习 {{ item.submit_count }}/{{
-                    item.practice_question_count
-                  }}</span
-                >
-              </div>
-            </div>
+            </template>
           </template>
           <none type="white" v-else></none>
         </template>

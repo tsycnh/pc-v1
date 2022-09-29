@@ -8,24 +8,26 @@
           <skeletonMemberPaper></skeletonMemberPaper>
         </template>
         <template v-else-if="list.length > 0">
-          <div
-            class="paper-item-comp"
-            v-for="(item, index) in list"
-            :key="index"
-            @click="goDetail(item.paper_id)"
-          >
-            <div class="title">
-              <img class="icon" src="@/assets/img/member/mock.png" />
-              <div class="name">{{ item.paper.title }}</div>
+          <template v-for="(item, index) in list">
+            <div
+              class="paper-item-comp"
+              v-if="item.paper"
+              :key="index"
+              @click="goDetail(item.paper_id)"
+            >
+              <div class="title">
+                <img class="icon" src="@/assets/img/member/mock.png" />
+                <div class="name">{{ item.paper.title }}</div>
+              </div>
+              <div class="info">
+                <span style="color: #00BBA7;"
+                  >最高得分：{{ item.max_score }}</span
+                >
+                <span class="item">|</span>
+                <span>共{{ item.paper.question_count }}道题</span>
+              </div>
             </div>
-            <div class="info">
-              <span style="color: #00BBA7;"
-                >最高得分：{{ item.max_score }}</span
-              >
-              <span class="item">|</span>
-              <span>共{{ item.paper.question_count }}道题</span>
-            </div>
-          </div>
+          </template>
           <div id="page">
             <page-box
               :key="pagination.page"
