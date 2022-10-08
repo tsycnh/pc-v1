@@ -221,7 +221,9 @@ export default {
   min-height: 500px;
   margin: 0 auto;
   .tips {
-    border-radius: 0px 0px 16px 16px;
+    a {
+      border-radius: 0px 0px 16px 16px;
+    }
   }
   .banner {
     width: 100%;
