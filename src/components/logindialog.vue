@@ -1147,7 +1147,9 @@ export default {
           }
         }
         .buttons {
-          margin-left: 20px;
+          flex: 1;
+          display: flex;
+          flex-direction: row-reverse;
           .send-sms-button {
             display: inline-block;
             width: auto;

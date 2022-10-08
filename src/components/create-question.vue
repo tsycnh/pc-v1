@@ -360,13 +360,12 @@ export default {
         flex-flow: row wrap;
         align-items: center;
         .title {
-          min-width: 64px;
+          flex: 1;
           height: 18px;
           font-size: 16px;
           font-weight: 500;
           color: #333333;
           line-height: 18px;
-          margin-right: 30px;
         }
         .credit1 {
           width: 546px;
