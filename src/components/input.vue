@@ -85,7 +85,14 @@
       </div>
     </div>
     <template v-if="isOver">
-      <div class="analysis-box">
+      <div
+        class="analysis-box"
+        v-if="
+          (wrongBook && question.remark && question.remark !== '') ||
+            !wrongBook ||
+            (remarkStatus && question.remark && question.remark !== '')
+        "
+      >
         <div
           class="answer-box"
           v-if="wrongBook && question.remark && question.remark !== ''"
