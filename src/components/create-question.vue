@@ -360,7 +360,7 @@ export default {
         flex-flow: row wrap;
         align-items: center;
         .title {
-          width: auto;
+          min-width: 64px;
           height: 18px;
           font-size: 16px;
           font-weight: 500;

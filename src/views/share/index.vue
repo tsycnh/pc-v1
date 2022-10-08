@@ -57,8 +57,8 @@
             </div>
           </div>
           <div class="btn-box">
-            <div class="btn-cancel" @click="cancel()">取消</div>
             <div class="btn-submit" @click="withdraw()">申请提现</div>
+            <div class="btn-cancel" @click="cancel()">取消</div>
           </div>
         </div>
       </div>
@@ -560,8 +560,7 @@ export default {
         box-shadow: 0px -2px 4px 0px rgba(102, 102, 102, 0.05);
         border-radius: 0px 0px 8px 8px;
         display: flex;
-        flex-direction: row;
-        justify-content: right;
+        flex-direction: row-reverse;
         margin-top: 50px;
         box-sizing: border-box;
         padding: 15px 30px;
