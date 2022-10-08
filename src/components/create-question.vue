@@ -140,8 +140,7 @@ export default {
     },
     isNumber(val) {
       var regPos = /^\d+(\.\d+)?$/; //非负浮点数
-      var regNeg =
-        /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+      var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
       if (regPos.test(val) || regNeg.test(val)) {
         return true;
       } else {
@@ -361,7 +360,7 @@ export default {
         flex-flow: row wrap;
         align-items: center;
         .title {
-          width: 64px;
+          width: auto;
           height: 18px;
           font-size: 16px;
           font-weight: 500;

@@ -702,7 +702,7 @@ export default {
           justify-content: center;
         }
         .tit {
-          width: 56px;
+          width: auto;
           height: 14px;
           font-size: 14px;
           font-weight: 400;
@@ -791,7 +791,7 @@ export default {
           align-items: center;
           height: 33px;
           .btn-title {
-            width: 56px;
+            width: auto;
             height: 33px;
             cursor: pointer;
             text-align: center;

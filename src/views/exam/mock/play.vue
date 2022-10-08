@@ -354,7 +354,7 @@ export default {
           this.userPaper = res.data.record;
           if (this.userPaper) {
             this.remainingTime.all = Date.parse(
-              new Date(this.userPaper.expired_at)
+              new Date(this.userPaper.expired_at.replace(/-/g, "/"))
             );
           } else {
             this.remainingTime.all = 0;
@@ -675,7 +675,7 @@ export default {
         padding: 23px 23px 0px 30px;
         overflow: hidden;
         .item-tab {
-          width: 72px;
+          min-width: 72px;
           height: 18px;
           font-size: 18px;
           font-weight: 500;

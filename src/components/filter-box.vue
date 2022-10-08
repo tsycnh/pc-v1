@@ -83,7 +83,7 @@ export default {
       display: flex;
       flex-direction: row;
       .first-item {
-        width: 42px;
+        width: auto;
         height: 14px;
         margin: 10px 15px 0px 0px;
         font-size: 14px;

@@ -429,7 +429,7 @@ export default {
           document.title = res.data.paper.title;
           this.userPaper = res.data.user_paper;
           this.remainingTime.all = Date.parse(
-            new Date(res.data.user_paper.ended_at)
+            new Date(res.data.user_paper.ended_at.replace(/-/g, "/"))
           );
           let normaldata = res.data.questions;
           if (normaldata.length === 0) {
@@ -758,7 +758,7 @@ export default {
         padding: 23px 23px 0px 30px;
         overflow: hidden;
         .item-tab {
-          width: 72px;
+          min-width: 72px;
           height: 18px;
           font-size: 18px;
           font-weight: 500;

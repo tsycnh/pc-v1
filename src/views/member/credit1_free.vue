@@ -202,7 +202,7 @@ export default {
           padding: 0px;
           margin-bottom: 30px;
           .item-tab {
-            width: 56px;
+            min-width: 56px;
             height: 14px;
             font-size: 14px;
             font-weight: 400;

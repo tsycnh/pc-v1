@@ -337,7 +337,7 @@ export default {
       padding: 28px 30px;
       border-radius: 0px 0px 8px 8px;
       .item-tab {
-        width: 64px;
+        min-width: 64px;
         height: 16px;
         font-size: 16px;
         font-weight: 400;
@@ -528,7 +528,7 @@ export default {
         flex-direction: row;
         padding: 28px 30px;
         .item-tab {
-          width: 64px;
+          min-width: 64px;
           height: 16px;
           font-size: 16px;
           font-weight: 400;
