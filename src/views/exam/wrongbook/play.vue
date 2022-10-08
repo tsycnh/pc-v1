@@ -637,6 +637,7 @@ export default {
         float: left;
         border-radius: 8px;
         overflow: hidden;
+        background: #fff;
       }
       .delete-icon {
         position: absolute;
