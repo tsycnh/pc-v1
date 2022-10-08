@@ -23,8 +23,8 @@
           class="box2"
           v-if="
             categories[cateIndex] &&
-            categories[cateIndex].children &&
-            categories[cateIndex].children.length > 0
+              categories[cateIndex].children &&
+              categories[cateIndex].children.length > 0
           "
         >
           <div class="label">细分：</div>
@@ -179,7 +179,7 @@ export default {
         display: flex;
         flex-direction: row;
         .label {
-          width: 42px;
+          width: auto;
           height: 14px;
           font-size: 14px;
           font-weight: 400;
@@ -221,7 +221,7 @@ export default {
         flex-direction: row;
         margin-top: 25px;
         .label {
-          width: 42px;
+          width: auto;
           height: 24px;
           font-size: 14px;
           font-weight: 400;
