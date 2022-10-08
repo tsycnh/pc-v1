@@ -363,7 +363,7 @@ export default {
         .buttons {
           margin-left: 20px;
           .send-sms-button {
-            width: 90px;
+            min-width: 90px;
             height: 18px;
             font-size: 18px;
             font-weight: 400;
