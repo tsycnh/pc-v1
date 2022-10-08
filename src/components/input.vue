@@ -263,6 +263,8 @@ export default {
 .choice-item {
   background-color: #f1f2f6;
   width: 100%;
+  float: left;
+  height: auto;
   .preview-image {
     width: 100%;
     height: 100%;
