@@ -103,7 +103,7 @@ export default {
   },
   computed: {
     ...mapState(["isLogin", "user"]),
-    sumQuestion: function () {
+    sumQuestion: function() {
       let val = 0;
       for (var key in this.questions) {
         val = val + this.questions[key].length;
