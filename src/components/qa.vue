@@ -8,7 +8,7 @@
       />
       <img
         @click="deleteImage()"
-        v-if="!isOver && !prew"
+        v-if="!isOver && !prew && showDelIcon"
         class="delete-img"
         src="../assets/img/icon-delete.png"
       />
@@ -38,7 +38,7 @@
             class="thumb-bar"
             v-for="(thumb, index) in question.content_transform.images"
             :key="index + 'thumb'"
-            @click="newPreviewImage(thumb)"
+            @click="headerPreviewImage(thumb)"
           >
             <thumb-bar
               :value="thumb"
@@ -214,6 +214,7 @@ export default {
       },
       prew: false,
       remarkStatus: true,
+      showDelIcon: true,
     };
   },
   mounted() {
@@ -289,19 +290,19 @@ export default {
       this.emitCall();
     },
     PreviewImage(val, index) {
+      this.showDelIcon = true;
       this.previewImage = true;
       this.prew = false;
       this.image.thumb = val;
       this.image.index = index;
     },
-    PreviewImage2($event) {
-      if ($event.target.src) {
-        this.prew = true;
-        this.image.thumb = $event.target.src;
-        this.previewImage = true;
-      }
+    headerPreviewImage(src) {
+      this.showDelIcon = false;
+      this.image.thumb = src;
+      this.previewImage = true;
     },
     newPreviewImage(src) {
+      this.showDelIcon = false;
       this.image.thumb = src;
       this.previewImage = true;
     },
