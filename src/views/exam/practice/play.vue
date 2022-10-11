@@ -196,12 +196,18 @@ export default {
 
         //键盘按键判断:左箭头-37;上箭头-38；右箭头-39;下箭头-40
         if (e1 && e1.keyCode == 37) {
+          if (this.loading) {
+            return;
+          }
           if (this.activeQid === 1) {
             this.$message.error("没有上一题了");
           } else {
             this.activeQid--;
           }
         } else if (e1 && e1.keyCode == 39) {
+          if (this.loading) {
+            return;
+          }
           if (this.activeQid === this.qidArr.length) {
             this.$message.error("没有下一题了");
           } else {
@@ -217,6 +223,9 @@ export default {
       if (this.toastActive) {
         this.$message.info("可通过键盘← →方向键快速切题哦！");
       }
+      if (this.loading) {
+        return;
+      }
       if (this.activeQid === 1) {
         this.$message.error("没有上一题了");
       } else {
@@ -227,6 +236,9 @@ export default {
     nextPage() {
       if (this.toastActive) {
         this.$message.info("可通过键盘← →方向键快速切题哦！");
+      }
+      if (this.loading) {
+        return;
       }
       if (this.activeQid === this.qidArr.length) {
         this.$message.error("没有下一题了");
