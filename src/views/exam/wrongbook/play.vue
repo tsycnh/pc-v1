@@ -226,19 +226,16 @@ export default {
           e || event || window.event || arguments.callee.caller.arguments[0];
 
         //键盘按键判断:左箭头-37;上箭头-38；右箭头-39;下箭头-40
+        if (this.loading) {
+          return;
+        }
         if (e1 && e1.keyCode == 37) {
-          if (this.loading) {
-            return;
-          }
           if (this.activeQid === 1) {
             this.$message.error("没有上一题了");
           } else {
             this.activeQid--;
           }
         } else if (e1 && e1.keyCode == 39) {
-          if (this.loading) {
-            return;
-          }
           if (this.activeQid === this.qidArr.length) {
             this.$message.error("没有下一题了");
           } else {
