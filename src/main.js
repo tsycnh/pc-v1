@@ -34,7 +34,7 @@ Vue.use(VCharts);
 Vue.use(highlight, {
   name: "highlight",
   className: "red",
-  style: "color: #FF5068",
+  style: "color: #ff4d4f",
   caseSensitive: false,
 });
 Vue.component("ThumbBar", ThumbBar);

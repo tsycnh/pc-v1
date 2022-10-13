@@ -23,6 +23,7 @@
           :qidArr="qidArr"
           @change="changeQid"
           :configkey="configkey"
+          :hasPracticeIds="has_practice_question_ids"
         ></NumberSheet>
       </div>
       <div class="right-box">
@@ -41,85 +42,83 @@
             </template>
           </div>
           <div class="practice-join-box">
-            <div class="question-content">
-              <!-- 单选 -->
-              <question-choice
-                :num="activeQid"
-                v-if="question.type === 1"
-                :wrongBook="true"
-                :question="question"
-                :is-correct="false"
-                @update="questionUpdate"
-                :score="question.score"
-                :is-over="showAnswer"
-                :reply="null"
-              ></question-choice>
+            <!-- 单选 -->
+            <question-choice
+              :num="activeQid"
+              v-if="question.type === 1"
+              :wrongBook="true"
+              :question="question"
+              :is-correct="false"
+              @update="questionUpdate"
+              :score="question.score"
+              :is-over="showAnswer"
+              :reply="null"
+            ></question-choice>
 
-              <!-- 多选 -->
-              <question-select
-                :num="activeQid"
-                v-else-if="question.type === 2"
-                :wrongBook="true"
-                :question="question"
-                :is-correct="false"
-                @update="questionUpdate"
-                :score="question.score"
-                :is-over="showAnswer"
-                :reply="''"
-              ></question-select>
+            <!-- 多选 -->
+            <question-select
+              :num="activeQid"
+              v-else-if="question.type === 2"
+              :wrongBook="true"
+              :question="question"
+              :is-correct="false"
+              @update="questionUpdate"
+              :score="question.score"
+              :is-over="showAnswer"
+              :reply="''"
+            ></question-select>
 
-              <!-- 填空 -->
-              <question-input
-                :num="activeQid"
-                v-else-if="question.type === 3"
-                :wrongBook="true"
-                :question="question"
-                :is-correct="false"
-                @update="questionUpdate"
-                :score="question.score"
-                :is-over="showAnswer"
-                :reply="''"
-              ></question-input>
+            <!-- 填空 -->
+            <question-input
+              :num="activeQid"
+              v-else-if="question.type === 3"
+              :wrongBook="true"
+              :question="question"
+              :is-correct="false"
+              @update="questionUpdate"
+              :score="question.score"
+              :is-over="showAnswer"
+              :reply="''"
+            ></question-input>
 
-              <!-- 问答 -->
-              <question-qa
-                :num="activeQid"
-                v-else-if="question.type === 4"
-                :wrongBook="true"
-                :question="question"
-                :is-correct="false"
-                @update="questionUpdate"
-                :show-image="false"
-                :score="question.score"
-                :is-over="showAnswer"
-              ></question-qa>
+            <!-- 问答 -->
+            <question-qa
+              :num="activeQid"
+              v-else-if="question.type === 4"
+              :wrongBook="true"
+              :question="question"
+              :is-correct="false"
+              @update="questionUpdate"
+              :show-image="false"
+              :score="question.score"
+              :is-over="showAnswer"
+            ></question-qa>
 
-              <!-- 判断 -->
-              <question-judge
-                :num="activeQid"
-                v-else-if="question.type === 5"
-                :wrongBook="true"
-                :question="question"
-                :is-correct="false"
-                :score="question.score"
-                @update="questionUpdate"
-                :is-over="showAnswer"
-                :reply="null"
-              ></question-judge>
+            <!-- 判断 -->
+            <question-judge
+              :num="activeQid"
+              v-else-if="question.type === 5"
+              :wrongBook="true"
+              :question="question"
+              :is-correct="false"
+              :score="question.score"
+              @update="questionUpdate"
+              :is-over="showAnswer"
+              :reply="null"
+            ></question-judge>
 
-              <!-- 题帽题 -->
-              <question-cap
-                :num="activeQid"
-                v-else-if="question.type === 6"
-                :wrongBook="true"
-                :question="question"
-                :is-correct="false"
-                :score="question.score"
-                :show-image="false"
-                @update="questionUpdate"
-                :is-over="showAnswer"
-              ></question-cap>
-            </div>
+            <!-- 题帽题 -->
+            <question-cap
+              :num="activeQid"
+              v-else-if="question.type === 6"
+              :wrongBook="true"
+              :question="question"
+              :is-correct="false"
+              :score="question.score"
+              :show-image="false"
+              @update="questionUpdate"
+              :is-over="showAnswer"
+            ></question-cap>
           </div>
         </template>
         <div
@@ -173,10 +172,14 @@ export default {
       showText: "对答案",
       loading: false,
       configkey: [],
+      has_practice_question_ids: [],
+      toastActive: true,
+      answer_content: [],
     };
   },
   mounted() {
     this.getData();
+    this.keyDown();
   },
   watch: {
     activeQid() {
@@ -186,22 +189,60 @@ export default {
     },
   },
   methods: {
+    keyDown() {
+      document.onkeydown = (e) => {
+        let e1 =
+          e || event || window.event || arguments.callee.caller.arguments[0];
+
+        //键盘按键判断:左箭头-37;上箭头-38；右箭头-39;下箭头-40
+        if (this.loading) {
+          return;
+        }
+        if (e1 && e1.keyCode == 37) {
+          if (this.activeQid === 1) {
+            this.$message.error("没有上一题了");
+          } else {
+            this.activeQid--;
+          }
+        } else if (e1 && e1.keyCode == 39) {
+          if (this.activeQid === this.qidArr.length) {
+            this.$message.error("没有下一题了");
+          } else {
+            this.activeQid++;
+          }
+        }
+      };
+    },
     changeQid(val) {
       this.activeQid = val;
     },
     prevPage() {
+      if (this.toastActive) {
+        this.$message.info("可通过键盘← →方向键快速切题哦！");
+      }
+      if (this.loading) {
+        return;
+      }
       if (this.activeQid === 1) {
         this.$message.error("没有上一题了");
       } else {
         this.activeQid--;
       }
+      this.toastActive = false;
     },
     nextPage() {
+      if (this.toastActive) {
+        this.$message.info("可通过键盘← →方向键快速切题哦！");
+      }
+      if (this.loading) {
+        return;
+      }
       if (this.activeQid === this.qidArr.length) {
         this.$message.error("没有下一题了");
       } else {
         this.activeQid++;
       }
+      this.toastActive = false;
     },
     getData() {
       if (this.loading) {
@@ -213,6 +254,7 @@ export default {
           .then((res) => {
             this.loading = false;
             this.list = res.data.practice;
+            this.has_practice_question_ids = res.data.has_practice_question_ids;
             this.question = res.data.first_question;
             this.qidArr = res.data.qid_arr;
             document.title = res.data.practice.name;
@@ -231,6 +273,7 @@ export default {
             this.loading = false;
             this.list = res.data.practice;
             this.question = res.data.first_question;
+            this.has_practice_question_ids = res.data.has_practice_question_ids;
             this.qidArr = res.data.qid_arr;
             document.title = res.data.practice.name;
             this.collectStatus();
@@ -250,6 +293,7 @@ export default {
       }
       this.loading = true;
       this.question = null;
+      this.answer_content = [];
       let questionId = this.qidArr[this.activeQid - 1];
       this.$api.Exam.PracticeQuestion(this.list.id, questionId)
         .then((res) => {
@@ -303,15 +347,22 @@ export default {
         this.showText = "收起答案";
       }
       this.showAnswer = !this.showAnswer;
-      this.$api.Exam.PracticeQuestionAnswerFill(
-        this.list.id,
-        questionId,
-        {}
-      ).then((res) => {
-        //
-      });
+      if (this.showAnswer) {
+        this.$api.Exam.PracticeQuestionAnswerFill(this.list.id, questionId, {
+          answer: this.answer_content,
+        }).then((res) => {
+          //
+        });
+      }
     },
-    questionUpdate() {
+    questionUpdate(qid, answer, thumbs) {
+      if (this.question && this.question.type === 6) {
+        let data = qid.split("-");
+        let index = parseInt(data[2]);
+        this.answer_content[index] = answer;
+      } else {
+        this.answer_content = answer;
+      }
       if (
         this.question &&
         (this.question.type === 1 || this.question.type === 5)
@@ -400,6 +451,8 @@ export default {
     margin-bottom: 150px;
     position: relative;
     .left-box {
+      position: sticky;
+      top: 100px;
       width: 300px;
       display: flex;
       flex-direction: column;
@@ -421,7 +474,7 @@ export default {
         height: auto;
         float: left;
         border-radius: 8px;
-        overflow: hidden;
+        background: #fff;
       }
       .delete-icon {
         position: absolute;
@@ -447,8 +500,9 @@ export default {
       }
       .buttons-box {
         width: 100%;
+        height: auto;
+        float: left;
         padding: 30px;
-        margin-top: 30px;
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
@@ -456,7 +510,7 @@ export default {
         .see-answer {
           width: 104px;
           height: 40px;
-          background: #ff5068;
+          background: #ff4d4f;
           border-radius: 4px;
           display: flex;
           align-items: center;

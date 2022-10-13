@@ -235,7 +235,7 @@ export default {
               text-overflow: ellipsis;
             }
             .type {
-              background: linear-gradient(90deg, #ff5068 0%, #ff92a1 100%);
+              background: linear-gradient(90deg, #ff4d4f 0%, #ff92a1 100%);
               border-radius: 4px;
               font-size: 12px;
               font-weight: 400;
@@ -290,7 +290,7 @@ export default {
           }
           .buy-button {
             position: absolute;
-            background: #ff5068;
+            background: #ff4d4f;
             border-radius: 4px;
             padding: 20px;
             font-size: 16px;

@@ -347,6 +347,15 @@ const Api = {
     CertList(params) {
       return get("/addons/Cert/api/v1/member/cert", params);
     },
+    UserPaper(params) {
+      return get("/addons/Paper/api/v2/member/joinPapers", params);
+    },
+    UserMockPaper(params) {
+      return get("/addons/Paper/api/v2/member/joinMockPapers", params);
+    },
+    UserPractice(params) {
+      return get("/addons/Paper/api/v2/member/joinPractices", params);
+    },
     Learned: {
       Courses(params) {
         return get("/api/v3/member/courses/learned", params);
@@ -439,8 +448,11 @@ const Api = {
     },
   },
   Exam: {
+    List(params) {
+      return get("/addons/Paper/api/v2/stats/index", params);
+    },
     UploadPaperImages(params) {
-      return post("/addons/Paper/api/v1/upload/image", params);
+      return post("/api/v2/upload/image", params);
     },
     PaperList(params) {
       return get("/addons/Paper/api/v1/papers", params);
@@ -501,6 +513,9 @@ const Api = {
           "/answer",
         params
       );
+    },
+    QuestionAnswerFill(id, params) {
+      return post(`/addons/Paper/api/v2/question/${id}/answer`, params);
     },
     UserPaper(params) {
       return get("/addons/Paper/api/v1/user/papers", params);

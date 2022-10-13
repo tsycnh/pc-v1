@@ -125,7 +125,7 @@ export default {
       display: flex;
       flex-direction: row;
       .label {
-        width: 42px;
+        width: auto;
         height: 14px;
         font-size: 14px;
         font-weight: 400;
@@ -167,7 +167,7 @@ export default {
       flex-direction: row;
       margin-top: 10px;
       .label {
-        width: 42px;
+        width: auto;
         height: 14px;
         font-size: 14px;
         font-weight: 400;

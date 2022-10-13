@@ -139,7 +139,7 @@ export default {
         },
         effect: "slide",
         on: {
-          click: function (e) {
+          click: function(e) {
             let url = e.target.name;
             if (url) {
               if (
@@ -221,15 +221,15 @@ export default {
   min-height: 500px;
   margin: 0 auto;
   .tips {
-    border-radius: 0px 0px 16px 16px;
-    overflow: hidden;
+    a {
+      border-radius: 0px 0px 16px 16px;
+    }
   }
   .banner {
     width: 100%;
     height: 400px;
     margin-top: 30px;
     border-radius: 16px 16px 0 0;
-    overflow: hidden;
     .swiper-container {
       width: 100%;
       height: 100%;
@@ -238,6 +238,7 @@ export default {
         height: 100%;
         img {
           width: 100%;
+          border-radius: 16px 16px 0 0;
           cursor: pointer;
         }
       }

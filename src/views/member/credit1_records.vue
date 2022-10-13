@@ -253,8 +253,8 @@
                     <span
                       v-if="
                         goods.v_type === 'vod' ||
-                        goods.v_type === 'live' ||
-                        goods.v_type === 'book'
+                          goods.v_type === 'live' ||
+                          goods.v_type === 'book'
                       "
                       >商品类型:换课程</span
                     >
@@ -644,7 +644,7 @@ export default {
         padding: 23px 23px 0px 30px;
         overflow: hidden;
         .item-tab {
-          width: 72px;
+          width: auto;
           height: 18px;
           font-size: 18px;
           font-weight: 500;
@@ -748,7 +748,7 @@ export default {
           padding: 0px;
           margin-bottom: 30px;
           .item-tab {
-            width: 56px;
+            width: auto;
             height: 14px;
             font-size: 14px;
             font-weight: 400;
@@ -975,14 +975,14 @@ export default {
                   height: 14px;
                   font-size: 14px;
                   font-weight: 600;
-                  color: #ff5068;
+                  color: #ff4d4f;
                   line-height: 14px;
                 }
                 .item-type {
                   display: inline-block;
                   width: auto;
                   height: auto;
-                  background: #ff5068;
+                  background: #ff4d4f;
                   border-radius: 2px;
                   padding: 4px;
                   font-size: 12px;
@@ -1137,7 +1137,7 @@ export default {
                     height: 14px;
                     font-size: 14px;
                     font-weight: 400;
-                    color: #ff5068;
+                    color: #ff4d4f;
                     line-height: 14px;
                     cursor: pointer;
                     &:hover {
@@ -1244,7 +1244,7 @@ export default {
               font-size: 14px;
               font-weight: 600;
               line-height: 14px;
-              color: #ff5068;
+              color: #ff4d4f;
             }
             .info {
               flex: 1;

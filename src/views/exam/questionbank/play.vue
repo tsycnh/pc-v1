@@ -41,85 +41,83 @@
             </template>
           </div>
           <div class="collection-join-box">
-            <div class="question-content">
-              <!-- 单选 -->
-              <question-choice
-                :num="activeQid"
-                v-if="question.type === 1"
-                :wrongBook="true"
-                :question="question"
-                :is-correct="false"
-                @update="questionUpdate"
-                :score="question.score"
-                :is-over="showAnswer"
-                :reply="null"
-              ></question-choice>
+            <!-- 单选 -->
+            <question-choice
+              :num="activeQid"
+              v-if="question.type === 1"
+              :wrongBook="true"
+              :question="question"
+              :is-correct="false"
+              @update="questionUpdate"
+              :score="question.score"
+              :is-over="showAnswer"
+              :reply="null"
+            ></question-choice>
 
-              <!-- 多选 -->
-              <question-select
-                :num="activeQid"
-                v-else-if="question.type === 2"
-                :wrongBook="true"
-                :question="question"
-                :is-correct="false"
-                @update="questionUpdate"
-                :score="question.score"
-                :is-over="showAnswer"
-                :reply="''"
-              ></question-select>
+            <!-- 多选 -->
+            <question-select
+              :num="activeQid"
+              v-else-if="question.type === 2"
+              :wrongBook="true"
+              :question="question"
+              :is-correct="false"
+              @update="questionUpdate"
+              :score="question.score"
+              :is-over="showAnswer"
+              :reply="''"
+            ></question-select>
 
-              <!-- 填空 -->
-              <question-input
-                :num="activeQid"
-                v-else-if="question.type === 3"
-                :wrongBook="true"
-                :question="question"
-                :is-correct="false"
-                @update="questionUpdate"
-                :score="question.score"
-                :is-over="showAnswer"
-                :reply="''"
-              ></question-input>
+            <!-- 填空 -->
+            <question-input
+              :num="activeQid"
+              v-else-if="question.type === 3"
+              :wrongBook="true"
+              :question="question"
+              :is-correct="false"
+              @update="questionUpdate"
+              :score="question.score"
+              :is-over="showAnswer"
+              :reply="''"
+            ></question-input>
 
-              <!-- 问答 -->
-              <question-qa
-                :num="activeQid"
-                v-else-if="question.type === 4"
-                :wrongBook="true"
-                :question="question"
-                :is-correct="false"
-                @update="questionUpdate"
-                :show-image="false"
-                :score="question.score"
-                :is-over="showAnswer"
-              ></question-qa>
+            <!-- 问答 -->
+            <question-qa
+              :num="activeQid"
+              v-else-if="question.type === 4"
+              :wrongBook="true"
+              :question="question"
+              :is-correct="false"
+              @update="questionUpdate"
+              :show-image="false"
+              :score="question.score"
+              :is-over="showAnswer"
+            ></question-qa>
 
-              <!-- 判断 -->
-              <question-judge
-                :num="activeQid"
-                v-else-if="question.type === 5"
-                :wrongBook="true"
-                :question="question"
-                :is-correct="false"
-                :score="question.score"
-                @update="questionUpdate"
-                :is-over="showAnswer"
-                :reply="null"
-              ></question-judge>
+            <!-- 判断 -->
+            <question-judge
+              :num="activeQid"
+              v-else-if="question.type === 5"
+              :wrongBook="true"
+              :question="question"
+              :is-correct="false"
+              :score="question.score"
+              @update="questionUpdate"
+              :is-over="showAnswer"
+              :reply="null"
+            ></question-judge>
 
-              <!-- 题帽题 -->
-              <question-cap
-                :num="activeQid"
-                v-else-if="question.type === 6"
-                :wrongBook="true"
-                :question="question"
-                :is-correct="false"
-                :score="question.score"
-                :show-image="false"
-                @update="questionUpdate"
-                :is-over="showAnswer"
-              ></question-cap>
-            </div>
+            <!-- 题帽题 -->
+            <question-cap
+              :num="activeQid"
+              v-else-if="question.type === 6"
+              :wrongBook="true"
+              :question="question"
+              :is-correct="false"
+              :score="question.score"
+              :show-image="false"
+              @update="questionUpdate"
+              :is-over="showAnswer"
+            ></question-cap>
           </div>
         </template>
         <div class="buttons-box">
@@ -385,7 +383,7 @@ export default {
         height: auto;
         float: left;
         border-radius: 8px;
-        overflow: hidden;
+        background: #fff;
       }
       .delete-icon {
         position: absolute;
@@ -411,8 +409,9 @@ export default {
       }
       .buttons-box {
         width: 100%;
+        height: auto;
+        float: left;
         padding: 30px;
-        margin-top: 30px;
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
@@ -420,7 +419,7 @@ export default {
         .see-answer {
           width: 104px;
           height: 40px;
-          background: #ff5068;
+          background: #ff4d4f;
           border-radius: 4px;
           display: flex;
           align-items: center;

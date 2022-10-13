@@ -33,7 +33,7 @@
             type="collection"
             :activeNum="activeQid"
             :qidArr="qidArr"
-            :configkey="configkey"
+            :hasPracticeIds="configkey"
             @change="changeQid"
           ></NumberSheet>
         </div>
@@ -50,85 +50,83 @@
               </template>
             </div>
             <div class="collection-join-box">
-              <div class="question-content">
-                <!-- 单选 -->
-                <question-choice
-                  :num="activeQid"
-                  v-if="question.type === 1"
-                  :wrongBook="true"
-                  :question="question"
-                  :is-correct="false"
-                  @update="questionUpdate"
-                  :score="question.score"
-                  :is-over="showAnswer"
-                  :reply="null"
-                ></question-choice>
+              <!-- 单选 -->
+              <question-choice
+                :num="activeQid"
+                v-if="question.type === 1"
+                :wrongBook="true"
+                :question="question"
+                :is-correct="false"
+                @update="questionUpdate"
+                :score="question.score"
+                :is-over="showAnswer"
+                :reply="null"
+              ></question-choice>
 
-                <!-- 多选 -->
-                <question-select
-                  :num="activeQid"
-                  v-else-if="question.type === 2"
-                  :wrongBook="true"
-                  :question="question"
-                  :is-correct="false"
-                  @update="questionUpdate"
-                  :score="question.score"
-                  :is-over="showAnswer"
-                  :reply="''"
-                ></question-select>
+              <!-- 多选 -->
+              <question-select
+                :num="activeQid"
+                v-else-if="question.type === 2"
+                :wrongBook="true"
+                :question="question"
+                :is-correct="false"
+                @update="questionUpdate"
+                :score="question.score"
+                :is-over="showAnswer"
+                :reply="''"
+              ></question-select>
 
-                <!-- 填空 -->
-                <question-input
-                  :num="activeQid"
-                  v-else-if="question.type === 3"
-                  :wrongBook="true"
-                  :question="question"
-                  :is-correct="false"
-                  @update="questionUpdate"
-                  :score="question.score"
-                  :is-over="showAnswer"
-                  :reply="''"
-                ></question-input>
+              <!-- 填空 -->
+              <question-input
+                :num="activeQid"
+                v-else-if="question.type === 3"
+                :wrongBook="true"
+                :question="question"
+                :is-correct="false"
+                @update="questionUpdate"
+                :score="question.score"
+                :is-over="showAnswer"
+                :reply="''"
+              ></question-input>
 
-                <!-- 问答 -->
-                <question-qa
-                  :num="activeQid"
-                  v-else-if="question.type === 4"
-                  :wrongBook="true"
-                  :question="question"
-                  :is-correct="false"
-                  @update="questionUpdate"
-                  :show-image="false"
-                  :score="question.score"
-                  :is-over="showAnswer"
-                ></question-qa>
+              <!-- 问答 -->
+              <question-qa
+                :num="activeQid"
+                v-else-if="question.type === 4"
+                :wrongBook="true"
+                :question="question"
+                :is-correct="false"
+                @update="questionUpdate"
+                :show-image="false"
+                :score="question.score"
+                :is-over="showAnswer"
+              ></question-qa>
 
-                <!-- 判断 -->
-                <question-judge
-                  :num="activeQid"
-                  v-else-if="question.type === 5"
-                  :wrongBook="true"
-                  :question="question"
-                  :is-correct="false"
-                  :score="question.score"
-                  @update="questionUpdate"
-                  :is-over="showAnswer"
-                  :reply="null"
-                ></question-judge>
+              <!-- 判断 -->
+              <question-judge
+                :num="activeQid"
+                v-else-if="question.type === 5"
+                :wrongBook="true"
+                :question="question"
+                :is-correct="false"
+                :score="question.score"
+                @update="questionUpdate"
+                :is-over="showAnswer"
+                :reply="null"
+              ></question-judge>
 
-                <!-- 题帽题 -->
-                <question-cap
-                  :num="activeQid"
-                  v-else-if="question.type === 6"
-                  :wrongBook="true"
-                  :question="question"
-                  :is-correct="false"
-                  :score="question.score"
-                  :show-image="false"
-                  @update="questionUpdate"
-                  :is-over="showAnswer"
-                ></question-cap>
-              </div>
+              <!-- 题帽题 -->
+              <question-cap
+                :num="activeQid"
+                v-else-if="question.type === 6"
+                :wrongBook="true"
+                :question="question"
+                :is-correct="false"
+                :score="question.score"
+                :show-image="false"
+                @update="questionUpdate"
+                :is-over="showAnswer"
+              ></question-cap>
             </div>
           </template>
           <div
@@ -156,7 +154,7 @@ import QuestionInput from "../../../components/input.vue";
 import QuestionQa from "../../../components/qa.vue";
 import QuestionJudge from "../../../components/judge.vue";
 import QuestionCap from "../../../components/cap.vue";
-import NumberSheet from "../../../components/numbersheet.vue";
+import NumberSheet from "../../../components/numbersheetV2.vue";
 import FilterTwoClass from "../../../components/exam-play-categories.vue";
 import SkeletonPaperNav from "../../../components/skeleton/skeletonPaperNav.vue";
 import None from "@/components/none.vue";
@@ -190,12 +188,15 @@ export default {
       navLoading: false,
       cid: 0,
       child: 0,
+      answer_content: [],
+      toastActive: true,
     };
   },
   mounted() {
     this.navLoading = true;
     this.getParams();
     this.getData();
+    this.keyDown();
   },
   watch: {
     activeQid() {
@@ -205,9 +206,36 @@ export default {
     },
   },
   methods: {
+    keyDown() {
+      document.onkeydown = (e) => {
+        let e1 =
+          e || event || window.event || arguments.callee.caller.arguments[0];
+
+        //键盘按键判断:左箭头-37;上箭头-38；右箭头-39;下箭头-40
+        if (this.loading) {
+          return;
+        }
+        if (e1 && e1.keyCode == 37) {
+          if (this.activeQid === 1) {
+            this.$message.error("没有上一题了");
+          } else {
+            this.activeQid--;
+          }
+        } else if (e1 && e1.keyCode == 39) {
+          if (this.activeQid === this.qidArr.length) {
+            this.$message.error("没有下一题了");
+          } else {
+            this.activeQid++;
+          }
+        }
+      };
+    },
     filterChange(cid1, cid2) {
       this.cid = cid1;
       this.child = cid2;
+      this.showAnswer = false;
+      this.showText = "对答案";
+      this.activeQid = 1;
       this.getData();
     },
     getParams() {
@@ -217,17 +245,27 @@ export default {
         this.navLoading = false;
         let categories_count = res.data.categories_count;
         let categories = res.data.categories;
+        let count = 0;
         for (let i = 0; i < categories.length; i++) {
           categories[i].name =
             categories[i].name + "(" + categories_count[categories[i].id] + ")";
+          count = count + categories_count[categories[i].id];
           if (categories[i].children.length > 0) {
             let children = categories[i].children;
             for (let j = 0; j < children.length; j++) {
               children[j].name =
                 children[j].name + "(" + categories_count[children[j].id] + ")";
             }
+            categories[i].children.unshift({
+              id: 0,
+              name: "全部(" + categories_count[categories[i].id] + ")",
+            });
           }
         }
+        categories.unshift({
+          id: 0,
+          name: "全部(" + count + ")",
+        });
         this.categories = categories;
       });
     },
@@ -235,18 +273,32 @@ export default {
       this.activeQid = val;
     },
     prevPage() {
+      if (this.toastActive) {
+        this.$message.info("可通过键盘← →方向键快速切题哦！");
+      }
+      if (this.loading) {
+        return;
+      }
       if (this.activeQid === 1) {
         this.$message.error("没有上一题了");
       } else {
         this.activeQid--;
       }
+      this.toastActive = false;
     },
     nextPage() {
+      if (this.toastActive) {
+        this.$message.info("可通过键盘← →方向键快速切题哦！");
+      }
+      if (this.loading) {
+        return;
+      }
       if (this.activeQid === this.qidArr.length) {
         this.$message.error("没有下一题了");
       } else {
         this.activeQid++;
       }
+      this.toastActive = false;
     },
     getData() {
       if (this.loading) {
@@ -263,16 +315,10 @@ export default {
           this.question = res.data.first_question;
           this.qidArr = res.data.questions_ids;
           this.collectStatus();
-          for (var i = 0; i < this.qidArr.length; i++) {
-            this.configkey.push(false);
-          }
         })
         .catch((e) => {
           this.loading = false;
-          this.activeQid = 1;
-          this.qidArr = [];
-          this.question = null;
-          // this.$message.error(e.message);
+          this.$message.error(e.message);
         });
     },
     getQuestion() {
@@ -281,7 +327,11 @@ export default {
       }
       this.loading = true;
       this.question = null;
+      this.answer_content = [];
       let questionId = this.qidArr[this.activeQid - 1];
+      if (!questionId) {
+        return;
+      }
       this.$api.Exam.NewQuestion(questionId, {
         from: "collection",
       })
@@ -320,6 +370,14 @@ export default {
         () => {
           if (this.isCollected) {
             this.$message.success("已取消收藏");
+            this.qidArr.splice(this.activeQid - 1, 1);
+            if (this.activeQid > this.qidArr.length) {
+              this.activeQid--;
+            } else {
+              this.showAnswer = false;
+              this.showText = "对答案";
+              this.getQuestion();
+            }
           } else {
             this.$message.success("已收藏试题");
           }
@@ -329,20 +387,32 @@ export default {
     },
     seeAnswer() {
       let questionId = this.qidArr[this.activeQid - 1];
-      this.$set(this.configkey, this.activeQid - 1, true);
+      if (this.configkey.indexOf(questionId) === -1) {
+        this.configkey.push(questionId);
+      }
       if (this.showAnswer === true) {
         this.showText = "对答案";
       } else {
         this.showText = "收起答案";
       }
       this.showAnswer = !this.showAnswer;
-      this.$api.Exam.PracticeQuestionAnswerFill(0, questionId, {}).then(
-        (res) => {
+      if (this.showAnswer) {
+        this.$api.Exam.QuestionAnswerFill(questionId, {
+          answer: this.answer_content,
+          from: "collection",
+        }).then((res) => {
           //
-        }
-      );
+        });
+      }
     },
-    questionUpdate() {
+    questionUpdate(qid, answer, thumbs) {
+      if (this.question && this.question.type === 6) {
+        let data = qid.split("-");
+        let index = parseInt(data[2]);
+        this.answer_content[index] = answer;
+      } else {
+        this.answer_content = answer;
+      }
       if (
         this.question &&
         (this.question.type === 1 || this.question.type === 5)
@@ -446,9 +516,11 @@ export default {
       height: auto;
       float: left;
       border-radius: 8px;
-      overflow: hidden;
+      background: #fff;
     }
     .left-box {
+      position: sticky;
+      top: 100px;
       width: 300px;
       display: flex;
       flex-direction: column;
@@ -489,8 +561,9 @@ export default {
       }
       .buttons-box {
         width: 100%;
+        height: auto;
+        float: left;
         padding: 30px;
-        margin-top: 30px;
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
@@ -498,7 +571,7 @@ export default {
         .see-answer {
           width: 104px;
           height: 40px;
-          background: #ff5068;
+          background: #ff4d4f;
           border-radius: 4px;
           display: flex;
           align-items: center;
