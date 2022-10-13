@@ -241,7 +241,7 @@ export default {
         color: #333333;
         line-height: 16px;
         strong {
-          color: #ff5068;
+          color: #ff4d4f;
         }
       }
     }
@@ -350,14 +350,14 @@ export default {
                 line-height: 14px;
                 span {
                   font-weight: 600;
-                  color: #ff5068;
+                  color: #ff4d4f;
                 }
               }
               .type {
                 height: 14px;
                 font-size: 14px;
                 font-weight: 400;
-                color: #ff5068;
+                color: #ff4d4f;
                 line-height: 14px;
               }
             }
@@ -411,7 +411,7 @@ export default {
             color: #666666;
             line-height: 30px;
             span {
-              color: #ff5068;
+              color: #ff4d4f;
             }
           }
           .right-item {
@@ -473,7 +473,7 @@ export default {
                 line-height: 12px;
                 margin-bottom: 16px;
                 &.red {
-                  color: #ff5068;
+                  color: #ff4d4f;
                 }
               }
               .value {

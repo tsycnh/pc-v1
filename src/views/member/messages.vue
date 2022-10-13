@@ -154,7 +154,7 @@ export default {
         margin-bottom: 30px;
         .btn-title {
           display: inline-block;
-          width: 64px;
+          width: auto;
           height: 16px;
           font-size: 16px;
           font-weight: 600;
@@ -164,7 +164,7 @@ export default {
         }
         .btn-read {
           display: inline-block;
-          width: 56px;
+          width: auto;
           height: 16px;
           font-size: 14px;
           font-weight: 400;
@@ -201,7 +201,7 @@ export default {
             height: 8px;
             top: 6px;
             left: 0;
-            background: #ff5068;
+            background: #ff4d4f;
             border-radius: 50%;
           }
           .cont {

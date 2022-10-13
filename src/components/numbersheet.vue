@@ -4,7 +4,10 @@
       <div
         class="num"
         :class="{
-          active: index + 1 === activeNum || configkey[index],
+          active: index + 1 === activeNum,
+          completed:
+            configkey[index] ||
+            (hasPracticeIds && hasPracticeIds.indexOf(item) !== -1),
           practice: type === 'practice',
           wrongbook: type === 'wrongbook',
           collection: type === 'collection',
@@ -20,7 +23,10 @@
       <div
         class="num"
         :class="{
-          active: index + 1 === activeNum || configkey[index],
+          active: index + 1 === activeNum,
+          completed:
+            configkey[index] ||
+            (hasPracticeIds && hasPracticeIds.indexOf(item) !== -1),
           practice: type === 'practice',
           wrongbook: type === 'wrongbook',
           collection: type === 'collection',
@@ -36,7 +42,7 @@
 </template>
 <script>
 export default {
-  props: ["activeNum", "qidArr", "type", "configkey"],
+  props: ["activeNum", "qidArr", "type", "configkey", "hasPracticeIds"],
   data() {
     return {};
   },
@@ -59,27 +65,45 @@ export default {
     grid-column-gap: 30px;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     .practice {
-      border: 1px solid #e1a500;
-      color: #e1a500;
-      &.active {
+      border: 1px solid #c1c4cb;
+      color: #999999;
+      &.completed {
+        border: 1px solid #e1a500;
         background-color: #e1a500;
         color: #ffffff;
       }
+      &.active {
+        border: 1px solid #e1a500;
+        background-color: rgba(#e1a500, 0.1);
+        color: #e1a500;
+      }
     }
     .collection {
-      border: 1px solid #9355de;
-      color: #9355de;
-      &.active {
-        background-color: #9355de;
+      border: 1px solid #c1c4cb;
+      color: #999999;
+      &.completed {
+        border: 1px solid #3ca7fa;
+        background-color: #3ca7fa;
         color: #ffffff;
+      }
+      &.active {
+        border: 1px solid #3ca7fa;
+        background-color: rgba(#3ca7fa, 0.1);
+        color: #3ca7fa;
       }
     }
     .wrongbook {
-      border: 1px solid #ff5068;
-      color: #ff5068;
-      &.active {
-        background-color: #ff5068;
+      border: 1px solid #c1c4cb;
+      color: #999999;
+      &.completed {
+        border: 1px solid #3ca7fa;
+        background-color: #3ca7fa;
         color: #ffffff;
+      }
+      &.active {
+        border: 1px solid #3ca7fa;
+        background-color: rgba(#3ca7fa, 0.1);
+        color: #3ca7fa;
       }
     }
     .num {
@@ -103,27 +127,46 @@ export default {
     gap: 23px;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     .practice {
-      border: 1px solid #e1a500;
-      color: #e1a500;
-      &.active {
+      border: 1px solid #c1c4cb;
+      color: #999999;
+      &.completed {
+        border: 1px solid #e1a500;
         background-color: #e1a500;
         color: #ffffff;
       }
+      &.active {
+        border: 1px solid #e1a500;
+        background-color: rgba(#e1a500, 0.1);
+        color: #e1a500;
+      }
     }
     .collection {
-      border: 1px solid #9355de;
-      color: #9355de;
-      &.active {
+      border: 1px solid #c1c4cb;
+      color: #999999;
+
+      &.completed {
+        border: 1px solid #9355de;
         background-color: #9355de;
         color: #ffffff;
       }
+      &.active {
+        border: 1px solid #9355de;
+        background-color: rgba(#9355de, 0.1);
+        color: #9355de;
+      }
     }
     .wrongbook {
-      border: 1px solid #ff5068;
-      color: #ff5068;
-      &.active {
-        background-color: #ff5068;
+      border: 1px solid #c1c4cb;
+      color: #999999;
+      &.completed {
+        border: 1px solid #ff4d4f;
+        background-color: #ff4d4f;
         color: #ffffff;
+      }
+      &.active {
+        border: 1px solid #ff4d4f;
+        background-color: rgba(#ff4d4f, 0.1);
+        color: #ff4d4f;
       }
     }
     .num {

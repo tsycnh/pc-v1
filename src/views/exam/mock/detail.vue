@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="nav">
-      <a @click="$router.push({ name: 'Exam' })">在线考试</a> /
+      <a @click="$router.push({ name: 'Exam' })">考试练习</a> /
       <a @click="$router.push({ name: 'ExamMockPapers' })">模拟考试</a> /
       <span> {{ list.title }} </span>
     </div>
@@ -386,7 +386,7 @@ export default {
             color: #333333;
             line-height: 14px;
             &.red {
-              color: #ff5068;
+              color: #ff4d4f;
             }
           }
           .item-pro {
@@ -397,7 +397,7 @@ export default {
             color: #333333;
             line-height: 14px;
             &.red {
-              color: #ff5068;
+              color: #ff4d4f;
             }
           }
           .item-status {
@@ -409,7 +409,7 @@ export default {
             line-height: 14px;
             cursor: pointer;
             &.red {
-              color: #ff5068;
+              color: #ff4d4f;
             }
           }
         }

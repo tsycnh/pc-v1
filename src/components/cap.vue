@@ -19,11 +19,46 @@
       >
     </div>
     <div class="question-content">
+      <div class="content-render">
+        {{ question.content_transform.header_transform.text }}
+      </div>
       <div
-        @click="PreviewImage($event)"
-        class="content-render"
-        v-html="header"
-      ></div>
+        class="images-render"
+        v-if="
+          question.content_transform.header_transform.images.length > 0 ||
+            question.content_transform.header_transform.iframes.length > 0
+        "
+      >
+        <template
+          v-if="question.content_transform.header_transform.images.length > 0"
+        >
+          <div
+            class="thumb-bar"
+            v-for="(thumb, index) in question.content_transform.header_transform
+              .images"
+            :key="index + 'thumb'"
+            @click="newPreviewImage(thumb)"
+          >
+            <thumb-bar
+              :value="thumb"
+              :width="200"
+              :height="200"
+              :border="8"
+            ></thumb-bar>
+          </div>
+        </template>
+        <template
+          v-if="question.content_transform.header_transform.iframes.length > 0"
+        >
+          <div
+            class="iframe-bar"
+            v-for="(iframe, index) in question.content_transform
+              .header_transform.iframes"
+            :key="index + 'iframe'"
+            v-html="iframe"
+          ></div>
+        </template>
+      </div>
     </div>
     <div class="choice-box">
       <template v-for="(item, index) in questions">
@@ -33,7 +68,6 @@
             <question-choice
               v-if="item.type === 1"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="null"
               :score="item.score"
@@ -47,7 +81,6 @@
             <question-select
               v-else-if="item.type === 2"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="null"
               :score="item.score"
@@ -61,7 +94,6 @@
             <question-input
               v-else-if="item.type === 3"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="null"
               :score="item.score"
@@ -75,7 +107,6 @@
             <question-qa
               v-else-if="item.type === 4"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="null"
               :thumbs="[]"
@@ -91,7 +122,6 @@
             <question-judge
               v-else-if="item.type === 5"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :score="item.score"
               :is-correct="0"
@@ -107,7 +137,6 @@
             <question-choice
               v-if="item.type === 1"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="answers[index].answer"
               :score="answers[index].score"
@@ -121,9 +150,8 @@
             <question-select
               v-else-if="item.type === 2"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
-              :reply="answers[index].answer"
+              :reply="answers[index].answer_contents_rows"
               :score="answers[index].score"
               @update="questionUpdate"
               :is-correct="answers[index].is_correct"
@@ -135,9 +163,8 @@
             <question-input
               v-else-if="item.type === 3"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
-              :reply="answers[index].answer"
+              :reply="answers[index].answer_contents_rows"
               :score="answers[index].score"
               @update="questionUpdate"
               :is-correct="answers[index].is_correct"
@@ -149,7 +176,6 @@
             <question-qa
               v-else-if="item.type === 4"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :reply="answers[index].answer"
               :thumbs="answers[index]['thumbs']"
@@ -165,12 +191,11 @@
             <question-judge
               v-else-if="item.type === 5"
               :num="index + 1"
-              :spcolor="true"
               :question="item"
               :score="answers[index].score"
               :is-correct="answers[index].is_correct"
               @update="questionUpdate"
-              :reply="parseInt(answers[index].answer)"
+              :reply="answers[index].answer_contents_rows"
               :is-over="isOver"
               :wrong-book="wrongBook"
             ></question-judge>
@@ -180,13 +205,73 @@
     </div>
     <template v-if="isOver">
       <div class="analysis-box">
-        <div class="pop-box" v-if="question.remark">
-          <div class="status" v-if="!wrongBook">
-            <span class="error">得分：{{ score }}</span>
+        <div class="answer-box">
+          <div class="content">
+            <div
+              class="answer"
+              v-if="question.answer && question.answer !== ''"
+            >
+              <i></i>答案：{{ question.answer }}
+            </div>
+            <div class="score" v-if="!wrongBook"><i></i>得分：{{ score }}</div>
+          </div>
+          <div
+            class="button"
+            v-if="question.remark && question.remark !== ''"
+            @click="remarkStatus = !remarkStatus"
+          >
+            <span v-if="remarkStatus">折叠解析</span>
+            <span v-else>展开解析</span>
+            <img
+              class="icon"
+              v-if="remarkStatus"
+              src="../assets/img/exam/fold.png"
+            />
+            <img class="icon" v-else src="../assets/img/exam/unfold.png" />
+          </div>
+        </div>
+        <div
+          class="remark-box"
+          v-if="remarkStatus && question.remark && question.remark !== ''"
+        >
+          <div class="left-remark">
+            <div class="tit"><i></i>解析：</div>
           </div>
           <div class="remark">
-            <div>解析：</div>
-            <div v-html="question.remark"></div>
+            <div class="content-render">
+              {{ question.remark_transform.text }}
+            </div>
+            <div
+              class="images-render"
+              v-if="
+                question.remark_transform.images.length > 0 ||
+                  question.remark_transform.iframes.length > 0
+              "
+            >
+              <template v-if="question.remark_transform.images.length > 0">
+                <div
+                  class="thumb-bar"
+                  v-for="(thumb, index) in question.remark_transform.images"
+                  :key="index + 'thumb'"
+                  @click="newPreviewImage(thumb)"
+                >
+                  <thumb-bar
+                    :value="thumb"
+                    :width="200"
+                    :height="200"
+                    :border="8"
+                  ></thumb-bar>
+                </div>
+              </template>
+              <template v-if="question.remark_transform.iframes.length > 0">
+                <div
+                  class="iframe-bar"
+                  v-for="(iframe, index) in question.remark_transform.iframes"
+                  :key="index + 'iframe'"
+                  v-html="iframe"
+                ></div>
+              </template>
+            </div>
           </div>
         </div>
       </div>
@@ -223,20 +308,17 @@ export default {
       header: null,
       questions: [],
       answers: [],
-      typeMap: {
-        1: "单选",
-        2: "多选",
-        3: "填空",
-        4: "问答",
-        5: "判断",
-      },
       previewImage: false,
       thumb: null,
+      remarkStatus: false,
     };
   },
   mounted() {
     this.questionParse();
     this.replyParse();
+    if (this.wrongBook) {
+      this.remarkStatus = true;
+    }
   },
   watch: {
     question() {
@@ -262,7 +344,6 @@ export default {
         for (let i = 0; i < content.questions.length; i++) {
           let tmp = content.questions[i];
           tmp.id = this.question.id + "-cap-" + i;
-          tmp.type_text = this.typeMap[tmp.type];
           tmp.level_text = "";
           questions.push(tmp);
         }
@@ -271,7 +352,7 @@ export default {
     },
     replyParse() {
       if (this.reply) {
-        let content = JSON.parse(this.reply);
+        let content = this.reply;
         this.answers = content;
       }
     },
@@ -287,6 +368,10 @@ export default {
         this.previewImage = true;
       }
     },
+    newPreviewImage(src) {
+      this.thumb = src;
+      this.previewImage = true;
+    },
   },
 };
 </script>
@@ -294,6 +379,8 @@ export default {
 .spbackground {
   background-color: #fff;
   width: 100%;
+  float: left;
+  height: auto;
   .preview-image {
     width: 100%;
     height: 100%;
@@ -346,6 +433,7 @@ export default {
   }
   .question-content {
     width: 100%;
+    float: left;
     height: auto;
     font-size: 15px;
     font-weight: 400;
@@ -371,6 +459,7 @@ export default {
       display: flex;
       flex-direction: column;
       background-color: #fff;
+      border-top: 1px dashed #ddd;
     }
   }
   .analysis-box {

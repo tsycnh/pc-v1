@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="nav">
-      <a @click="$router.push({ name: 'Exam' })">在线考试</a> /
+      <a @click="$router.push({ name: 'Exam' })">考试练习</a> /
       <a @click="$router.push({ name: 'ExamPractice' })">练习模式</a> /
       <span> {{ list.name }} </span>
     </div>
@@ -28,7 +28,7 @@
               购买练习 ￥{{ list.charge }}
             </div>
             <div v-if="can_join" class="button join" @click="join()">
-              立即练习
+              每日20题
             </div>
           </div>
         </template>
@@ -140,6 +140,7 @@ export default {
         this.$message.error("无权限参与");
         return;
       }
+
       this.$router.push({
         name: "ExamPracticePlay",
         query: {
@@ -155,6 +156,10 @@ export default {
       }
       if (this.can_join === false) {
         this.$message.error("无权限参与");
+        return;
+      }
+      if (this.list.question_count === 0) {
+        this.$message.error("当前练习为空");
         return;
       }
       this.$router.push({
@@ -371,7 +376,7 @@ export default {
           color: #333333;
           line-height: 14px;
           &.red {
-            color: #ff5068;
+            color: #ff4d4f;
           }
         }
         .item-pro {
@@ -381,7 +386,7 @@ export default {
           color: #333333;
           line-height: 14px;
           &.red {
-            color: #ff5068;
+            color: #ff4d4f;
           }
         }
         .item-status {
@@ -393,7 +398,7 @@ export default {
           line-height: 14px;
           cursor: pointer;
           &.red {
-            color: #ff5068;
+            color: #ff4d4f;
           }
         }
       }

@@ -3,7 +3,7 @@
     <div class="box">
       <nav-member :cid="10"></nav-member>
       <div class="project-box">
-        <div class="tabs">
+        <!--<div class="tabs">
           <div
             class="item-tab"
             v-for="(item, index) in tabs"
@@ -15,25 +15,33 @@
             {{ item.name }}
             <div class="actline" v-if="currentTab === item.id"></div>
           </div>
-        </div>
+        </div>-->
+        <div class="btn-title">我的练习</div>
         <template v-if="loading">
           <skeletonMemberPaper></skeletonMemberPaper>
         </template>
         <template v-if="!loading && currentTab === 1">
           <template v-if="list.length > 0">
-            <div
-              class="paper-item-comp"
-              v-for="(item, index) in list"
-              :key="index"
-              @click="goDetail(item.id)"
-            >
-              <div class="title">{{ item.name }}</div>
-              <div class="info">
-                <span>{{ item.question_count }}道题</span>
-                <span class="item">|</span>
-                <span>{{ item.user_count }}人已参与</span>
+            <template v-for="(item, index) in list">
+              <div
+                class="paper-item-comp"
+                v-if="item.practice"
+                :key="index"
+                @click="goDetail(item.pid)"
+              >
+                <div class="title">
+                  <img class="icon" src="@/assets/img/member/practice.png" />
+                  <div class="name">{{ item.practice.name }}</div>
+                </div>
+                <div class="info">
+                  <span style="color: #F4A429;"
+                    >已练习 {{ item.submit_count }}/{{
+                      item.practice_question_count
+                    }}</span
+                  >
+                </div>
               </div>
-            </div>
+            </template>
           </template>
           <none type="white" v-else></none>
         </template>
@@ -45,9 +53,17 @@
               :key="index"
               @click="goCollect(item.question.id)"
             >
-              <div class="title">{{ item.question.content }}</div>
+              <div class="title">
+                <img
+                  class="icon"
+                  src="@/assets/img/member/practice-collects.png"
+                />
+                <div class="name">{{ item.question.content }}</div>
+              </div>
               <div class="info">
-                <span>{{ item.question.type_text }}</span>
+                <span @click.stop="cancelCollect(item.question.id)"
+                  >取消收藏</span
+                >
               </div>
             </div>
           </template>
@@ -111,10 +127,10 @@ export default {
           name: "我的练习",
           id: 1,
         },
-        {
-          name: "收藏习题",
-          id: 2,
-        },
+        // {
+        //   name: "收藏习题",
+        //   id: 2,
+        // },
       ],
     };
   },
@@ -173,7 +189,7 @@ export default {
         return;
       }
       this.loading = true;
-      this.$api.Exam.UserPractice(this.pagination).then((res) => {
+      this.$api.Member.UserPractice(this.pagination).then((res) => {
         this.loading = false;
         this.list = res.data.data;
         this.total1 = res.data.total;
@@ -189,6 +205,12 @@ export default {
         this.loading = false;
         this.collects = res.data.data;
         this.total2 = res.data.total;
+      });
+    },
+    cancelCollect(id) {
+      this.$api.Exam.Practice.Collect({ question_id: id }).then(() => {
+        this.$message.success("已取消收藏");
+        this.getCollects();
       });
     },
   },
@@ -211,6 +233,16 @@ export default {
       border-radius: 8px;
       box-sizing: border-box;
       padding: 30px;
+      .btn-title {
+        width: auto;
+        height: 16px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        line-height: 16px;
+        cursor: pointer;
+        margin-bottom: 50px;
+      }
       .tabs {
         width: 100%;
         height: 34px;
@@ -221,7 +253,7 @@ export default {
         padding: 0px;
         margin-bottom: 30px;
         .item-tab {
-          width: 56px;
+          min-width: 56px;
           height: 14px;
           font-size: 14px;
           font-weight: 400;
@@ -247,22 +279,36 @@ export default {
       }
       .paper-item-comp {
         width: 100%;
-        height: 16px;
+        height: 30px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         cursor: pointer;
+
         .title {
           width: 700px;
-          height: 16px;
-          font-size: 16px;
-          font-weight: 500;
-          color: #333333;
-          line-height: 16px;
+          height: 30px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
           overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+          .icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 30px;
+          }
+          .name {
+            width: 640px;
+            height: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333333;
+            line-height: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
         }
         .info {
           height: 14px;
@@ -277,13 +323,10 @@ export default {
           }
         }
         &:hover {
-          color: #3ca7fa;
-        }
-        &:hover .info {
-          color: #3ca7fa;
+          opacity: 0.8;
         }
         &:not(:last-of-type) {
-          margin-bottom: 50px;
+          margin-bottom: 40px;
         }
       }
       #page {

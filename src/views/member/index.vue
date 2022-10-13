@@ -772,7 +772,7 @@ export default {
           position: absolute;
           top: 30px;
           right: 30px;
-          width: 56px;
+          width: auto;
           height: 14px;
           font-size: 14px;
           font-weight: 400;
@@ -794,7 +794,7 @@ export default {
           padding: 0px;
           margin-bottom: 30px;
           .item-tab {
-            width: 56px;
+            width: auto;
             height: 14px;
             font-size: 14px;
             font-weight: 400;
@@ -939,7 +939,7 @@ export default {
                 }
               }
               .item-btn {
-                width: 56px;
+                width: auto;
                 height: 14px;
                 font-size: 14px;
                 font-weight: 400;

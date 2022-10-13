@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="nav">
-      <a @click="$router.push({ name: 'Exam' })">在线考试</a> /
+      <a @click="$router.push({ name: 'Exam' })">考试练习</a> /
       <span> 试题库 </span>
     </div>
     <div class="banner">
@@ -204,7 +204,7 @@ export default {
   },
 };
 </script>
-<style lang='less' scoped>
+<style lang="less" scoped>
 .content {
   width: 100%;
   .nav {

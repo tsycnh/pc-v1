@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="nav">
-      <a @click="$router.push({ name: 'Exam' })">在线考试</a> /
+      <a @click="$router.push({ name: 'Exam' })">考试练习</a> /
       <span> 练习模式 </span>
     </div>
     <div class="filter-two-class">
@@ -29,7 +29,7 @@
             :userCount="item.user_count"
             :category="item.category"
             :records="userpapers"
-            :is-free="item.is_free"
+            :is-free="item.cur_user_can_join"
             :is-vip-free="item.is_vip_free"
             :questionCount="item.question_count"
           ></practice-item>

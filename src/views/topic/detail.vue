@@ -844,7 +844,7 @@ export default {
               height: 56px;
               padding: 20px;
               box-sizing: border-box;
-              background: #ff5068;
+              background: #ff4d4f;
               border-radius: 4px;
               display: flex;
               justify-content: center;

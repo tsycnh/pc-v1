@@ -126,7 +126,8 @@
             :class="{
               correct: item.is_correct === 1,
               error: item.is_correct === 0,
-              no: item.question.type === 4 || item.question.type === 6,
+              act: item.is_correct === 2,
+              no: item.is_correct === 3,
             }"
             v-for="(item, index) in questions"
             :key="index"
@@ -172,7 +173,7 @@
                 :num="index + 1"
                 v-else-if="question.question.type === 2"
                 :question="question.question"
-                :reply="question.answer_content"
+                :reply="question.answer_contents_rows"
                 :score="question.score"
                 :is-correct="question.is_correct"
                 @update="questionUpdate"
@@ -184,7 +185,7 @@
                 :num="index + 1"
                 v-else-if="question.question.type === 3"
                 :question="question.question"
-                :reply="question.answer_content"
+                :reply="question.answer_contents_rows"
                 :score="question.score"
                 :is-correct="question.is_correct"
                 @update="questionUpdate"
@@ -212,7 +213,7 @@
                 :question="question.question"
                 :score="question.score"
                 :is-correct="question.is_correct"
-                :reply="parseInt(question.answer_content)"
+                :reply="question.answer_contents_rows"
                 @update="questionUpdate"
                 :is-over="userPaper.status === 2"
               ></question-judge>
@@ -224,8 +225,8 @@
                 :question="question.question"
                 :score="question.score"
                 :show-image="true"
-                :is-correct="false"
-                :reply="question.answer_content"
+                :is-correct="question.is_correct"
+                :reply="question.answer_contents_rows"
                 @update="questionUpdate"
                 :is-over="userPaper.status === 2"
               ></question-cap>
@@ -346,13 +347,37 @@ export default {
         question_id: qid,
       });
       if (typeof qid == "string" && qid.indexOf("-") != -1) {
-        this.$set(
-          this.activeQuestions,
-          qid.substring(0, qid.indexOf("-")),
-          true
-        );
+        if (answer === "") {
+          if (thumbs && thumbs.length > 0) {
+            this.$set(
+              this.activeQuestions,
+              qid.substring(0, qid.indexOf("-")),
+              true
+            );
+          } else {
+            this.$set(
+              this.activeQuestions,
+              qid.substring(0, qid.indexOf("-")),
+              false
+            );
+          }
+        } else {
+          this.$set(
+            this.activeQuestions,
+            qid.substring(0, qid.indexOf("-")),
+            true
+          );
+        }
       } else {
-        this.$set(this.activeQuestions, qid, true);
+        if (answer === "") {
+          if (thumbs && thumbs.length > 0) {
+            this.$set(this.activeQuestions, qid, true);
+          } else {
+            this.$set(this.activeQuestions, qid, false);
+          }
+        } else {
+          this.$set(this.activeQuestions, qid, true);
+        }
       }
       let num = 0;
       for (let i = 0; i < this.activeQuestions.length; i++) {
@@ -404,7 +429,7 @@ export default {
           document.title = res.data.paper.title;
           this.userPaper = res.data.user_paper;
           this.remainingTime.all = Date.parse(
-            new Date(res.data.user_paper.ended_at)
+            new Date(res.data.user_paper.ended_at.replace(/-/g, "/"))
           );
           let normaldata = res.data.questions;
           if (normaldata.length === 0) {
@@ -628,10 +653,15 @@ export default {
             color: #fff;
             background: #f63b46;
           }
-          &.no {
+          &.act {
             border: none;
             color: #fff;
             background: #fa8c16;
+          }
+          &.no {
+            border: none;
+            color: #fff;
+            background: #999999;
           }
           &.active {
             border: none;
@@ -728,7 +758,7 @@ export default {
         padding: 23px 23px 0px 30px;
         overflow: hidden;
         .item-tab {
-          width: 72px;
+          min-width: 72px;
           height: 18px;
           font-size: 18px;
           font-weight: 500;

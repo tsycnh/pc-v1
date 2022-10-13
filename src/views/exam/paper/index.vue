@@ -1,8 +1,8 @@
 <template>
   <div class="content">
     <div class="nav">
-      <a @click="$router.push({ name: 'Exam' })">在线考试</a> /
-      <span> 考试中心 </span>
+      <a @click="$router.push({ name: 'Exam' })">考试练习</a> /
+      <span> 在线考试 </span>
     </div>
     <div class="filter-two-class">
       <filter-two-class
@@ -28,6 +28,7 @@
             :title="item.title"
             :charge="item.charge"
             :records="userpapers"
+            :isFree="item.cur_user_can_join"
             :expiredMinutes="item.expired_minutes"
             :questionsCount="item.questions_count"
           ></paper-item>

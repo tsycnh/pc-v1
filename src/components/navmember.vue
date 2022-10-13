@@ -93,6 +93,12 @@ export default {
               path: "MemberPractice",
               status: this.configFunc["practice"],
             },
+            {
+              name: "收藏习题",
+              id: 17,
+              path: "ExamCollection",
+              status: this.configFunc["practice"],
+            },
           ],
         },
         {
@@ -256,7 +262,7 @@ export default {
           position: absolute;
           width: 8px;
           height: 8px;
-          background: #ff5068;
+          background: #ff4d4f;
           border-radius: 50%;
           top: 18px;
           left: 12px;

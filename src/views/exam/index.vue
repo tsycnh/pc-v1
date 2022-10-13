@@ -1,38 +1,39 @@
 <template>
   <div class="content">
     <div class="first-box">
-      <div class="tit">考试大厅</div>
       <div class="model">
         <div class="left-model" @click="goPaper()">
-          <div class="title">考试中心</div>
-          <div class="info">在线真题考试</div>
+          <div class="title">在线考试</div>
+          <div class="info">{{ list.papers_count }}套试卷</div>
           <img class="icon" src="../../assets/img/commen/test.png" />
         </div>
         <div class="right-model">
           <div class="small-model mockpaper" @click="goMock()">
             <div class="title">模拟考试</div>
-            <div class="info">模拟卷考试</div>
+            <div class="info">{{ list.mock_papers_count }}套试卷</div>
             <img class="icon" src="../../assets/img/commen/virtual-test.png" />
           </div>
-          <div class="small-model wrongbook" @click="goWrong()">
-            <div class="title">考试错题本</div>
-            <div class="info">真题模拟考试错题都在这里</div>
-            <img class="icon" src="../../assets/img/commen/wrong-book.png" />
+          <div class="small-model practice" @click="goPractice()">
+            <div class="title">练习模式</div>
+            <div class="info">
+              {{ list.practices_count }}套练习
+              {{ list.practice_chapters_count }}个章节
+            </div>
+            <img class="icon" src="../../assets/img/commen/practice.png" />
           </div>
         </div>
       </div>
     </div>
     <div class="second-box">
-      <div class="tit">强化练习</div>
       <div class="model">
-        <div class="small-model practice" @click="goPractice()">
-          <div class="title">练习模式</div>
-          <div class="info">一边练习一边对答案</div>
-          <img class="icon" src="../../assets/img/commen/practice.png" />
+        <div class="small-model wrongbook" @click="goWrong()">
+          <div class="title">考试错题本</div>
+          <div class="info">{{ list.wrong_book_count }}道题</div>
+          <img class="icon" src="../../assets/img/commen/wrong-book.png" />
         </div>
         <div class="small-model collect" @click="goCollect()">
           <div class="title">收藏习题</div>
-          <div class="info">收藏练习题随时巩固</div>
+          <div class="info">{{ list.collection_count }}道题</div>
           <img class="icon" src="../../assets/img/commen/collect-paper.png" />
         </div>
       </div>
@@ -60,15 +61,34 @@ export default {
   data() {
     return {
       loading: false,
-      list: [],
+      list: {
+        collection_count: 0,
+        mock_papers_count: 0,
+        papers_count: 0,
+        practice_chapters_count: 0,
+        practices_count: 0,
+        wrong_book_count: 0,
+      },
     };
   },
   computed: {
     ...mapState(["isLogin", "user"]),
   },
-  mounted() {},
+  mounted() {
+    this.getData();
+  },
   methods: {
     ...mapMutations(["showLoginDialog", "changeDialogType"]),
+    getData() {
+      if (this.loading) {
+        return;
+      }
+      this.loading = true;
+      this.$api.Exam.List().then((res) => {
+        this.loading = false;
+        this.list = res.data;
+      });
+    },
     goLogin() {
       this.changeDialogType(1);
       this.showLoginDialog();
@@ -125,13 +145,12 @@ export default {
   .first-box {
     width: 1200px;
     margin: 0 auto;
-    height: 506px;
+    height: auto;
     background: #ffffff;
-    border-radius: 8px;
+    border-radius: 8px 8px 0px 0px;
     box-sizing: border-box;
-    padding: 27px 30px 30px 30px;
+    padding: 30px 30px 0px 30px;
     margin-top: 30px;
-
     .tit {
       width: 100%;
       height: 22px;
@@ -237,8 +256,9 @@ export default {
             );
             margin-bottom: 30px;
           }
-          &.wrongbook {
-            background: linear-gradient(315deg, #ff7474 0%, #ff4040 100%);
+
+          &.practice {
+            background: linear-gradient(315deg, #f7b433 0%, #ed8917 100%);
           }
           &:hover {
             box-shadow: 0px 4px 8px 0px rgba(102, 102, 102, 0.1);
@@ -250,12 +270,11 @@ export default {
   .second-box {
     width: 1200px;
     margin: 0 auto;
-    height: 291px;
+    height: auto;
     background: #ffffff;
-    border-radius: 8px;
+    border-radius: 0px 0px 8px 8px;
     box-sizing: border-box;
-    padding: 27px 30px 30px 30px;
-    margin-top: 30px;
+    padding: 30px 30px 30px 30px;
     .tit {
       width: 100%;
       height: 22px;
@@ -344,8 +363,8 @@ export default {
           top: 30px;
           right: 50px;
         }
-        &.practice {
-          background: linear-gradient(315deg, #f7b433 0%, #ed8917 100%);
+        &.wrongbook {
+          background: linear-gradient(315deg, #ff7474 0%, #ff4040 100%);
           margin-right: 30px;
         }
         &.collect {

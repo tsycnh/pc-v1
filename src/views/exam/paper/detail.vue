@@ -1,8 +1,8 @@
 <template>
   <div class="content">
     <div class="nav">
-      <a @click="$router.push({ name: 'Exam' })">在线考试</a> /
-      <a @click="$router.push({ name: 'ExamPapers' })">考试中心</a> /
+      <a @click="$router.push({ name: 'Exam' })">考试练习</a> /
+      <a @click="$router.push({ name: 'ExamPapers' })">在线考试</a> /
       <span> {{ list.title }} </span>
     </div>
     <div class="contanier">
@@ -103,7 +103,7 @@ export default {
   },
   computed: {
     ...mapState(["isLogin", "user"]),
-    sumQuestion: function () {
+    sumQuestion: function() {
       let val = 0;
       for (var key in this.questions) {
         val = val + this.questions[key].length;
@@ -396,7 +396,7 @@ export default {
             color: #333333;
             line-height: 14px;
             &.red {
-              color: #ff5068;
+              color: #ff4d4f;
             }
           }
           .item-pro {
@@ -407,7 +407,7 @@ export default {
             color: #333333;
             line-height: 14px;
             &.red {
-              color: #ff5068;
+              color: #ff4d4f;
             }
           }
           .item-status {
@@ -419,7 +419,7 @@ export default {
             line-height: 14px;
             cursor: pointer;
             &.red {
-              color: #ff5068;
+              color: #ff4d4f;
             }
           }
         }

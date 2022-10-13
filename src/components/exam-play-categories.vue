@@ -5,9 +5,6 @@
         <div class="box">
           <div class="label">分类：</div>
           <div class="item-box">
-            <div class="item" :class="{ active: id1 === 0 }" @click="setCid(0)">
-              全部
-            </div>
             <div
               class="item"
               :class="{ active: id1 === item.id }"
@@ -29,13 +26,6 @@
         >
           <div class="label">标签：</div>
           <div class="item-box">
-            <div
-              class="item"
-              :class="{ active: id2 === 0 }"
-              @click="setCid2(0)"
-            >
-              全部
-            </div>
             <div
               class="item"
               :class="{ active: id2 === item2.id }"
@@ -136,7 +126,7 @@ export default {
         display: flex;
         flex-direction: row;
         .label {
-          width: 42px;
+          width: auto;
           height: 14px;
           font-size: 14px;
           font-weight: 400;
@@ -178,7 +168,7 @@ export default {
         flex-direction: row;
         margin-top: 25px;
         .label {
-          width: 42px;
+          width: auto;
           height: 24px;
           font-size: 14px;
           font-weight: 400;

@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="nav">
-      <a @click="$router.push({ name: 'Exam' })">在线考试</a> /
+      <a @click="$router.push({ name: 'Exam' })">考试练习</a> /
       <span> 考试错题本 </span>
     </div>
     <div class="banner">
@@ -216,7 +216,7 @@ export default {
         justify-content: center;
         font-size: 16px;
         font-weight: 400;
-        color: #ff5068;
+        color: #ff4d4f;
         &:hover {
           opacity: 0.8;
         }

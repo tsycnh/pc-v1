@@ -8,29 +8,36 @@
           <skeletonMemberPaper></skeletonMemberPaper>
         </template>
         <template v-else-if="list.length > 0">
-          <div
-            class="paper-item-comp"
-            v-for="(item, index) in list"
-            :key="index"
-            @click="goDetail(item.id)"
-          >
-            <div class="title">{{ item.title }}</div>
-            <div class="info">
-              <span>总{{ item.score }}分</span>
+          <template v-for="(item, index) in list">
+            <div
+              class="paper-item-comp"
+              v-if="item.paper"
+              :key="index"
+              @click="goDetail(item.paper_id)"
+            >
+              <div class="title">
+                <img class="icon" src="@/assets/img/member/mock.png" />
+                <div class="name">{{ item.paper.title }}</div>
+              </div>
+              <div class="info">
+                <span style="color: #00BBA7;"
+                  >最高得分：{{ item.max_score }}</span
+                >
+                <span class="item">|</span>
+                <span>共{{ item.paper.question_count }}道题</span>
+              </div>
             </div>
+          </template>
+          <div id="page">
+            <page-box
+              :key="pagination.page"
+              :over="over"
+              :page="pagination.page"
+              @current-change="changepage"
+            ></page-box>
           </div>
         </template>
         <none type="white" v-else></none>
-        <div id="page" v-show="list.length > 0">
-          <page-box
-            :key="pagination.page"
-            :page="pagination.page"
-            :totals="total"
-            @current-change="changepage"
-            :pageSize="pagination.size"
-            :tab="false"
-          ></page-box>
-        </div>
       </div>
     </div>
     <nav-footer></nav-footer>
@@ -40,7 +47,7 @@
 import { mapState, mapMutations } from "vuex";
 import NavFooter from "../../components/footer.vue";
 import NavMember from "../../components/navmember.vue";
-import PageBox from "../../components/page.vue";
+import PageBox from "../../components/new-page.vue";
 import None from "../../components/none.vue";
 import SkeletonMemberPaper from "../../components/skeleton/skeletonMemberPaper.vue";
 
@@ -57,11 +64,11 @@ export default {
       loading: false,
       newStatus: false,
       list: [],
-      total: null,
       pagination: {
         page: 1,
         size: 10,
       },
+      over: false,
     };
   },
   computed: {
@@ -74,12 +81,10 @@ export default {
     ...mapMutations(["showLoginDialog", "changeDialogType"]),
     resetData() {
       this.list = [];
-      this.total = null;
       this.pagination.size = 10;
       this.pagination.page = 1;
     },
     changepage(item) {
-      this.pagination.size = item.pageSize;
       this.pagination.page = item.currentPage;
       this.getData();
     },
@@ -96,10 +101,22 @@ export default {
         return;
       }
       this.loading = true;
-      this.$api.Exam.UserMockPaper(this.pagination).then((res) => {
+      this.$api.Member.UserMockPaper(this.pagination).then((res) => {
+        if (res.data.data.length === 0) {
+          if (this.pagination.page > 1) {
+            this.$message.error("没有更多了");
+            this.pagination.page--;
+          }
+          this.over = true;
+        } else {
+          this.list = res.data.data;
+          if (res.data.data.length < this.pagination.size) {
+            this.over = true;
+          } else {
+            this.over = false;
+          }
+        }
         this.loading = false;
-        this.list = res.data.data;
-        this.total = res.data.total;
       });
     },
   },
@@ -130,26 +147,40 @@ export default {
         color: #333;
         line-height: 16px;
         cursor: pointer;
-        margin-bottom: 30px;
+        margin-bottom: 50px;
       }
       .paper-item-comp {
         width: 100%;
-        height: 14px;
+        height: 30px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         cursor: pointer;
+
         .title {
           width: 700px;
-          height: 14px;
-          font-size: 14px;
-          font-weight: 500;
-          color: #333333;
-          line-height: 14px;
+          height: 30px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
           overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+          .icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 30px;
+          }
+          .name {
+            width: 640px;
+            height: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333333;
+            line-height: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
         }
         .info {
           height: 14px;
@@ -164,13 +195,10 @@ export default {
           }
         }
         &:hover {
-          color: #3ca7fa;
-        }
-        &:hover .info {
-          color: #3ca7fa;
+          opacity: 0.8;
         }
         &:not(:last-of-type) {
-          margin-bottom: 30px;
+          margin-bottom: 40px;
         }
       }
       #page {
