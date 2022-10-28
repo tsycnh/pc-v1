@@ -30,11 +30,17 @@ Vue.directive("latex", function(el) {
   el.innerHTML = el.innerHTML.replace(reg3, "");
   el.innerHTML = el.innerHTML.replace(reg4, "");
   window.renderMathInElement(el, {
-    tex: {
-      inlineMath: [["$", "$"]],
-      displayMath: [["$$", "$$"]],
-      processEnvironments: true,
-      processRefs: true,
+    delimiters: [
+      { left: "$$", right: "$$", display: true },
+      { left: "$", right: "$", display: false },
+      { left: "\\(", right: "\\)", display: false },
+      { left: "\\[", right: "\\]", display: true },
+    ],
+    macros: {
+      "\\ge": "\\geqslant",
+      "\\le": "\\leqslant",
+      "\\geq": "\\geqslant",
+      "\\leq": "\\leqslant",
     },
     options: {
       skipHtmlTags: ["noscript", "style", "textarea", "pre", "code"],
@@ -44,5 +50,6 @@ Vue.directive("latex", function(el) {
     svg: {
       fontCache: "global",
     },
+    throwOnError: false,
   });
 });
