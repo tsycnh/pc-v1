@@ -81,6 +81,7 @@
                 class="content-render"
                 @click="PreviewImage($event)"
                 v-html="question['option' + item]"
+                v-latex
               ></div>
             </div>
           </template>
@@ -91,6 +92,7 @@
                 class="content-render"
                 @click="PreviewImage($event)"
                 v-html="question['option' + item]"
+                v-latex
               ></div>
             </div>
           </template>
