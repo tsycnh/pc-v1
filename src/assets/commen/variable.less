@@ -130,8 +130,19 @@ table {
 .md-content ol {
   margin-top: 8px;
   margin-bottom: 8px;
-  padding-left: 25px;
+  padding-left: 1.5em;
   color: black;
+}
+.md-content ol li {
+  counter-reset: myCounter;
+  counter-increment: list-0;
+}
+.md-content ol li:not(.ql-direction-rtl)::before {
+  counter-increment: myCounter;
+  content: counter(myCounter) ". ";
+  margin-left: -1.5em;
+  margin-right: 0.3em;
+  text-align: right;
 }
 .md-content p code,
 .md-content li code {

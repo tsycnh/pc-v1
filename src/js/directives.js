@@ -14,7 +14,7 @@ Vue.filter("dateFormat", function(dateStr, pattern = "YYYY-MM-DD HH:mm") {
 });
 
 Vue.directive("code", function(el) {
-  let blocks = el.querySelectorAll("pre code");
+  let blocks = el.querySelectorAll("pre") || el.querySelectorAll("code");
   blocks.forEach((block) => {
     window.hljs.highlightBlock(block);
   });
