@@ -19,7 +19,9 @@
       >
     </div>
     <div class="question-content">
-      <div class="content-render">{{ question.content_transform.text }}</div>
+      <div class="content-render" v-latex>
+        {{ question.content_transform.text }}
+      </div>
       <div
         class="images-render"
         v-if="
@@ -135,7 +137,7 @@
             <div class="tit"><i></i>解析：</div>
           </div>
           <div class="remark">
-            <div class="content-render">
+            <div class="content-render" v-latex>
               {{ question.remark_transform.text }}
             </div>
             <div

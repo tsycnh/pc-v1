@@ -107,6 +107,7 @@
             <div class="line"></div>
             <div
               v-code
+              v-latex
               v-html="list.render_content"
               class="u-content md-content"
             ></div>
