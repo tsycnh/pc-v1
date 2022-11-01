@@ -2,7 +2,14 @@
   <div class="content">
     <div class="mask" v-show="dialogStatus">
       <div class="dialog-box">
-        <div class="dialog-title">兑换课程</div>
+        <div class="dialog-tabs">
+          <div class="item-tab">兑换课程</div>
+          <img
+            class="btn-close"
+            @click="cancel()"
+            src="@/assets/img/commen/icon-close.png"
+          />
+        </div>
         <div class="info">
           <div class="input-item">
             <input
@@ -24,8 +31,8 @@
           </div>
         </div>
         <div class="btn-box">
+          <div class="btn-submit" @click="withdraw()">确认兑换</div>
           <div class="btn-cancel" @click="cancel()">取消</div>
-          <div class="btn-submit" @click="withdraw()">兑换</div>
         </div>
       </div>
     </div>
@@ -196,27 +203,50 @@ export default {
     justify-content: center;
     z-index: 100;
     .dialog-box {
-      width: 400px;
-      height: 260px;
+      width: 500px;
+      height: auto;
       background: #ffffff;
       border-radius: 8px;
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
-      padding: 30px;
-      .dialog-title {
+      animation: scaleBig 0.3s;
+      .dialog-tabs {
         width: 100%;
-        height: 16px;
-        font-size: 16px;
-        font-weight: 600;
-        color: #333333;
-        line-height: 16px;
-        margin-bottom: 30px;
-        text-align: center;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        box-sizing: border-box;
+        padding: 30px;
+        .btn-close {
+          width: 16.25px;
+          height: 16.25px;
+          position: absolute;
+          right: 22px;
+          top: 32px;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 0.8;
+            animation: rotate360 1s;
+          }
+        }
+        .item-tab {
+          width: auto;
+          height: 20px;
+          font-size: 18px;
+          font-weight: 500;
+          color: #333333;
+          line-height: 20px;
+        }
       }
       .info {
         width: 100%;
-
+        height: auto;
+        float: left;
+        box-sizing: border-box;
+        padding: 20px 30px;
         .tit {
           width: 100%;
           height: 14px;
@@ -264,17 +294,19 @@ export default {
       }
       .btn-box {
         width: 100%;
-        height: 70px;
+        height: 74px;
+        background: #ffffff;
+        box-shadow: 0px -2px 4px 0px rgba(102, 102, 102, 0.05);
+        border-radius: 0px 0px 8px 8px;
         display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+        flex-direction: row-reverse;
         box-sizing: border-box;
-        padding: 15px;
+        padding: 15px 30px;
         .btn-cancel {
           width: 88px;
-          height: 40px;
+          height: 44px;
           border-radius: 4px;
-          border: 1px solid #e5e5e5;
+          border: 1px solid #cccccc;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -282,13 +314,14 @@ export default {
           font-size: 14px;
           font-weight: 400;
           color: #333333;
+          margin-right: 30px;
           &:hover {
             opacity: 0.8;
           }
         }
         .btn-submit {
-          width: 88px;
-          height: 40px;
+          width: 116px;
+          height: 44px;
           border-radius: 4px;
           background-color: #3ca7fa;
           display: flex;

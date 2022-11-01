@@ -2,12 +2,12 @@
   <div class="ms-comp" v-if="ms.data">
     <div class="mask" v-if="status">
       <div class="dialog-login-box">
-        <div class="tabs">
-          <div class="item-tab active">秒杀活动</div>
+        <div class="dialog-tabs">
+          <div class="item-tab">秒杀活动</div>
           <img
             class="btn-close"
             @click="cancel()"
-            src="../assets/img/commen/icon-close.png"
+            src="@/assets/img/commen/icon-close.png"
           />
         </div>
         <div class="box">
@@ -29,11 +29,10 @@
               />
             </div>
           </div>
-          <div class="btn-box" style="margin-bottom: 0px !important">
-            <button type="submit" class="submit" @click="confirm">
-              立即秒杀
-            </button>
-          </div>
+        </div>
+        <div class="btn-box" style="margin-bottom: 0px !important">
+          <div class="btn-submit" @click="confirm">立即秒杀</div>
+          <div class="btn-cancel" @click="cancel()">取消</div>
         </div>
       </div>
     </div>
@@ -166,38 +165,29 @@ export default {
     z-index: 100;
     .dialog-login-box {
       width: 500px;
-      height: 300px;
+      height: auto;
       background: #ffffff;
       border-radius: 8px;
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
-      padding: 30px;
       animation: scaleBig 0.3s;
-      .tabs {
+      .dialog-tabs {
         width: 100%;
-        height: 44px;
+        height: auto;
         display: flex;
         flex-direction: row;
         position: relative;
-        .linkTab {
-          position: absolute;
-          top: 5px;
-          right: 54px;
-          height: 14px;
-          font-size: 14px;
-          font-weight: 400;
-          color: #3ca7fa;
-          line-height: 14px;
-        }
-
+        box-sizing: border-box;
+        padding: 30px;
         .btn-close {
-          width: 24px;
-          height: 24px;
+          width: 16.25px;
+          height: 16.25px;
           position: absolute;
-          right: 5px;
-          top: 2px;
+          right: 22px;
+          top: 32px;
           cursor: pointer;
+
           &:hover {
             opacity: 0.8;
             animation: rotate360 1s;
@@ -206,31 +196,18 @@ export default {
         .item-tab {
           width: auto;
           height: 20px;
-          font-size: 20px;
+          font-size: 18px;
           font-weight: 500;
-          color: #666666;
+          color: #333333;
           line-height: 20px;
-          margin-right: 50px;
-          cursor: pointer;
-          position: relative;
-          &.active {
-            color: #333333;
-          }
-          .actline {
-            width: 80px;
-            height: 4px;
-            background: #3ca7fa;
-            position: absolute;
-            left: 0px;
-            top: 40px;
-          }
         }
       }
       .box {
         width: 100%;
-        margin-top: 30px;
-        display: flex;
-        flex-direction: column;
+        height: auto;
+        float: left;
+        box-sizing: border-box;
+        padding: 20px 30px;
         .input-item {
           width: 100%;
           margin-bottom: 30px;
@@ -244,9 +221,7 @@ export default {
             border-radius: 4px;
             border: 1px solid #e5e5e5;
             padding-left: 20px;
-            :focus {
-              border-color: #3ca7fa;
-            }
+            outline: none;
           }
           .input-short {
             width: 310px;
@@ -256,9 +231,7 @@ export default {
             border: 1px solid #e5e5e5;
             padding-left: 20px;
             margin-right: 20px;
-            :focus {
-              border-color: #3ca7fa;
-            }
+            outline: none;
           }
           .captcha {
             width: 110px;
@@ -285,23 +258,48 @@ export default {
             }
           }
         }
-
-        .btn-box {
-          width: 100%;
-          margin-bottom: 30px;
-          button {
-            width: 100%;
-            height: 54px;
-            background: #3ca7fa;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: 400;
-            color: #ffffff;
-            line-height: 16px;
-            outline: none;
+      }
+      .btn-box {
+        width: 100%;
+        height: 74px;
+        background: #ffffff;
+        box-shadow: 0px -2px 4px 0px rgba(102, 102, 102, 0.05);
+        border-radius: 0px 0px 8px 8px;
+        display: flex;
+        flex-direction: row-reverse;
+        box-sizing: border-box;
+        padding: 15px 30px;
+        .btn-cancel {
+          width: 88px;
+          height: 44px;
+          border-radius: 4px;
+          border: 1px solid #cccccc;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 400;
+          color: #333333;
+          margin-right: 30px;
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+        .btn-submit {
+          width: 116px;
+          height: 44px;
+          border-radius: 4px;
+          background-color: #3ca7fa;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 400;
+          color: #fff;
+          &:hover {
+            opacity: 0.8;
           }
         }
       }
