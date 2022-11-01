@@ -221,9 +221,7 @@ export default {
             border-radius: 4px;
             border: 1px solid #e5e5e5;
             padding-left: 20px;
-            :focus {
-              border-color: #3ca7fa;
-            }
+            outline: none;
           }
           .input-short {
             width: 310px;
@@ -233,9 +231,7 @@ export default {
             border: 1px solid #e5e5e5;
             padding-left: 20px;
             margin-right: 20px;
-            :focus {
-              border-color: #3ca7fa;
-            }
+            outline: none;
           }
           .captcha {
             width: 110px;
