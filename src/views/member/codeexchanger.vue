@@ -64,12 +64,18 @@
               >练习-{{ item.name }}</span
             >
             <span v-else-if="item.sign === 'vip'">VIP-{{ item.name }}</span>
-            <span class="status" v-if="item.sign === 'vod'">未订阅</span>
-            <span class="status c-red" v-else>已订阅</span>
+            <span class="status c-red" v-if="item.is_subscribe">已订阅</span>
+            <span class="status" v-else>未订阅</span>
           </div>
         </div>
         <div class="btn-box">
-          <div class="btn-submit" @click="exchangeConfirm()">确认兑换</div>
+          <div
+            class="btn-submit"
+            :class="{ disabled: !buttonStatus }"
+            @click="exchangeConfirm()"
+          >
+            确认兑换
+          </div>
           <div class="btn-cancel" @click="confirmCancel()">取消</div>
         </div>
       </div>
@@ -178,6 +184,7 @@ export default {
       confirmStatus: false,
       queryList: null,
       status: false,
+      buttonStatus: false,
     };
   },
   computed: {
@@ -283,12 +290,21 @@ export default {
       this.status = false;
     },
     exchangeConfirm() {
-      this.form.captcha = null;
-      this.getCaptcha();
-      this.dialogStatus = true;
-      this.verifyStatus = true;
-      this.confirmStatus = false;
-      this.status = true;
+      let data = this.queryList.relate_courses;
+      this.buttonStatus = false;
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].is_subscribe === false) {
+          this.buttonStatus = true;
+        }
+      }
+      if (this.buttonStatus) {
+        this.form.captcha = null;
+        this.getCaptcha();
+        this.dialogStatus = true;
+        this.verifyStatus = true;
+        this.confirmStatus = false;
+        this.status = true;
+      }
     },
   },
 };
@@ -462,6 +478,9 @@ export default {
           font-size: 14px;
           font-weight: 400;
           color: #fff;
+          &.disabled {
+            background-color: #999999;
+          }
           &:hover {
             opacity: 0.8;
           }
