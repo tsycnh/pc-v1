@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div class="mask" v-show="dialogStatus">
+    <div class="mask" v-if="dialogStatus">
       <div class="dialog-box" v-if="verifyStatus">
         <div class="dialog-tabs">
           <div class="item-tab">操作验证</div>
@@ -71,9 +71,12 @@
         <div class="btn-box">
           <div
             class="btn-submit"
-            :class="{ disabled: !buttonStatus }"
+            v-if="buttonStatus"
             @click="exchangeConfirm()"
           >
+            确认兑换
+          </div>
+          <div class="btn-submit disabled" v-else @click="exchangeConfirm()">
             确认兑换
           </div>
           <div class="btn-cancel" @click="confirmCancel()">取消</div>
@@ -243,6 +246,13 @@ export default {
           this.loading = false;
           this.verifyStatus = false;
           this.queryList = res.data.activity;
+          let data = res.data.activity.relate_courses;
+          this.buttonStatus = false;
+          for (let i = 0; i < data.length; i++) {
+            if (!data[i].is_subscribe) {
+              this.buttonStatus = true;
+            }
+          }
           this.confirmStatus = true;
         })
         .catch((e) => {
@@ -290,13 +300,6 @@ export default {
       this.status = false;
     },
     exchangeConfirm() {
-      let data = this.queryList.relate_courses;
-      this.buttonStatus = false;
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].is_subscribe === false) {
-          this.buttonStatus = true;
-        }
-      }
       if (this.buttonStatus) {
         this.form.captcha = null;
         this.getCaptcha();
@@ -480,6 +483,7 @@ export default {
           color: #fff;
           &.disabled {
             background-color: #999999;
+            cursor: not-allowed;
           }
           &:hover {
             opacity: 0.8;
