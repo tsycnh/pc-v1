@@ -368,24 +368,26 @@ export default {
               id: item.id,
             },
           });
-        } else {
-          this.dialog.id = item.id;
-          this.dialog.status = true;
-          this.dialog.courseCharge = this.course.charge;
-          this.dialog.videoCharge = item.charge;
-          this.dialog.vipFree = this.course.is_free;
-          this.dialog.configText = item.title;
-          this.dialog.is_ban_sell = item.is_ban_sell;
         }
-      } else {
-        this.dialog.id = item.id;
-        this.dialog.status = true;
-        this.dialog.courseCharge = this.course.charge;
-        this.dialog.videoCharge = item.charge;
-        this.dialog.vipFree = this.course.is_free;
-        this.dialog.configText = item.title;
-        this.dialog.is_ban_sell = item.is_ban_sell;
+        // else {
+        //   this.dialog.id = item.id;
+        //   this.dialog.status = true;
+        //   this.dialog.courseCharge = this.course.charge;
+        //   this.dialog.videoCharge = item.charge;
+        //   this.dialog.vipFree = this.course.is_free;
+        //   this.dialog.configText = item.title;
+        //   this.dialog.is_ban_sell = item.is_ban_sell;
+        // }
       }
+      // else {
+      //   this.dialog.id = item.id;
+      //   this.dialog.status = true;
+      //   this.dialog.courseCharge = this.course.charge;
+      //   this.dialog.videoCharge = item.charge;
+      //   this.dialog.vipFree = this.course.is_free;
+      //   this.dialog.configText = item.title;
+      //   this.dialog.is_ban_sell = item.is_ban_sell;
+      // }
     },
     paySelect(val) {
       if (!this.isLogin) {
