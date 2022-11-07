@@ -441,28 +441,6 @@ export default {
         this.canSee = res.data.can_see;
         this.prevId = parseInt(res.data.prev_id);
         this.nextId = parseInt(res.data.next_id);
-        this.$nextTick(() => {
-          // 公式渲染
-          window.renderMathInElement(document.body, {
-            tex: {
-              // 行内公式标志
-              inlineMath: [["$", "$"]],
-              // 块级公式标志
-              displayMath: [["$$", "$$"]],
-              processEnvironments: true,
-              processRefs: true,
-            },
-            options: {
-              // 跳过渲染的标签
-              skipHtmlTags: ["noscript", "style", "textarea", "pre", "code"],
-              // 跳过mathjax处理的元素的类名，任何元素指定一个类 tex2jax_ignore 将被跳过，多个累=类名'class1|class2'
-              ignoreHtmlClass: "tex2jax_ignore",
-            },
-            svg: {
-              fontCache: "global",
-            },
-          });
-        });
       });
     },
     showIndex() {
