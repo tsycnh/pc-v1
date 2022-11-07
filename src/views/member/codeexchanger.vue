@@ -1,9 +1,9 @@
 <template>
   <div class="content">
-    <div class="mask" v-show="dialogStatus">
-      <div class="dialog-box">
+    <div class="mask" v-if="dialogStatus">
+      <div class="dialog-box" v-if="verifyStatus">
         <div class="dialog-tabs">
-          <div class="item-tab">兑换课程</div>
+          <div class="item-tab">操作验证</div>
           <img
             class="btn-close"
             @click="cancel()"
@@ -31,8 +31,98 @@
           </div>
         </div>
         <div class="btn-box">
-          <div class="btn-submit" @click="withdraw()">确认兑换</div>
+          <div class="btn-submit" v-if="status" @click="confirm()">
+            确认
+          </div>
+          <div class="btn-submit" v-else @click="withdraw()">确认</div>
           <div class="btn-cancel" @click="cancel()">取消</div>
+        </div>
+      </div>
+      <div class="dialog-box" v-if="confirmStatus">
+        <div class="dialog-tabs">
+          <div class="item-tab">验证成功，可兑换以下内容</div>
+          <img
+            class="btn-close"
+            @click="confirmCancel()"
+            src="@/assets/img/commen/icon-close.png"
+          />
+        </div>
+        <div class="info">
+          <div
+            class="list-item"
+            v-for="item in queryList.relate_courses"
+            :key="item.id"
+          >
+            <span v-if="item.sign === 'vod'">录播-{{ item.name }}</span>
+            <span v-else-if="item.sign === 'live'">直播-{{ item.name }}</span>
+            <span v-else-if="item.sign === 'book'">电子书-{{ item.name }}</span>
+            <span v-else-if="item.sign === 'paper'">考试-{{ item.name }}</span>
+            <span v-else-if="item.sign === 'mock_paper'"
+              >模拟-{{ item.name }}</span
+            >
+            <span v-else-if="item.sign === 'practice'"
+              >练习-{{ item.name }}</span
+            >
+            <span v-else-if="item.sign === 'vip'">VIP-{{ item.name }}</span>
+            <span class="status c-red" v-if="item.is_subscribe">已订阅</span>
+            <span class="status" v-else>未订阅</span>
+          </div>
+        </div>
+        <div class="btn-box">
+          <div
+            class="btn-submit"
+            v-if="buttonStatus"
+            @click="exchangeConfirm()"
+          >
+            确认兑换
+          </div>
+          <div class="btn-submit disabled" v-else @click="exchangeConfirm()">
+            确认兑换
+          </div>
+          <div class="btn-cancel" @click="confirmCancel()">取消</div>
+        </div>
+      </div>
+      <div class="dialog-box" v-if="recordsStatus">
+        <div class="dialog-tabs">
+          <div class="item-tab">兑换记录</div>
+          <img
+            class="btn-close"
+            @click="cancel()"
+            src="@/assets/img/commen/icon-close.png"
+          />
+        </div>
+        <div class="info">
+          <div class="project-box">
+            <div
+              class="project-item"
+              v-for="actItem in relate_data"
+              :key="actItem.id"
+            >
+              <div class="title">
+                <span v-if="actItem.sign === 'vod'"
+                  >录播-{{ actItem.name }}</span
+                >
+                <span v-else-if="actItem.sign === 'live'"
+                  >直播-{{ actItem.name }}</span
+                >
+                <span v-else-if="actItem.sign === 'book'"
+                  >电子书-{{ actItem.name }}</span
+                >
+                <span v-else-if="actItem.sign === 'paper'"
+                  >考试-{{ actItem.name }}</span
+                >
+                <span v-else-if="actItem.sign === 'mock_paper'"
+                  >模拟-{{ actItem.name }}</span
+                >
+                <span v-else-if="actItem.sign === 'practice'"
+                  >练习-{{ actItem.name }}</span
+                >
+                <span v-else-if="actItem.sign === 'vip'"
+                  >VIP-{{ actItem.name }}</span
+                >
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -40,26 +130,29 @@
       <nav-member :cid="15"></nav-member>
       <div class="right-box">
         <div class="exchange-box">
-          <div class="tit">兑换课程</div>
+          <div class="tit">兑换码</div>
           <input
             class="input"
             type="text"
             placeholder="请输入兑换码"
             v-model="exchangeCode"
           />
-          <button class="btn-exchange" @click="exchange()">兑换课程</button>
+          <button class="btn-exchange" @click="exchange()">验证</button>
         </div>
         <div class="project-box">
           <div class="btn-title">兑换记录</div>
           <template v-if="list.length > 0">
-            <div
-              class="project-item"
-              v-for="(item, index) in list"
-              :key="index"
-            >
-              <div class="title">{{ item.goods_title }}</div>
-              <div class="info">
-                <span>{{ item.created_at | changeTime }}</span>
+            <div v-for="item in list" :key="item.activity_id">
+              <div
+                class="project-item"
+                @click="showDetail(JSON.parse(item.activity.relate_data))"
+              >
+                <div class="title">
+                  {{ item.activity.name }}
+                </div>
+                <div class="info">
+                  <span>{{ item.used_at | changeTime }}</span>
+                </div>
               </div>
             </div>
           </template>
@@ -112,6 +205,13 @@ export default {
         key: null,
         img: null,
       },
+      verifyStatus: false,
+      confirmStatus: false,
+      queryList: null,
+      status: false,
+      buttonStatus: false,
+      recordsStatus: false,
+      relate_data: [],
     };
   },
   computed: {
@@ -122,8 +222,19 @@ export default {
   },
   methods: {
     ...mapMutations(["showLoginDialog", "changeDialogType"]),
+    showDetail(data) {
+      this.relate_data = data;
+      this.dialogStatus = true;
+      this.recordsStatus = true;
+    },
     cancel() {
       this.dialogStatus = false;
+      this.verifyStatus = false;
+      this.recordsStatus = false;
+    },
+    confirmCancel() {
+      this.dialogStatus = false;
+      this.confirmStatus = false;
     },
     getCaptcha() {
       this.$api.Other.Captcha().then((res) => {
@@ -156,32 +267,77 @@ export default {
         return;
       }
       this.loading = true;
+      this.$api.CodeExchanger.Query({
+        code: this.exchangeCode,
+        image_captcha: this.form.captcha,
+        image_key: this.captcha.key,
+      })
+        .then((res) => {
+          this.loading = false;
+          this.verifyStatus = false;
+          this.queryList = res.data.activity;
+          let data = res.data.activity.relate_courses;
+          this.buttonStatus = false;
+          for (let i = 0; i < data.length; i++) {
+            if (!data[i].is_subscribe) {
+              this.buttonStatus = true;
+            }
+          }
+          this.confirmStatus = true;
+        })
+        .catch((e) => {
+          this.loading = false;
+          this.form.captcha = null;
+          this.getCaptcha();
+          this.$message.error(e.message);
+        });
+    },
+    confirm() {
+      if (this.loading) {
+        return;
+      }
+      this.loading = true;
       this.$api.CodeExchanger.Exchange({
         code: this.exchangeCode,
-        captcha: this.form.captcha,
-        captcha_key: this.captcha.key,
+        image_captcha: this.form.captcha,
+        image_key: this.captcha.key,
       })
         .then((res) => {
           this.loading = false;
           this.$message.success("兑换成功");
           this.exchangeCode = null;
-          this.form.captcha = null;
           this.dialogStatus = false;
+          this.verifyStatus = false;
           this.resetData();
           this.getData();
         })
         .catch((e) => {
           this.loading = false;
+          this.form.captcha = null;
+          this.getCaptcha();
           this.$message.error(e.message);
         });
     },
     exchange() {
+      this.form.captcha = null;
       this.getCaptcha();
       if (!this.exchangeCode) {
         this.$message.error("请输入兑换码");
         return;
       }
       this.dialogStatus = true;
+      this.verifyStatus = true;
+      this.status = false;
+    },
+    exchangeConfirm() {
+      if (this.buttonStatus) {
+        this.form.captcha = null;
+        this.getCaptcha();
+        this.dialogStatus = true;
+        this.verifyStatus = true;
+        this.confirmStatus = false;
+        this.status = true;
+      }
     },
   },
 };
@@ -255,6 +411,57 @@ export default {
           color: #333333;
           line-height: 14px;
           margin-bottom: 10px;
+        }
+        .project-box {
+          width: 100%;
+          height: auto;
+          float: left;
+          max-height: 360px;
+          overflow-y: auto;
+          overflow-x: hidden;
+          .project-item {
+            width: 100%;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            &:last-child {
+              margin-bottom: 30px;
+            }
+            .title {
+              height: 18px;
+              font-size: 14px;
+              font-weight: 400;
+              color: #333333;
+              line-height: 18px;
+            }
+          }
+        }
+
+        .list-item {
+          width: 100%;
+          margin-bottom: 20px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          &:last-child {
+            margin-bottom: 30px;
+          }
+          span {
+            height: 18px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #333333;
+            line-height: 18px;
+          }
+          .status {
+            color: #666666;
+          }
+          .c-red {
+            color: #ff4d4f;
+          }
         }
         .input-item {
           width: 100%;
@@ -331,6 +538,10 @@ export default {
           font-size: 14px;
           font-weight: 400;
           color: #fff;
+          &.disabled {
+            background-color: #999999;
+            cursor: not-allowed;
+          }
           &:hover {
             opacity: 0.8;
           }
@@ -381,7 +592,7 @@ export default {
         .btn-exchange {
           width: 104px;
           height: 40px;
-          background: #e1a500;
+          background: #3ca7fa;
           border-radius: 4px;
           display: flex;
           align-items: center;
@@ -423,6 +634,10 @@ export default {
           justify-content: space-between;
           align-items: center;
           margin-top: 28px;
+          cursor: pointer;
+          &:hover {
+            opacity: 0.8;
+          }
 
           .title {
             height: 14px;

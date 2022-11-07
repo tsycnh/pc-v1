@@ -187,7 +187,7 @@ export default {
     }
     .button {
       width: 104px;
-      height: 46px;
+      height: 44px;
       border-radius: 4px;
       font-size: 16px;
       font-weight: 400;
@@ -204,7 +204,8 @@ export default {
         background: #f4fafe;
       }
       &.continue {
-        border: 1px solid #3ca7fa;
+        color: #fff;
+        background: #3ca7fa;
       }
     }
   }
