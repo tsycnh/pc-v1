@@ -82,6 +82,49 @@
           <div class="btn-cancel" @click="confirmCancel()">取消</div>
         </div>
       </div>
+      <div class="dialog-box" v-if="recordsStatus">
+        <div class="dialog-tabs">
+          <div class="item-tab">兑换记录</div>
+          <img
+            class="btn-close"
+            @click="cancel()"
+            src="@/assets/img/commen/icon-close.png"
+          />
+        </div>
+        <div class="info">
+          <div class="project-box">
+            <div
+              class="project-item"
+              v-for="actItem in relate_data"
+              :key="actItem.id"
+            >
+              <div class="title">
+                <span v-if="actItem.sign === 'vod'"
+                  >录播-{{ actItem.name }}</span
+                >
+                <span v-else-if="actItem.sign === 'live'"
+                  >直播-{{ actItem.name }}</span
+                >
+                <span v-else-if="actItem.sign === 'book'"
+                  >电子书-{{ actItem.name }}</span
+                >
+                <span v-else-if="actItem.sign === 'paper'"
+                  >考试-{{ actItem.name }}</span
+                >
+                <span v-else-if="actItem.sign === 'mock_paper'"
+                  >模拟-{{ actItem.name }}</span
+                >
+                <span v-else-if="actItem.sign === 'practice'"
+                  >练习-{{ actItem.name }}</span
+                >
+                <span v-else-if="actItem.sign === 'vip'"
+                  >VIP-{{ actItem.name }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="box">
       <nav-member :cid="15"></nav-member>
@@ -102,31 +145,10 @@
             <div v-for="item in list" :key="item.activity_id">
               <div
                 class="project-item"
-                v-for="actItem in JSON.parse(item.activity.relate_data)"
-                :key="actItem.id"
+                @click="showDetail(JSON.parse(item.activity.relate_data))"
               >
                 <div class="title">
-                  <span v-if="actItem.sign === 'vod'"
-                    >录播-{{ actItem.name }}</span
-                  >
-                  <span v-else-if="actItem.sign === 'live'"
-                    >直播-{{ actItem.name }}</span
-                  >
-                  <span v-else-if="actItem.sign === 'book'"
-                    >电子书-{{ actItem.name }}</span
-                  >
-                  <span v-else-if="actItem.sign === 'paper'"
-                    >考试-{{ actItem.name }}</span
-                  >
-                  <span v-else-if="item.sign === 'mock_paper'"
-                    >模拟-{{ item.name }}</span
-                  >
-                  <span v-else-if="actItem.sign === 'practice'"
-                    >练习-{{ actItem.name }}</span
-                  >
-                  <span v-else-if="actItem.sign === 'vip'"
-                    >VIP-{{ actItem.name }}</span
-                  >
+                  {{ item.activity.name }}
                 </div>
                 <div class="info">
                   <span>{{ item.used_at | changeTime }}</span>
@@ -188,6 +210,8 @@ export default {
       queryList: null,
       status: false,
       buttonStatus: false,
+      recordsStatus: false,
+      relate_data: [],
     };
   },
   computed: {
@@ -198,9 +222,15 @@ export default {
   },
   methods: {
     ...mapMutations(["showLoginDialog", "changeDialogType"]),
+    showDetail(data) {
+      this.relate_data = data;
+      this.dialogStatus = true;
+      this.recordsStatus = true;
+    },
     cancel() {
       this.dialogStatus = false;
       this.verifyStatus = false;
+      this.recordsStatus = false;
     },
     confirmCancel() {
       this.dialogStatus = false;
@@ -382,6 +412,33 @@ export default {
           line-height: 14px;
           margin-bottom: 10px;
         }
+        .project-box {
+          width: 100%;
+          height: auto;
+          float: left;
+          max-height: 360px;
+          overflow-y: auto;
+          overflow-x: hidden;
+          .project-item {
+            width: 100%;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            &:last-child {
+              margin-bottom: 30px;
+            }
+            .title {
+              height: 18px;
+              font-size: 14px;
+              font-weight: 400;
+              color: #333333;
+              line-height: 18px;
+            }
+          }
+        }
+
         .list-item {
           width: 100%;
           margin-bottom: 20px;
@@ -577,6 +634,10 @@ export default {
           justify-content: space-between;
           align-items: center;
           margin-top: 28px;
+          cursor: pointer;
+          &:hover {
+            opacity: 0.8;
+          }
 
           .title {
             height: 14px;
