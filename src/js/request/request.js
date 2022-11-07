@@ -691,11 +691,14 @@ const Api = {
     },
   },
   CodeExchanger: {
+    Query(params) {
+      return post("/addons/CodeExchanger/api/v2/query", params);
+    },
     Exchange(params) {
-      return post("/addons/CodeExchanger/api/v1/exchange", params);
+      return post("/addons/CodeExchanger/api/v2/confirm", params);
     },
     Records(params) {
-      return get("/addons/CodeExchanger/api/v1/records", params);
+      return get("/addons/CodeExchanger/api/v2/user/records", params);
     },
   },
   LearnPath: {

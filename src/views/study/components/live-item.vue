@@ -44,7 +44,7 @@
             <div class="item-title">{{ item.course.title }}</div>
             <div class="item-info">
               <div class="item-text">
-                已学课时：{{ item.learned_count }}课时/共{{
+                已学完：<span>{{ item.learned_count }}课时</span> / 共{{
                   item.course.videos_count
                 }}课时
               </div>
@@ -171,6 +171,9 @@ export default {
           color: #666666;
           line-height: 14px;
           margin-right: 30px;
+          span {
+            color: #04c877;
+          }
         }
         .item-progress {
           font-size: 14px;
@@ -183,7 +186,7 @@ export default {
     }
     .button {
       width: 104px;
-      height: 46px;
+      height: 44px;
       border-radius: 4px;
       font-size: 16px;
       font-weight: 400;
@@ -200,7 +203,8 @@ export default {
         background: #f4fafe;
       }
       &.continue {
-        border: 1px solid #3ca7fa;
+        color: #fff;
+        background: #3ca7fa;
       }
     }
   }
