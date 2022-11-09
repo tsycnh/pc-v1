@@ -40,9 +40,9 @@
               <div class="user-top">
                 <div class="nickname">{{ user.nick_name }}</div>
                 <div class="role" v-if="user.role_id !== 0 && user.role">
-                  {{ user.role.name }}
+                  VIP
                 </div>
-                <div class="normal" v-else>普通会员</div>
+                <!--<div class="normal" v-else>普通会员</div>-->
               </div>
               <div
                 class="expiration-time"
