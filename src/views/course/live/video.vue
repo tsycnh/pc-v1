@@ -2,12 +2,15 @@
   <div class="content" v-if="video">
     <div class="navheader">
       <div class="top">
-        <img
-          @click="goDetail()"
-          class="icon-back"
-          src="../../../assets/img/commen/icon-back-h.png"
-        />
-        <span @click="goDetail()">{{ video.title }}</span>
+        <div class="d-flex">
+          <img
+            @click="goDetail()"
+            class="icon-back"
+            src="../../../assets/img/commen/icon-back-h.png"
+          />
+          <span @click="goDetail()">{{ video.title }}</span>
+        </div>
+        <div class="button" @click="openAttachDialog">直播附件</div>
       </div>
     </div>
     <div class="live-banner">
@@ -115,15 +118,22 @@
         ></remote-script>
       </template>
     </template>
+    <attach-dialog
+      :cid="course.id"
+      v-if="attachDialogStatus"
+      @close="closeAttachDialog"
+    ></attach-dialog>
   </div>
 </template>
 <script>
 import ChatBox from "../../../components/chat-box.vue";
+import AttachDialog from "./components/attach-dialog.vue";
 import { mapState } from "vuex";
 
 export default {
   components: {
     ChatBox,
+    AttachDialog,
   },
   data() {
     return {
@@ -151,6 +161,7 @@ export default {
       curDuration: 0,
       messageDisabled: false,
       userDisabled: null,
+      attachDialogStatus: false,
     };
   },
   computed: {
@@ -186,6 +197,12 @@ export default {
     this.vodPlayer && this.vodPlayer.destroy();
   },
   methods: {
+    openAttachDialog() {
+      this.attachDialogStatus = true;
+    },
+    closeAttachDialog() {
+      this.attachDialogStatus = false;
+    },
     getStatus(status) {
       this.messageDisabled = status;
     },
@@ -416,6 +433,7 @@ export default {
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
       .icon-back {
         width: 24px;
         height: 24px;
@@ -424,6 +442,22 @@ export default {
       }
       span {
         cursor: pointer;
+      }
+      .button {
+        display: inline-block;
+        width: auto;
+        height: auto;
+        font-size: 14px;
+        font-weight: 400;
+        color: #fff;
+        line-height: 18px;
+        cursor: pointer;
+        background: #3ca7fa;
+        padding: 12px 20px;
+        border-radius: 4px;
+        &:hover {
+          opacity: 0.8;
+        }
       }
     }
   }

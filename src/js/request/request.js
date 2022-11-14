@@ -211,6 +211,12 @@ const Api = {
     Play(id) {
       return get("/addons/zhibo/api/v1/course/" + id + "/play");
     },
+    AttachList(course_id, video_id, param) {
+      return get(
+        `/addons/zhibo/api/v1/course/${course_id}/video/${video_id}/attach/index`,
+        param
+      );
+    },
     Record(courseId, videoId, params) {
       return get(
         "/addons/zhibo/api/v1/course/" +
