@@ -921,8 +921,8 @@ export default {
       border-radius: 8px;
       font-size: 16px;
       font-weight: 400;
-      color: #121212;
-      line-height: 28px;
+      color: #333333;
+      line-height: 30px;
     }
     .course-chapter-box {
       width: 1200px;
