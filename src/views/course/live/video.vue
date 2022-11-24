@@ -118,6 +118,7 @@
             :vid="video.id"
             @change="getStatus"
             @sign="openSignDialog"
+            @endSign="closeSignDialog"
           ></chat-box>
           <attach-dialog
             v-if="currentTab === 2"

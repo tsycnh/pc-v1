@@ -226,6 +226,9 @@ export default {
           });
         } else if (message.t === "sign-in-created") {
           this.$emit("sign", message.params);
+        } else if (message.t === "sign-in-closed") {
+          console.log(message);
+          this.$emit("endSign");
         } else if (message.t === "room-ban") {
           this.userDisabled = false;
           this.messageDisabled = true;
