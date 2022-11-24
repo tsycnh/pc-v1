@@ -665,6 +665,7 @@ export default {
           justify-content: space-between;
           box-sizing: border-box;
           padding: 0px 40px;
+          overflow: hidden;
           .item-tab {
             display: flex;
             width: auto;

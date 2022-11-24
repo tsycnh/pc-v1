@@ -281,7 +281,6 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 15px 0 0 0;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -320,7 +319,7 @@ export default {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    padding: 0 15px;
+    padding: 15px 15px 0px 15px;
     &.end {
       height: 549px;
     }
