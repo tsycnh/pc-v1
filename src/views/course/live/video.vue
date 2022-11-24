@@ -15,6 +15,12 @@
     <div class="live-banner">
       <div class="live-box" v-if="isLogin && video">
         <div class="live-item">
+          <sign-dialog
+            v-if="video.status === 1 && signStatus && signRecords"
+            :cid="course.id"
+            :records="signRecords"
+            @close="closeSignDialog"
+          ></sign-dialog>
           <div class="live-item-title">
             <span class="name">{{ video.title }}</span>
             <span class="time">
@@ -111,6 +117,7 @@
             :cid="course.id"
             :vid="video.id"
             @change="getStatus"
+            @sign="openSignDialog"
           ></chat-box>
           <attach-dialog
             v-if="currentTab === 2"
@@ -138,14 +145,16 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import ChatBox from "../../../components/chat-box.vue";
 import AttachDialog from "./components/attach-dialog.vue";
-import { mapState } from "vuex";
+import SignDialog from "./components/sign-dialog.vue";
 
 export default {
   components: {
     ChatBox,
     AttachDialog,
+    SignDialog,
   },
   data() {
     return {
@@ -184,6 +193,8 @@ export default {
         },
       ],
       currentTab: 1,
+      signRecords: null,
+      signStatus: false,
     };
   },
   computed: {
@@ -219,6 +230,14 @@ export default {
     this.vodPlayer && this.vodPlayer.destroy();
   },
   methods: {
+    openSignDialog(data) {
+      this.signRecords = data;
+      this.signStatus = true;
+    },
+    closeSignDialog() {
+      this.signRecords = null;
+      this.signStatus = false;
+    },
     tabChange(key) {
       this.currentTab = key;
     },
@@ -257,6 +276,15 @@ export default {
           // 倒计时
           if (this.video.status === 0) {
             this.countTime();
+          }
+          //签到相关
+          let sign_in_record = resData.sign_in_record;
+          if (sign_in_record && sign_in_record.length !== 0) {
+            this.signStatus = true;
+            this.signRecords = sign_in_record;
+          } else {
+            this.signStatus = false;
+            this.signRecords = null;
           }
         })
         .catch((e) => {});

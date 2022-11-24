@@ -224,6 +224,8 @@ export default {
             local: 1,
             content: message.u.nickname + "已加入",
           });
+        } else if (message.t === "sign-in-created") {
+          this.$emit("sign", message.params);
         } else if (message.t === "room-ban") {
           this.userDisabled = false;
           this.messageDisabled = true;
