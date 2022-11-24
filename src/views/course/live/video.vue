@@ -232,6 +232,13 @@ export default {
   },
   methods: {
     openSignDialog(data) {
+      if (this.livePlayer) {
+        document.webkitCancelFullScreen();
+      }
+      if (this.vodPlayer) {
+        this.vodPlayer.pause();
+        this.vodPlayer.fullScreen.cancel();
+      }
       this.signRecords = data;
       this.signStatus = true;
     },
