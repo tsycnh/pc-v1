@@ -10,7 +10,6 @@
           />
           <span @click="goDetail()">{{ video.title }}</span>
         </div>
-        <div class="button" @click="openAttachDialog">直播附件</div>
       </div>
     </div>
     <div class="live-banner">
@@ -91,7 +90,20 @@
           </div>
         </div>
         <div class="chat-item">
+          <div class="tabs">
+            <div
+              class="item-tab"
+              v-for="(item, index) in tabs"
+              :key="index"
+              :class="{ active: currentTab === item.id }"
+              @click="tabChange(item.id)"
+            >
+              <div>{{ item.name }}</div>
+              <div class="actline" v-if="currentTab === item.id"></div>
+            </div>
+          </div>
           <chat-box
+            v-show="currentTab === 1"
             :chat="chat"
             :enabledChat="enabledChat"
             :status="video.status"
@@ -100,6 +112,11 @@
             :vid="video.id"
             @change="getStatus"
           ></chat-box>
+          <attach-dialog
+            v-if="currentTab === 2"
+            :cid="course.id"
+            :status="video.status"
+          ></attach-dialog>
         </div>
       </div>
     </div>
@@ -118,11 +135,6 @@
         ></remote-script>
       </template>
     </template>
-    <attach-dialog
-      :cid="course.id"
-      v-if="attachDialogStatus"
-      @close="closeAttachDialog"
-    ></attach-dialog>
   </div>
 </template>
 <script>
@@ -161,7 +173,17 @@ export default {
       curDuration: 0,
       messageDisabled: false,
       userDisabled: null,
-      attachDialogStatus: false,
+      tabs: [
+        {
+          name: "聊天",
+          id: 1,
+        },
+        {
+          name: "课件",
+          id: 2,
+        },
+      ],
+      currentTab: 1,
     };
   },
   computed: {
@@ -197,11 +219,8 @@ export default {
     this.vodPlayer && this.vodPlayer.destroy();
   },
   methods: {
-    openAttachDialog() {
-      this.attachDialogStatus = true;
-    },
-    closeAttachDialog() {
-      this.attachDialogStatus = false;
+    tabChange(key) {
+      this.currentTab = key;
     },
     getStatus(status) {
       this.messageDisabled = status;
@@ -607,6 +626,44 @@ export default {
         width: 250px;
         height: auto;
         float: left;
+        .tabs {
+          width: 100%;
+          height: 46px;
+          display: flex;
+          flex-direction: row;
+          position: relative;
+          border-bottom: 1px solid #e5e5e5;
+          justify-content: space-between;
+          box-sizing: border-box;
+          padding: 0px 40px;
+          .item-tab {
+            display: flex;
+            width: auto;
+            min-width: 50px;
+            height: 46px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #333333;
+            line-height: 16px;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+            padding-top: 15px;
+            cursor: pointer;
+            position: relative;
+            &.active {
+              font-weight: 600;
+              color: #3ca7fa;
+            }
+            .actline {
+              display: block;
+              width: 50px;
+              height: 4px;
+              background: #3ca7fa;
+              margin-top: 11px;
+            }
+          }
+        }
       }
     }
   }

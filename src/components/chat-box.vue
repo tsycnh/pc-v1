@@ -1,6 +1,5 @@
 <template>
   <div class="chat-box">
-    <div class="tit">聊天互动</div>
     <div class="tip" v-if="messageDisabled && userDisabled">
       您已被禁言
     </div>
