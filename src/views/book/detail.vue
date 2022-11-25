@@ -142,7 +142,12 @@
           </div>
         </div>
         <div class="book-desc" v-if="book" v-show="currentTab === 2">
-          <div class="u-content md-content" v-html="book.render_desc"></div>
+          <div
+            class="u-content md-content"
+            v-code
+            v-latex
+            v-html="book.render_desc"
+          ></div>
         </div>
         <div class="book-chapter-box" v-show="currentTab === 3">
           <template v-if="chapters.length > 0">
