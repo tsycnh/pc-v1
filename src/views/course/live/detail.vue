@@ -153,7 +153,7 @@
           </p>
         </div>
         <div class="coursr-desc" v-if="course" v-show="currentTab === 2">
-          <div class="new-content" v-html="course.render_desc"></div>
+          <div class="u-content md-content" v-html="course.render_desc"></div>
         </div>
         <div class="course-chapter-box" v-show="currentTab === 3">
           <template v-if="chapters.length > 0">

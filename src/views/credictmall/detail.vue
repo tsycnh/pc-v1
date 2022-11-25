@@ -45,7 +45,10 @@
           </div>
         </div>
         <div class="book-desc" v-if="goods">
-          <div class="new-content" v-html="goods.free_content_render"></div>
+          <div
+            class="u-content md-content"
+            v-html="goods.free_content_render"
+          ></div>
         </div>
       </template>
     </div>

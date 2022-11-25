@@ -103,7 +103,7 @@
           </div>
         </div>
         <div class="book-desc" v-if="ms" v-show="currentTab === 2">
-          <div class="new-content" v-html="ms.desc"></div>
+          <div class="u-content md-content" v-html="ms.desc"></div>
         </div>
       </template>
     </div>
