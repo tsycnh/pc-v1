@@ -45,7 +45,10 @@
               ></div>
             </div>
             <div class="alert-message" v-else-if="video.status === 0">
-              <div class="message">
+              <div class="message" v-if="waitTeacher">
+                等待讲师开播
+              </div>
+              <div class="message" v-else>
                 直播倒计时：{{ day }}天{{ hour }}小时{{ min }}分{{ second }}秒
               </div>
             </div>
@@ -196,6 +199,7 @@ export default {
       currentTab: 1,
       signRecords: null,
       signStatus: false,
+      waitTeacher: false,
     };
   },
   computed: {
@@ -337,7 +341,8 @@ export default {
         Number(this.min) === 0 &&
         Number(this.second) === 0
       ) {
-        this.video.status = 1;
+        // this.video.status = 1;
+        this.waitTeacher = true;
         return;
       } else {
         setTimeout(this.countTime, 1000);
