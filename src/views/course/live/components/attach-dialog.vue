@@ -1,5 +1,9 @@
 <template>
   <div class="live-attach-box">
+    <div class="float-left reload">
+      <span>查看最新课件列表</span>
+      <a @click="getData()">点击刷新</a>
+    </div>
     <div class="float-left list-box" v-if="list.length > 0">
       <template v-for="(item, index) in list">
         <div class="item-comp" :key="index">
@@ -77,6 +81,35 @@ export default {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  .reload {
+    width: 189px;
+    height: 26px;
+    background: #e1f1fd;
+    border-radius: 15px;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    span {
+      font-size: 12px;
+      font-weight: 400;
+      color: #999999;
+      line-height: 12px;
+    }
+    a {
+      font-size: 12px;
+      font-weight: 400;
+      color: #3ca7fa;
+      line-height: 12px;
+      margin-left: 15px;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
   .list-box {
     width: 100%;
     float: left;
