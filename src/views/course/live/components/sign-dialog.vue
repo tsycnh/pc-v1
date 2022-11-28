@@ -1,12 +1,14 @@
 <template>
   <transition name="fade">
-    <div class="dialog-box">
-      <div class="dialog-header">
-        <span>大家快来签到啦！</span>
-      </div>
-      <div class="dialog-body">
-        <div class="count">{{ count }}</div>
-        <button class="button" @click="confirm">点击签到</button>
+    <div class="mask">
+      <div class="dialog-box">
+        <div class="dialog-header">
+          <span>大家快来签到啦！</span>
+        </div>
+        <div class="dialog-body">
+          <div class="count">{{ count }}</div>
+          <button class="button" @click="confirm">点击签到</button>
+        </div>
       </div>
     </div>
   </transition>
@@ -82,16 +84,26 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 801;
+  background-color: rgba(0, 0, 0, 0.5);
+}
 .dialog-box {
   position: absolute;
-  top: 144px;
-  left: 225px;
+  top: 50%;
+  left: 50%;
   width: 500px;
-  height: 354px;
+  height: 400px;
   background-color: white;
   border-radius: 8px;
   animation: scaleBig 0.3s;
-  z-index: 2000;
+  margin-left: -250px;
+  margin-top: -200px;
   .dialog-header {
     width: 100%;
     height: auto;
