@@ -284,6 +284,7 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
+  padding-top: 30px;
   .tip {
     width: 80px;
     height: 20px;
@@ -297,7 +298,7 @@ export default {
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 28px;
+    top: 15px;
     left: 89px;
   }
   .tit {
