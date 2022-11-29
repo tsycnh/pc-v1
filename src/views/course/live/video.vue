@@ -233,7 +233,7 @@ export default {
       this.playUrl = null;
       this.webrtc_play_url = null;
       this.video = [];
-      this.cours = [];
+      this.course = [];
       this.getData();
     },
     openSignDialog(data) {
