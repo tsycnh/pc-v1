@@ -214,6 +214,7 @@ export default {
         }
         this.enabledScrollBottom = true;
         let message = JSON.parse(data);
+        console.log("消息：" + message.t);
         if (message.t === "message") {
           let msgV = JSON.parse(message.v);
           this.chatRecords.push({
