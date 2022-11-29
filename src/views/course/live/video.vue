@@ -46,23 +46,17 @@
             </div>
             <div class="alert-message" v-else-if="video.status === 0">
               <div class="message" v-if="waitTeacher">
-                等待讲师开播
+                待讲师开播，<a @click="reloadPlayer()">点击刷新</a>
               </div>
               <div class="message" v-else>
                 直播倒计时：{{ day }}天{{ hour }}小时{{ min }}分{{ second }}秒
               </div>
             </div>
             <template v-else-if="video.status === 2">
-              <template v-if="!vodPlayerStatus">
+              <template v-if="record_exists === 1 && !vodPlayerStatus">
                 <div class="alert-message">
-                  <div
-                    class="play-button"
-                    @click="showVodPlayer()"
-                    v-if="record_exists === 1"
-                  >
-                    回看直播 {{ record_hour }}{{ record_minute }}:{{
-                      record_second
-                    }}
+                  <div class="message">
+                    直播已结束，<a @click="showVodPlayer()">点击回看</a>
                   </div>
                 </div>
               </template>
@@ -235,6 +229,13 @@ export default {
     this.vodPlayer && this.vodPlayer.destroy();
   },
   methods: {
+    reloadPlayer() {
+      this.playUrl = null;
+      this.webrtc_play_url = null;
+      this.video = [];
+      this.cours = [];
+      this.getData();
+    },
     openSignDialog(data) {
       if (this.livePlayer) {
         document.webkitCancelFullScreen();
@@ -612,6 +613,13 @@ export default {
               span {
                 color: #3ca7fa;
                 cursor: pointer;
+              }
+              a {
+                color: #3ca7fa;
+                cursor: pointer;
+                &:hover {
+                  opacity: 0.8;
+                }
               }
             }
           }
