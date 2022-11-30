@@ -122,7 +122,7 @@ export default {
     overflow-y: auto;
     .item-comp {
       width: 100%;
-      height: 14px;
+      height: auto;
       display: flex;
       align-items: center;
       flex-direction: row;
@@ -130,11 +130,11 @@ export default {
       margin-top: 30px;
       .title {
         flex: 1;
-        height: 14px;
+        height: auto;
         font-size: 14px;
         font-weight: 400;
         color: #333333;
-        line-height: 14px;
+        line-height: 16px;
         text-align: left;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -146,6 +146,7 @@ export default {
         width: auto;
         font-size: 14px;
         font-weight: 400;
+        line-height: 16px;
         color: #3ca7fa;
         text-decoration: none;
         &:hover {
