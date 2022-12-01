@@ -40,11 +40,6 @@
         </template>
       </div>
     </div>
-    <remote-script
-      src="https://cdn.aodianyun.com/dms/rop_client.js"
-      @load="initADY"
-      v-if="enabledChat"
-    ></remote-script>
   </div>
 </template>
 <script>
@@ -55,16 +50,7 @@ export default {
     return {
       chatChannel: null,
       chatUser: null,
-      ADYParams: {
-        sub_key: null,
-        pub_key: null,
-        channel: null,
-        user: {
-          id: null,
-          name: null,
-          avatar: null,
-        },
-      },
+      connect_url: null,
       chatRecords: [],
       pagination: {
         page: 1,
@@ -77,6 +63,7 @@ export default {
       newId: null,
       messageDisabled: false,
       userDisabled: false,
+      ws: null,
     };
   },
   watch: {
@@ -99,12 +86,10 @@ export default {
       if (typeof data !== "undefined") {
         this.chatChannel = data.channel;
         this.chatUser = data.user;
-        this.ADYParams.sub_key = data.aodianyun.sub_key;
-        this.ADYParams.pub_key = data.aodianyun.pub_key;
-        this.ADYParams.channel = data.channel;
-        this.ADYParams.user.id = data.user.id;
-        this.ADYParams.user.name = data.user.name;
-        this.ADYParams.user.avatar = data.user.avatar;
+        this.connect_url = data.connect_url;
+        if (this.enabledChat) {
+          this.init();
+        }
       }
       this.enabledScrollBottom = true;
       this.getChatRecords();
@@ -115,8 +100,9 @@ export default {
   },
   beforeDestroy() {
     // 断开聊天室
-    if (window.ROP) {
-      window.ROP.Leave();
+    if (this.ws) {
+      this.ws.close();
+      this.ws = null;
     }
   },
   mounted() {},
@@ -164,97 +150,70 @@ export default {
         this.$refs["chatBox"].scrollTop = this.$refs["chatBox"].scrollHeight;
       }, 150);
     },
-    initADY() {
-      let pubKey = this.ADYParams.pub_key;
-      let subKey = this.ADYParams.sub_key;
-      let channel = this.ADYParams.channel;
-      let id = this.ADYParams.user.id;
-      let nickname = this.ADYParams.user.name;
-      let avatar = this.ADYParams.user.avatar;
-
-      if (pubKey === null) {
-        return;
+    init() {
+      let that = this;
+      let connectUrl = this.connect_url;
+      connectUrl = connectUrl.replace(":courseId", this.cid);
+      connectUrl = connectUrl.replace(":videoId", this.vid);
+      connectUrl = connectUrl.replace(":token", this.$utils.getToken());
+      if ("WebSocket" in window) {
+        this.ws = new WebSocket(connectUrl);
+        this.ws.onopen = function() {
+          that.chanEvt("connect-success");
+        };
+        this.ws.onclose = function(evt) {
+          that.chanEvt("losed");
+        };
+        this.ws.onmessage = function(evt) {
+          that.enabledScrollBottom = true;
+          let message = JSON.parse(evt.data);
+          if (message.t === "message") {
+            let msgV = JSON.parse(message.v);
+            that.chatRecords.push({
+              msg_body: msgV,
+            });
+          } else if (message.t === "connect") {
+            that.chatRecords.push({
+              local: 1,
+              content: message.u.nickname + "已加入",
+            });
+          } else if (message.t === "sign-in-created") {
+            that.$emit("sign", message.params);
+          } else if (message.t === "sign-in-closed") {
+            that.$emit("endSign");
+          } else if (message.t === "room-ban") {
+            that.userDisabled = false;
+            that.messageDisabled = true;
+            that.$emit("change", that.messageDisabled);
+          } else if (
+            message.t === "room-user-ban" &&
+            message.params[0] === that.user.id
+          ) {
+            that.userDisabled = true;
+            that.messageDisabled = true;
+            that.$emit("change", that.messageDisabled);
+          } else if (
+            message.t === "room-un-ban" ||
+            message.t === "room-user-un-ban" ||
+            (message.t === "room-user-ban" &&
+              message.params[0] !== that.user.id)
+          ) {
+            that.userDisabled = false;
+            that.messageDisabled = false;
+            that.$emit("change", that.messageDisabled);
+          } else if (message.t === "room-over") {
+            that.$message.success("当前直播已结束");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          }
+        };
+        this.ws.onerror = function(evt) {
+          that.chanEvt("connect-fail", evt.data);
+        };
+      } else {
+        this.$message.error("您的浏览器不支持 WebSocket!");
       }
-
-      window.ROP.Enter(pubKey, subKey, id, true);
-      window.ROP.On("enter_suc", () => {
-        window.ROP.Subscribe(channel);
-        // 发送新用户上线消息
-        window.ROP.Publish(
-          JSON.stringify({
-            t: "connect",
-            v: "",
-            u: {
-              id: id,
-              nickname: nickname,
-              avatar: avatar,
-            },
-          }),
-          channel
-        );
-      });
-      window.ROP.On("enter_fail", (err) => {
-        this.chanEvt("connect-fail", err);
-      });
-      window.ROP.On("offline", (err) => {
-        this.chanEvt("connect-off", err);
-      });
-      window.ROP.On("losed", () => {
-        this.chanEvt("connect-lose");
-      });
-      window.ROP.On("reconnect", () => {
-        this.chanEvt("connect-reconnect");
-      });
-      window.ROP.On("connectold", () => {
-        this.chanEvt("connect-repeat");
-      });
-      window.ROP.On("publish_data", (data, topic) => {
-        if (topic !== channel) {
-          return;
-        }
-        this.enabledScrollBottom = true;
-        let message = JSON.parse(data);
-        console.log("消息：" + message.t);
-        if (message.t === "message") {
-          let msgV = JSON.parse(message.v);
-          this.chatRecords.push({
-            msg_body: msgV,
-          });
-        } else if (message.t === "connect") {
-          this.chatRecords.push({
-            local: 1,
-            content: message.u.nickname + "已加入",
-          });
-        } else if (message.t === "sign-in-created") {
-          this.$emit("sign", message.params);
-        } else if (message.t === "sign-in-closed") {
-          this.$emit("endSign");
-        } else if (message.t === "room-ban") {
-          this.userDisabled = false;
-          this.messageDisabled = true;
-          this.$emit("change", this.messageDisabled);
-        } else if (
-          message.t === "room-user-ban" &&
-          message.params[0] === this.user.id
-        ) {
-          this.userDisabled = true;
-          this.messageDisabled = true;
-          this.$emit("change", this.messageDisabled);
-        } else if (
-          message.t === "room-un-ban" ||
-          message.t === "room-user-un-ban" ||
-          (message.t === "room-user-ban" && message.params[0] !== this.user.id)
-        ) {
-          this.userDisabled = false;
-          this.messageDisabled = false;
-          this.$emit("change", this.messageDisabled);
-        } else if (message.t === "room-over") {
-          this.$message.success("当前直播已结束");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-        }
-      });
     },
     chanEvt(e, data) {
       this.enabledScrollBottom = true;
@@ -285,7 +244,7 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-top: 30px;
+  padding-top: 40px;
   .tip {
     width: 80px;
     height: 20px;
