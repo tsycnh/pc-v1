@@ -1,10 +1,12 @@
 <template>
   <div class="chat-box">
-    <div class="tip" v-if="messageDisabled && userDisabled">
-      您已被禁言
-    </div>
-    <div class="tip" v-if="messageDisabled && !userDisabled">
-      全员已禁言
+    <div class="tip-box" v-if="messageDisabled">
+      <div class="tip" v-if="messageDisabled && userDisabled">
+        您已被禁言
+      </div>
+      <div class="tip" v-if="messageDisabled && !userDisabled">
+        全员已禁言
+      </div>
     </div>
     <div
       class="chat-box"
@@ -244,23 +246,28 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding-top: 40px;
-  .tip {
-    width: 80px;
-    height: 20px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #ffffff;
-    line-height: 12px;
-    background: #faad14;
-    border-radius: 10px;
+  .tip-box {
+    width: 100%;
+    height: 30px;
+    float: left;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 15px;
-    left: 89px;
+    .tip {
+      width: 80px;
+      height: 20px;
+      font-size: 12px;
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 12px;
+      background: #faad14;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
+
   .tit {
     width: 100%;
     height: auto;

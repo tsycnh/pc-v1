@@ -2,7 +2,7 @@
   <div class="live-attach-box">
     <div class="float-left reload">
       <span>查看最新课件列表</span>
-      <a @click="getData()">点击刷新</a>
+      <a @click="resetData()">点击刷新</a>
     </div>
     <div class="float-left list-box" v-if="list.length > 0">
       <template v-for="(item, index) in list">
@@ -45,6 +45,9 @@ export default {
     this.getData();
   },
   methods: {
+    resetData() {
+      this.$emit("reset");
+    },
     getData() {
       if (this.loading) {
         return;
@@ -76,7 +79,7 @@ export default {
 <style lang="less" scoped>
 .live-attach-box {
   width: 100%;
-  height: 628px;
+  height: 565px;
   float: left;
   display: flex;
   flex-direction: column;

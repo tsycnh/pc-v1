@@ -68,7 +68,7 @@
               </div>
             </template>
           </div>
-          <div class="replybox" v-if="video.status !== 2">
+          <div class="replybox" v-if="currentTab === 1 && video.status !== 2">
             <input
               class="reply-content"
               type="text"
@@ -121,6 +121,7 @@
             v-if="currentTab === 2"
             :cid="course.id"
             :status="video.status"
+            @reset="resetAttachDialog"
           ></attach-dialog>
         </div>
       </div>
@@ -229,6 +230,12 @@ export default {
     this.vodPlayer && this.vodPlayer.destroy();
   },
   methods: {
+    resetAttachDialog() {
+      this.currentTab = null;
+      setTimeout(() => {
+        this.currentTab = 2;
+      }, 150);
+    },
     reloadPlayer() {
       this.playUrl = null;
       this.webrtc_play_url = null;
