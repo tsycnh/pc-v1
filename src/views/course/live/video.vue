@@ -110,6 +110,7 @@
             :chat="chat"
             :enabledChat="enabledChat"
             :status="video.status"
+            :enabledMessage="roomDisabled"
             :disabled="userDisabled"
             :cid="course.id"
             :vid="video.id"
@@ -180,7 +181,8 @@ export default {
       timeValue: 0,
       curDuration: 0,
       messageDisabled: false,
-      userDisabled: null,
+      roomDisabled: false,
+      userDisabled: false,
       tabs: [
         {
           name: "聊天",
@@ -261,8 +263,12 @@ export default {
     tabChange(key) {
       this.currentTab = key;
     },
-    getStatus(status) {
-      this.messageDisabled = status;
+    getStatus(status1, status2) {
+      if (status1 || status2) {
+        this.messageDisabled = true;
+      } else {
+        this.messageDisabled = false;
+      }
     },
     goDetail() {
       this.$router.push({
@@ -286,11 +292,16 @@ export default {
           this.record_duration = resData.record_duration;
           this.webrtc_play_url = resData.web_rtc_play_url;
           if (resData.room_is_ban === 1) {
-            this.userDisabled = 1;
-            this.messageDisabled = true;
+            this.roomDisabled = true;
+          } else {
+            this.roomDisabled = false;
           }
           if (resData.user_is_ban === 1) {
-            this.userDisabled = 2;
+            this.userDisabled = true;
+          } else {
+            this.userDisabled = false;
+          }
+          if (resData.room_is_ban === 1 || resData.user_is_ban === 1) {
             this.messageDisabled = true;
           }
           // 倒计时

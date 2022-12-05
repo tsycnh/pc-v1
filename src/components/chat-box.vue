@@ -1,11 +1,11 @@
 <template>
   <div class="chat-box">
-    <div class="tip-box" v-if="messageDisabled">
-      <div class="tip" v-if="messageDisabled && userDisabled">
-        您已被禁言
-      </div>
-      <div class="tip" v-if="messageDisabled && !userDisabled">
+    <div class="tip-box" v-if="messageDisabled || userDisabled">
+      <div class="tip" v-if="messageDisabled">
         全员已禁言
+      </div>
+      <div class="tip" v-if="!messageDisabled && userDisabled">
+        您已被禁言
       </div>
     </div>
     <div
@@ -47,7 +47,15 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  props: ["chat", "enabledChat", "status", "cid", "vid", "disabled"],
+  props: [
+    "chat",
+    "enabledChat",
+    "enabledMessage",
+    "status",
+    "cid",
+    "vid",
+    "disabled",
+  ],
   data() {
     return {
       chatChannel: null,
@@ -74,12 +82,17 @@ export default {
         this.chatBoxScrollBottom();
       }
     },
+    enabledMessage(val) {
+      if (val) {
+        this.messageDisabled = true;
+      } else {
+        this.messageDisabled = false;
+      }
+    },
     disabled(val) {
-      if (val === 2) {
-        this.messageDisabled = true;
+      if (val) {
         this.userDisabled = true;
-      } else if (val === 1) {
-        this.messageDisabled = true;
+      } else {
         this.userDisabled = false;
       }
     },
@@ -184,25 +197,24 @@ export default {
           } else if (message.t === "sign-in-closed") {
             that.$emit("endSign");
           } else if (message.t === "room-ban") {
-            that.userDisabled = false;
             that.messageDisabled = true;
-            that.$emit("change", that.messageDisabled);
+            that.$emit("change", that.userDisabled, that.messageDisabled);
           } else if (
             message.t === "room-user-ban" &&
             message.params[0] === that.user.id
           ) {
             that.userDisabled = true;
-            that.messageDisabled = true;
-            that.$emit("change", that.messageDisabled);
+            that.$emit("change", that.userDisabled, that.messageDisabled);
+          } else if (message.t === "room-un-ban") {
+            that.messageDisabled = false;
+            that.$emit("change", that.userDisabled, that.messageDisabled);
           } else if (
-            message.t === "room-un-ban" ||
             message.t === "room-user-un-ban" ||
             (message.t === "room-user-ban" &&
               message.params[0] !== that.user.id)
           ) {
             that.userDisabled = false;
-            that.messageDisabled = false;
-            that.$emit("change", that.messageDisabled);
+            that.$emit("change", that.userDisabled, that.messageDisabled);
           } else if (message.t === "room-over") {
             that.$message.success("当前直播已结束");
             setTimeout(() => {
