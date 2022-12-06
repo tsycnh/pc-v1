@@ -33,7 +33,14 @@
         </template>
 
         <template v-else>
-          <div class="nickname" :class="{ teacher: item.msg_body.tec }">
+          <div
+            class="nickname"
+            :class="{
+              teacher:
+                item.msg_body.role === 'teacher' ||
+                item.msg_body.role === 'assistant',
+            }"
+          >
             {{ item.msg_body.nick_name }}
           </div>
           <div class="message-content">
@@ -46,6 +53,9 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import GoMeeduRequest from "@/js/go-meedu/request.js";
+import config from "@/js/config.js";
+
 export default {
   props: [
     "chat",
@@ -74,6 +84,7 @@ export default {
       messageDisabled: false,
       userDisabled: false,
       ws: null,
+      GoMeeduRequest: null,
     };
   },
   watch: {
@@ -120,7 +131,9 @@ export default {
       this.ws = null;
     }
   },
-  mounted() {},
+  mounted() {
+    this.GoMeeduRequest = new GoMeeduRequest(config.goMeeduUri);
+  },
   methods: {
     getMoreChatRecords() {
       this.enabledScrollBottom = false;
@@ -132,7 +145,7 @@ export default {
         return;
       }
       this.pageLoading = true;
-      this.$api.Live.ChatRecords(this.cid, this.vid, this.pagination)
+      this.GoMeeduRequest.chatMsgPaginate(this.cid, this.vid, this.pagination)
         .then((res) => {
           this.total = res.data.total;
           if (res.data.data[0]) {
@@ -220,6 +233,12 @@ export default {
             setTimeout(() => {
               window.location.reload();
             }, 1500);
+          } else if (message.t === "message-deleted") {
+            let delID = message.params.ids[0];
+            let index = that.chatRecords.findIndex((ele) => {
+              return ele.msg_body.chat_id === delID;
+            });
+            that.chatRecords.splice(index, 1);
           }
         };
         this.ws.onerror = function(evt) {

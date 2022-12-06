@@ -146,6 +146,8 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import GoMeeduRequest from "@/js/go-meedu/request.js";
+import config from "@/js/config.js";
 import ChatBox from "../../../components/chat-box.vue";
 import AttachDialog from "./components/attach-dialog.vue";
 import SignDialog from "./components/sign-dialog.vue";
@@ -197,6 +199,7 @@ export default {
       signRecords: null,
       signStatus: false,
       waitTeacher: false,
+      GoMeeduRequest: null,
     };
   },
   computed: {
@@ -226,6 +229,7 @@ export default {
   },
   mounted() {
     this.getData();
+    this.GoMeeduRequest = new GoMeeduRequest(config.goMeeduUri);
   },
   beforeDestroy() {
     this.livePlayer && this.livePlayer.destroy(true);
@@ -459,7 +463,7 @@ export default {
       }
     },
     saveChat(content) {
-      this.$api.Live.SendMessage(this.course.id, this.video.id, {
+      this.GoMeeduRequest.chatMsgSend(this.course.id, this.video.id, {
         content: content,
         duration: this.curDuration,
       }).catch((e) => {
