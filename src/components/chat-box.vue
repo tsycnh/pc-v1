@@ -203,6 +203,9 @@ export default {
           } else if (message.t === "connect") {
             that.chatRecords.push({
               local: 1,
+              msg_body: {
+                chat_id: 0,
+              },
               content: message.u.nickname + "已加入",
             });
           } else if (message.t === "sign-in-created") {
@@ -238,7 +241,9 @@ export default {
             let index = that.chatRecords.findIndex((ele) => {
               return ele.msg_body.chat_id === delID;
             });
-            that.chatRecords.splice(index, 1);
+            if (index) {
+              that.chatRecords.splice(index, 1);
+            }
           }
         };
         this.ws.onerror = function(evt) {
@@ -263,6 +268,9 @@ export default {
 
       this.chatRecords.push({
         local: 1,
+        msg_body: {
+          chat_id: 0,
+        },
         content: mesMap[e],
       });
     },
