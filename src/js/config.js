@@ -5,6 +5,10 @@ if (typeof window.meedu_app_url !== "undefined" && window.meedu_app_url) {
   url = window.meedu_app_url;
 }
 
+if (typeof window.go_meedu_url !== "undefined" && window.go_meedu_url) {
+  goMeeduUri = window.go_meedu_url;
+}
+
 export default {
   url: url,
   goMeeduUri: goMeeduUri,
