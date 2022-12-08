@@ -16,7 +16,7 @@
       }"
     >
       <template v-if="chatRecords.length > 0">
-        <div class="bullet-chat active" v-if="!over">
+        <div class="bullet-chat active" v-if="!over && total !== 0">
           <div class="addmore" @click="getMoreChatRecords()">加载更多</div>
         </div>
       </template>
@@ -242,7 +242,7 @@ export default {
           }
         };
         this.ws.onerror = function(evt) {
-          that.chanEvt("connect-fail", evt.data);
+          that.chanEvt("enter_fail");
         };
       } else {
         this.$message.error("您的浏览器不支持 WebSocket!");
