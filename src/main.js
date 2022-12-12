@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import api from "./js/request/request";
+import goApi from "./js/go-meedu/request";
 import config from "./js/config";
 
 import Message from "vue-m-message";
@@ -26,6 +27,7 @@ import ThumbBar from "@/components/thumb-bar";
 Vue.config.productionTip = false;
 
 Vue.prototype.$api = api;
+Vue.prototype.$goApi = new goApi(process.env.VUE_APP_GO_MEEDU_URL);
 Vue.prototype.$config = config;
 Vue.prototype.$utils = utils;
 Vue.prototype.$message = Message;
