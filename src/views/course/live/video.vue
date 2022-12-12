@@ -398,11 +398,11 @@ export default {
       });
       this.livePlayer.on("timeupdate", () => {
         this.curDuration = parseInt(this.livePlayer.currentTime);
-        this.playRecord(parseInt(this.livePlayer.currentTime));
+        this.livePlayRecord(parseInt(this.livePlayer.currentTime));
       });
       this.livePlayer.on("ended", () => {
         this.curDuration = parseInt(this.livePlayer.currentTime);
-        this.playRecord(parseInt(this.livePlayer.currentTime), true);
+        this.livePlayRecord(parseInt(this.livePlayer.currentTime), true);
       });
     },
     initLiveTencentPlayer() {
@@ -420,10 +420,10 @@ export default {
           that.noTeacher = false;
           if (msg.type == "timeupdate") {
             that.curDuration = parseInt(msg.timeStamp / 1000);
-            that.playRecord(parseInt(msg.timeStamp / 1000));
+            that.livePlayRecord(parseInt(msg.timeStamp / 1000));
           } else if (msg.type == "ended") {
             that.curDuration = parseInt(msg.timeStamp / 1000);
-            that.playRecord(parseInt(msg.timeStamp / 1000), true);
+            that.livePlayRecord(parseInt(msg.timeStamp / 1000), true);
           } else if (msg.type == "error" && msg.detail.code === 2003) {
             that.noTeacher = true;
           }
@@ -472,9 +472,27 @@ export default {
     playRecord(duration, isEnd) {
       if (duration - this.timeValue >= 10 || isEnd === true) {
         this.timeValue = duration;
-        this.$api.Live.Record(this.video.course_id, this.video.id, {
-          duration: this.timeValue,
-        }).then(() => {
+        this.GoMeeduRequest.VodWatchRecord(
+          this.video.course_id,
+          this.video.id,
+          {
+            duration: this.timeValue,
+          }
+        ).then(() => {
+          // todo
+        });
+      }
+    },
+    livePlayRecord(duration, isEnd) {
+      if (duration - this.timeValue >= 10 || isEnd === true) {
+        this.timeValue = duration;
+        this.GoMeeduRequest.LiveWatchRecord(
+          this.video.course_id,
+          this.video.id,
+          {
+            duration: this.timeValue,
+          }
+        ).then(() => {
           // todo
         });
       }

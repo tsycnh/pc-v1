@@ -245,12 +245,6 @@ const Api = {
         params
       );
     },
-    Sign(courseId, videoId, id, params) {
-      return post(
-        `/addons/zhibo/api/v1/course/${courseId}/video/${videoId}/signIn/${id}`,
-        params
-      );
-    },
   },
   Member: {
     Detail() {
