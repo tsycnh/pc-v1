@@ -105,7 +105,6 @@ export default {
       font-weight: 400;
       color: #3ca7fa;
       line-height: 12px;
-      margin-left: 15px;
       cursor: pointer;
       &:hover {
         opacity: 0.8;
