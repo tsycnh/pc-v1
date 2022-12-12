@@ -68,28 +68,30 @@
               </div>
             </template>
           </div>
-          <div class="replybox" v-if="currentTab === 1 && video.status !== 2">
-            <input
-              class="reply-content"
-              type="text"
-              :disabled="video.status === 2 || messageDisabled"
-              v-model="message.content"
-              :placeholder="
-                messageDisabled
-                  ? '禁言状态下无法发布消息'
-                  : '按回车键可直接发送'
-              "
-              @keyup.enter="submitMessage()"
-            />
-            <div
-              class="submit"
-              :class="{
-                disabled: messageDisabled,
-              }"
-              @click="submitMessage()"
-            >
-              发布
-            </div>
+          <div class="replybox" v-if="currentTab === 1">
+            <template v-if="video.status !== 2">
+              <input
+                class="reply-content"
+                type="text"
+                :disabled="messageDisabled"
+                v-model="message.content"
+                :placeholder="
+                  messageDisabled
+                    ? '禁言状态下无法发布消息'
+                    : '按回车键可直接发送'
+                "
+                @keyup.enter="submitMessage()"
+              />
+              <div
+                class="submit"
+                :class="{
+                  disabled: messageDisabled,
+                }"
+                @click="submitMessage()"
+              >
+                发布
+              </div>
+            </template>
           </div>
         </div>
         <div class="chat-item">
@@ -412,7 +414,6 @@ export default {
         },
       });
     },
-
     initVodPlayer(url, poster) {
       let dplayerUrls = [];
       url.forEach((item) => {

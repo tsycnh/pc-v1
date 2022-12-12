@@ -11,9 +11,6 @@
     <div
       class="chat-box"
       ref="chatBox"
-      :class="{
-        end: status === 2,
-      }"
     >
       <template v-if="chatRecords.length > 0">
         <div class="bullet-chat active" v-if="!over && total !== 0">
