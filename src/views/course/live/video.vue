@@ -157,8 +157,6 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import GoMeeduRequest from "@/js/go-meedu/request.js";
-import config from "@/js/config.js";
 import ChatBox from "../../../components/chat-box.vue";
 import AttachDialog from "./components/attach-dialog.vue";
 import SignDialog from "./components/sign-dialog.vue";
@@ -210,7 +208,6 @@ export default {
       signRecords: null,
       signStatus: false,
       waitTeacher: false,
-      GoMeeduRequest: null,
       noTeacher: false,
     };
   },
@@ -241,7 +238,6 @@ export default {
   },
   mounted() {
     this.getData();
-    this.GoMeeduRequest = new GoMeeduRequest(config.goMeeduUri);
   },
   beforeDestroy() {
     this.livePlayer && this.livePlayer.destroy(true);
@@ -472,38 +468,36 @@ export default {
     playRecord(duration, isEnd) {
       if (duration - this.timeValue >= 10 || isEnd === true) {
         this.timeValue = duration;
-        this.GoMeeduRequest.VodWatchRecord(
-          this.video.course_id,
-          this.video.id,
-          {
+        this.$goApi
+          .VodWatchRecord(this.video.course_id, this.video.id, {
             duration: this.timeValue,
-          }
-        ).then(() => {
-          // todo
-        });
+          })
+          .then(() => {
+            // todo
+          });
       }
     },
     livePlayRecord(duration, isEnd) {
       if (duration - this.timeValue >= 10 || isEnd === true) {
         this.timeValue = duration;
-        this.GoMeeduRequest.LiveWatchRecord(
-          this.video.course_id,
-          this.video.id,
-          {
+        this.$goApi
+          .LiveWatchRecord(this.video.course_id, this.video.id, {
             duration: this.timeValue,
-          }
-        ).then(() => {
-          // todo
-        });
+          })
+          .then(() => {
+            // todo
+          });
       }
     },
     saveChat(content) {
-      this.GoMeeduRequest.chatMsgSend(this.course.id, this.video.id, {
-        content: content,
-        duration: this.curDuration,
-      }).catch((e) => {
-        this.$msg.error(e.message);
-      });
+      this.$goApi
+        .chatMsgSend(this.course.id, this.video.id, {
+          content: content,
+          duration: this.curDuration,
+        })
+        .catch((e) => {
+          this.$msg.error(e.message);
+        });
     },
     submitMessage() {
       if (!this.message.content) {

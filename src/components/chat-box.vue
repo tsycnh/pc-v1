@@ -8,10 +8,7 @@
         您已被禁言
       </div>
     </div>
-    <div
-      class="chat-box"
-      ref="chatBox"
-    >
+    <div class="chat-box" ref="chatBox">
       <template v-if="chatRecords.length > 0">
         <div class="bullet-chat active" v-if="!over && total !== 0">
           <div class="addmore" @click="getMoreChatRecords()">加载更多</div>
@@ -50,8 +47,6 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import GoMeeduRequest from "@/js/go-meedu/request.js";
-import config from "@/js/config.js";
 
 export default {
   props: [
@@ -81,7 +76,6 @@ export default {
       messageDisabled: false,
       userDisabled: false,
       ws: null,
-      GoMeeduRequest: null,
     };
   },
   watch: {
@@ -128,9 +122,7 @@ export default {
       this.ws = null;
     }
   },
-  mounted() {
-    this.GoMeeduRequest = new GoMeeduRequest(config.goMeeduUri);
-  },
+  mounted() {},
   methods: {
     getMoreChatRecords() {
       this.enabledScrollBottom = false;
@@ -142,7 +134,8 @@ export default {
         return;
       }
       this.pageLoading = true;
-      this.GoMeeduRequest.chatMsgPaginate(this.cid, this.vid, this.pagination)
+      this.$goApi
+        .chatMsgPaginate(this.cid, this.vid, this.pagination)
         .then((res) => {
           this.total = res.data.total;
           if (res.data.data[0]) {

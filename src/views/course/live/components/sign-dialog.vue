@@ -14,8 +14,6 @@
   </transition>
 </template>
 <script>
-import GoMeeduRequest from "@/js/go-meedu/request.js";
-import config from "@/js/config.js";
 export default {
   props: ["cid", "records"],
   data() {
@@ -29,7 +27,6 @@ export default {
   },
   watch: {},
   mounted() {
-    this.GoMeeduRequest = new GoMeeduRequest(config.goMeeduUri);
     this.getCount();
   },
   beforeDestroy() {
@@ -69,7 +66,8 @@ export default {
         return;
       }
       this.loading = true;
-      this.GoMeeduRequest.Sign(this.cid, this.vid, this.records.id)
+      this.$goApi
+        .Sign(this.cid, this.vid, this.records.id)
         .then(() => {
           this.loading = false;
           this.count = "";
