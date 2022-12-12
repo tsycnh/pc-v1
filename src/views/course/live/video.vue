@@ -38,12 +38,21 @@
               'background-size': '100% 100%',
             }"
           >
-            <div class="play" v-if="video.status === 1">
-              <div
-                id="meedu-live-player"
-                style="width: 100%; height: 100%"
-              ></div>
-            </div>
+            <template v-if="video.status === 1">
+              <div class="alert-message" v-if="noTeacher">
+                <div class="message">
+                  讲师暂时离开直播间，稍后请刷新！<a @click="reloadPlayer()"
+                    >点击刷新</a
+                  >
+                </div>
+              </div>
+              <div class="play" v-show="!noTeacher">
+                <div
+                  id="meedu-live-player"
+                  style="width: 100%; height: 100%"
+                ></div>
+              </div>
+            </template>
             <div class="alert-message" v-else-if="video.status === 0">
               <div class="message" v-if="waitTeacher">
                 待讲师开播，<a @click="reloadPlayer()">点击刷新</a>
@@ -202,6 +211,7 @@ export default {
       signStatus: false,
       waitTeacher: false,
       GoMeeduRequest: null,
+      noTeacher: false,
     };
   },
   computed: {
@@ -403,13 +413,19 @@ export default {
         poster: this.course.poster || this.config.player.cover,
         width: 950,
         height: 535,
+        wording: {
+          2003: "讲师暂时离开直播间，稍后请刷新！",
+        },
         listener: function(msg) {
+          that.noTeacher = false;
           if (msg.type == "timeupdate") {
             that.curDuration = parseInt(msg.timeStamp / 1000);
             that.playRecord(parseInt(msg.timeStamp / 1000));
           } else if (msg.type == "ended") {
             that.curDuration = parseInt(msg.timeStamp / 1000);
             that.playRecord(parseInt(msg.timeStamp / 1000), true);
+          } else if (msg.type == "error" && msg.detail.code === 2003) {
+            that.noTeacher = true;
           }
         },
       });
