@@ -1,8 +1,7 @@
 <template>
   <div class="live-attach-box">
     <div class="float-left reload">
-      <span>查看最新课件列表</span>
-      <a @click="resetData()">点击刷新</a>
+      <a @click="resetData()">点击刷新课件列表</a>
     </div>
     <div class="float-left list-box" v-if="list.length > 0">
       <template v-for="(item, index) in list">
