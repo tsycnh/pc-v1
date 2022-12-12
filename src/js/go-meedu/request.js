@@ -28,7 +28,7 @@ class GoMeeduRequest {
 
   LiveWatchRecord(courseId, videoId, params) {
     return this.client.post(
-      `/addons/zhibo/api/v1/course/${courseId}/video/${videoId}/LiveWatchRecord`,
+      `/addons/zhibo/api/v1/course/${courseId}/video/${videoId}/liveWatchRecord`,
       params
     );
   }
