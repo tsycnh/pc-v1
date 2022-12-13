@@ -52,15 +52,13 @@ export default {
         return;
       }
       this.loading = true;
-      this.$api.Live.AttachList(
-        this.cid,
-        this.$route.query.id,
-        this.pagination
-      ).then((res) => {
-        this.loading = false;
-        this.list = res.data.data;
-        this.total = res.data.total;
-      });
+      this.$goApi
+        .AttachList(this.cid, this.$route.query.id, this.pagination)
+        .then((res) => {
+          this.loading = false;
+          this.list = res.data.data;
+          this.total = res.data.total;
+        });
     },
     close() {
       this.$emit("close");

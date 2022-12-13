@@ -39,6 +39,13 @@ class GoMeeduRequest {
       params
     );
   }
+
+  AttachList(course_id, video_id, param) {
+    return this.client.get(
+      `/addons/zhibo/api/v1/course/${course_id}/video/${video_id}/attach/index`,
+      param
+    );
+  }
 }
 
 export default GoMeeduRequest;
