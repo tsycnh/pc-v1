@@ -67,7 +67,7 @@
             </div>
           </template>
           <template v-else>
-            <div class="button continue" @click="goPlay(item)">
+            <div class="button continue" @click="goDetail(item.course_id)">
               观看直播
             </div>
           </template>
