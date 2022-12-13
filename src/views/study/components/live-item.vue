@@ -97,7 +97,7 @@ export default {
         name: "liveDetail",
         query: {
           id: id,
-          tab: this.currenStatus === 2 ? 3 : 2,
+          tab: this.currenStatus === 2 || 1 ? 3 : 2,
         },
       });
     },
