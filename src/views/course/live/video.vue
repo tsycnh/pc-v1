@@ -295,7 +295,9 @@ export default {
 
           // 网页标题
           document.title = resData.video.title;
-          this.chat = resData.chat;
+          if (!this.chat) {
+            this.chat = resData.chat;
+          }
           this.curStartTime = resData.video.published_at;
           this.course = resData.course;
           this.video = resData.video;
