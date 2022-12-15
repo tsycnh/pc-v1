@@ -76,7 +76,7 @@ export default {
 <style lang="less" scoped>
 .live-attach-box {
   width: 100%;
-  height: 565px;
+  height: 642px;
   float: left;
   display: flex;
   flex-direction: column;

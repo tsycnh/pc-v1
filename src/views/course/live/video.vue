@@ -77,8 +77,8 @@
               </div>
             </template>
           </div>
-          <div class="replybox" v-if="currentTab === 1">
-            <template v-if="video.status !== 2">
+          <div class="replybox">
+            <template v-if="currentTab === 1 && video.status !== 2">
               <input
                 class="reply-content"
                 type="text"
