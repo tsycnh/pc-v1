@@ -215,9 +215,8 @@ export default {
             that.messageDisabled = false;
             that.$emit("change", that.userDisabled, that.messageDisabled);
           } else if (
-            message.t === "room-user-un-ban" ||
-            (message.t === "room-user-ban" &&
-              message.params[0] !== that.user.id)
+            message.t === "room-user-un-ban" &&
+            message.params[0] === that.user.id
           ) {
             that.userDisabled = false;
             that.$emit("change", that.userDisabled, that.messageDisabled);
