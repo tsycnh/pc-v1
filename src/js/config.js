@@ -12,5 +12,5 @@ if (typeof window.go_meedu_url !== "undefined" && window.go_meedu_url) {
 export default {
   url: url,
   goMeeduUri: goMeeduUri,
-  version: "v4.8.4",
+  version: "v4.8.5",
 };
