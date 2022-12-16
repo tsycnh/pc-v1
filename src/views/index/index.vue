@@ -238,6 +238,8 @@ export default {
         height: 100%;
         img {
           width: 100%;
+          aspect-ratio: auto 1200 / 400;
+          height: 100%;
           border-radius: 16px 16px 0 0;
           cursor: pointer;
         }

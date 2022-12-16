@@ -1,21 +1,16 @@
 <template>
   <div class="chat-box">
-    <div class="tit">聊天互动</div>
-    <div class="tip" v-if="messageDisabled && userDisabled">
-      您已被禁言
+    <div class="tip-box" v-if="messageDisabled || userDisabled">
+      <div class="tip" v-if="messageDisabled">
+        全员已禁言
+      </div>
+      <div class="tip" v-if="!messageDisabled && userDisabled">
+        您已被禁言
+      </div>
     </div>
-    <div class="tip" v-if="messageDisabled && !userDisabled">
-      全员已禁言
-    </div>
-    <div
-      class="chat-box"
-      ref="chatBox"
-      :class="{
-        end: status === 2,
-      }"
-    >
+    <div class="chat-box" ref="chatBox">
       <template v-if="chatRecords.length > 0">
-        <div class="bullet-chat active" v-if="!over">
+        <div class="bullet-chat active" v-if="!over && total !== 0">
           <div class="addmore" @click="getMoreChatRecords()">加载更多</div>
         </div>
       </template>
@@ -32,7 +27,14 @@
         </template>
 
         <template v-else>
-          <div class="nickname" :class="{ teacher: item.msg_body.tec }">
+          <div
+            class="nickname"
+            :class="{
+              teacher:
+                item.msg_body.role === 'teacher' ||
+                item.msg_body.role === 'assistant',
+            }"
+          >
             {{ item.msg_body.nick_name }}
           </div>
           <div class="message-content">
@@ -41,31 +43,26 @@
         </template>
       </div>
     </div>
-    <remote-script
-      src="https://cdn.aodianyun.com/dms/rop_client.js"
-      @load="initADY"
-      v-if="enabledChat"
-    ></remote-script>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
+
 export default {
-  props: ["chat", "enabledChat", "status", "cid", "vid", "disabled"],
+  props: [
+    "chat",
+    "enabledChat",
+    "enabledMessage",
+    "status",
+    "cid",
+    "vid",
+    "disabled",
+  ],
   data() {
     return {
       chatChannel: null,
       chatUser: null,
-      ADYParams: {
-        sub_key: null,
-        pub_key: null,
-        channel: null,
-        user: {
-          id: null,
-          name: null,
-          avatar: null,
-        },
-      },
+      connect_url: null,
       chatRecords: [],
       pagination: {
         page: 1,
@@ -78,6 +75,7 @@ export default {
       newId: null,
       messageDisabled: false,
       userDisabled: false,
+      ws: null,
     };
   },
   watch: {
@@ -86,12 +84,17 @@ export default {
         this.chatBoxScrollBottom();
       }
     },
+    enabledMessage(val) {
+      if (val) {
+        this.messageDisabled = true;
+      } else {
+        this.messageDisabled = false;
+      }
+    },
     disabled(val) {
-      if (val === 2) {
-        this.messageDisabled = true;
+      if (val) {
         this.userDisabled = true;
-      } else if (val === 1) {
-        this.messageDisabled = true;
+      } else {
         this.userDisabled = false;
       }
     },
@@ -100,12 +103,10 @@ export default {
       if (typeof data !== "undefined") {
         this.chatChannel = data.channel;
         this.chatUser = data.user;
-        this.ADYParams.sub_key = data.aodianyun.sub_key;
-        this.ADYParams.pub_key = data.aodianyun.pub_key;
-        this.ADYParams.channel = data.channel;
-        this.ADYParams.user.id = data.user.id;
-        this.ADYParams.user.name = data.user.name;
-        this.ADYParams.user.avatar = data.user.avatar;
+        this.connect_url = data.connect_url;
+        if (this.enabledChat) {
+          this.init();
+        }
       }
       this.enabledScrollBottom = true;
       this.getChatRecords();
@@ -116,8 +117,9 @@ export default {
   },
   beforeDestroy() {
     // 断开聊天室
-    if (window.ROP) {
-      window.ROP.Leave();
+    if (this.ws) {
+      this.ws.close();
+      this.ws = null;
     }
   },
   mounted() {},
@@ -132,7 +134,8 @@ export default {
         return;
       }
       this.pageLoading = true;
-      this.$api.Live.ChatRecords(this.cid, this.vid, this.pagination)
+      this.$goApi
+        .chatMsgPaginate(this.cid, this.vid, this.pagination)
         .then((res) => {
           this.total = res.data.total;
           if (res.data.data[0]) {
@@ -165,92 +168,79 @@ export default {
         this.$refs["chatBox"].scrollTop = this.$refs["chatBox"].scrollHeight;
       }, 150);
     },
-    initADY() {
-      let pubKey = this.ADYParams.pub_key;
-      let subKey = this.ADYParams.sub_key;
-      let channel = this.ADYParams.channel;
-      let id = this.ADYParams.user.id;
-      let nickname = this.ADYParams.user.name;
-      let avatar = this.ADYParams.user.avatar;
-
-      if (pubKey === null) {
-        return;
+    init() {
+      let that = this;
+      let connectUrl = this.connect_url;
+      connectUrl = connectUrl.replace(":courseId", this.cid);
+      connectUrl = connectUrl.replace(":videoId", this.vid);
+      connectUrl = connectUrl.replace(":token", this.$utils.getToken());
+      if ("WebSocket" in window) {
+        this.ws = new WebSocket(connectUrl);
+        this.ws.onopen = function() {
+          that.chanEvt("connect-success");
+        };
+        this.ws.onclose = function(evt) {
+          that.chanEvt("losed");
+        };
+        this.ws.onmessage = function(evt) {
+          that.enabledScrollBottom = true;
+          let message = JSON.parse(evt.data);
+          if (message.t === "message") {
+            let msgV = JSON.parse(message.v);
+            that.chatRecords.push({
+              msg_body: msgV,
+            });
+          } else if (message.t === "connect") {
+            that.chatRecords.push({
+              local: 1,
+              msg_body: {
+                chat_id: 0,
+              },
+              content: message.u.nickname + "已加入",
+            });
+          } else if (message.t === "sign-in-created") {
+            that.$emit("sign", message.params);
+          } else if (message.t === "sign-in-closed") {
+            that.$emit("endSign");
+          } else if (message.t === "room-ban") {
+            that.messageDisabled = true;
+            that.$emit("change", that.userDisabled, that.messageDisabled);
+          } else if (
+            message.t === "room-user-ban" &&
+            message.params[0] === that.user.id
+          ) {
+            that.userDisabled = true;
+            that.$emit("change", that.userDisabled, that.messageDisabled);
+          } else if (message.t === "room-un-ban") {
+            that.messageDisabled = false;
+            that.$emit("change", that.userDisabled, that.messageDisabled);
+          } else if (
+            message.t === "room-user-un-ban" &&
+            message.params[0] === that.user.id
+          ) {
+            that.userDisabled = false;
+            that.$emit("change", that.userDisabled, that.messageDisabled);
+          } else if (message.t === "room-over") {
+            that.$message.success("当前直播已结束");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          } else if (message.t === "message-deleted") {
+            let delID = message.params.ids[0];
+            let index = that.chatRecords.findIndex((ele) => {
+              return ele.msg_body.chat_id === delID;
+            });
+            if (index) {
+              that.chatRecords.splice(index, 1);
+            }
+          }
+        };
+        this.ws.onerror = function(evt) {
+          that.chanEvt("enter_fail");
+        };
+      } else {
+        this.$message.error("您的浏览器不支持 WebSocket!");
       }
-
-      window.ROP.Enter(pubKey, subKey, id, true);
-      window.ROP.On("enter_suc", () => {
-        window.ROP.Subscribe(channel);
-        // 发送新用户上线消息
-        window.ROP.Publish(
-          JSON.stringify({
-            t: "connect",
-            v: "",
-            u: {
-              id: id,
-              nickname: nickname,
-              avatar: avatar,
-            },
-          }),
-          channel
-        );
-      });
-      window.ROP.On("enter_fail", (err) => {
-        this.chanEvt("connect-fail", err);
-      });
-      window.ROP.On("offline", (err) => {
-        this.chanEvt("connect-off", err);
-      });
-      window.ROP.On("losed", () => {
-        this.chanEvt("connect-lose");
-      });
-      window.ROP.On("reconnect", () => {
-        this.chanEvt("connect-reconnect");
-      });
-      window.ROP.On("connectold", () => {
-        this.chanEvt("connect-repeat");
-      });
-      window.ROP.On("publish_data", (data, topic) => {
-        if (topic !== channel) {
-          return;
-        }
-        this.enabledScrollBottom = true;
-        let message = JSON.parse(data);
-        if (message.t === "message") {
-          let msgV = JSON.parse(message.v);
-          this.chatRecords.push({
-            msg_body: msgV,
-          });
-        } else if (message.t === "connect") {
-          this.chatRecords.push({
-            local: 1,
-            content: message.u.nickname + "已加入",
-          });
-        } else if (message.t === "room-ban") {
-          this.userDisabled = false;
-          this.messageDisabled = true;
-          this.$emit("change", this.messageDisabled);
-        } else if (
-          message.t === "room-user-ban" &&
-          message.params[0] === this.user.id
-        ) {
-          this.userDisabled = true;
-          this.messageDisabled = true;
-          this.$emit("change", this.messageDisabled);
-        } else if (
-          message.t === "room-un-ban" ||
-          message.t === "room-user-un-ban" ||
-          (message.t === "room-user-ban" && message.params[0] !== this.user.id)
-        ) {
-          this.userDisabled = false;
-          this.messageDisabled = false;
-          this.$emit("change", this.messageDisabled);
-        } else if (message.t === "room-over") {
-          this.$message.success("当前直播已结束");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
-        }
-      });
     },
     chanEvt(e, data) {
       this.enabledScrollBottom = true;
@@ -267,6 +257,9 @@ export default {
 
       this.chatRecords.push({
         local: 1,
+        msg_body: {
+          chat_id: 0,
+        },
         content: mesMap[e],
       });
     },
@@ -278,26 +271,31 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 15px 0 0 0;
   position: relative;
   display: flex;
   flex-direction: column;
-  .tip {
-    width: 80px;
-    height: 20px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #ffffff;
-    line-height: 12px;
-    background: #faad14;
-    border-radius: 10px;
+  .tip-box {
+    width: 100%;
+    height: 30px;
+    float: left;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 28px;
-    left: 89px;
+    .tip {
+      width: 80px;
+      height: 20px;
+      font-size: 12px;
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 12px;
+      background: #faad14;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
+
   .tit {
     width: 100%;
     height: auto;
@@ -317,7 +315,7 @@ export default {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    padding: 0 15px;
+    padding: 15px 15px 0px 15px;
     &.end {
       height: 549px;
     }

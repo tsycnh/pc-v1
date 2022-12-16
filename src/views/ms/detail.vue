@@ -103,7 +103,7 @@
           </div>
         </div>
         <div class="book-desc" v-if="ms" v-show="currentTab === 2">
-          <div class="new-content" v-html="ms.desc"></div>
+          <div class="u-content md-content" v-html="ms.desc"></div>
         </div>
       </template>
     </div>
@@ -768,8 +768,8 @@ export default {
       border-radius: 8px;
       font-size: 16px;
       font-weight: 400;
-      color: #121212;
-      line-height: 28px;
+      color: #333333;
+      line-height: 30px;
     }
     .book-chapter-box {
       width: 1200px;

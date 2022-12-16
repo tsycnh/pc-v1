@@ -17,21 +17,33 @@
 
 ### 快速上手
 
-安装依赖：
+#### 一、安装依赖：
 
 ```
 npm install
 ```
 
-修改配置：
+#### 二、修改配置：
 
 ```
 cp .env.example .env
 ```
 
-将 .env 文件中的 `VUE_APP_URL` 改为您的 meedu 网站地址（后面不要加 `/`）
+打开 `.env` 文件，修改其中的配置如下：
 
-编译：
+```
+VUE_APP_URL=meedu的API服务地址
+VUE_APP_GO_MEEDU_URL=go-meedu地址(如果你是开源用户则留空即可)
+```
+
+例如，我的 meedu 的 API 地址是 `https://demo-api.meedu.xyz` ，我的 go-meedu 的 API 地址是 `https://demo-go.meedu.xyz` 那么我的 `.env` 文件内容如下：
+
+```
+VUE_APP_URL=https://demo-api.meedu.xyz
+VUE_APP_GO_MEEDU_URL=https://demo-go.meedu.xyz
+```
+
+#### 三、编译：
 
 ```
 npm run build

@@ -45,7 +45,10 @@
           </div>
         </div>
         <div class="book-desc" v-if="goods">
-          <div class="new-content" v-html="goods.free_content_render"></div>
+          <div
+            class="u-content md-content"
+            v-html="goods.free_content_render"
+          ></div>
         </div>
       </template>
     </div>
@@ -315,8 +318,8 @@ export default {
       border-radius: 8px;
       font-size: 16px;
       font-weight: 400;
-      color: #121212;
-      line-height: 28px;
+      color: #333333;
+      line-height: 30px;
     }
   }
 }

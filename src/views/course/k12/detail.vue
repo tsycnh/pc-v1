@@ -99,7 +99,12 @@
           </div>
         </div>
         <div class="coursr-desc" v-if="course" v-show="currentTab === 2">
-          <div class="new-content" v-html="course.render_desc"></div>
+          <div
+            class="u-content md-content"
+            v-code
+            v-latex
+            v-html="course.render_desc"
+          ></div>
         </div>
         <div class="course-chapter-box" v-show="currentTab === 3">
           <div class="chapter-item">
@@ -604,8 +609,8 @@ export default {
       border-radius: 8px;
       font-size: 16px;
       font-weight: 400;
-      color: #121212;
-      line-height: 28px;
+      color: #333333;
+      line-height: 30px;
     }
     .course-chapter-box {
       width: 1200px;

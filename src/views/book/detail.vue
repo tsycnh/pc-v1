@@ -142,7 +142,12 @@
           </div>
         </div>
         <div class="book-desc" v-if="book" v-show="currentTab === 2">
-          <div class="new-content" v-html="book.render_desc"></div>
+          <div
+            class="u-content md-content"
+            v-code
+            v-latex
+            v-html="book.render_desc"
+          ></div>
         </div>
         <div class="book-chapter-box" v-show="currentTab === 3">
           <template v-if="chapters.length > 0">
@@ -879,8 +884,8 @@ export default {
       border-radius: 8px;
       font-size: 16px;
       font-weight: 400;
-      color: #121212;
-      line-height: 28px;
+      color: #333333;
+      line-height: 30px;
     }
     .book-chapter-box {
       width: 1200px;
