@@ -67,7 +67,7 @@
             </div>
           </template>
           <template v-else>
-            <div class="button continue" @click="goPlay(item)">
+            <div class="button continue" @click="goDetail(item.course_id)">
               观看直播
             </div>
           </template>
@@ -97,7 +97,7 @@ export default {
         name: "liveDetail",
         query: {
           id: id,
-          tab: this.currenStatus === 2 ? 3 : 2,
+          tab: this.currenStatus !== 3 ? 3 : 2,
         },
       });
     },
