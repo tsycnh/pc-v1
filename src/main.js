@@ -27,7 +27,7 @@ import ThumbBar from "@/components/thumb-bar";
 Vue.config.productionTip = false;
 
 Vue.prototype.$api = api;
-Vue.prototype.$goApi = new goApi(process.env.VUE_APP_GO_MEEDU_URL);
+Vue.prototype.$goApi = new goApi(config.goMeeduUri);
 Vue.prototype.$config = config;
 Vue.prototype.$utils = utils;
 Vue.prototype.$message = Message;
