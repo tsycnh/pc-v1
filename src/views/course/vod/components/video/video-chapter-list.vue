@@ -10,16 +10,14 @@
           v-for="videoItem in videos[chapter.id]"
           :key="videoItem.id"
         >
-          <img
-            class="play-icon"
+          <template
             v-if="
               isBuy ||
                 course.is_free === 1 ||
                 videoItem.free_seconds > 0 ||
                 buyVideos.indexOf(videoItem.id) !== -1
             "
-            src="@/assets/img/commen/icon-unlock.png"
-          />
+          ></template>
           <img
             class="play-icon"
             v-else
@@ -67,16 +65,14 @@
             v-for="videoItem in videos[0]"
             :key="videoItem.id"
           >
-            <img
-              class="play-icon"
+            <template
               v-if="
                 isBuy ||
                   course.is_free === 1 ||
                   videoItem.free_seconds > 0 ||
                   buyVideos.indexOf(videoItem.id) !== -1
               "
-              src="@/assets/img/commen/icon-unlock.png"
-            />
+            ></template>
             <img
               class="play-icon"
               v-else
@@ -151,6 +147,7 @@ export default {
     width: 20px;
     height: 20px;
     cursor: pointer;
+    margin-right: 10px;
   }
   .video-title {
     width: 100%;
@@ -159,7 +156,6 @@ export default {
     font-weight: 400;
     color: #333333;
     line-height: 14px;
-    margin-left: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -248,6 +244,7 @@ export default {
         width: 20px;
         height: 20px;
         cursor: pointer;
+        margin-right: 10px;
       }
       .video-title {
         height: 22px;
@@ -255,7 +252,6 @@ export default {
         font-weight: 400;
         color: #333333;
         line-height: 14px;
-        margin-left: 10px;
         display: flex;
         flex-direction: row;
         align-items: center;
