@@ -72,6 +72,12 @@ export default {
   &:first-child {
     margin-top: 0px;
   }
+  &:hover {
+    opacity: 0.8;
+    .video-title {
+      color: #3ca7fa;
+    }
+  }
   .play-icon {
     width: 20px;
     height: 20px;
