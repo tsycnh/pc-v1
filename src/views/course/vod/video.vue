@@ -340,54 +340,12 @@ export default {
         this.goLogin();
         return;
       }
-      if (
-        this.course.is_free === 1 ||
-        this.isBuy ||
-        (this.course.is_free !== 1 && item.free_seconds > 0)
-      ) {
-        this.$router.push({
-          name: "coursesVideo",
-          query: {
-            id: item.id,
-          },
-        });
-      } else if (this.buyVideos) {
-        let hasvideos = this.buyVideos;
-        let has = false;
-        for (var i = 0; i < hasvideos.length; i++) {
-          if (hasvideos[i] === item.id) {
-            has = true;
-          } else {
-            has = false;
-          }
-        }
-        if (has) {
-          this.$router.push({
-            name: "coursesVideo",
-            query: {
-              id: item.id,
-            },
-          });
-        }
-        // else {
-        //   this.dialog.id = item.id;
-        //   this.dialog.status = true;
-        //   this.dialog.courseCharge = this.course.charge;
-        //   this.dialog.videoCharge = item.charge;
-        //   this.dialog.vipFree = this.course.is_free;
-        //   this.dialog.configText = item.title;
-        //   this.dialog.is_ban_sell = item.is_ban_sell;
-        // }
-      }
-      // else {
-      //   this.dialog.id = item.id;
-      //   this.dialog.status = true;
-      //   this.dialog.courseCharge = this.course.charge;
-      //   this.dialog.videoCharge = item.charge;
-      //   this.dialog.vipFree = this.course.is_free;
-      //   this.dialog.configText = item.title;
-      //   this.dialog.is_ban_sell = item.is_ban_sell;
-      // }
+      this.$router.push({
+        name: "coursesVideo",
+        query: {
+          id: item.id,
+        },
+      });
     },
     paySelect(val) {
       if (!this.isLogin) {
@@ -841,9 +799,6 @@ export default {
               background-color: #ff4d4f;
               color: white;
               cursor: pointer;
-              &:hover {
-                opacity: 0.8;
-              }
             }
 
             .subscribe-button2 {
@@ -853,9 +808,6 @@ export default {
               color: #ff4d4f;
               line-height: 15px;
               cursor: pointer;
-              &:hover {
-                opacity: 0.8;
-              }
             }
 
             .subscribe-info {

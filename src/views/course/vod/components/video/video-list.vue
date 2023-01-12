@@ -6,14 +6,7 @@
       v-for="videoItem in videos"
       :key="videoItem.id"
     >
-      <template
-        v-if="
-          isBuy ||
-            course.is_free === 1 ||
-            videoItem.free_seconds > 0 ||
-            buyVideos.indexOf(videoItem.id) !== -1
-        "
-      ></template>
+      <template v-if="isBuy || course.is_free === 1"></template>
       <img class="play-icon" v-else src="@/assets/img/commen/icon-lock.png" />
       <div class="video-title">
         <div
