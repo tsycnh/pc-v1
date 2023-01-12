@@ -9,14 +9,7 @@
           v-for="videoItem in videos[chapter.id]"
           :key="videoItem.id"
         >
-          <template
-            v-if="
-              isBuy ||
-                course.is_free === 1 ||
-                videoItem.free_seconds > 0 ||
-                buyVideos.indexOf(videoItem.id) !== -1
-            "
-          ></template>
+          <template v-if="isBuy || course.is_free === 1"></template>
           <img
             class="play-icon"
             v-else
@@ -53,14 +46,7 @@
             v-for="videoItem in videos[0]"
             :key="videoItem.id"
           >
-            <template
-              v-if="
-                isBuy ||
-                  course.is_free === 1 ||
-                  videoItem.free_seconds > 0 ||
-                  buyVideos.indexOf(videoItem.id) !== -1
-              "
-            ></template>
+            <template v-if="isBuy || course.is_free === 1"></template>
             <img
               class="play-icon"
               v-else
