@@ -6,16 +6,7 @@
       v-for="videoItem in videos"
       :key="videoItem.id"
     >
-      <img
-        class="play-icon"
-        v-if="
-          isBuy ||
-            course.is_free === 1 ||
-            videoItem.free_seconds > 0 ||
-            buyVideos.indexOf(videoItem.id) !== -1
-        "
-        src="@/assets/img/commen/icon-unlock.png"
-      />
+      <template v-if="isBuy || course.is_free === 1"></template>
       <img class="play-icon" v-else src="@/assets/img/commen/icon-lock.png" />
       <div class="video-title">
         <div class="text">
@@ -66,11 +57,18 @@ export default {
   &:first-child {
     margin-top: 0px;
   }
+  &:hover {
+    opacity: 0.8;
+    .video-title {
+      color: #3ca7fa;
+    }
+  }
 
   .play-icon {
     width: 24px;
     height: 24px;
     cursor: pointer;
+    margin-right: 15px;
   }
   .video-title {
     height: 22px;
@@ -78,7 +76,6 @@ export default {
     font-weight: 400;
     color: #333333;
     line-height: 14px;
-    margin-left: 15px;
     display: flex;
     flex-direction: row;
     align-items: center;
