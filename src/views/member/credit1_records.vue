@@ -139,16 +139,10 @@
                 • 看完课程 +{{ config.credit1_reward.watched_vod_course }} 积分
               </p>
             </div>
-            <div
-              class="rules-item"
-              v-if="
-                config.credit1_reward.paid_order &&
-                  parseInt(config.credit1_reward.paid_order) !== 0
-              "
-            >
+            <div class="rules-item" v-if="config.credit1_reward.paid_order">
               <p>
                 • 下单成功 +金额*{{
-                  parseInt(config.credit1_reward.paid_order) * 100
+                  parseInt(config.credit1_reward.paid_order * 100)
                 }}% 积分
               </p>
             </div>
