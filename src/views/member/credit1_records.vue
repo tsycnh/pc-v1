@@ -141,16 +141,16 @@
             </div>
             <div
               class="rules-item"
-              v-if="config.credit1_reward.paid_order !== 0"
+              v-if="
+                config.credit1_reward.paid_order &&
+                  parseInt(config.credit1_reward.paid_order) !== 0
+              "
             >
               <p>
                 • 下单成功 +金额*{{
-                  parseInt(config.credit1_reward.paid_order / 100)
+                  parseInt(config.credit1_reward.paid_order) * 100
                 }}% 积分
               </p>
-            </div>
-            <div class="rules-item" v-if="config.credit1_reward.invite !== 0">
-              <p>• 邀请好友注册 +{{ config.credit1_reward.invite }} 积分</p>
             </div>
             <div class="rules-item">
               <p>• 可以回答积分悬赏问题获取积分</p>
