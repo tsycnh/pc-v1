@@ -361,6 +361,12 @@ const Api = {
     UserPractice(params) {
       return get("/addons/Paper/api/v2/member/joinPractices", params);
     },
+    TecentFaceVerify(params) {
+      return post("/api/v3/member/tencent/faceVerify", params);
+    },
+    TecentFaceVerifyQuery(params) {
+      return get("/api/v3/member/tencent/faceVerify", params);
+    },
     Learned: {
       Courses(params) {
         return get("/api/v3/member/courses/learned", params);
