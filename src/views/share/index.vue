@@ -124,7 +124,9 @@
                 <div class="goods-info">
                   <div class="goods-title">{{ item.goods_title }}</div>
                   <div class="goods-charge">
-                    <div class="reward">成功邀请得{{ item.reward }}元</div>
+                    <div class="reward">
+                      邀新用户下单可赚{{ item.reward }}元
+                    </div>
                     <div class="poster-button" @click="goPoster(item)">
                       复制链接
                     </div>
@@ -882,14 +884,14 @@ export default {
                 justify-content: space-between;
                 align-items: center;
                 .reward {
-                  height: 14px;
-                  font-size: 14px;
+                  height: 12px;
+                  font-size: 12px;
                   font-weight: 400;
                   color: #ff4d4f;
-                  line-height: 14px;
+                  line-height: 12px;
                 }
                 .poster-button {
-                  width: 72px;
+                  width: 54px;
                   height: 30px;
                   background: #ff4d4f;
                   border-radius: 4px;
@@ -897,7 +899,7 @@ export default {
                   display: flex;
                   justify-content: center;
                   align-items: center;
-                  font-size: 14px;
+                  font-size: 10px;
                   font-weight: 400;
                   color: #ffffff;
                   &:hover {
