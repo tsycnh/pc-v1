@@ -29,6 +29,7 @@
     </div>
     <tencent-face-check
       :status="faceCheckVisible"
+      :active="true"
       @cancel="cancelFaceCheckDialog"
       @change="faceChecksuccess"
     >

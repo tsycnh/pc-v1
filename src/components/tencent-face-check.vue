@@ -4,6 +4,7 @@
       <div class="dialog-login-box">
         <div class="tabs">
           <img
+            v-if="active"
             class="btn-close"
             @click="cancel()"
             src="../assets/img/commen/icon-close.png"
@@ -22,7 +23,7 @@
 import QRCode from "qrcodejs2";
 
 export default {
-  props: ["status"],
+  props: ["status", "active"],
   data() {
     return {
       timer: null,
