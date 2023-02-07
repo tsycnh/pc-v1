@@ -40,7 +40,9 @@ export default {
     },
   },
   mounted() {},
-  beforeDestroy() {},
+  beforeDestroy() {
+    clearInterval(this.timer);
+  },
   methods: {
     goFaceVerify() {
       if (this.verifyLoading) {
@@ -66,6 +68,7 @@ export default {
             colorLight: "#ffffff", //背景色
             correctLevel: QRCode.CorrectLevel.H, //容错级别
           });
+          this.timer = setInterval(this.checkFaceVerify, 2500);
         })
         .catch((e) => {
           this.verifyLoading = false;
@@ -74,6 +77,7 @@ export default {
         });
     },
     cancel() {
+      clearInterval(this.timer);
       this.$emit("cancel");
     },
     checkFaceVerify() {
@@ -83,7 +87,7 @@ export default {
       }).then((res) => {
         if (res.data.status === 9) {
           this.$message.success("实人认证成功");
-
+          clearInterval(this.timer);
           this.$emit("change");
         }
       });
