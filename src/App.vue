@@ -150,9 +150,7 @@ export default {
     },
     faceChecksuccess() {
       this.faceCheckVisible = false;
-      this.$router.replace({
-        name: "index",
-      });
+      this.getUser();
     },
     changeType(val) {
       this.changeDialogType(val);
