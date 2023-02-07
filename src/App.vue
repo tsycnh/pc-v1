@@ -214,6 +214,14 @@ export default {
           this.bindNewmobileVisible = true;
           this.cancelStatus = true;
         }
+        //强制实名认证
+        if (
+          this.config &&
+          res.data.is_face_verify === false &&
+          this.config.member.enabled_face_verify === true
+        ) {
+          this.faceCheckVisible = true;
+        }
       } catch (e) {
         this.$message.error(e.message);
       }
@@ -265,10 +273,6 @@ export default {
           );
         }
         window.location.href = url;
-      }
-      //强制实名认证
-      if (config.member && config.member.enabled_face_verify === true) {
-        this.faceCheckVisible = true;
       }
     },
   },
