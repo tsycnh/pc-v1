@@ -29,6 +29,7 @@
     <tencent-face-check
       :status="faceCheckVisible"
       @cancel="cancelFaceCheckDialog"
+      @change="faceChecksuccess"
     >
     </tencent-face-check>
 
@@ -147,6 +148,12 @@ export default {
     cancelFaceCheckDialog() {
       this.faceCheckVisible = false;
     },
+    faceChecksuccess() {
+      this.faceCheckVisible = false;
+      this.$router.replace({
+        name: "index",
+      });
+    },
     changeType(val) {
       this.changeDialogType(val);
     },
@@ -209,10 +216,6 @@ export default {
           this.bindNewmobileVisible = true;
           this.cancelStatus = true;
         }
-        //强制实名认证
-        if (res.data.is_face_verify === false) {
-          this.faceCheckVisible = true;
-        }
       } catch (e) {
         this.$message.error(e.message);
       }
@@ -264,6 +267,10 @@ export default {
           );
         }
         window.location.href = url;
+      }
+      //强制实名认证
+      if (config.member && config.member.enabled_face_verify === true) {
+        this.faceCheckVisible = true;
       }
     },
   },
