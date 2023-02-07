@@ -3,7 +3,7 @@
     <div class="result">
       <img
         class="thumb"
-        v-if="localUser.is_face_verify"
+        v-if="user.is_face_verify"
         src="../../../assets/img/commen/faceSuccess.png"
       />
       <img
@@ -12,14 +12,14 @@
         src="../../../assets/img/commen/no-facecheck.png"
       />
     </div>
-    <div v-if="localUser.is_face_verify" class="profile">
+    <div v-if="user.is_face_verify" class="profile">
       <div class="profile-item">
         <span class="label">姓名</span>
-        <span>{{ localUser.profile_real_name }}</span>
+        <span>{{ user.profile_real_name }}</span>
       </div>
       <div class="profile-item">
         <span class="label">身份证号</span>
-        <span>{{ localUser.profile_id_number }}</span>
+        <span>{{ user.profile_id_number }}</span>
       </div>
     </div>
     <div v-else class="btn-box">
@@ -36,7 +36,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import TencentFaceCheck from "../../../components/tencent-face-check.vue";
 export default {
   components: {
@@ -45,7 +45,6 @@ export default {
   props: [],
   data() {
     return {
-      localUser: [],
       loading: false,
       init: false,
       faceCheckVisible: false,
@@ -55,13 +54,9 @@ export default {
   computed: {
     ...mapState(["isLogin", "user", "config"]),
   },
-  mounted() {
-    this.getData();
-  },
+  mounted() {},
   methods: {
-    inputFn() {
-      this.realFormFocus = true;
-    },
+    ...mapMutations(["loginHandle"]),
     getData() {
       if (this.loading) {
         return;
@@ -69,8 +64,8 @@ export default {
       this.loading = true;
       this.init = false;
       this.$api.User.Detail().then((res) => {
+        this.loginHandle(res.data);
         this.loading = false;
-        this.localUser = res.data;
         this.init = true;
       });
     },
