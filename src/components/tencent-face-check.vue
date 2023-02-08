@@ -59,7 +59,7 @@ export default {
         .then((res) => {
           this.loading = false;
           this.logout();
-          this.$emit("cancel");
+          this.cancel();
         })
         .catch((e) => {
           this.loading = false;

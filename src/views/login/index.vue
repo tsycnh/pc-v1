@@ -42,6 +42,12 @@
       </div>
     </div>
     <nav-footer></nav-footer>
+    <tencent-face-check
+      :status="faceCheckVisible"
+      @cancel="cancelFaceCheckDialog"
+      @change="faceChecksuccess"
+    >
+    </tencent-face-check>
   </div>
 </template>
 <script>
@@ -59,6 +65,7 @@ export default {
         mobile: null,
         password: null,
       },
+      faceCheckVisible: false,
     };
   },
   computed: {
@@ -67,6 +74,31 @@ export default {
   mounted() {},
   methods: {
     ...mapMutations(["loginHandle"]),
+    cancelFaceCheckDialog() {
+      this.faceCheckVisible = false;
+    },
+    faceChecksuccess() {
+      this.faceCheckVisible = false;
+      this.getUser();
+    },
+    getUser() {
+      this.$api.User.Detail()
+        .then((res) => {
+          this.loginHandle(res.data);
+          if (this.$route.query.redirect) {
+            this.$router.replace({
+              path: this.$route.query.redirect,
+            });
+          } else {
+            this.$router.replace({
+              name: "index",
+            });
+          }
+        })
+        .catch((e) => {
+          this.$message.error(e.message);
+        });
+    },
     passwordFormValidate() {
       if (this.loading) {
         return;
@@ -92,7 +124,14 @@ export default {
           this.$api.User.Detail()
             .then((res) => {
               this.loginHandle(res.data);
-              if (this.$route.query.redirect) {
+              //强制实名认证
+              if (
+                this.config &&
+                res.data.is_face_verify === false &&
+                this.config.member.enabled_face_verify === true
+              ) {
+                this.faceCheckVisible = true;
+              } else if (this.$route.query.redirect) {
                 this.$router.replace({
                   path: this.$route.query.redirect,
                 });
