@@ -9,7 +9,7 @@
             @click="cancel()"
             src="../assets/img/commen/icon-close.png"
           />
-          <a v-if="active" class="linkTab2" @click="goLogout">退出登录>></a>
+          <a v-else class="linkTab2" @click="goLogout">退出登录>></a>
         </div>
         <div class="box">
           <div id="qrcode" class="qrode"></div>

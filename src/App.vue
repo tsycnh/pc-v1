@@ -85,6 +85,7 @@ export default {
         this.msvBind();
       }
     },
+   
   },
   computed: {
     ...mapState([
@@ -94,6 +95,7 @@ export default {
       "config",
       "isLogin",
       "configFunc",
+      "user",
     ]),
   },
   mounted() {

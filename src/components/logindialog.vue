@@ -984,6 +984,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+input[type="checbox"] {
+  background-color: transparent;
+}
 .mask {
   width: 100%;
   height: 100%;
