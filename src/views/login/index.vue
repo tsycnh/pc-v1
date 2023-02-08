@@ -53,10 +53,12 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import NavFooter from "../../components/footer.vue";
+import TencentFaceCheck from "../../components/tencent-face-check.vue";
 
 export default {
   components: {
     NavFooter,
+    TencentFaceCheck,
   },
   data() {
     return {
