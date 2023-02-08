@@ -9,6 +9,7 @@
             @click="cancel()"
             src="../assets/img/commen/icon-close.png"
           />
+          <a v-if="active" class="linkTab2" @click="goLogout">退出登录>></a>
         </div>
         <div class="box">
           <div id="qrcode" class="qrode"></div>
@@ -20,6 +21,7 @@
   </div>
 </template>
 <script>
+import { mapState, mapMutations } from "vuex";
 import QRCode from "qrcodejs2";
 
 export default {
@@ -40,11 +42,31 @@ export default {
       }
     },
   },
+  computed: {
+    ...mapState(["config"]),
+  },
   mounted() {},
   beforeDestroy() {
     clearInterval(this.timer);
   },
   methods: {
+    ...mapMutations(["logout"]),
+    goLogout() {
+      if (this.loading) {
+        return;
+      }
+      this.loading = true;
+      this.$api.Auth.Logout()
+        .then((res) => {
+          this.loading = false;
+          this.logout();
+          this.$emit("cancel");
+        })
+        .catch((e) => {
+          this.loading = false;
+          this.$message.error("网络错误");
+        });
+    },
     goFaceVerify() {
       if (this.verifyLoading) {
         return;
@@ -139,6 +161,20 @@ export default {
         &:hover {
           opacity: 0.8;
           animation: rotate360 1s;
+        }
+      }
+      .linkTab2 {
+        position: absolute;
+        top: 5px;
+        right: 0px;
+        height: 14px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #3ca7fa;
+        line-height: 14px;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
         }
       }
     }
