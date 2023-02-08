@@ -14,8 +14,7 @@
         <div class="box">
           <div id="qrcode" class="qrode"></div>
         </div>
-        <p>请使用微信扫描</p>
-        <p>上方二维码完成实名认证</p>
+        <p>学习前请用微信扫码完成实名认证</p>
       </div>
     </div>
   </div>
