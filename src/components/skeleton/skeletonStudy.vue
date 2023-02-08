@@ -117,7 +117,7 @@
       }
     }
     .button {
-      width: 104px;
+      width: 96px;
       height: 46px;
       border-radius: 4px;
       margin-top: 37px;

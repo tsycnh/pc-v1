@@ -84,6 +84,9 @@
               <div class="item-progress">学习进度：{{ item.progress }}%</div>
             </div>
           </div>
+          <div class="button detail" @click="showDetailDialog(item)">
+            学习进度
+          </div>
           <div
             class="button completed"
             v-if="item.is_watched === 1"
@@ -97,11 +100,27 @@
         </div>
       </template>
     </template>
+    <detail-dialog
+      v-if="visiable"
+      :id="cid"
+      @hideDialog="visiable = false"
+    ></detail-dialog>
   </div>
 </template>
 <script>
+import DetailDialog from "./detail-dialog.vue";
 export default {
+  components: {
+    DetailDialog,
+  },
   props: ["list", "currenStatus"],
+  data() {
+    return {
+      loading: false,
+      visiable: false,
+      cid: null,
+    };
+  },
   methods: {
     goPlay(item) {
       if (item.last_view_video.length !== 0) {
@@ -124,6 +143,10 @@ export default {
           tab: this.currenStatus === 2 ? 3 : 2,
         },
       });
+    },
+    showDetailDialog(item) {
+      this.cid = item.course_id;
+      this.visiable = true;
     },
   },
 };
@@ -171,7 +194,7 @@ export default {
       height: 120px;
       margin-right: 30px;
       .item-title {
-        width: 816px;
+        width: 700px;
         height: auto;
         font-size: 16px;
         font-weight: 600;
@@ -183,7 +206,7 @@ export default {
         text-overflow: ellipsis;
       }
       .item-info {
-        width: 816px;
+        width: 700px;
         height: auto;
         display: flex;
         flex-direction: row;
@@ -208,7 +231,7 @@ export default {
       }
     }
     .button {
-      width: 104px;
+      width: 96px;
       height: 44px;
       border-radius: 4px;
       font-size: 16px;
@@ -228,6 +251,11 @@ export default {
       &.continue {
         color: #fff;
         background: #3ca7fa;
+      }
+      &.detail {
+        color: #666666;
+        border: 1px solid #cccccc;
+        margin-right: 30px;
       }
     }
   }

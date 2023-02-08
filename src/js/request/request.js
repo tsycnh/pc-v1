@@ -371,6 +371,9 @@ const Api = {
       Courses(params) {
         return get("/api/v3/member/courses/learned", params);
       },
+      CoursesDetail(courseId, params) {
+        return get(`/api/v3/member/courses/learned/${courseId}/detail`, params);
+      },
       Live(params) {
         return get("/addons/zhibo/api/v1/member/courses/learned", params);
       },

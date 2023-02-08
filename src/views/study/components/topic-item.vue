@@ -136,7 +136,7 @@ export default {
       }
     }
     .button {
-      width: 104px;
+      width: 96px;
       height: 44px;
       border-radius: 4px;
       font-size: 16px;
