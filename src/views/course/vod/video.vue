@@ -302,19 +302,24 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.handleTabFix, true);
-
+    window.addEventListener("blur", this.checkVisibility, true);
     this.getDetail();
     this.getComments();
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleTabFix, true);
-
+    window.removeEventListener("blur", this.checkVisibility, true);
     // 播放器销毁
     window.player && window.player.destroy();
     this.clock && window.clearInterval(this.clock);
   },
   methods: {
     ...mapMutations(["showLoginDialog", "changeDialogType"]),
+    checkVisibility() {
+      if (window.player) {
+        window.player.pause();
+      }
+    },
     goLogin() {
       this.changeDialogType(1);
       this.showLoginDialog();
