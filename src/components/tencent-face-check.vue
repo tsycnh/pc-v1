@@ -74,7 +74,7 @@ export default {
         .catch((e) => {
           this.verifyLoading = false;
           this.$emit("cancel");
-          this.$message.error(e.message || "无法发起实人认证");
+          this.$message.error(e.message || "无法发起实名认证");
         });
     },
     cancel() {
@@ -87,7 +87,7 @@ export default {
         rule_id: this.ruleId,
       }).then((res) => {
         if (res.data.status === 9) {
-          this.$message.success("实人认证成功");
+          this.$message.success("实名认证成功");
           clearInterval(this.timer);
           this.$emit("change");
         }
