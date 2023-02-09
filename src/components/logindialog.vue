@@ -984,6 +984,35 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+input[type="checkbox"] {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+input[type="checkbox"]::after {
+  position: absolute;
+  top: 0;
+  color: #000;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  visibility: visible;
+  padding-left: 0px;
+  text-align: center;
+  content: " ";
+  border-radius: 3px;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  color: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: bold;
+  background-color: #3ca7fa;
+}
 .mask {
   width: 100%;
   height: 100%;
