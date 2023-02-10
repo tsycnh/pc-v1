@@ -119,10 +119,7 @@
                   <div class="item-bottom">
                     <div
                       class="item-price"
-                      v-if="
-                        item.status_text === '未支付' ||
-                          item.status_text === '支付中'
-                      "
+                      v-if="item.status_text === '已支付'"
                     >
                       实付款：￥{{ item.charge }}
                     </div>

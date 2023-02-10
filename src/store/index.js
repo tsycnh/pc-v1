@@ -45,6 +45,7 @@ export default new Vuex.Store({
       miaosha: false,
       cert: false,
     },
+    videoKey: null,
   },
   mutations: {
     loginHandle(state, user) {
@@ -58,6 +59,9 @@ export default new Vuex.Store({
       state.isLogin = false;
       this.keywords = null;
       Utils.clearToken();
+    },
+    saveVideoKey(state, id) {
+      state.videoKey = id;
     },
     changeUserCredit(state, credit1) {
       state.user.credit1 = credit1;

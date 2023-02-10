@@ -296,25 +296,31 @@ export default {
     $route(to, from) {
       this.$router.go(0);
     },
+    videoKey(val) {
+      if (val) {
+        console.log(this.video.id, parseInt(val));
+        if (parseInt(val) !== this.video.id) {
+          this.checkVisibility();
+        }
+      }
+    },
   },
   computed: {
-    ...mapState(["isLogin", "user", "config", "configFunc"]),
+    ...mapState(["isLogin", "user", "config", "configFunc", "videoKey"]),
   },
   mounted() {
     window.addEventListener("scroll", this.handleTabFix, true);
-    window.addEventListener("blur", this.checkVisibility, true);
     this.getDetail();
     this.getComments();
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleTabFix, true);
-    window.removeEventListener("blur", this.checkVisibility, true);
     // 播放器销毁
     window.player && window.player.destroy();
     this.clock && window.clearInterval(this.clock);
   },
   methods: {
-    ...mapMutations(["showLoginDialog", "changeDialogType"]),
+    ...mapMutations(["showLoginDialog", "changeDialogType", "saveVideoKey"]),
     checkVisibility() {
       if (window.player) {
         window.player.pause();
@@ -491,6 +497,8 @@ export default {
               pos: this.video_watched_progress[this.video.id].watch_seconds,
             };
           }
+
+          
         })
         .catch((e) => {
           this.loading = false;
@@ -582,6 +590,10 @@ export default {
         });
         window.player.destroy();
       });
+      window.player.on("play", () => {
+      //存储限制多窗口播放视频key
+      this.saveVideoKey(this.video.id);
+    });
       window.player.on("sub_course", () => {
         this.paySelect(1);
       });
