@@ -297,9 +297,8 @@ export default {
       this.$router.go(0);
     },
     videoKey(val) {
-      if (val) {
-        console.log(this.video.id, parseInt(val));
-        if (parseInt(val) !== this.video.id) {
+      if (this.videoKey) {
+        if (parseInt(this.videoKey) !== this.video.id) {
           this.checkVisibility();
         }
       }
@@ -497,8 +496,8 @@ export default {
               pos: this.video_watched_progress[this.video.id].watch_seconds,
             };
           }
-
-          
+          //存储限制多窗口播放视频key
+          this.saveVideoKey(this.video.id);
         })
         .catch((e) => {
           this.loading = false;
@@ -590,10 +589,6 @@ export default {
         });
         window.player.destroy();
       });
-      window.player.on("play", () => {
-      //存储限制多窗口播放视频key
-      this.saveVideoKey(this.video.id);
-    });
       window.player.on("sub_course", () => {
         this.paySelect(1);
       });
