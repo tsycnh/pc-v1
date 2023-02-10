@@ -11,9 +11,24 @@
           />
         </div>
         <div class="box">
-          <div class="item" v-for="item in list" :key="item.id">
+          <div
+            class="item"
+            @click="goPlay(item)"
+            v-for="item in list"
+            :key="item.id"
+          >
             <div class="title">
               {{ item.title }}
+            </div>
+            <div class="item-time">
+              <duration
+                v-if="
+                  item.watch_record && item.watch_record.watch_seconds !== 0
+                "
+                :seconds="item.watch_record.watch_seconds"
+              ></duration>
+              <span v-else>0:00</span>
+              / <duration :seconds="item.duration"></duration>
             </div>
             <div
               class="item-text"
@@ -32,7 +47,11 @@
   </transition>
 </template>
 <script>
+import Duration from "../../../components/duration.vue";
 export default {
+  components: {
+    Duration,
+  },
   props: ["id"],
   data() {
     return {
@@ -44,6 +63,14 @@ export default {
     this.getData();
   },
   methods: {
+    goPlay(item) {
+      this.$router.push({
+        name: "coursesVideo",
+        query: {
+          id: item.id,
+        },
+      });
+    },
     getData() {
       if (this.loading) {
         return;
@@ -80,7 +107,7 @@ export default {
   justify-content: center;
   z-index: 100;
   .dialog-login-box {
-    width: 500px;
+    width: 620px;
     height: 500px;
     background: #ffffff;
     border-radius: 8px;
@@ -128,7 +155,7 @@ export default {
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
-      padding: 0px 30px;
+      padding: 0px 20px;
       margin-bottom: 30px;
       overflow-y: auto;
       overflow-x: hidden;
@@ -140,11 +167,21 @@ export default {
         align-items: center;
         justify-content: space-between;
         margin-bottom: 10px;
+        background: #f4fafe;
+        border-radius: 4px;
+        box-sizing: border-box;
+        padding: 0px 10px;
+        cursor: pointer;
         &:last-child {
           margin-bottom: 0px;
         }
+        &:hover {
+          .title {
+            color: #3ca7fa;
+          }
+        }
         .title {
-          width: 380px;
+          width: 300px;
           height: 30px;
           font-size: 14px;
           font-weight: 400;
@@ -154,6 +191,14 @@ export default {
           text-overflow: ellipsis;
           overflow: hidden;
           word-break: break-all;
+        }
+        .item-time {
+          width: 180px;
+          height: 30px;
+          font-size: 14px;
+          font-weight: 400;
+          color: #666666;
+          line-height: 30px;
         }
         .item-text {
           width: auto;
