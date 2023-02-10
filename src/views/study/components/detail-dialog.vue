@@ -193,7 +193,7 @@ export default {
           word-break: break-all;
         }
         .item-time {
-          width: auto;
+          width: 160px;
           height: 30px;
           font-size: 14px;
           font-weight: 400;
