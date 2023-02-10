@@ -193,28 +193,33 @@ export default {
           word-break: break-all;
         }
         .item-time {
-          width: 180px;
+          width: auto;
           height: 30px;
           font-size: 14px;
           font-weight: 400;
           color: #666666;
           line-height: 30px;
+          text-align: right;
         }
         .item-text {
-          width: auto;
+          width: 90px;
           height: 30px;
           font-size: 14px;
           font-weight: 400;
           color: #04c877;
           line-height: 30px;
+          margin-left: 10px;
+          text-align: right;
         }
         .item-progress {
-          width: auto;
+          width: 90px;
           height: 30px;
           font-size: 14px;
           font-weight: 400;
           color: #666666;
           line-height: 30px;
+          margin-left: 10px;
+          text-align: right;
         }
       }
     }
