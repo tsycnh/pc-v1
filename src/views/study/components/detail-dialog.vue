@@ -3,7 +3,7 @@
     <div class="mask">
       <div class="dialog-login-box">
         <div class="dialog-tabs">
-          <div class="item-tab">学习详情</div>
+          <div class="item-tab">学习进度</div>
           <img
             class="btn-close"
             @click="cancel()"
