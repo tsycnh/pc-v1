@@ -50,10 +50,10 @@
                   item.course.videos_count
                 }}课时
               </div>
-              <div class="item-progress">
-                学习进度：{{ item.watch_record.progress || 0 }}%
-              </div>
             </div>
+          </div>
+          <div class="button detail" @click="showDetailDialog(item)">
+            学习进度
           </div>
           <div class="button continue" @click="goDetail(item.course_id)">
             课程目录
@@ -81,7 +81,6 @@
                   item.course.videos_count
                 }}课时
               </div>
-              <div class="item-progress">学习进度：{{ item.progress }}%</div>
             </div>
           </div>
           <div class="button detail" @click="showDetailDialog(item)">
