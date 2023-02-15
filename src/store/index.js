@@ -48,6 +48,7 @@ export default new Vuex.Store({
   },
   mutations: {
     loginHandle(state, user) {
+      state.user = null;
       state.user = user;
       state.freshUnread = true;
       state.isLogin = true;

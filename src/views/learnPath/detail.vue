@@ -141,7 +141,8 @@
                           <template
                             v-if="
                               courseItem.type === 'paper_paper' ||
-                                courseItem.type === 'paper_practice'
+                                courseItem.type === 'paper_practice' ||
+                                courseItem.type === 'paper_mock_paper'
                             "
                           >
                             <thumb-bar

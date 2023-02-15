@@ -26,6 +26,13 @@
     >
     </code-login-bind-mobile>
 
+    <tencent-face-check
+      :status="faceCheckVisible"
+      @cancel="cancelFaceCheckDialog"
+      @change="faceChecksuccess"
+    >
+    </tencent-face-check>
+
     <template v-if="initComplete">
       <keep-alive>
         <router-view v-if="config && this.$route.meta.keepAlive"></router-view>
@@ -50,6 +57,7 @@ import BackTop from "./components/back-top.vue";
 import Sign from "./components/sign.vue";
 import BindNewMobile from "./views/member/components/bind-new-mobile.vue";
 import CodeLoginBindMobile from "./components/code-login-bind-mobile.vue";
+import TencentFaceCheck from "./components/tencent-face-check.vue";
 
 export default {
   components: {
@@ -59,6 +67,7 @@ export default {
     Sign,
     BindNewMobile,
     CodeLoginBindMobile,
+    TencentFaceCheck,
   },
   data() {
     return {
@@ -67,6 +76,7 @@ export default {
       initComplete: false,
       bindNewmobileVisible: false,
       codebindmobileVisible: false,
+      faceCheckVisible: false,
     };
   },
   watch: {
@@ -75,6 +85,7 @@ export default {
         this.msvBind();
       }
     },
+   
   },
   computed: {
     ...mapState([
@@ -84,6 +95,7 @@ export default {
       "config",
       "isLogin",
       "configFunc",
+      "user",
     ]),
   },
   mounted() {
@@ -134,6 +146,13 @@ export default {
     cancelDialog() {
       this.codebindmobileVisible = false;
       this.bindNewmobileVisible = false;
+    },
+    cancelFaceCheckDialog() {
+      this.faceCheckVisible = false;
+    },
+    faceChecksuccess() {
+      this.faceCheckVisible = false;
+      this.getUser();
     },
     changeType(val) {
       this.changeDialogType(val);
@@ -196,6 +215,14 @@ export default {
         ) {
           this.bindNewmobileVisible = true;
           this.cancelStatus = true;
+        }
+        //强制实名认证
+        if (
+          this.config &&
+          res.data.is_face_verify === false &&
+          this.config.member.enabled_face_verify === true
+        ) {
+          this.faceCheckVisible = true;
         }
       } catch (e) {
         this.$message.error(e.message);

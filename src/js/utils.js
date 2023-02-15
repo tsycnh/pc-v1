@@ -2,6 +2,7 @@ import config from "@/js/config";
 
 const TOKEN_NAME = "meedu-user-token";
 const MSV_NAME = "meedu-msv";
+const PLAY_ID = "meedu-play-id";
 
 export default {
   getToken() {
@@ -12,6 +13,15 @@ export default {
   },
   clearToken() {
     window.localStorage.removeItem(TOKEN_NAME);
+  },
+  savePlayId(id) {
+    window.localStorage.setItem(PLAY_ID, id);
+  },
+  getPlayId() {
+    return window.localStorage.getItem(PLAY_ID);
+  },
+  clearPlayId() {
+    window.localStorage.removeItem(PLAY_ID);
   },
   scrollTopRecord(page) {
     let pos = document.querySelector(".page-main-body-box").scrollTop;

@@ -87,7 +87,7 @@
         >
       </div>
       <div class="order-tip">请在15分钟内支付完成</div>
-      <div class="btn-submit" @click="payHandler()">立即支付</div>
+      <div class="btn-submit" @click="payHandler()">提交订单</div>
     </div>
   </div>
 </template>

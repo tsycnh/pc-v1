@@ -1,18 +1,31 @@
 <template>
   <div class="value">
-    <template v-if="remainingTime.day === 0">
-      {{ remainingTime.hr }}时{{ remainingTime.min }}分{{ remainingTime.sec }}秒
-    </template>
-    <template v-if="remainingTime.day > 0">
+    <template v-if="remainingTime.day !== 0">
       {{ remainingTime.day }}天{{ remainingTime.hr }}时{{
         remainingTime.min
       }}分{{ remainingTime.sec }}秒
+    </template>
+    <template
+      v-else-if="
+        type === 'face' &&
+          remainingTime.hr === '00' &&
+          remainingTime.min === '00' &&
+          remainingTime.sec === '00'
+      "
+    >
+      请刷新界面重试
+    </template>
+    <template v-else-if="remainingTime.hr === '00'">
+      {{ remainingTime.min }}分{{ remainingTime.sec }}秒
+    </template>
+    <template v-else>
+      {{ remainingTime.hr }}时{{ remainingTime.min }}分{{ remainingTime.sec }}秒
     </template>
   </div>
 </template>
 <script>
 export default {
-  props: ["timestamp"],
+  props: ["timestamp", "type"],
   data() {
     return {
       remainingTime: {
@@ -26,7 +39,7 @@ export default {
     };
   },
   watch: {
-    timestamp: function () {
+    timestamp: function() {
       this.endTime = this.timestamp;
     },
   },
@@ -51,8 +64,7 @@ export default {
       const that = this;
       if (min >= 0 && sec >= 0) {
         //倒计时结束关闭订单
-        if (day === 0 && min === 0 && sec === 0 && hr === 0) {
-          window.location.reload();
+        if (min === 0 && sec === 0 && hr === 0) {
           return;
         }
         that.endTime--;

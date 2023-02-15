@@ -56,6 +56,9 @@
             style="background-size: cover"
             :style="{ backgroundImage: 'url(' + config.player.cover + ')' }"
           >
+            <div v-if="checkPlayerStatus" class="des-video">
+              您已打开新视频，暂停本视频播放
+            </div>
             <div v-if="!playendedStatus && (isWatch || video.free_seconds > 0)">
               <div
                 class="iframe-player-box"
@@ -290,6 +293,8 @@ export default {
       showTry: false,
       last_see_value: null,
       clock: null,
+      checkPlayerStatus: false,
+      timer: null,
     };
   },
   watch: {
@@ -302,19 +307,23 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.handleTabFix, true);
-
     this.getDetail();
     this.getComments();
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleTabFix, true);
-
     // 播放器销毁
     window.player && window.player.destroy();
     this.clock && window.clearInterval(this.clock);
+    window.clearInterval(this.timer);
   },
   methods: {
     ...mapMutations(["showLoginDialog", "changeDialogType"]),
+    checkVisibility() {
+      if (window.player) {
+        window.player.pause();
+      }
+    },
     goLogin() {
       this.changeDialogType(1);
       this.showLoginDialog();
@@ -580,6 +589,20 @@ export default {
       window.player.on("sub_course", () => {
         this.paySelect(1);
       });
+      //存储当前播放视频id
+      this.$utils.savePlayId(this.video.id);
+      this.checkPlayer();
+    },
+    checkPlayer() {
+      this.timer = window.setInterval(() => {
+        let playId = this.$utils.getPlayId();
+        if (parseInt(playId) !== this.video.id) {
+          window.player.destroy();
+          this.checkPlayerStatus = true;
+        } else {
+          this.checkPlayerStatus = false;
+        }
+      }, 5000);
     },
     countDown() {
       this.clock = window.setInterval(() => {
@@ -749,6 +772,15 @@ export default {
           width: 900px;
           height: 506px;
           position: relative;
+          .des-video {
+            position: absolute;
+            left: 350px;
+            top: 216px;
+            font-size: 15px;
+            font-weight: 400;
+            color: #ffffff;
+            line-height: 15px;
+          }
           .goCurrent {
             position: absolute;
             z-index: 2003;
