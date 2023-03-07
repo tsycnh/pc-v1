@@ -349,6 +349,7 @@ export default {
         this.goLogin();
         return;
       }
+      this.last_see_value = null;
       this.$router.push({
         name: "coursesVideo",
         query: {
@@ -398,6 +399,7 @@ export default {
       this.dialog.status = false;
     },
     goNextVideo(id) {
+      this.last_see_value = null;
       this.$router.push({
         name: "coursesVideo",
         query: {
