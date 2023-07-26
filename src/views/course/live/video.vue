@@ -409,14 +409,22 @@ export default {
     },
     initLivePlayer() {
       this.$nextTick(() => {
+        let videoInfo = {
+          url: this.playUrl,
+          pic: this.poster,
+        };
+        if (this.aliRTSUrl) {
+          videoInfo = {
+            live_artc_url: this.aliRTSUrl,
+            type: "artc",
+            pic: this.poster,
+          };
+        }
+
         window.liveDPlayer = new window.DPlayer({
           container: document.getElementById("meedu-live-player"),
           live: true,
-          video: {
-            live_artc_url: this.aliRTSUrl ? this.aliRTSUrl : this.playUrl, //如果返回了阿里云RTS直播地址的话则优先使用rts地址播放
-            type: this.aliRTSUrl ? "artc" : "auto",
-            pic: this.poster,
-          },
+          video: videoInfo,
           autoplay: true,
           bulletSecret: {
             enabled: this.enabledBulletSecret,
