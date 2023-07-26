@@ -95,7 +95,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import UploadImages from "./upload-images";
 export default {
   components: {
@@ -127,9 +127,20 @@ export default {
     },
   },
   mounted() {
+    this.getUser();
     this.getCreateParams();
   },
   methods: {
+    ...mapMutations(["loginHandle"]),
+    getUser() {
+      this.$api.User.Detail()
+        .then((res) => {
+          this.loginHandle(res.data);
+        })
+        .catch((e) => {
+          this.$message.error(e.message);
+        });
+    },
     cancel() {
       this.$emit("cancel");
     },
