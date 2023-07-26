@@ -69,7 +69,6 @@
                 type="text"
                 class="input2"
                 v-model="form.credit1"
-                :disabled="user.credit1 === 0"
                 placeholder="设置悬赏积分"
               />
               <div class="help" v-if="user">
