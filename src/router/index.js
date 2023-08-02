@@ -275,7 +275,7 @@ const routes = [
     component: () => import("../views/member/questions.vue"),
   },
   {
-    path: "/member/codeexchanger",
+    path: "/member/code-exchanger",
     name: "MemberCodeExchanger",
     meta: {
       title: "兑换课程",

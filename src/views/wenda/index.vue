@@ -13,6 +13,7 @@
       @cancel="closeQuestion"
       @success="createSuccess"
       :status="true"
+      :enable="enableCredit1"
     ></CreateQuestion>
 
     <template v-if="navLoading">
@@ -125,6 +126,7 @@ export default {
       loading: false,
       navLoading: false,
       pc_diy_content: null,
+      enableCredit1: false,
     };
   },
   computed: {
@@ -237,6 +239,11 @@ export default {
     getConfig() {
       this.$api.Wenda.Config().then((res) => {
         this.pc_diy_content = res.data.pc_diy_content;
+        if (res.data.enable_credit1 === 1) {
+          this.enableCredit1 = true;
+        } else {
+          this.enableCredit1 = false;
+        }
       });
     },
     goCreatePage() {
