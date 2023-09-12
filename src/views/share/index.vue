@@ -28,7 +28,8 @@
                 </option>
               </select>
             </div>
-            <div class="item">
+
+            <div class="item" v-if="withdrawForm.channel === 'alipay'">
               <div class="tit"><span>*</span>提现账号</div>
               <input
                 class="input"
@@ -37,6 +38,7 @@
                 v-model="withdrawForm.channel_account"
               />
             </div>
+
             <div class="item">
               <div class="tit"><span>*</span>真实姓名</div>
               <input
@@ -224,10 +226,10 @@ export default {
           label: "支付宝",
           value: "alipay",
         },
-        {
-          label: "微信",
-          value: "wechat",
-        },
+        // {
+        //   label: "微信",
+        //   value: "wechat",
+        // },
       ],
       projectType: 1,
       inviteUrl: null,
@@ -416,7 +418,10 @@ export default {
       if (this.loading) {
         return;
       }
-      if (!this.withdrawForm.channel_account) {
+      if (
+        this.withdrawForm.channel === "alipay" &&
+        !this.withdrawForm.channel_account
+      ) {
         this.$message.error("请输入支付宝账户");
         return;
       }
