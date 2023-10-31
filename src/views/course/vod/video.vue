@@ -98,8 +98,8 @@
                   class="subscribe-button2"
                   v-if="
                     video.charge > 0 &&
-                      video.is_ban_sell === 0 &&
-                      isWatch === false
+                    video.is_ban_sell === 0 &&
+                    isWatch === false
                   "
                   @click="paySelect(3)"
                 >
@@ -570,6 +570,10 @@ export default {
           opacity: this.config.player.bullet_secret.opacity,
         },
         ban_drag: parseInt(this.video.ban_drag) === 1,
+        playbackSpeed:
+          parseInt(this.video.ban_drag) === 1
+            ? [1]
+            : [0.5, 0.75, 1, 1.25, 1.5, 2],
         last_see_pos: this.last_see_value,
       });
 
@@ -581,7 +585,7 @@ export default {
         this.playTimeUpdate(parseInt(window.player.video.currentTime), true);
         this.playendedStatus = true;
         this.totalTime = 10;
-        this.$nextTick(function() {
+        this.$nextTick(function () {
           if (!this.isLastpage) {
             this.countDown();
           }
