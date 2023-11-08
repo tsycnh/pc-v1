@@ -731,6 +731,22 @@ export default {
     },
     changeQQ() {
       let successRedirectUrl = window.document.location.href;
+      const currentRoute = this.$router.currentRoute;
+      // 获取当前的查询参数对象
+      const queryParams = currentRoute.query;
+      delete queryParams["login_code"];
+      delete queryParams["action"];
+
+      const newUrl = {
+        path: currentRoute.path,
+        query: queryParams,
+      };
+      successRedirectUrl =
+        window.location.protocol +
+        "//" +
+        window.location.host +
+        "/" +
+        this.$router.resolve(newUrl).href;
       if (this.$route.name === "login") {
         let appUrl = this.$utils.getAppUrl();
         if (this.$route.query.redirect) {
@@ -746,6 +762,26 @@ export default {
         "&f_url=" +
         urlencode(this.$utils.getAppUrl() + "/error") +
         "&action=login";
+    },
+    removeURLParameter(parameter) {
+      let appUrl = this.$utils.getAppUrl();
+      const currentRoute = this.$router.currentRoute;
+      // 获取当前的查询参数对象
+      const queryParams = currentRoute.query;
+      // 删除指定的参数
+      delete queryParams.parameter;
+
+      // 构建新的URL对象，不包含要去除的参数
+      const newUrl = {
+        path: currentRoute.path,
+        query: queryParams,
+      };
+
+      // 解析新的URL对象，获取完整的地址
+      const resolvedUrl = appUrl + this.$router.resolve(newUrl).href;
+      console.log(queryParams);
+
+      return resolvedUrl;
     },
     changeWeixin() {
       this.dialogStatus = 5;

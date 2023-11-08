@@ -12,7 +12,7 @@
           v-show="sliders && sliders.length > 0"
         >
           <swiper ref="mySwiper" :options="swiperOptions">
-            <swiper-slide v-for="item in sliders" :key="item.sort">
+            <swiper-slide v-for="(item, index) in sliders" :key="index">
               <img :src="item.thumb" :name="item.url" />
             </swiper-slide>
 
@@ -139,7 +139,7 @@ export default {
         },
         effect: "slide",
         on: {
-          click: function(e) {
+          click: function (e) {
             let url = e.target.name;
             if (url) {
               if (
