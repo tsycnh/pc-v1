@@ -23,7 +23,7 @@
               >
               <span class="green-free" v-if="course.charge === 0">免费</span>
               <span class="learnpath-course-step">
-                <span>{{ course.courses_count }}步骤</span>
+                <span>{{ course.steps_count }}步骤</span>
                 <span class="colline">|</span>
                 <span>{{ course.courses_count }}课程</span>
               </span>
