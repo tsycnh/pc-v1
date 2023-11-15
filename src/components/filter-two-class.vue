@@ -23,8 +23,8 @@
           class="box2"
           v-if="
             categories[cateIndex] &&
-              categories[cateIndex].children &&
-              categories[cateIndex].children.length > 0
+            categories[cateIndex].children &&
+            categories[cateIndex].children.length > 0
           "
         >
           <div class="label">细分：</div>
@@ -92,6 +92,15 @@ export default {
     this.id2 = parseInt(this.child);
   },
   watch: {
+    "$route.query.cid"(newVal) {
+      this.id1 = parseInt(newVal);
+    },
+    "$route.query.child"(newVal) {
+      this.id2 = parseInt(newVal);
+    },
+    "$route.query.scene"(newVal) {
+      this.sceneId = newVal;
+    },
     id1() {
       this.$emit("change", this.id1, this.id2, this.sceneId);
     },

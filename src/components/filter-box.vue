@@ -49,6 +49,12 @@ export default {
     this.id2 = parseInt(this.cid2);
   },
   watch: {
+    "$route.query.category_id"(newVal) {
+      this.id2 = parseInt(newVal ? newVal : 0);
+    },
+    "$route.query.scene"(newVal) {
+      this.id1 = newVal;
+    },
     id2() {
       this.$emit("change", this.id1, this.id2);
     },
