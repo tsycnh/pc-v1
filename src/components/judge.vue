@@ -26,7 +26,7 @@
         class="images-render"
         v-if="
           question.content_transform.images.length > 0 ||
-            question.content_transform.iframes.length > 0
+          question.content_transform.iframes.length > 0
         "
       >
         <template v-if="question.content_transform.images.length > 0">
@@ -41,6 +41,7 @@
               :width="200"
               :height="200"
               :border="8"
+              :isContain="true"
             ></thumb-bar>
           </div>
         </template>
@@ -152,7 +153,7 @@
               class="images-render"
               v-if="
                 question.remark_transform.images.length > 0 ||
-                  question.remark_transform.iframes.length > 0
+                question.remark_transform.iframes.length > 0
               "
             >
               <template v-if="question.remark_transform.images.length > 0">
@@ -167,6 +168,7 @@
                     :width="200"
                     :height="200"
                     :border="8"
+                    :isContain="true"
                   ></thumb-bar>
                 </div>
               </template>
