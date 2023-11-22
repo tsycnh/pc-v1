@@ -4,34 +4,33 @@
       <div class="index-section-title-text">{{ name }}</div>
     </div>
     <div class="index-section-body">
-      <template v-for="(course, index) in items">
-        <div
-          class="learnpath-course-item hover:shadow-lg"
-          :key="index"
-          @click="goLearnPathDetail(course)"
-        >
-          <div class="learnpath-course-thumb">
-            <img :src="course.thumb" />
-          </div>
-          <div class="learnpath-course-body">
-            <div class="learnpath-course-title">
-              {{ course.name }}
-            </div>
-            <div class="learnpath-course-info">
-              <span class="learnpath-course-charge" v-if="course.charge > 0"
-                ><small>￥</small>{{ course.charge }}</span
-              >
-              <span class="green-free" v-if="course.charge === 0">免费</span>
-              <span class="learnpath-course-step">
-                <span>{{ course.steps_count }}步骤</span>
-                <span class="colline">|</span>
-                <span>{{ course.courses_count }}课程</span>
-              </span>
-            </div>
-            <p class="learnpath-course-sub">{{ course.desc }}</p>
-          </div>
+      <div
+        v-for="(course, index) in items"
+        class="learnpath-course-item hover:shadow-lg"
+        :key="index"
+        @click="goLearnPathDetail(course)"
+      >
+        <div class="learnpath-course-thumb">
+          <img :src="course.thumb" />
         </div>
-      </template>
+        <div class="learnpath-course-body">
+          <div class="learnpath-course-title">
+            {{ course.name }}
+          </div>
+          <div class="learnpath-course-info">
+            <span class="learnpath-course-charge" v-if="course.charge > 0"
+              ><small>￥</small>{{ course.charge }}</span
+            >
+            <span class="green-free" v-if="course.charge === 0">免费</span>
+            <span class="learnpath-course-step">
+              <span>{{ course.steps_count }}步骤</span>
+              <span class="colline">|</span>
+              <span>{{ course.courses_count }}课程</span>
+            </span>
+          </div>
+          <p class="learnpath-course-sub">{{ course.desc }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
