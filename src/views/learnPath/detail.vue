@@ -36,8 +36,8 @@
                       @click="goMsOrder(msData.order.id)"
                       v-if="
                         learn.charge > 0 &&
-                          msData.order &&
-                          msData.order.status === 0
+                        msData.order &&
+                        msData.order.status === 0
                       "
                     >
                       已获得秒杀资格，请尽快支付
@@ -51,9 +51,7 @@
                     </div>
                   </template>
                   <template v-else>
-                    <div class="has-button" v-if="hideButton">
-                      正在拼团中
-                    </div>
+                    <div class="has-button" v-if="hideButton">正在拼团中</div>
                     <div
                       class="buy-button"
                       v-else-if="learn.charge > 0"
@@ -67,8 +65,8 @@
                   <template
                     v-if="
                       tgData &&
-                        tgData.goods &&
-                        (!tgData.join_item || tgData.join_item.length === 0)
+                      tgData.goods &&
+                      (!tgData.join_item || tgData.join_item.length === 0)
                     "
                   >
                     <div class="role-button" @click="goPay(0)">
@@ -141,8 +139,8 @@
                           <template
                             v-if="
                               courseItem.type === 'paper_paper' ||
-                                courseItem.type === 'paper_practice' ||
-                                courseItem.type === 'paper_mock_paper'
+                              courseItem.type === 'paper_practice' ||
+                              courseItem.type === 'paper_mock'
                             "
                           >
                             <thumb-bar
@@ -287,6 +285,8 @@ export default {
         page = "ExamPracticeDetail";
       } else if (item.type === "paper_paper") {
         page = "ExamPapersDetail";
+      } else if (item.type === "paper_mock") {
+        page = "ExamMockpaperDetail";
       }
       this.$router.push({
         name: page,
